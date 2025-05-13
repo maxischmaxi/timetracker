@@ -13,8 +13,6 @@ import (
 
 type CustomerServer struct {
 	customerv1connect.UnimplementedCustomerServiceHandler
-	MongoClient *mongo.Client
-	DBName      string
 }
 
 type DbCustomer struct {
@@ -62,7 +60,7 @@ func GetCustomerById(ctx context.Context, collection *mongo.Collection, id strin
 }
 
 func (s *CustomerServer) GetCustomer(ctx context.Context, req *connect.Request[customerv1.GetCustomerRequest]) (*connect.Response[customerv1.GetCustomerResponse], error) {
-	collection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_CUSTOMER)
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_CUSTOMER)
 	id := req.Msg.Id
 
 	customer, err := GetCustomerById(ctx, collection, id)
@@ -93,7 +91,7 @@ func (s *CustomerServer) GetCustomer(ctx context.Context, req *connect.Request[c
 }
 
 func (s *CustomerServer) CreateCustomer(ctx context.Context, req *connect.Request[customerv1.CreateCustomerRequest]) (*connect.Response[customerv1.CreateCustomerResponse], error) {
-	collection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_CUSTOMER)
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_CUSTOMER)
 
 	id := bson.NewObjectID()
 
@@ -142,7 +140,7 @@ func (s *CustomerServer) CreateCustomer(ctx context.Context, req *connect.Reques
 }
 
 func (s *CustomerServer) UpdateCustomer(ctx context.Context, req *connect.Request[customerv1.UpdateCustomerRequest]) (*connect.Response[customerv1.UpdateCustomerResponse], error) {
-	collection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_CUSTOMER)
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_CUSTOMER)
 	id := req.Msg.Customer.Id
 
 	objId, err := bson.ObjectIDFromHex(id)
@@ -195,7 +193,7 @@ func (s *CustomerServer) UpdateCustomer(ctx context.Context, req *connect.Reques
 }
 
 func (s *CustomerServer) DeleteCustomer(ctx context.Context, req *connect.Request[customerv1.DeleteCustomerRequest]) (*connect.Response[customerv1.DeleteCustomerResponse], error) {
-	collection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_CUSTOMER)
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_CUSTOMER)
 	id := req.Msg.Id
 
 	objId, err := bson.ObjectIDFromHex(id)
@@ -215,7 +213,7 @@ func (s *CustomerServer) DeleteCustomer(ctx context.Context, req *connect.Reques
 }
 
 func (s *CustomerServer) GetCustomers(ctx context.Context, req *connect.Request[customerv1.GetCustomersRequest]) (*connect.Response[customerv1.GetCustomersResponse], error) {
-	collection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_CUSTOMER)
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_CUSTOMER)
 	cursor, err := collection.Find(ctx, bson.M{})
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)

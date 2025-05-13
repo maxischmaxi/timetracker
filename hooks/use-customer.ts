@@ -31,6 +31,9 @@ export function useCreateCustomer(props?: CreateCustomerProps) {
       queryClient.invalidateQueries({
         queryKey: ["customers"],
       });
+      queryClient.refetchQueries({
+        queryKey: ["customers"],
+      });
       if (data) {
         props?.onSuccess?.(data);
       }
@@ -48,6 +51,9 @@ export function useUpdateCustomer(props?: CreateCustomerProps) {
     },
     onSuccess(data) {
       queryClient.invalidateQueries({
+        queryKey: ["customers"],
+      });
+      queryClient.refetchQueries({
         queryKey: ["customers"],
       });
       if (data) {

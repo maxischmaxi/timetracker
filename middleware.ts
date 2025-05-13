@@ -5,10 +5,12 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
   const acceptLanguage = req.headers.get("Accept-Language");
   const languages = parser.parse(acceptLanguage || "");
   const preferredLanguage = languages[0]?.code || "en";
+  const href = req.nextUrl.href;
 
   return NextResponse.next({
     headers: {
       "x-locale": preferredLanguage,
+      "x-href": href,
     },
   });
 }

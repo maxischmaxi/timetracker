@@ -14,8 +14,6 @@ import (
 
 type ProjectServer struct {
 	projectv1connect.UnimplementedProjectServiceHandler
-	MongoClient *mongo.Client
-	DBName      string
 }
 
 type DbProject struct {
@@ -52,7 +50,7 @@ func GetProjectById(ctx context.Context, collection *mongo.Collection, id string
 }
 
 func (s *ProjectServer) GetProject(ctx context.Context, req *connect.Request[projectv1.GetProjectRequest]) (*connect.Response[projectv1.GetProjectResponse], error) {
-	collection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_PROJECT)
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_PROJECT)
 
 	fmt.Println("GetProject: ", req.Msg.Id)
 	project, err := GetProjectById(ctx, collection, req.Msg.Id)
@@ -68,8 +66,8 @@ func (s *ProjectServer) GetProject(ctx context.Context, req *connect.Request[pro
 }
 
 func (s *ProjectServer) CreateProject(ctx context.Context, req *connect.Request[projectv1.CreateProjectRequest]) (*connect.Response[projectv1.CreateProjectResponse], error) {
-	projectsCollection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_PROJECT)
-	customersCollection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_CUSTOMER)
+	projectsCollection := mongoClient.Database(DB_NAME).Collection(COLLECTION_PROJECT)
+	customersCollection := mongoClient.Database(DB_NAME).Collection(COLLECTION_CUSTOMER)
 
 	id := bson.NewObjectID()
 	customer, err := GetCustomerById(ctx, customersCollection, req.Msg.Project.CustomerId)
@@ -110,7 +108,7 @@ func (s *ProjectServer) CreateProject(ctx context.Context, req *connect.Request[
 }
 
 func (s *ProjectServer) UpdateProject(ctx context.Context, req *connect.Request[projectv1.UpdateProjectRequest]) (*connect.Response[projectv1.UpdateProjectResponse], error) {
-	collection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_PROJECT)
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_PROJECT)
 
 	objId, err := bson.ObjectIDFromHex(req.Msg.Project.Id)
 	if err != nil {
@@ -156,7 +154,7 @@ func (s *ProjectServer) UpdateProject(ctx context.Context, req *connect.Request[
 }
 
 func (s *ProjectServer) DeleteProject(ctx context.Context, req *connect.Request[projectv1.DeleteProjectRequest]) (*connect.Response[projectv1.DeleteProjectResponse], error) {
-	collection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_PROJECT)
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_PROJECT)
 
 	objId, err := bson.ObjectIDFromHex(req.Msg.Id)
 	if err != nil {
@@ -175,7 +173,7 @@ func (s *ProjectServer) DeleteProject(ctx context.Context, req *connect.Request[
 }
 
 func (s *ProjectServer) GetProjects(ctx context.Context, req *connect.Request[projectv1.GetProjectsRequest]) (*connect.Response[projectv1.GetProjectsResponse], error) {
-	collection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_PROJECT)
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_PROJECT)
 	var dbProjects []DbProject
 	cursor, err := collection.Find(ctx, bson.M{})
 	if err != nil {

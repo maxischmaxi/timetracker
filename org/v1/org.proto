@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package org.v1;
+
+option go_package = "github.com/maxischmaxi/ljtime-api/org/v1;orgv1";
+
+service OrgService {
+  rpc GetOrg (GetOrgRequest) returns (GetOrgResponse);
+  rpc GetOrgById (GetOrgByIdRequest) returns (GetOrgByIdResponse);
+  rpc UpdateOrg (UpdateOrgRequest) returns (UpdateOrgResponse);
+  rpc CreateOrg (CreateOrgRequest) returns (CreateOrgResponse);
+  rpc DeleteOrg (DeleteOrgRequest) returns (DeleteOrgResponse);
+}
+
+enum MailProvider {
+  MAIL_PROVIDER_UNSPECIFIED = 0;
+  MAIL_PROVIDER_GMAIL = 1;
+}
+
+message UpdateOrg {
+  repeated string users = 1;
+  MailProvider mail_provider = 2;
+  string name = 3;
+}
+
+message CreateOrg {
+  repeated string users = 1;
+  MailProvider mail_provider = 2;
+  string name = 3;
+}
+
+message Org {
+  string id = 1;
+  MailProvider mail_provider = 2;
+  repeated string users = 3;
+  int64 created_at = 4;
+  int64 updated_at = 5;
+  string name = 6;
+}
+
+message GetOrgRequest { }
+
+message GetOrgResponse {
+  Org org = 1;
+}
+
+message GetOrgByIdRequest {
+  string id = 1;
+}
+
+message GetOrgByIdResponse {
+  Org org = 1;
+}
+
+message UpdateOrgRequest {
+  string id = 1;
+  UpdateOrg org = 2;
+}
+
+message UpdateOrgResponse {
+  Org org = 1;
+}
+
+message CreateOrgRequest {
+  CreateOrg org = 1;
+}
+
+message CreateOrgResponse {
+  Org org = 1;
+}
+
+message DeleteOrgRequest {
+  string id = 1;
+}
+
+message DeleteOrgResponse {
+  string id = 1;
+}

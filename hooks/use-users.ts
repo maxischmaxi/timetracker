@@ -1,5 +1,6 @@
 import { createUser, getAllUsers, updateUser } from "@/lib/api";
 import { createUserSchema } from "@/lib/schemas";
+import { VacationRequestStatus } from "@/user/v1/user_pb";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { z } from "zod";
 
@@ -58,6 +59,7 @@ export function useUpdateUser() {
         name: data.name,
         vacationRequests: data.vacationRequests.map((v) => ({
           comment: v.comment,
+          status: VacationRequestStatus.PENDING,
           days: v.days,
           endDate: v.endDate,
           startDate: v.startDate,

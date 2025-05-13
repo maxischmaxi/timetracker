@@ -6,37 +6,44 @@ import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobu
 import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import type { Address } from "../../customer/v1/customer_pb";
 import { file_customer_v1_customer } from "../../customer/v1/customer_pb";
+import type { Org } from "../../org/v1/org_pb";
+import { file_org_v1_org } from "../../org/v1/org_pb";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file user/v1/user.proto.
  */
 export const file_user_v1_user: GenFile = /*@__PURE__*/
-  fileDesc("ChJ1c2VyL3YxL3VzZXIucHJvdG8SB3VzZXIudjEiVgoPVmFjYXRpb25SZXF1ZXN0EhIKCnN0YXJ0X2RhdGUYBCABKAMSEAoIZW5kX2RhdGUYBSABKAMSDAoEZGF5cxgGIAEoBRIPCgdjb21tZW50GAcgASgJIo0BChJDcmVhdGVVc2VyVmFjYXRpb24SDwoHdXNlcl9pZBgCIAEoCRIMCgR5ZWFyGAMgASgFEgwKBGRheXMYBCABKAUSFAoMc3BlY2lhbF9kYXlzGAUgASgFEhcKD3NpY2tfZGF5c190YWtlbhgGIAEoBRIbChN2YWNhdGlvbl9kYXlzX3Rha2VuGAcgASgFInYKDFVzZXJWYWNhdGlvbhIMCgR5ZWFyGAMgASgFEgwKBGRheXMYBCABKAUSFAoMc3BlY2lhbF9kYXlzGAUgASgFEhcKD3NpY2tfZGF5c190YWtlbhgGIAEoBRIbChN2YWNhdGlvbl9kYXlzX3Rha2VuGAcgASgFItUCCgRVc2VyEgoKAmlkGAEgASgJEg0KBWVtYWlsGAIgASgJEgwKBG5hbWUYAyABKAkSJQoHYWRkcmVzcxgEIAEoCzIULmN1c3RvbWVyLnYxLkFkZHJlc3MSEwoLcHJvamVjdF9pZHMYBSADKAkSDAoEdGFncxgGIAMoCRIyChBlbXBsb3ltZW50X3N0YXRlGAcgASgOMhgudXNlci52MS5FbXBsb3ltZW50U3RhdGUSKAoJdmFjYXRpb25zGAggAygLMhUudXNlci52MS5Vc2VyVmFjYXRpb24SMwoRdmFjYXRpb25fcmVxdWVzdHMYCSADKAsyGC51c2VyLnYxLlZhY2F0aW9uUmVxdWVzdBIfCgRyb2xlGAogASgOMhEudXNlci52MS5Vc2VyUm9sZRISCgpjcmVhdGVkX2F0GAsgASgDEhIKCnVwZGF0ZWRfYXQYDCABKAMi+AEKCkNyZWF0ZVVzZXISDQoFZW1haWwYASABKAkSDAoEbmFtZRgCIAEoCRIlCgdhZGRyZXNzGAMgASgLMhQuY3VzdG9tZXIudjEuQWRkcmVzcxITCgtwcm9qZWN0X2lkcxgEIAMoCRIMCgR0YWdzGAUgAygJEjIKEGVtcGxveW1lbnRfc3RhdGUYBiABKA4yGC51c2VyLnYxLkVtcGxveW1lbnRTdGF0ZRIuCgl2YWNhdGlvbnMYByADKAsyGy51c2VyLnYxLkNyZWF0ZVVzZXJWYWNhdGlvbhIfCgRyb2xlGAggASgOMhEudXNlci52MS5Vc2VyUm9sZSKnAgoKVXBkYXRlVXNlchINCgVlbWFpbBgCIAEoCRIMCgRuYW1lGAMgASgJEiUKB2FkZHJlc3MYBCABKAsyFC5jdXN0b21lci52MS5BZGRyZXNzEhMKC3Byb2plY3RfaWRzGAUgAygJEgwKBHRhZ3MYBiADKAkSMgoQZW1wbG95bWVudF9zdGF0ZRgHIAEoDjIYLnVzZXIudjEuRW1wbG95bWVudFN0YXRlEigKCXZhY2F0aW9ucxgIIAMoCzIVLnVzZXIudjEuVXNlclZhY2F0aW9uEjMKEXZhY2F0aW9uX3JlcXVlc3RzGAkgAygLMhgudXNlci52MS5WYWNhdGlvblJlcXVlc3QSHwoEcm9sZRgKIAEoDjIRLnVzZXIudjEuVXNlclJvbGUiIAoSR2V0VXNlckJ5SWRSZXF1ZXN0EgoKAmlkGAEgASgJIjIKE0dldFVzZXJCeUlkUmVzcG9uc2USGwoEdXNlchgBIAEoCzINLnVzZXIudjEuVXNlciIUChJHZXRBbGxVc2Vyc1JlcXVlc3QiMwoTR2V0QWxsVXNlcnNSZXNwb25zZRIcCgV1c2VycxgBIAMoCzINLnVzZXIudjEuVXNlciI2ChFDcmVhdGVVc2VyUmVxdWVzdBIhCgR1c2VyGAEgASgLMhMudXNlci52MS5DcmVhdGVVc2VyIjEKEkNyZWF0ZVVzZXJSZXNwb25zZRIbCgR1c2VyGAEgASgLMg0udXNlci52MS5Vc2VyIkIKEVVwZGF0ZVVzZXJSZXF1ZXN0EgoKAmlkGAEgASgJEiEKBHVzZXIYAiABKAsyEy51c2VyLnYxLlVwZGF0ZVVzZXIiMQoSVXBkYXRlVXNlclJlc3BvbnNlEhsKBHVzZXIYASABKAsyDS51c2VyLnYxLlVzZXIqbwoPRW1wbG95bWVudFN0YXRlEiAKHEVNUExPWU1FTlRfU1RBVEVfVU5TUEVDSUZJRUQQABIbChdFTVBMT1lNRU5UX1NUQVRFX0FDVElWRRABEh0KGUVNUExPWU1FTlRfU1RBVEVfSU5BQ1RJVkUQAiqxAQoVVmFjYXRpb25SZXF1ZXN0U3RhdHVzEicKI1ZBQ0FUSU9OX1JFUVVFU1RfU1RBVFVTX1VOU1BFQ0lGSUVEEAASIwofVkFDQVRJT05fUkVRVUVTVF9TVEFUVVNfUEVORElORxABEiQKIFZBQ0FUSU9OX1JFUVVFU1RfU1RBVFVTX0FQUFJPVkVEEAISJAogVkFDQVRJT05fUkVRVUVTVF9TVEFUVVNfUkVKRUNURUQQAypOCghVc2VyUm9sZRIZChVVU0VSX1JPTEVfVU5TUEVDSUZJRUQQABITCg9VU0VSX1JPTEVfQURNSU4QARISCg5VU0VSX1JPTEVfVVNFUhACMq8CCgtVc2VyU2VydmljZRJICgtHZXRVc2VyQnlJZBIbLnVzZXIudjEuR2V0VXNlckJ5SWRSZXF1ZXN0GhwudXNlci52MS5HZXRVc2VyQnlJZFJlc3BvbnNlEkgKC0dldEFsbFVzZXJzEhsudXNlci52MS5HZXRBbGxVc2Vyc1JlcXVlc3QaHC51c2VyLnYxLkdldEFsbFVzZXJzUmVzcG9uc2USRQoKQ3JlYXRlVXNlchIaLnVzZXIudjEuQ3JlYXRlVXNlclJlcXVlc3QaGy51c2VyLnYxLkNyZWF0ZVVzZXJSZXNwb25zZRJFCgpVcGRhdGVVc2VyEhoudXNlci52MS5VcGRhdGVVc2VyUmVxdWVzdBobLnVzZXIudjEuVXBkYXRlVXNlclJlc3BvbnNlQjJaMGdpdGh1Yi5jb20vbWF4aXNjaG1heGkvbGp0aW1lLWFwaS91c2VyL3YxO3VzZXJ2MWIGcHJvdG8z", [file_customer_v1_customer]);
+  fileDesc("ChJ1c2VyL3YxL3VzZXIucHJvdG8SB3VzZXIudjEihgEKD1ZhY2F0aW9uUmVxdWVzdBISCgpzdGFydF9kYXRlGAEgASgDEhAKCGVuZF9kYXRlGAIgASgDEgwKBGRheXMYAyABKAUSDwoHY29tbWVudBgEIAEoCRIuCgZzdGF0dXMYBSABKA4yHi51c2VyLnYxLlZhY2F0aW9uUmVxdWVzdFN0YXR1cyKNAQoSQ3JlYXRlVXNlclZhY2F0aW9uEg8KB3VzZXJfaWQYASABKAkSDAoEeWVhchgCIAEoBRIMCgRkYXlzGAMgASgFEhQKDHNwZWNpYWxfZGF5cxgEIAEoBRIXCg9zaWNrX2RheXNfdGFrZW4YBSABKAUSGwoTdmFjYXRpb25fZGF5c190YWtlbhgGIAEoBSJ2CgxVc2VyVmFjYXRpb24SDAoEeWVhchgDIAEoBRIMCgRkYXlzGAQgASgFEhQKDHNwZWNpYWxfZGF5cxgFIAEoBRIXCg9zaWNrX2RheXNfdGFrZW4YBiABKAUSGwoTdmFjYXRpb25fZGF5c190YWtlbhgHIAEoBSLlAgoEVXNlchIKCgJpZBgBIAEoCRINCgVlbWFpbBgCIAEoCRIMCgRuYW1lGAMgASgJEiUKB2FkZHJlc3MYBCABKAsyFC5jdXN0b21lci52MS5BZGRyZXNzEhMKC3Byb2plY3RfaWRzGAUgAygJEgwKBHRhZ3MYBiADKAkSMgoQZW1wbG95bWVudF9zdGF0ZRgHIAEoDjIYLnVzZXIudjEuRW1wbG95bWVudFN0YXRlEigKCXZhY2F0aW9ucxgIIAMoCzIVLnVzZXIudjEuVXNlclZhY2F0aW9uEjMKEXZhY2F0aW9uX3JlcXVlc3RzGAkgAygLMhgudXNlci52MS5WYWNhdGlvblJlcXVlc3QSHwoEcm9sZRgKIAEoDjIRLnVzZXIudjEuVXNlclJvbGUSEgoKY3JlYXRlZF9hdBgLIAEoAxISCgp1cGRhdGVkX2F0GAwgASgDEg4KBm9yZ19pZBgNIAEoCSL4AQoKQ3JlYXRlVXNlchINCgVlbWFpbBgBIAEoCRIMCgRuYW1lGAIgASgJEiUKB2FkZHJlc3MYAyABKAsyFC5jdXN0b21lci52MS5BZGRyZXNzEhMKC3Byb2plY3RfaWRzGAQgAygJEgwKBHRhZ3MYBSADKAkSMgoQZW1wbG95bWVudF9zdGF0ZRgGIAEoDjIYLnVzZXIudjEuRW1wbG95bWVudFN0YXRlEi4KCXZhY2F0aW9ucxgHIAMoCzIbLnVzZXIudjEuQ3JlYXRlVXNlclZhY2F0aW9uEh8KBHJvbGUYCCABKA4yES51c2VyLnYxLlVzZXJSb2xlIqcCCgpVcGRhdGVVc2VyEg0KBWVtYWlsGAIgASgJEgwKBG5hbWUYAyABKAkSJQoHYWRkcmVzcxgEIAEoCzIULmN1c3RvbWVyLnYxLkFkZHJlc3MSEwoLcHJvamVjdF9pZHMYBSADKAkSDAoEdGFncxgGIAMoCRIyChBlbXBsb3ltZW50X3N0YXRlGAcgASgOMhgudXNlci52MS5FbXBsb3ltZW50U3RhdGUSKAoJdmFjYXRpb25zGAggAygLMhUudXNlci52MS5Vc2VyVmFjYXRpb24SMwoRdmFjYXRpb25fcmVxdWVzdHMYCSADKAsyGC51c2VyLnYxLlZhY2F0aW9uUmVxdWVzdBIfCgRyb2xlGAogASgOMhEudXNlci52MS5Vc2VyUm9sZSIgChJHZXRVc2VyQnlJZFJlcXVlc3QSCgoCaWQYASABKAkiTAoTR2V0VXNlckJ5SWRSZXNwb25zZRIbCgR1c2VyGAEgASgLMg0udXNlci52MS5Vc2VyEhgKA29yZxgCIAEoCzILLm9yZy52MS5PcmciFAoSR2V0QWxsVXNlcnNSZXF1ZXN0IjMKE0dldEFsbFVzZXJzUmVzcG9uc2USHAoFdXNlcnMYASADKAsyDS51c2VyLnYxLlVzZXIiNgoRQ3JlYXRlVXNlclJlcXVlc3QSIQoEdXNlchgBIAEoCzITLnVzZXIudjEuQ3JlYXRlVXNlciIxChJDcmVhdGVVc2VyUmVzcG9uc2USGwoEdXNlchgBIAEoCzINLnVzZXIudjEuVXNlciJCChFVcGRhdGVVc2VyUmVxdWVzdBIKCgJpZBgBIAEoCRIhCgR1c2VyGAIgASgLMhMudXNlci52MS5VcGRhdGVVc2VyIjEKElVwZGF0ZVVzZXJSZXNwb25zZRIbCgR1c2VyGAEgASgLMg0udXNlci52MS5Vc2VyIiYKFUdldFVzZXJCeUVtYWlsUmVxdWVzdBINCgVlbWFpbBgBIAEoCSJPChZHZXRVc2VyQnlFbWFpbFJlc3BvbnNlEhsKBHVzZXIYASABKAsyDS51c2VyLnYxLlVzZXISGAoDb3JnGAIgASgLMgsub3JnLnYxLk9yZypvCg9FbXBsb3ltZW50U3RhdGUSIAocRU1QTE9ZTUVOVF9TVEFURV9VTlNQRUNJRklFRBAAEhsKF0VNUExPWU1FTlRfU1RBVEVfQUNUSVZFEAESHQoZRU1QTE9ZTUVOVF9TVEFURV9JTkFDVElWRRACKrEBChVWYWNhdGlvblJlcXVlc3RTdGF0dXMSJwojVkFDQVRJT05fUkVRVUVTVF9TVEFUVVNfVU5TUEVDSUZJRUQQABIjCh9WQUNBVElPTl9SRVFVRVNUX1NUQVRVU19QRU5ESU5HEAESJAogVkFDQVRJT05fUkVRVUVTVF9TVEFUVVNfQVBQUk9WRUQQAhIkCiBWQUNBVElPTl9SRVFVRVNUX1NUQVRVU19SRUpFQ1RFRBADKk4KCFVzZXJSb2xlEhkKFVVTRVJfUk9MRV9VTlNQRUNJRklFRBAAEhMKD1VTRVJfUk9MRV9BRE1JThABEhIKDlVTRVJfUk9MRV9VU0VSEAIyggMKC1VzZXJTZXJ2aWNlEkgKC0dldFVzZXJCeUlkEhsudXNlci52MS5HZXRVc2VyQnlJZFJlcXVlc3QaHC51c2VyLnYxLkdldFVzZXJCeUlkUmVzcG9uc2USUQoOR2V0VXNlckJ5RW1haWwSHi51c2VyLnYxLkdldFVzZXJCeUVtYWlsUmVxdWVzdBofLnVzZXIudjEuR2V0VXNlckJ5RW1haWxSZXNwb25zZRJICgtHZXRBbGxVc2VycxIbLnVzZXIudjEuR2V0QWxsVXNlcnNSZXF1ZXN0GhwudXNlci52MS5HZXRBbGxVc2Vyc1Jlc3BvbnNlEkUKCkNyZWF0ZVVzZXISGi51c2VyLnYxLkNyZWF0ZVVzZXJSZXF1ZXN0GhsudXNlci52MS5DcmVhdGVVc2VyUmVzcG9uc2USRQoKVXBkYXRlVXNlchIaLnVzZXIudjEuVXBkYXRlVXNlclJlcXVlc3QaGy51c2VyLnYxLlVwZGF0ZVVzZXJSZXNwb25zZUIyWjBnaXRodWIuY29tL21heGlzY2htYXhpL2xqdGltZS1hcGkvdXNlci92MTt1c2VydjFiBnByb3RvMw", [file_customer_v1_customer, file_org_v1_org]);
 
 /**
  * @generated from message user.v1.VacationRequest
  */
 export type VacationRequest = Message<"user.v1.VacationRequest"> & {
   /**
-   * @generated from field: int64 start_date = 4;
+   * @generated from field: int64 start_date = 1;
    */
   startDate: bigint;
 
   /**
-   * @generated from field: int64 end_date = 5;
+   * @generated from field: int64 end_date = 2;
    */
   endDate: bigint;
 
   /**
-   * @generated from field: int32 days = 6;
+   * @generated from field: int32 days = 3;
    */
   days: number;
 
   /**
-   * @generated from field: string comment = 7;
+   * @generated from field: string comment = 4;
    */
   comment: string;
+
+  /**
+   * @generated from field: user.v1.VacationRequestStatus status = 5;
+   */
+  status: VacationRequestStatus;
 };
 
 /**
@@ -51,32 +58,32 @@ export const VacationRequestSchema: GenMessage<VacationRequest> = /*@__PURE__*/
  */
 export type CreateUserVacation = Message<"user.v1.CreateUserVacation"> & {
   /**
-   * @generated from field: string user_id = 2;
+   * @generated from field: string user_id = 1;
    */
   userId: string;
 
   /**
-   * @generated from field: int32 year = 3;
+   * @generated from field: int32 year = 2;
    */
   year: number;
 
   /**
-   * @generated from field: int32 days = 4;
+   * @generated from field: int32 days = 3;
    */
   days: number;
 
   /**
-   * @generated from field: int32 special_days = 5;
+   * @generated from field: int32 special_days = 4;
    */
   specialDays: number;
 
   /**
-   * @generated from field: int32 sick_days_taken = 6;
+   * @generated from field: int32 sick_days_taken = 5;
    */
   sickDaysTaken: number;
 
   /**
-   * @generated from field: int32 vacation_days_taken = 7;
+   * @generated from field: int32 vacation_days_taken = 6;
    */
   vacationDaysTaken: number;
 };
@@ -188,6 +195,11 @@ export type User = Message<"user.v1.User"> & {
    * @generated from field: int64 updated_at = 12;
    */
   updatedAt: bigint;
+
+  /**
+   * @generated from field: string org_id = 13;
+   */
+  orgId: string;
 };
 
 /**
@@ -331,6 +343,11 @@ export type GetUserByIdResponse = Message<"user.v1.GetUserByIdResponse"> & {
    * @generated from field: user.v1.User user = 1;
    */
   user?: User;
+
+  /**
+   * @generated from field: org.v1.Org org = 2;
+   */
+  org?: Org;
 };
 
 /**
@@ -444,6 +461,45 @@ export const UpdateUserResponseSchema: GenMessage<UpdateUserResponse> = /*@__PUR
   messageDesc(file_user_v1_user, 13);
 
 /**
+ * @generated from message user.v1.GetUserByEmailRequest
+ */
+export type GetUserByEmailRequest = Message<"user.v1.GetUserByEmailRequest"> & {
+  /**
+   * @generated from field: string email = 1;
+   */
+  email: string;
+};
+
+/**
+ * Describes the message user.v1.GetUserByEmailRequest.
+ * Use `create(GetUserByEmailRequestSchema)` to create a new message.
+ */
+export const GetUserByEmailRequestSchema: GenMessage<GetUserByEmailRequest> = /*@__PURE__*/
+  messageDesc(file_user_v1_user, 14);
+
+/**
+ * @generated from message user.v1.GetUserByEmailResponse
+ */
+export type GetUserByEmailResponse = Message<"user.v1.GetUserByEmailResponse"> & {
+  /**
+   * @generated from field: user.v1.User user = 1;
+   */
+  user?: User;
+
+  /**
+   * @generated from field: org.v1.Org org = 2;
+   */
+  org?: Org;
+};
+
+/**
+ * Describes the message user.v1.GetUserByEmailResponse.
+ * Use `create(GetUserByEmailResponseSchema)` to create a new message.
+ */
+export const GetUserByEmailResponseSchema: GenMessage<GetUserByEmailResponse> = /*@__PURE__*/
+  messageDesc(file_user_v1_user, 15);
+
+/**
  * @generated from enum user.v1.EmploymentState
  */
 export enum EmploymentState {
@@ -537,6 +593,14 @@ export const UserService: GenService<{
     methodKind: "unary";
     input: typeof GetUserByIdRequestSchema;
     output: typeof GetUserByIdResponseSchema;
+  },
+  /**
+   * @generated from rpc user.v1.UserService.GetUserByEmail
+   */
+  getUserByEmail: {
+    methodKind: "unary";
+    input: typeof GetUserByEmailRequestSchema;
+    output: typeof GetUserByEmailResponseSchema;
   },
   /**
    * @generated from rpc user.v1.UserService.GetAllUsers

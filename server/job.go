@@ -15,8 +15,6 @@ import (
 
 type JobServer struct {
 	jobv1connect.UnimplementedJobServiceHandler
-	MongoClient *mongo.Client
-	DBName      string
 }
 
 type DbJob struct {
@@ -60,7 +58,7 @@ func (s *JobServer) GetJobById(ctx context.Context, collection *mongo.Collection
 }
 
 func (s *JobServer) GetJobs(ctx context.Context, req *connect.Request[jobv1.GetJobsRequest]) (*connect.Response[jobv1.GetJobsResponse], error) {
-	collection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_JOB)
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_JOB)
 
 	var dbJobs []DbJob
 	cursor, err := collection.Find(ctx, bson.M{})
@@ -98,7 +96,7 @@ func (s *JobServer) GetJobs(ctx context.Context, req *connect.Request[jobv1.GetJ
 }
 
 func (s *JobServer) GetJobsByProject(ctx context.Context, req *connect.Request[jobv1.GetJobsByProjectRequest]) (*connect.Response[jobv1.GetJobsByProjectResponse], error) {
-	collection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_JOB)
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_JOB)
 	projectId := req.Msg.ProjectId
 
 	objId, err := bson.ObjectIDFromHex(projectId)
@@ -142,7 +140,7 @@ func (s *JobServer) GetJobsByProject(ctx context.Context, req *connect.Request[j
 }
 
 func (s *JobServer) GetJob(ctx context.Context, req *connect.Request[jobv1.GetJobRequest]) (*connect.Response[jobv1.GetJobResponse], error) {
-	collection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_JOB)
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_JOB)
 	id := req.Msg.Id
 
 	job, err := s.GetJobById(ctx, collection, id)
@@ -156,8 +154,8 @@ func (s *JobServer) GetJob(ctx context.Context, req *connect.Request[jobv1.GetJo
 }
 
 func (s *JobServer) CreateJob(ctx context.Context, req *connect.Request[jobv1.CreateJobRequest]) (*connect.Response[jobv1.CreateJobResponse], error) {
-	jobCollection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_JOB)
-	projectCollection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_PROJECT)
+	jobCollection := mongoClient.Database(DB_NAME).Collection(COLLECTION_JOB)
+	projectCollection := mongoClient.Database(DB_NAME).Collection(COLLECTION_PROJECT)
 	job := req.Msg.Job
 
 	id := bson.NewObjectID()
@@ -209,7 +207,7 @@ func (s *JobServer) CreateJob(ctx context.Context, req *connect.Request[jobv1.Cr
 }
 
 func (s *JobServer) UpdateJob(ctx context.Context, req *connect.Request[jobv1.UpdateJobRequest]) (*connect.Response[jobv1.UpdateJobResponse], error) {
-	collection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_JOB)
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_JOB)
 	job := req.Msg.Job
 
 	objId, err := bson.ObjectIDFromHex(job.Id)
@@ -262,7 +260,7 @@ func (s *JobServer) UpdateJob(ctx context.Context, req *connect.Request[jobv1.Up
 }
 
 func (s *JobServer) DeleteJob(ctx context.Context, req *connect.Request[jobv1.DeleteJobRequest]) (*connect.Response[jobv1.DeleteJobResponse], error) {
-	collection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_JOB)
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_JOB)
 	id := req.Msg.Id
 
 	objId, err := bson.ObjectIDFromHex(id)
@@ -280,7 +278,7 @@ func (s *JobServer) DeleteJob(ctx context.Context, req *connect.Request[jobv1.De
 }
 
 func (s *JobServer) GetJobsByCustomer(ctx context.Context, req *connect.Request[jobv1.GetJobsByCustomerRequest]) (*connect.Response[jobv1.GetJobsByCustomerResponse], error) {
-	collection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_JOB)
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_JOB)
 	customerId := req.Msg.CustomerId
 
 	customer, err := GetCustomerById(ctx, collection, customerId)
@@ -296,7 +294,7 @@ func (s *JobServer) GetJobsByCustomer(ctx context.Context, req *connect.Request[
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
-	projectCollection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_PROJECT)
+	projectCollection := mongoClient.Database(DB_NAME).Collection(COLLECTION_PROJECT)
 	projectCursor, err := projectCollection.Find(ctx, bson.M{"customer_id": customerObjId.Hex()})
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
@@ -348,9 +346,9 @@ func (s *JobServer) GetJobsByCustomer(ctx context.Context, req *connect.Request[
 }
 
 func (s *JobServer) GetJobsByDate(ctx context.Context, req *connect.Request[jobv1.GetJobsByDateRequest]) (*connect.Response[jobv1.GetJobsByDateResponse], error) {
-	jobsCollection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_JOB)
-	customersCollection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_CUSTOMER)
-	projectsCollection := s.MongoClient.Database(s.DBName).Collection(COLLECTION_PROJECT)
+	jobsCollection := mongoClient.Database(DB_NAME).Collection(COLLECTION_JOB)
+	customersCollection := mongoClient.Database(DB_NAME).Collection(COLLECTION_CUSTOMER)
+	projectsCollection := mongoClient.Database(DB_NAME).Collection(COLLECTION_PROJECT)
 	date := req.Msg.Date
 
 	var dbJobs []DbJob

@@ -35,6 +35,9 @@ const (
 const (
 	// UserServiceGetUserByIdProcedure is the fully-qualified name of the UserService's GetUserById RPC.
 	UserServiceGetUserByIdProcedure = "/user.v1.UserService/GetUserById"
+	// UserServiceGetUserByEmailProcedure is the fully-qualified name of the UserService's
+	// GetUserByEmail RPC.
+	UserServiceGetUserByEmailProcedure = "/user.v1.UserService/GetUserByEmail"
 	// UserServiceGetAllUsersProcedure is the fully-qualified name of the UserService's GetAllUsers RPC.
 	UserServiceGetAllUsersProcedure = "/user.v1.UserService/GetAllUsers"
 	// UserServiceCreateUserProcedure is the fully-qualified name of the UserService's CreateUser RPC.
@@ -46,6 +49,7 @@ const (
 // UserServiceClient is a client for the user.v1.UserService service.
 type UserServiceClient interface {
 	GetUserById(context.Context, *connect.Request[v1.GetUserByIdRequest]) (*connect.Response[v1.GetUserByIdResponse], error)
+	GetUserByEmail(context.Context, *connect.Request[v1.GetUserByEmailRequest]) (*connect.Response[v1.GetUserByEmailResponse], error)
 	GetAllUsers(context.Context, *connect.Request[v1.GetAllUsersRequest]) (*connect.Response[v1.GetAllUsersResponse], error)
 	CreateUser(context.Context, *connect.Request[v1.CreateUserRequest]) (*connect.Response[v1.CreateUserResponse], error)
 	UpdateUser(context.Context, *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error)
@@ -66,6 +70,12 @@ func NewUserServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			httpClient,
 			baseURL+UserServiceGetUserByIdProcedure,
 			connect.WithSchema(userServiceMethods.ByName("GetUserById")),
+			connect.WithClientOptions(opts...),
+		),
+		getUserByEmail: connect.NewClient[v1.GetUserByEmailRequest, v1.GetUserByEmailResponse](
+			httpClient,
+			baseURL+UserServiceGetUserByEmailProcedure,
+			connect.WithSchema(userServiceMethods.ByName("GetUserByEmail")),
 			connect.WithClientOptions(opts...),
 		),
 		getAllUsers: connect.NewClient[v1.GetAllUsersRequest, v1.GetAllUsersResponse](
@@ -91,15 +101,21 @@ func NewUserServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 
 // userServiceClient implements UserServiceClient.
 type userServiceClient struct {
-	getUserById *connect.Client[v1.GetUserByIdRequest, v1.GetUserByIdResponse]
-	getAllUsers *connect.Client[v1.GetAllUsersRequest, v1.GetAllUsersResponse]
-	createUser  *connect.Client[v1.CreateUserRequest, v1.CreateUserResponse]
-	updateUser  *connect.Client[v1.UpdateUserRequest, v1.UpdateUserResponse]
+	getUserById    *connect.Client[v1.GetUserByIdRequest, v1.GetUserByIdResponse]
+	getUserByEmail *connect.Client[v1.GetUserByEmailRequest, v1.GetUserByEmailResponse]
+	getAllUsers    *connect.Client[v1.GetAllUsersRequest, v1.GetAllUsersResponse]
+	createUser     *connect.Client[v1.CreateUserRequest, v1.CreateUserResponse]
+	updateUser     *connect.Client[v1.UpdateUserRequest, v1.UpdateUserResponse]
 }
 
 // GetUserById calls user.v1.UserService.GetUserById.
 func (c *userServiceClient) GetUserById(ctx context.Context, req *connect.Request[v1.GetUserByIdRequest]) (*connect.Response[v1.GetUserByIdResponse], error) {
 	return c.getUserById.CallUnary(ctx, req)
+}
+
+// GetUserByEmail calls user.v1.UserService.GetUserByEmail.
+func (c *userServiceClient) GetUserByEmail(ctx context.Context, req *connect.Request[v1.GetUserByEmailRequest]) (*connect.Response[v1.GetUserByEmailResponse], error) {
+	return c.getUserByEmail.CallUnary(ctx, req)
 }
 
 // GetAllUsers calls user.v1.UserService.GetAllUsers.
@@ -120,6 +136,7 @@ func (c *userServiceClient) UpdateUser(ctx context.Context, req *connect.Request
 // UserServiceHandler is an implementation of the user.v1.UserService service.
 type UserServiceHandler interface {
 	GetUserById(context.Context, *connect.Request[v1.GetUserByIdRequest]) (*connect.Response[v1.GetUserByIdResponse], error)
+	GetUserByEmail(context.Context, *connect.Request[v1.GetUserByEmailRequest]) (*connect.Response[v1.GetUserByEmailResponse], error)
 	GetAllUsers(context.Context, *connect.Request[v1.GetAllUsersRequest]) (*connect.Response[v1.GetAllUsersResponse], error)
 	CreateUser(context.Context, *connect.Request[v1.CreateUserRequest]) (*connect.Response[v1.CreateUserResponse], error)
 	UpdateUser(context.Context, *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error)
@@ -136,6 +153,12 @@ func NewUserServiceHandler(svc UserServiceHandler, opts ...connect.HandlerOption
 		UserServiceGetUserByIdProcedure,
 		svc.GetUserById,
 		connect.WithSchema(userServiceMethods.ByName("GetUserById")),
+		connect.WithHandlerOptions(opts...),
+	)
+	userServiceGetUserByEmailHandler := connect.NewUnaryHandler(
+		UserServiceGetUserByEmailProcedure,
+		svc.GetUserByEmail,
+		connect.WithSchema(userServiceMethods.ByName("GetUserByEmail")),
 		connect.WithHandlerOptions(opts...),
 	)
 	userServiceGetAllUsersHandler := connect.NewUnaryHandler(
@@ -160,6 +183,8 @@ func NewUserServiceHandler(svc UserServiceHandler, opts ...connect.HandlerOption
 		switch r.URL.Path {
 		case UserServiceGetUserByIdProcedure:
 			userServiceGetUserByIdHandler.ServeHTTP(w, r)
+		case UserServiceGetUserByEmailProcedure:
+			userServiceGetUserByEmailHandler.ServeHTTP(w, r)
 		case UserServiceGetAllUsersProcedure:
 			userServiceGetAllUsersHandler.ServeHTTP(w, r)
 		case UserServiceCreateUserProcedure:
@@ -177,6 +202,10 @@ type UnimplementedUserServiceHandler struct{}
 
 func (UnimplementedUserServiceHandler) GetUserById(context.Context, *connect.Request[v1.GetUserByIdRequest]) (*connect.Response[v1.GetUserByIdResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.v1.UserService.GetUserById is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) GetUserByEmail(context.Context, *connect.Request[v1.GetUserByEmailRequest]) (*connect.Response[v1.GetUserByEmailResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.v1.UserService.GetUserByEmail is not implemented"))
 }
 
 func (UnimplementedUserServiceHandler) GetAllUsers(context.Context, *connect.Request[v1.GetAllUsersRequest]) (*connect.Response[v1.GetAllUsersResponse], error) {

@@ -43,7 +43,16 @@ export function useCreateJob(
     },
     onSuccess(data) {
       queryClient.invalidateQueries({
-        queryKey: ["jobs-by-date", "jobs"],
+        queryKey: ["jobs-by-date"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["jobs"],
+      });
+      queryClient.refetchQueries({
+        queryKey: ["jobs"],
+      });
+      queryClient.refetchQueries({
+        queryKey: ["jobs-by-date"],
       });
       if (data) {
         props?.onSuccess?.(data);

@@ -23,7 +23,7 @@ import {
   type VisibilityState,
 } from "@tanstack/react-table";
 import type { Customer } from "@/customer/v1/customer_pb";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -34,6 +34,7 @@ import {
   GripVerticalIcon,
   Loader,
   PlusIcon,
+  SendIcon,
 } from "lucide-react";
 import { Checkbox } from "./ui/checkbox";
 import React, { useEffect } from "react";
@@ -154,7 +155,13 @@ const columns: Array<ColumnDef<Plain<Customer>>> = [
     accessorKey: "email",
     header: "Email",
     cell: ({ row }) => (
-      <Link href={`mailto:${row.original.email}`}>{row.original.email}</Link>
+      <Link
+        className={buttonVariants({ variant: "outline", size: "sm" })}
+        href={`mailto:${row.original.email}`}
+      >
+        {row.original.email}
+        <SendIcon />
+      </Link>
     ),
   },
 ];
@@ -254,14 +261,14 @@ export function CustomersTable() {
 
   return (
     <Tabs
-      defaultValue="outline"
+      defaultValue="all"
       className="flex w-full flex-col justify-start gap-6"
     >
       <div className="flex items-center justify-between px-4 lg:px-6">
         <Label htmlFor="view-selector" className="sr-only">
           View
         </Label>
-        <Select defaultValue="outline">
+        <Select defaultValue="all">
           <SelectTrigger
             className="@4xl/main:hidden flex w-fit"
             id="view-selector"
@@ -276,8 +283,8 @@ export function CustomersTable() {
           </SelectContent>
         </Select>
         <TabsList className="@4xl/main:flex hidden">
-          <TabsTrigger disabled={customers.isLoading} value="outline">
-            Outline
+          <TabsTrigger disabled={customers.isLoading} value="all">
+            Alle
           </TabsTrigger>
           <TabsTrigger
             value="past-performance"
@@ -369,7 +376,7 @@ export function CustomersTable() {
         </div>
       </div>
       <TabsContent
-        value="outline"
+        value="all"
         className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
       >
         <div className="overflow-hidden rounded-lg border">

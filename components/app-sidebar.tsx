@@ -31,14 +31,10 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { NavAdministration } from "./nav-administration";
+import { use } from "react";
+import { AuthContext } from "./auth-provider";
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar:
-      "https://png.pngtree.com/png-vector/20220817/ourmid/pngtree-women-cartoon-avatar-in-flat-style-png-image_6110776.png",
-  },
   navMain: [
     {
       title: "Dashboard",
@@ -110,6 +106,8 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { firebaseUser, user } = use(AuthContext);
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -134,7 +132,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser
+          user={{
+            name: firebaseUser?.displayName ?? user?.name ?? "...",
+            email: firebaseUser?.email || "...",
+            avatar: firebaseUser?.photoURL || "",
+          }}
+        />
       </SidebarFooter>
     </Sidebar>
   );

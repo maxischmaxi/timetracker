@@ -242,3 +242,28 @@ export const createUserSchema = z.object({
   vacations: z.array(vacationSchema).optional(),
   vacationRequests: z.array(vacationRequestSchema),
 });
+
+export const loginSchema = z.object({
+  email: z
+    .string({
+      message: "Please enter your email",
+    })
+    .email({
+      message: "Enter a valid email",
+    }),
+  password: z
+    .string({
+      message: "Please enter your password",
+    })
+    .trim()
+    .min(8, {
+      message: "Your password must be at least 8 characters long",
+    })
+    .max(4096, {
+      message: "Your password cannot be longer than 4096 characters",
+    })
+    .regex(/[a-z]/, "Must have a lowercase letter")
+    .regex(/[A-Z]/, "Must have a uppercase letter")
+    .regex(/[0-9]/, "Must have a number")
+    .regex(/[^a-zA-Z0-9]/, "Must have a special character"),
+});

@@ -8,6 +8,7 @@ package userv1
 
 import (
 	v1 "github.com/maxischmaxi/ljtime-api/customer/v1"
+	v11 "github.com/maxischmaxi/ljtime-api/org/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -174,10 +175,11 @@ func (UserRole) EnumDescriptor() ([]byte, []int) {
 
 type VacationRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	StartDate     int64                  `protobuf:"varint,4,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
-	EndDate       int64                  `protobuf:"varint,5,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
-	Days          int32                  `protobuf:"varint,6,opt,name=days,proto3" json:"days,omitempty"`
-	Comment       string                 `protobuf:"bytes,7,opt,name=comment,proto3" json:"comment,omitempty"`
+	StartDate     int64                  `protobuf:"varint,1,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
+	EndDate       int64                  `protobuf:"varint,2,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
+	Days          int32                  `protobuf:"varint,3,opt,name=days,proto3" json:"days,omitempty"`
+	Comment       string                 `protobuf:"bytes,4,opt,name=comment,proto3" json:"comment,omitempty"`
+	Status        VacationRequestStatus  `protobuf:"varint,5,opt,name=status,proto3,enum=user.v1.VacationRequestStatus" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -240,14 +242,21 @@ func (x *VacationRequest) GetComment() string {
 	return ""
 }
 
+func (x *VacationRequest) GetStatus() VacationRequestStatus {
+	if x != nil {
+		return x.Status
+	}
+	return VacationRequestStatus_VACATION_REQUEST_STATUS_UNSPECIFIED
+}
+
 type CreateUserVacation struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
-	UserId            string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Year              int32                  `protobuf:"varint,3,opt,name=year,proto3" json:"year,omitempty"`
-	Days              int32                  `protobuf:"varint,4,opt,name=days,proto3" json:"days,omitempty"`
-	SpecialDays       int32                  `protobuf:"varint,5,opt,name=special_days,json=specialDays,proto3" json:"special_days,omitempty"`
-	SickDaysTaken     int32                  `protobuf:"varint,6,opt,name=sick_days_taken,json=sickDaysTaken,proto3" json:"sick_days_taken,omitempty"`
-	VacationDaysTaken int32                  `protobuf:"varint,7,opt,name=vacation_days_taken,json=vacationDaysTaken,proto3" json:"vacation_days_taken,omitempty"`
+	UserId            string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Year              int32                  `protobuf:"varint,2,opt,name=year,proto3" json:"year,omitempty"`
+	Days              int32                  `protobuf:"varint,3,opt,name=days,proto3" json:"days,omitempty"`
+	SpecialDays       int32                  `protobuf:"varint,4,opt,name=special_days,json=specialDays,proto3" json:"special_days,omitempty"`
+	SickDaysTaken     int32                  `protobuf:"varint,5,opt,name=sick_days_taken,json=sickDaysTaken,proto3" json:"sick_days_taken,omitempty"`
+	VacationDaysTaken int32                  `protobuf:"varint,6,opt,name=vacation_days_taken,json=vacationDaysTaken,proto3" json:"vacation_days_taken,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -414,6 +423,7 @@ type User struct {
 	Role             UserRole               `protobuf:"varint,10,opt,name=role,proto3,enum=user.v1.UserRole" json:"role,omitempty"`
 	CreatedAt        int64                  `protobuf:"varint,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt        int64                  `protobuf:"varint,12,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	OrgId            string                 `protobuf:"bytes,13,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -530,6 +540,13 @@ func (x *User) GetUpdatedAt() int64 {
 		return x.UpdatedAt
 	}
 	return 0
+}
+
+func (x *User) GetOrgId() string {
+	if x != nil {
+		return x.OrgId
+	}
+	return ""
 }
 
 type CreateUser struct {
@@ -787,6 +804,7 @@ func (x *GetUserByIdRequest) GetId() string {
 type GetUserByIdResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	Org           *v11.Org               `protobuf:"bytes,2,opt,name=org,proto3" json:"org,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -824,6 +842,13 @@ func (*GetUserByIdResponse) Descriptor() ([]byte, []int) {
 func (x *GetUserByIdResponse) GetUser() *User {
 	if x != nil {
 		return x.User
+	}
+	return nil
+}
+
+func (x *GetUserByIdResponse) GetOrg() *v11.Org {
+	if x != nil {
+		return x.Org
 	}
 	return nil
 }
@@ -1092,30 +1117,127 @@ func (x *UpdateUserResponse) GetUser() *User {
 	return nil
 }
 
+type GetUserByEmailRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserByEmailRequest) Reset() {
+	*x = GetUserByEmailRequest{}
+	mi := &file_user_v1_user_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserByEmailRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserByEmailRequest) ProtoMessage() {}
+
+func (x *GetUserByEmailRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserByEmailRequest.ProtoReflect.Descriptor instead.
+func (*GetUserByEmailRequest) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *GetUserByEmailRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+type GetUserByEmailResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	Org           *v11.Org               `protobuf:"bytes,2,opt,name=org,proto3" json:"org,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserByEmailResponse) Reset() {
+	*x = GetUserByEmailResponse{}
+	mi := &file_user_v1_user_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserByEmailResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserByEmailResponse) ProtoMessage() {}
+
+func (x *GetUserByEmailResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserByEmailResponse.ProtoReflect.Descriptor instead.
+func (*GetUserByEmailResponse) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *GetUserByEmailResponse) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+func (x *GetUserByEmailResponse) GetOrg() *v11.Org {
+	if x != nil {
+		return x.Org
+	}
+	return nil
+}
+
 var File_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_v1_user_proto_rawDesc = "" +
 	"\n" +
-	"\x12user/v1/user.proto\x12\auser.v1\x1a\x1acustomer/v1/customer.proto\"y\n" +
+	"\x12user/v1/user.proto\x12\auser.v1\x1a\x1acustomer/v1/customer.proto\x1a\x10org/v1/org.proto\"\xb1\x01\n" +
 	"\x0fVacationRequest\x12\x1d\n" +
 	"\n" +
-	"start_date\x18\x04 \x01(\x03R\tstartDate\x12\x19\n" +
-	"\bend_date\x18\x05 \x01(\x03R\aendDate\x12\x12\n" +
-	"\x04days\x18\x06 \x01(\x05R\x04days\x12\x18\n" +
-	"\acomment\x18\a \x01(\tR\acomment\"\xd0\x01\n" +
+	"start_date\x18\x01 \x01(\x03R\tstartDate\x12\x19\n" +
+	"\bend_date\x18\x02 \x01(\x03R\aendDate\x12\x12\n" +
+	"\x04days\x18\x03 \x01(\x05R\x04days\x12\x18\n" +
+	"\acomment\x18\x04 \x01(\tR\acomment\x126\n" +
+	"\x06status\x18\x05 \x01(\x0e2\x1e.user.v1.VacationRequestStatusR\x06status\"\xd0\x01\n" +
 	"\x12CreateUserVacation\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x12\n" +
-	"\x04year\x18\x03 \x01(\x05R\x04year\x12\x12\n" +
-	"\x04days\x18\x04 \x01(\x05R\x04days\x12!\n" +
-	"\fspecial_days\x18\x05 \x01(\x05R\vspecialDays\x12&\n" +
-	"\x0fsick_days_taken\x18\x06 \x01(\x05R\rsickDaysTaken\x12.\n" +
-	"\x13vacation_days_taken\x18\a \x01(\x05R\x11vacationDaysTaken\"\xb1\x01\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x12\n" +
+	"\x04year\x18\x02 \x01(\x05R\x04year\x12\x12\n" +
+	"\x04days\x18\x03 \x01(\x05R\x04days\x12!\n" +
+	"\fspecial_days\x18\x04 \x01(\x05R\vspecialDays\x12&\n" +
+	"\x0fsick_days_taken\x18\x05 \x01(\x05R\rsickDaysTaken\x12.\n" +
+	"\x13vacation_days_taken\x18\x06 \x01(\x05R\x11vacationDaysTaken\"\xb1\x01\n" +
 	"\fUserVacation\x12\x12\n" +
 	"\x04year\x18\x03 \x01(\x05R\x04year\x12\x12\n" +
 	"\x04days\x18\x04 \x01(\x05R\x04days\x12!\n" +
 	"\fspecial_days\x18\x05 \x01(\x05R\vspecialDays\x12&\n" +
 	"\x0fsick_days_taken\x18\x06 \x01(\x05R\rsickDaysTaken\x12.\n" +
-	"\x13vacation_days_taken\x18\a \x01(\x05R\x11vacationDaysTaken\"\xcb\x03\n" +
+	"\x13vacation_days_taken\x18\a \x01(\x05R\x11vacationDaysTaken\"\xe2\x03\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x12\n" +
@@ -1132,7 +1254,8 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\v \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\f \x01(\x03R\tupdatedAt\"\xc2\x02\n" +
+	"updated_at\x18\f \x01(\x03R\tupdatedAt\x12\x15\n" +
+	"\x06org_id\x18\r \x01(\tR\x05orgId\"\xc2\x02\n" +
 	"\n" +
 	"CreateUser\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x12\n" +
@@ -1158,9 +1281,10 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\x04role\x18\n" +
 	" \x01(\x0e2\x11.user.v1.UserRoleR\x04role\"$\n" +
 	"\x12GetUserByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"8\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"W\n" +
 	"\x13GetUserByIdResponse\x12!\n" +
-	"\x04user\x18\x01 \x01(\v2\r.user.v1.UserR\x04user\"\x14\n" +
+	"\x04user\x18\x01 \x01(\v2\r.user.v1.UserR\x04user\x12\x1d\n" +
+	"\x03org\x18\x02 \x01(\v2\v.org.v1.OrgR\x03org\"\x14\n" +
 	"\x12GetAllUsersRequest\":\n" +
 	"\x13GetAllUsersResponse\x12#\n" +
 	"\x05users\x18\x01 \x03(\v2\r.user.v1.UserR\x05users\"<\n" +
@@ -1172,7 +1296,12 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12'\n" +
 	"\x04user\x18\x02 \x01(\v2\x13.user.v1.UpdateUserR\x04user\"7\n" +
 	"\x12UpdateUserResponse\x12!\n" +
-	"\x04user\x18\x01 \x01(\v2\r.user.v1.UserR\x04user*o\n" +
+	"\x04user\x18\x01 \x01(\v2\r.user.v1.UserR\x04user\"-\n" +
+	"\x15GetUserByEmailRequest\x12\x14\n" +
+	"\x05email\x18\x01 \x01(\tR\x05email\"Z\n" +
+	"\x16GetUserByEmailResponse\x12!\n" +
+	"\x04user\x18\x01 \x01(\v2\r.user.v1.UserR\x04user\x12\x1d\n" +
+	"\x03org\x18\x02 \x01(\v2\v.org.v1.OrgR\x03org*o\n" +
 	"\x0fEmploymentState\x12 \n" +
 	"\x1cEMPLOYMENT_STATE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17EMPLOYMENT_STATE_ACTIVE\x10\x01\x12\x1d\n" +
@@ -1185,9 +1314,10 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\bUserRole\x12\x19\n" +
 	"\x15USER_ROLE_UNSPECIFIED\x10\x00\x12\x13\n" +
 	"\x0fUSER_ROLE_ADMIN\x10\x01\x12\x12\n" +
-	"\x0eUSER_ROLE_USER\x10\x022\xaf\x02\n" +
+	"\x0eUSER_ROLE_USER\x10\x022\x82\x03\n" +
 	"\vUserService\x12H\n" +
-	"\vGetUserById\x12\x1b.user.v1.GetUserByIdRequest\x1a\x1c.user.v1.GetUserByIdResponse\x12H\n" +
+	"\vGetUserById\x12\x1b.user.v1.GetUserByIdRequest\x1a\x1c.user.v1.GetUserByIdResponse\x12Q\n" +
+	"\x0eGetUserByEmail\x12\x1e.user.v1.GetUserByEmailRequest\x1a\x1f.user.v1.GetUserByEmailResponse\x12H\n" +
 	"\vGetAllUsers\x12\x1b.user.v1.GetAllUsersRequest\x1a\x1c.user.v1.GetAllUsersResponse\x12E\n" +
 	"\n" +
 	"CreateUser\x12\x1a.user.v1.CreateUserRequest\x1a\x1b.user.v1.CreateUserResponse\x12E\n" +
@@ -1207,61 +1337,70 @@ func file_user_v1_user_proto_rawDescGZIP() []byte {
 }
 
 var file_user_v1_user_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_user_v1_user_proto_goTypes = []any{
-	(EmploymentState)(0),        // 0: user.v1.EmploymentState
-	(VacationRequestStatus)(0),  // 1: user.v1.VacationRequestStatus
-	(UserRole)(0),               // 2: user.v1.UserRole
-	(*VacationRequest)(nil),     // 3: user.v1.VacationRequest
-	(*CreateUserVacation)(nil),  // 4: user.v1.CreateUserVacation
-	(*UserVacation)(nil),        // 5: user.v1.UserVacation
-	(*User)(nil),                // 6: user.v1.User
-	(*CreateUser)(nil),          // 7: user.v1.CreateUser
-	(*UpdateUser)(nil),          // 8: user.v1.UpdateUser
-	(*GetUserByIdRequest)(nil),  // 9: user.v1.GetUserByIdRequest
-	(*GetUserByIdResponse)(nil), // 10: user.v1.GetUserByIdResponse
-	(*GetAllUsersRequest)(nil),  // 11: user.v1.GetAllUsersRequest
-	(*GetAllUsersResponse)(nil), // 12: user.v1.GetAllUsersResponse
-	(*CreateUserRequest)(nil),   // 13: user.v1.CreateUserRequest
-	(*CreateUserResponse)(nil),  // 14: user.v1.CreateUserResponse
-	(*UpdateUserRequest)(nil),   // 15: user.v1.UpdateUserRequest
-	(*UpdateUserResponse)(nil),  // 16: user.v1.UpdateUserResponse
-	(*v1.Address)(nil),          // 17: customer.v1.Address
+	(EmploymentState)(0),           // 0: user.v1.EmploymentState
+	(VacationRequestStatus)(0),     // 1: user.v1.VacationRequestStatus
+	(UserRole)(0),                  // 2: user.v1.UserRole
+	(*VacationRequest)(nil),        // 3: user.v1.VacationRequest
+	(*CreateUserVacation)(nil),     // 4: user.v1.CreateUserVacation
+	(*UserVacation)(nil),           // 5: user.v1.UserVacation
+	(*User)(nil),                   // 6: user.v1.User
+	(*CreateUser)(nil),             // 7: user.v1.CreateUser
+	(*UpdateUser)(nil),             // 8: user.v1.UpdateUser
+	(*GetUserByIdRequest)(nil),     // 9: user.v1.GetUserByIdRequest
+	(*GetUserByIdResponse)(nil),    // 10: user.v1.GetUserByIdResponse
+	(*GetAllUsersRequest)(nil),     // 11: user.v1.GetAllUsersRequest
+	(*GetAllUsersResponse)(nil),    // 12: user.v1.GetAllUsersResponse
+	(*CreateUserRequest)(nil),      // 13: user.v1.CreateUserRequest
+	(*CreateUserResponse)(nil),     // 14: user.v1.CreateUserResponse
+	(*UpdateUserRequest)(nil),      // 15: user.v1.UpdateUserRequest
+	(*UpdateUserResponse)(nil),     // 16: user.v1.UpdateUserResponse
+	(*GetUserByEmailRequest)(nil),  // 17: user.v1.GetUserByEmailRequest
+	(*GetUserByEmailResponse)(nil), // 18: user.v1.GetUserByEmailResponse
+	(*v1.Address)(nil),             // 19: customer.v1.Address
+	(*v11.Org)(nil),                // 20: org.v1.Org
 }
 var file_user_v1_user_proto_depIdxs = []int32{
-	17, // 0: user.v1.User.address:type_name -> customer.v1.Address
-	0,  // 1: user.v1.User.employment_state:type_name -> user.v1.EmploymentState
-	5,  // 2: user.v1.User.vacations:type_name -> user.v1.UserVacation
-	3,  // 3: user.v1.User.vacation_requests:type_name -> user.v1.VacationRequest
-	2,  // 4: user.v1.User.role:type_name -> user.v1.UserRole
-	17, // 5: user.v1.CreateUser.address:type_name -> customer.v1.Address
-	0,  // 6: user.v1.CreateUser.employment_state:type_name -> user.v1.EmploymentState
-	4,  // 7: user.v1.CreateUser.vacations:type_name -> user.v1.CreateUserVacation
-	2,  // 8: user.v1.CreateUser.role:type_name -> user.v1.UserRole
-	17, // 9: user.v1.UpdateUser.address:type_name -> customer.v1.Address
-	0,  // 10: user.v1.UpdateUser.employment_state:type_name -> user.v1.EmploymentState
-	5,  // 11: user.v1.UpdateUser.vacations:type_name -> user.v1.UserVacation
-	3,  // 12: user.v1.UpdateUser.vacation_requests:type_name -> user.v1.VacationRequest
-	2,  // 13: user.v1.UpdateUser.role:type_name -> user.v1.UserRole
-	6,  // 14: user.v1.GetUserByIdResponse.user:type_name -> user.v1.User
-	6,  // 15: user.v1.GetAllUsersResponse.users:type_name -> user.v1.User
-	7,  // 16: user.v1.CreateUserRequest.user:type_name -> user.v1.CreateUser
-	6,  // 17: user.v1.CreateUserResponse.user:type_name -> user.v1.User
-	8,  // 18: user.v1.UpdateUserRequest.user:type_name -> user.v1.UpdateUser
-	6,  // 19: user.v1.UpdateUserResponse.user:type_name -> user.v1.User
-	9,  // 20: user.v1.UserService.GetUserById:input_type -> user.v1.GetUserByIdRequest
-	11, // 21: user.v1.UserService.GetAllUsers:input_type -> user.v1.GetAllUsersRequest
-	13, // 22: user.v1.UserService.CreateUser:input_type -> user.v1.CreateUserRequest
-	15, // 23: user.v1.UserService.UpdateUser:input_type -> user.v1.UpdateUserRequest
-	10, // 24: user.v1.UserService.GetUserById:output_type -> user.v1.GetUserByIdResponse
-	12, // 25: user.v1.UserService.GetAllUsers:output_type -> user.v1.GetAllUsersResponse
-	14, // 26: user.v1.UserService.CreateUser:output_type -> user.v1.CreateUserResponse
-	16, // 27: user.v1.UserService.UpdateUser:output_type -> user.v1.UpdateUserResponse
-	24, // [24:28] is the sub-list for method output_type
-	20, // [20:24] is the sub-list for method input_type
-	20, // [20:20] is the sub-list for extension type_name
-	20, // [20:20] is the sub-list for extension extendee
-	0,  // [0:20] is the sub-list for field type_name
+	1,  // 0: user.v1.VacationRequest.status:type_name -> user.v1.VacationRequestStatus
+	19, // 1: user.v1.User.address:type_name -> customer.v1.Address
+	0,  // 2: user.v1.User.employment_state:type_name -> user.v1.EmploymentState
+	5,  // 3: user.v1.User.vacations:type_name -> user.v1.UserVacation
+	3,  // 4: user.v1.User.vacation_requests:type_name -> user.v1.VacationRequest
+	2,  // 5: user.v1.User.role:type_name -> user.v1.UserRole
+	19, // 6: user.v1.CreateUser.address:type_name -> customer.v1.Address
+	0,  // 7: user.v1.CreateUser.employment_state:type_name -> user.v1.EmploymentState
+	4,  // 8: user.v1.CreateUser.vacations:type_name -> user.v1.CreateUserVacation
+	2,  // 9: user.v1.CreateUser.role:type_name -> user.v1.UserRole
+	19, // 10: user.v1.UpdateUser.address:type_name -> customer.v1.Address
+	0,  // 11: user.v1.UpdateUser.employment_state:type_name -> user.v1.EmploymentState
+	5,  // 12: user.v1.UpdateUser.vacations:type_name -> user.v1.UserVacation
+	3,  // 13: user.v1.UpdateUser.vacation_requests:type_name -> user.v1.VacationRequest
+	2,  // 14: user.v1.UpdateUser.role:type_name -> user.v1.UserRole
+	6,  // 15: user.v1.GetUserByIdResponse.user:type_name -> user.v1.User
+	20, // 16: user.v1.GetUserByIdResponse.org:type_name -> org.v1.Org
+	6,  // 17: user.v1.GetAllUsersResponse.users:type_name -> user.v1.User
+	7,  // 18: user.v1.CreateUserRequest.user:type_name -> user.v1.CreateUser
+	6,  // 19: user.v1.CreateUserResponse.user:type_name -> user.v1.User
+	8,  // 20: user.v1.UpdateUserRequest.user:type_name -> user.v1.UpdateUser
+	6,  // 21: user.v1.UpdateUserResponse.user:type_name -> user.v1.User
+	6,  // 22: user.v1.GetUserByEmailResponse.user:type_name -> user.v1.User
+	20, // 23: user.v1.GetUserByEmailResponse.org:type_name -> org.v1.Org
+	9,  // 24: user.v1.UserService.GetUserById:input_type -> user.v1.GetUserByIdRequest
+	17, // 25: user.v1.UserService.GetUserByEmail:input_type -> user.v1.GetUserByEmailRequest
+	11, // 26: user.v1.UserService.GetAllUsers:input_type -> user.v1.GetAllUsersRequest
+	13, // 27: user.v1.UserService.CreateUser:input_type -> user.v1.CreateUserRequest
+	15, // 28: user.v1.UserService.UpdateUser:input_type -> user.v1.UpdateUserRequest
+	10, // 29: user.v1.UserService.GetUserById:output_type -> user.v1.GetUserByIdResponse
+	18, // 30: user.v1.UserService.GetUserByEmail:output_type -> user.v1.GetUserByEmailResponse
+	12, // 31: user.v1.UserService.GetAllUsers:output_type -> user.v1.GetAllUsersResponse
+	14, // 32: user.v1.UserService.CreateUser:output_type -> user.v1.CreateUserResponse
+	16, // 33: user.v1.UserService.UpdateUser:output_type -> user.v1.UpdateUserResponse
+	29, // [29:34] is the sub-list for method output_type
+	24, // [24:29] is the sub-list for method input_type
+	24, // [24:24] is the sub-list for extension type_name
+	24, // [24:24] is the sub-list for extension extendee
+	0,  // [0:24] is the sub-list for field type_name
 }
 
 func init() { file_user_v1_user_proto_init() }
@@ -1275,7 +1414,7 @@ func file_user_v1_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_v1_user_proto_rawDesc), len(file_user_v1_user_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

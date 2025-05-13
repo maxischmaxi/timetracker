@@ -24,6 +24,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useSignout } from "@/hooks/use-signout";
+import Link from "next/link";
+import { use } from "react";
+import { AuthContext } from "./auth-provider";
 
 export function NavUser({
   user,
@@ -35,6 +39,8 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+  const signOut = useSignout();
+  const { authState } = use(AuthContext);
 
   return (
     <SidebarMenu>
@@ -43,6 +49,7 @@ export function NavUser({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
+              disabled={authState === "pending"}
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
@@ -80,21 +87,32 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <UserCircleIcon />
-                Account
+              <DropdownMenuItem asChild>
+                <Link href="/account">
+                  <UserCircleIcon />
+                  Account
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCardIcon />
-                Billing
+              <DropdownMenuItem asChild>
+                <Link href="/billing">
+                  <CreditCardIcon />
+                  Billing
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <BellIcon />
-                Notifications
+              <DropdownMenuItem asChild>
+                <Link href="/notifications">
+                  <BellIcon />
+                  Notifications
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={async () => {
+                await signOut.mutateAsync();
+              }}
+              disabled={signOut.isPending}
+            >
               <LogOutIcon />
               Log out
             </DropdownMenuItem>

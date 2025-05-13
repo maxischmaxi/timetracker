@@ -5,9 +5,11 @@ package user.v1;
 option go_package = "github.com/maxischmaxi/ljtime-api/user/v1;userv1";
 
 import "customer/v1/customer.proto";
+import "org/v1/org.proto";
 
 service UserService {
   rpc GetUserById (GetUserByIdRequest) returns (GetUserByIdResponse);
+  rpc GetUserByEmail (GetUserByEmailRequest) returns (GetUserByEmailResponse);
   rpc GetAllUsers (GetAllUsersRequest) returns (GetAllUsersResponse);
   rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
   rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse);
@@ -33,19 +35,20 @@ enum UserRole {
 }
 
 message VacationRequest {
-  int64 start_date = 4;
-  int64 end_date = 5;
-  int32 days = 6;
-  string comment = 7;
+  int64 start_date = 1;
+  int64 end_date = 2;
+  int32 days = 3;
+  string comment = 4;
+  VacationRequestStatus status = 5;
 }
 
 message CreateUserVacation {
-  string user_id = 2;
-  int32 year = 3;
-  int32 days = 4;
-  int32 special_days = 5;
-  int32 sick_days_taken = 6;
-  int32 vacation_days_taken = 7;
+  string user_id = 1;
+  int32 year = 2;
+  int32 days = 3;
+  int32 special_days = 4;
+  int32 sick_days_taken = 5;
+  int32 vacation_days_taken = 6;
 }
 
 message UserVacation {
@@ -69,6 +72,7 @@ message User {
   UserRole role = 10;
   int64 created_at = 11;
   int64 updated_at = 12;
+  string org_id = 13;
 }
 
 message CreateUser {
@@ -100,6 +104,7 @@ message GetUserByIdRequest {
 
 message GetUserByIdResponse {
   User user = 1;
+  org.v1.Org org = 2;
 }
 
 message GetAllUsersRequest {
@@ -124,4 +129,13 @@ message UpdateUserRequest {
 
 message UpdateUserResponse {
   User user = 1;
+}
+
+message GetUserByEmailRequest {
+  string email = 1;
+}
+
+message GetUserByEmailResponse {
+  User user = 1;
+  org.v1.Org org = 2;
 }
