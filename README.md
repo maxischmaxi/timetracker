@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Welcome to LJ-Time!
 
-## Getting Started
+## Protobuf
 
-First, run the development server:
+### Install Protobuf
+
+[connectrpc docs](https://connectrpc.com/docs/go/getting-started)
+
+```bash
+go install github.com/bufbuild/buf/cmd/buf@latest
+go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+go install connectrpc.com/connect/cmd/protoc-gen-connect-go@latest
+```
+
+Make sure to have the following in your `PATH`:
+
+```bash
+$ [ -n "$(go env GOBIN)" ] && export PATH="$(go env GOBIN):${PATH}"
+$ [ -n "$(go env GOPATH)" ] && export PATH="$(go env GOPATH)/bin:${PATH}"
+```
+
+### Generate Protobuf
+
+```bash
+protoc --go_out=. --go-grpc_out=. proto/**/*.proto
+```
+
+#### Macos
+
+```bash
+brew install protobuf
+```
+
+## Development
+
+### Start React
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Start go
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd server
+air
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Protobuf Files
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## TODOS
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### MVP
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Buchungsoption
+- Jobs
+- Leistungsarten
+- Angebote
+- Rechnungen
+- Stundenzettel
+- Urlaube

@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package project.v1;
+
+option go_package = "github.com/maxischmaxi/ljtime-api/project/v1;projectv1";
+
+service ProjectService {
+  rpc GetProject (GetProjectRequest) returns (GetProjectResponse);
+  rpc CreateProject (CreateProjectRequest) returns (CreateProjectResponse);
+  rpc UpdateProject (UpdateProjectRequest) returns (UpdateProjectResponse);
+  rpc DeleteProject (DeleteProjectRequest) returns (DeleteProjectResponse);
+  rpc GetProjects (GetProjectsRequest) returns (GetProjectsResponse);
+  rpc GetProjectsByCustomer (GetProjectsByCustomerRequest) returns (GetProjectsByCustomerResponse);
+}
+
+message Project {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string customer_id = 4;
+  int64 created_at = 5;
+  int64 updated_at = 6;
+}
+
+message GetProjectRequest {
+  string id = 1;
+}
+
+message GetProjectResponse {
+  Project project = 1;
+}
+
+message CreateProject {
+  string name = 2;
+  string description = 3;
+  string customer_id = 4;
+}
+
+message UpdateProject {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string customer_id = 4;
+}
+
+message CreateProjectRequest {
+  CreateProject project = 1;
+}
+
+message CreateProjectResponse {
+  Project project = 1;
+}
+
+message UpdateProjectRequest {
+  UpdateProject project = 1;
+}
+
+message UpdateProjectResponse {
+  Project project = 1;
+}
+
+message DeleteProjectRequest {
+  string id = 1;
+}
+
+message DeleteProjectResponse {
+  string id = 1;
+}
+
+message GetProjectsRequest { }
+
+message GetProjectsResponse {
+  repeated Project projects = 1;
+}
+
+message GetProjectsByCustomerRequest {
+  string customer_id = 1;
+}
+
+message GetProjectsByCustomerResponse {
+  repeated Project projects = 1;
+}

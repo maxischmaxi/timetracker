@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package user.v1;
+
+option go_package = "github.com/maxischmaxi/ljtime-api/user/v1;userv1";
+
+import "customer/v1/customer.proto";
+
+service UserService {
+  rpc GetUserById (GetUserByIdRequest) returns (GetUserByIdResponse);
+  rpc GetAllUsers (GetAllUsersRequest) returns (GetAllUsersResponse);
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
+  rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse);
+}
+
+enum EmploymentState {
+  EMPLOYMENT_STATE_UNSPECIFIED = 0;
+  EMPLOYMENT_STATE_ACTIVE = 1;
+  EMPLOYMENT_STATE_INACTIVE = 2;
+}
+
+enum VacationRequestStatus {
+  VACATION_REQUEST_STATUS_UNSPECIFIED = 0;
+  VACATION_REQUEST_STATUS_PENDING = 1;
+  VACATION_REQUEST_STATUS_APPROVED = 2;
+  VACATION_REQUEST_STATUS_REJECTED = 3;
+}
+
+enum UserRole {
+  USER_ROLE_UNSPECIFIED = 0;
+  USER_ROLE_ADMIN = 1;
+  USER_ROLE_USER = 2;
+}
+
+message VacationRequest {
+  int64 start_date = 4;
+  int64 end_date = 5;
+  int32 days = 6;
+  string comment = 7;
+}
+
+message CreateUserVacation {
+  string user_id = 2;
+  int32 year = 3;
+  int32 days = 4;
+  int32 special_days = 5;
+  int32 sick_days_taken = 6;
+  int32 vacation_days_taken = 7;
+}
+
+message UserVacation {
+  int32 year = 3;
+  int32 days = 4;
+  int32 special_days = 5;
+  int32 sick_days_taken = 6;
+  int32 vacation_days_taken = 7;
+}
+
+message User {
+  string id = 1;
+  string email = 2;
+  string name = 3;
+  customer.v1.Address address = 4;
+  repeated string project_ids = 5;
+  repeated string tags = 6;
+  EmploymentState employment_state = 7;
+  repeated UserVacation vacations = 8;
+  repeated VacationRequest vacation_requests = 9;
+  UserRole role = 10;
+  int64 created_at = 11;
+  int64 updated_at = 12;
+}
+
+message CreateUser {
+  string email = 1;
+  string name = 2;
+  customer.v1.Address address = 3;
+  repeated string project_ids = 4;
+  repeated string tags = 5;
+  EmploymentState employment_state = 6;
+  repeated CreateUserVacation vacations = 7;
+  UserRole role = 8;
+}
+
+message UpdateUser {
+  string email = 2;
+  string name = 3;
+  customer.v1.Address address = 4;
+  repeated string project_ids = 5;
+  repeated string tags = 6;
+  EmploymentState employment_state = 7;
+  repeated UserVacation vacations = 8;
+  repeated VacationRequest vacation_requests = 9;
+  UserRole role = 10;
+}
+
+message GetUserByIdRequest {
+  string id = 1;
+}
+
+message GetUserByIdResponse {
+  User user = 1;
+}
+
+message GetAllUsersRequest {
+}
+
+message GetAllUsersResponse {
+  repeated User users = 1;
+}
+
+message CreateUserRequest {
+  CreateUser user = 1;
+}
+
+message CreateUserResponse {
+  User user = 1;
+}
+
+message UpdateUserRequest {
+  string id = 1;
+  UpdateUser user = 2;
+}
+
+message UpdateUserResponse {
+  User user = 1;
+}

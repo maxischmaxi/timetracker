@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package tags.v1;
+
+option go_package = "github.com/maxischmaxi/ljtime-api/tags/v1;tagsv1";
+
+service TagsService {
+  rpc GetAllTags (GetAllTagsRequest) returns (GetAllTagsResponse);
+}
+
+message GetAllTagsRequest {}
+
+message GetAllTagsResponse {
+  repeated string tags = 1;
+}

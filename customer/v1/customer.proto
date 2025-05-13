@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package customer.v1;
+
+option go_package = "github.com/maxischmaxi/ljtime-api/customer/v1;customerv1";
+
+service CustomerService {
+  rpc GetCustomer (GetCustomerRequest) returns (GetCustomerResponse);
+  rpc CreateCustomer (CreateCustomerRequest) returns (CreateCustomerResponse);
+  rpc UpdateCustomer (UpdateCustomerRequest) returns (UpdateCustomerResponse);
+  rpc DeleteCustomer (DeleteCustomerRequest) returns (DeleteCustomerResponse);
+  rpc GetCustomers (GetCustomersRequest) returns (GetCustomersResponse);
+}
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+  string zip = 4;
+  string country = 5;
+}
+
+message UpdateCustomer {
+  string id = 1;
+  string tag = 2;
+  string name = 3;
+  string email = 4;
+  string phone = 5;
+  Address address = 6;
+}
+
+message Customer {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string phone = 4;
+  string tag = 5;
+  int64 created_at = 6;
+  int64 updated_at = 7;
+  Address address = 8;
+}
+
+message CreateCustomer {
+  string tag = 1;
+  string name = 2;
+  string email = 3;
+  string phone = 4;
+  Address address = 5;
+}
+
+message GetCustomerRequest {
+  string id = 1;
+}
+
+message GetCustomerResponse {
+  Customer customer = 1;
+}
+
+message CreateCustomerRequest {
+  CreateCustomer customer = 1;
+}
+
+message CreateCustomerResponse {
+  Customer customer = 1;
+}
+
+message UpdateCustomerRequest {
+  UpdateCustomer customer = 1;
+}
+
+message UpdateCustomerResponse {
+  Customer customer = 1;
+}
+
+message DeleteCustomerRequest {
+  string id = 1;
+}
+
+message DeleteCustomerResponse {
+  string id = 1;
+}
+
+message GetCustomersRequest { }
+
+message GetCustomersResponse {
+  repeated Customer customers = 1;
+}
