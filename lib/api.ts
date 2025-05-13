@@ -43,11 +43,15 @@ const userClient = createClient(UserService, transport);
 const tagsClient = createClient(TagsService, transport);
 
 export async function getCustomers(): Promise<Plain<Customer>[] | undefined> {
-  return await customerClient.getCustomers({}).then((res) => res.customers);
+  return await customerClient
+    .getCustomers({})
+    .then((res) => res.customers as unknown as Array<Plain<Customer>>);
 }
 
 export async function getProjects(): Promise<Plain<Project>[] | undefined> {
-  return await projectClient.getProjects({}).then((res) => res.projects);
+  return await projectClient
+    .getProjects({})
+    .then((res) => res.projects as unknown as Array<Plain<Project>>);
 }
 
 export async function getProjectsByCustomer(
@@ -55,7 +59,7 @@ export async function getProjectsByCustomer(
 ): Promise<Plain<Project>[] | undefined> {
   return await projectClient
     .getProjectsByCustomer({ customerId: id })
-    .then((res) => res.projects);
+    .then((res) => res.projects as unknown as Array<Plain<Project>>);
 }
 
 export async function deleteProject(id: string): Promise<string | undefined> {
@@ -67,19 +71,23 @@ export async function updateProject(
 ): Promise<Plain<Project> | undefined> {
   return await projectClient
     .updateProject({ project: data })
-    .then((res) => res.project);
+    .then((res) => res.project as unknown as Plain<Project>);
 }
 
 export async function getProject(
   id: string,
 ): Promise<Plain<Project> | undefined> {
-  return await projectClient.getProject({ id }).then((res) => res.project);
+  return await projectClient
+    .getProject({ id })
+    .then((res) => res.project as unknown as Plain<Project>);
 }
 
 export async function getCustomer(
   id: string,
 ): Promise<Plain<Customer> | undefined> {
-  return await customerClient.getCustomer({ id }).then((res) => res.customer);
+  return await customerClient
+    .getCustomer({ id })
+    .then((res) => res.customer as unknown as Plain<Customer>);
 }
 
 export async function deleteCustomer(id: string): Promise<string | undefined> {
@@ -91,7 +99,7 @@ export async function updateCustomer(
 ): Promise<Plain<Customer> | undefined> {
   return await customerClient
     .updateCustomer({ customer: data })
-    .then((res) => res.customer);
+    .then((res) => res.customer as unknown as Plain<Customer>);
 }
 
 export async function createCustomer(
@@ -99,15 +107,19 @@ export async function createCustomer(
 ): Promise<Plain<Customer> | undefined> {
   return await customerClient
     .createCustomer({ customer: data })
-    .then((res) => res.customer);
+    .then((res) => res.customer as unknown as Plain<Customer>);
 }
 
 export async function getJob(id: string): Promise<Plain<Job> | undefined> {
-  return await jobsClient.getJob({ id }).then((res) => res.job);
+  return await jobsClient
+    .getJob({ id })
+    .then((res) => res.job as unknown as Plain<Job>);
 }
 
 export async function getJobs(): Promise<Array<Plain<Job>> | undefined> {
-  return await jobsClient.getJobs({}).then((res) => res.jobs);
+  return await jobsClient
+    .getJobs({})
+    .then((res) => res.jobs as unknown as Array<Plain<Job>>);
 }
 
 export async function getJobsByProject(
@@ -115,7 +127,7 @@ export async function getJobsByProject(
 ): Promise<Array<Plain<Job>> | undefined> {
   return await jobsClient
     .getJobsByProject({ projectId: id })
-    .then((res) => res.jobs);
+    .then((res) => res.jobs as unknown as Array<Plain<Job>>);
 }
 
 export async function deleteJob(id: string): Promise<string | undefined> {
@@ -123,13 +135,26 @@ export async function deleteJob(id: string): Promise<string | undefined> {
 }
 
 export async function updateJob(data: Job): Promise<Plain<Job> | undefined> {
-  return await jobsClient.updateJob({ job: data }).then((res) => res.job);
+  return await jobsClient
+    .updateJob({ job: data })
+    .then((res) => res.job as unknown as Plain<Job>);
 }
 
 export async function createJob(
   data: Plain<CreateJob>,
 ): Promise<Plain<Job> | undefined> {
-  return await jobsClient.createJob({ job: data }).then((res) => res.job);
+  return await jobsClient
+    .createJob({
+      job: {
+        date: data.date,
+        description: data.description,
+        projectId: data.projectId,
+        hours: BigInt(data.hours),
+        minutes: BigInt(data.minutes),
+        type: data.type,
+      },
+    })
+    .then((res) => res.job as unknown as Plain<Job>);
 }
 
 export async function getJobByCustomer(
@@ -137,7 +162,7 @@ export async function getJobByCustomer(
 ): Promise<Array<Plain<Job>> | undefined> {
   return await jobsClient
     .getJobsByCustomer({ customerId: id })
-    .then((res) => res.jobs);
+    .then((res) => res.jobs as unknown as Array<Plain<Job>>);
 }
 
 export async function getJobsByDate(
@@ -147,7 +172,7 @@ export async function getJobsByDate(
     .getJobsByDate({
       date: format(date, "yyyy-MM-dd"),
     })
-    .then((res) => res.jobs);
+    .then((res) => res.jobs as unknown as Array<Plain<JobsByDateResponse>>);
 }
 
 export async function createProject(
@@ -155,17 +180,21 @@ export async function createProject(
 ): Promise<Plain<Project> | undefined> {
   return await projectClient
     .createProject({ project: data })
-    .then((res) => res.project);
+    .then((res) => res.project as unknown as Plain<Project>);
 }
 
 export async function getUserById(
   id: string,
 ): Promise<Plain<User> | undefined> {
-  return await userClient.getUserById({ id }).then((res) => res.user);
+  return await userClient
+    .getUserById({ id })
+    .then((res) => res.user as unknown as Plain<User>);
 }
 
 export async function getAllUsers(): Promise<Array<Plain<User>> | undefined> {
-  return await userClient.getAllUsers({}).then((res) => res.users);
+  return await userClient
+    .getAllUsers({})
+    .then((res) => res.users as unknown as Array<Plain<User>>);
 }
 
 export async function getAllTags(): Promise<string[] | undefined> {
@@ -175,7 +204,9 @@ export async function getAllTags(): Promise<string[] | undefined> {
 export async function createUser(
   data: Plain<CreateUser>,
 ): Promise<Plain<User> | undefined> {
-  return await userClient.createUser({ user: data }).then((res) => res.user);
+  return await userClient
+    .createUser({ user: data })
+    .then((res) => res.user as unknown as Plain<User>);
 }
 
 export async function updateUser(
@@ -185,7 +216,22 @@ export async function updateUser(
   return await userClient
     .updateUser({
       id,
-      user: data,
+      user: {
+        address: data.address,
+        email: data.email,
+        projectIds: data.projectIds,
+        employmentState: data.employmentState,
+        name: data.name,
+        role: data.role,
+        vacationRequests: data.vacationRequests.map((v) => ({
+          startDate: BigInt(v.startDate),
+          endDate: BigInt(v.endDate),
+          comment: v.comment,
+          days: v.days,
+        })),
+        vacations: data.vacations,
+        tags: data.tags,
+      },
     })
-    .then((res) => res.user);
+    .then((res) => res.user as unknown as Plain<User>);
 }

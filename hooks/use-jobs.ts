@@ -38,7 +38,7 @@ export function useCreateJob(
   props?: CreateJobProps,
 ): UseMutationResult<Plain<Job> | undefined, Error, Plain<CreateJob>> {
   return useMutation({
-    async mutationFn(data: Omit<CreateJob, "$typeName" | "$unknown">) {
+    async mutationFn(data: Plain<CreateJob>) {
       return await createJob(data);
     },
     onSuccess(data) {
