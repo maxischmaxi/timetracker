@@ -13,6 +13,9 @@ service UserService {
   rpc GetAllUsers (GetAllUsersRequest) returns (GetAllUsersResponse);
   rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
   rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse);
+  rpc RemoveUserFromOrg (RemoveUserFromOrgRequest) returns (RemoveUserFromOrgResponse);
+  rpc GetUserByFirebaseUid (GetUserByFirebaseUidRequest) returns (GetUserByFirebaseUidResponse);
+  rpc SetUserActiveState (SetUserActiveStateRequest) returns (SetUserActiveStateResponse);
 }
 
 enum EmploymentState {
@@ -26,12 +29,6 @@ enum VacationRequestStatus {
   VACATION_REQUEST_STATUS_PENDING = 1;
   VACATION_REQUEST_STATUS_APPROVED = 2;
   VACATION_REQUEST_STATUS_REJECTED = 3;
-}
-
-enum UserRole {
-  USER_ROLE_UNSPECIFIED = 0;
-  USER_ROLE_ADMIN = 1;
-  USER_ROLE_USER = 2;
 }
 
 message VacationRequest {
@@ -69,10 +66,10 @@ message User {
   EmploymentState employment_state = 7;
   repeated UserVacation vacations = 8;
   repeated VacationRequest vacation_requests = 9;
-  UserRole role = 10;
   int64 created_at = 11;
   int64 updated_at = 12;
-  string org_id = 13;
+  repeated string org_ids = 13;
+  string firebase_uid = 14;
 }
 
 message CreateUser {
@@ -83,19 +80,13 @@ message CreateUser {
   repeated string tags = 5;
   EmploymentState employment_state = 6;
   repeated CreateUserVacation vacations = 7;
-  UserRole role = 8;
 }
 
 message UpdateUser {
-  string email = 2;
   string name = 3;
   customer.v1.Address address = 4;
   repeated string project_ids = 5;
   repeated string tags = 6;
-  EmploymentState employment_state = 7;
-  repeated UserVacation vacations = 8;
-  repeated VacationRequest vacation_requests = 9;
-  UserRole role = 10;
 }
 
 message GetUserByIdRequest {
@@ -104,7 +95,7 @@ message GetUserByIdRequest {
 
 message GetUserByIdResponse {
   User user = 1;
-  org.v1.Org org = 2;
+  repeated org.v1.Org orgs = 2;
 }
 
 message GetAllUsersRequest {
@@ -116,6 +107,7 @@ message GetAllUsersResponse {
 
 message CreateUserRequest {
   CreateUser user = 1;
+  string org_id = 2;
 }
 
 message CreateUserResponse {
@@ -137,5 +129,30 @@ message GetUserByEmailRequest {
 
 message GetUserByEmailResponse {
   User user = 1;
-  org.v1.Org org = 2;
+  repeated org.v1.Org orgs = 2;
+}
+
+message RemoveUserFromOrgRequest {
+  string user_id = 1;
+  string org_id = 2;
+}
+
+message RemoveUserFromOrgResponse { }
+
+message GetUserByFirebaseUidRequest {
+  string uid = 1;
+}
+
+message GetUserByFirebaseUidResponse {
+  User user = 1;
+  repeated org.v1.Org orgs = 2;
+}
+
+message SetUserActiveStateRequest {
+  EmploymentState state = 1;
+  string id = 2;
+}
+
+message SetUserActiveStateResponse {
+  EmploymentState state = 1;
 }

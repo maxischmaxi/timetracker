@@ -1,3 +1,5 @@
+"use client";
+
 import { createClient } from "@connectrpc/connect";
 import { format } from "date-fns";
 import { createConnectTransport } from "@connectrpc/connect-web";
@@ -23,8 +25,11 @@ import {
 import { Plain } from "@/types";
 import {
   CreateUser,
+  EmploymentState,
   GetUserByEmailResponse,
+  GetUserByFirebaseUidResponse,
   GetUserByIdResponse,
+  SetUserActiveStateResponse,
   UpdateUser,
   User,
   UserService,
@@ -33,15 +38,6 @@ import { getToken } from "./auth";
 
 const transport = createConnectTransport({
   baseUrl: process.env.NEXT_PUBLIC_API_GATEWAY as string,
-  fetch: async (url, init) => {
-    return fetch(url, {
-      ...init,
-      cache: "no-store",
-      next: {
-        revalidate: 0,
-      },
-    });
-  },
 });
 
 const customerClient = createClient(CustomerService, transport);
@@ -234,9 +230,10 @@ export async function getAllTags(): Promise<string[] | undefined> {
 
 export async function createUser(
   data: Plain<CreateUser>,
+  orgId: string,
 ): Promise<Plain<User> | undefined> {
   return await userClient
-    .createUser({ user: data }, { headers: await getHeaders() })
+    .createUser({ user: data, orgId }, { headers: await getHeaders() })
     .then((res) => res.user as unknown as Plain<User>);
 }
 
@@ -250,18 +247,8 @@ export async function updateUser(
         id,
         user: {
           address: data.address,
-          email: data.email,
           projectIds: data.projectIds,
-          employmentState: data.employmentState,
           name: data.name,
-          role: data.role,
-          vacationRequests: data.vacationRequests.map((v) => ({
-            startDate: BigInt(v.startDate),
-            endDate: BigInt(v.endDate),
-            comment: v.comment,
-            days: v.days,
-          })),
-          vacations: data.vacations,
           tags: data.tags,
         },
       },
@@ -276,4 +263,21 @@ export async function getUserByEmail(
   return await userClient
     .getUserByEmail({ email }, { headers: await getHeaders() })
     .then((res) => res as unknown as Plain<GetUserByEmailResponse>);
+}
+
+export async function getUserByFirebaseUid(
+  uid: string,
+): Promise<Plain<GetUserByFirebaseUidResponse> | undefined> {
+  return await userClient
+    .getUserByFirebaseUid({ uid }, { headers: await getHeaders() })
+    .then((res) => res as unknown as Plain<GetUserByFirebaseUidResponse>);
+}
+
+export async function setUserActiveState(
+  state: EmploymentState,
+  id: string,
+): Promise<Plain<SetUserActiveStateResponse> | undefined> {
+  return await userClient
+    .setUserActiveState({ state, id }, { headers: await getHeaders() })
+    .then((res) => res as unknown as Plain<SetUserActiveStateResponse>);
 }

@@ -43,6 +43,12 @@ const (
 	OrgServiceCreateOrgProcedure = "/org.v1.OrgService/CreateOrg"
 	// OrgServiceDeleteOrgProcedure is the fully-qualified name of the OrgService's DeleteOrg RPC.
 	OrgServiceDeleteOrgProcedure = "/org.v1.OrgService/DeleteOrg"
+	// OrgServiceAddAdminToOrgProcedure is the fully-qualified name of the OrgService's AddAdminToOrg
+	// RPC.
+	OrgServiceAddAdminToOrgProcedure = "/org.v1.OrgService/AddAdminToOrg"
+	// OrgServiceRemoveAdminFromOrgProcedure is the fully-qualified name of the OrgService's
+	// RemoveAdminFromOrg RPC.
+	OrgServiceRemoveAdminFromOrgProcedure = "/org.v1.OrgService/RemoveAdminFromOrg"
 )
 
 // OrgServiceClient is a client for the org.v1.OrgService service.
@@ -52,6 +58,8 @@ type OrgServiceClient interface {
 	UpdateOrg(context.Context, *connect.Request[v1.UpdateOrgRequest]) (*connect.Response[v1.UpdateOrgResponse], error)
 	CreateOrg(context.Context, *connect.Request[v1.CreateOrgRequest]) (*connect.Response[v1.CreateOrgResponse], error)
 	DeleteOrg(context.Context, *connect.Request[v1.DeleteOrgRequest]) (*connect.Response[v1.DeleteOrgResponse], error)
+	AddAdminToOrg(context.Context, *connect.Request[v1.AddAdminToOrgRequest]) (*connect.Response[v1.AddAdminToOrgResponse], error)
+	RemoveAdminFromOrg(context.Context, *connect.Request[v1.RemoveAdminFromOrgRequest]) (*connect.Response[v1.RemoveAdminFromOrgResponse], error)
 }
 
 // NewOrgServiceClient constructs a client for the org.v1.OrgService service. By default, it uses
@@ -95,16 +103,30 @@ func NewOrgServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(orgServiceMethods.ByName("DeleteOrg")),
 			connect.WithClientOptions(opts...),
 		),
+		addAdminToOrg: connect.NewClient[v1.AddAdminToOrgRequest, v1.AddAdminToOrgResponse](
+			httpClient,
+			baseURL+OrgServiceAddAdminToOrgProcedure,
+			connect.WithSchema(orgServiceMethods.ByName("AddAdminToOrg")),
+			connect.WithClientOptions(opts...),
+		),
+		removeAdminFromOrg: connect.NewClient[v1.RemoveAdminFromOrgRequest, v1.RemoveAdminFromOrgResponse](
+			httpClient,
+			baseURL+OrgServiceRemoveAdminFromOrgProcedure,
+			connect.WithSchema(orgServiceMethods.ByName("RemoveAdminFromOrg")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // orgServiceClient implements OrgServiceClient.
 type orgServiceClient struct {
-	getOrg     *connect.Client[v1.GetOrgRequest, v1.GetOrgResponse]
-	getOrgById *connect.Client[v1.GetOrgByIdRequest, v1.GetOrgByIdResponse]
-	updateOrg  *connect.Client[v1.UpdateOrgRequest, v1.UpdateOrgResponse]
-	createOrg  *connect.Client[v1.CreateOrgRequest, v1.CreateOrgResponse]
-	deleteOrg  *connect.Client[v1.DeleteOrgRequest, v1.DeleteOrgResponse]
+	getOrg             *connect.Client[v1.GetOrgRequest, v1.GetOrgResponse]
+	getOrgById         *connect.Client[v1.GetOrgByIdRequest, v1.GetOrgByIdResponse]
+	updateOrg          *connect.Client[v1.UpdateOrgRequest, v1.UpdateOrgResponse]
+	createOrg          *connect.Client[v1.CreateOrgRequest, v1.CreateOrgResponse]
+	deleteOrg          *connect.Client[v1.DeleteOrgRequest, v1.DeleteOrgResponse]
+	addAdminToOrg      *connect.Client[v1.AddAdminToOrgRequest, v1.AddAdminToOrgResponse]
+	removeAdminFromOrg *connect.Client[v1.RemoveAdminFromOrgRequest, v1.RemoveAdminFromOrgResponse]
 }
 
 // GetOrg calls org.v1.OrgService.GetOrg.
@@ -132,6 +154,16 @@ func (c *orgServiceClient) DeleteOrg(ctx context.Context, req *connect.Request[v
 	return c.deleteOrg.CallUnary(ctx, req)
 }
 
+// AddAdminToOrg calls org.v1.OrgService.AddAdminToOrg.
+func (c *orgServiceClient) AddAdminToOrg(ctx context.Context, req *connect.Request[v1.AddAdminToOrgRequest]) (*connect.Response[v1.AddAdminToOrgResponse], error) {
+	return c.addAdminToOrg.CallUnary(ctx, req)
+}
+
+// RemoveAdminFromOrg calls org.v1.OrgService.RemoveAdminFromOrg.
+func (c *orgServiceClient) RemoveAdminFromOrg(ctx context.Context, req *connect.Request[v1.RemoveAdminFromOrgRequest]) (*connect.Response[v1.RemoveAdminFromOrgResponse], error) {
+	return c.removeAdminFromOrg.CallUnary(ctx, req)
+}
+
 // OrgServiceHandler is an implementation of the org.v1.OrgService service.
 type OrgServiceHandler interface {
 	GetOrg(context.Context, *connect.Request[v1.GetOrgRequest]) (*connect.Response[v1.GetOrgResponse], error)
@@ -139,6 +171,8 @@ type OrgServiceHandler interface {
 	UpdateOrg(context.Context, *connect.Request[v1.UpdateOrgRequest]) (*connect.Response[v1.UpdateOrgResponse], error)
 	CreateOrg(context.Context, *connect.Request[v1.CreateOrgRequest]) (*connect.Response[v1.CreateOrgResponse], error)
 	DeleteOrg(context.Context, *connect.Request[v1.DeleteOrgRequest]) (*connect.Response[v1.DeleteOrgResponse], error)
+	AddAdminToOrg(context.Context, *connect.Request[v1.AddAdminToOrgRequest]) (*connect.Response[v1.AddAdminToOrgResponse], error)
+	RemoveAdminFromOrg(context.Context, *connect.Request[v1.RemoveAdminFromOrgRequest]) (*connect.Response[v1.RemoveAdminFromOrgResponse], error)
 }
 
 // NewOrgServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -178,6 +212,18 @@ func NewOrgServiceHandler(svc OrgServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(orgServiceMethods.ByName("DeleteOrg")),
 		connect.WithHandlerOptions(opts...),
 	)
+	orgServiceAddAdminToOrgHandler := connect.NewUnaryHandler(
+		OrgServiceAddAdminToOrgProcedure,
+		svc.AddAdminToOrg,
+		connect.WithSchema(orgServiceMethods.ByName("AddAdminToOrg")),
+		connect.WithHandlerOptions(opts...),
+	)
+	orgServiceRemoveAdminFromOrgHandler := connect.NewUnaryHandler(
+		OrgServiceRemoveAdminFromOrgProcedure,
+		svc.RemoveAdminFromOrg,
+		connect.WithSchema(orgServiceMethods.ByName("RemoveAdminFromOrg")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/org.v1.OrgService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case OrgServiceGetOrgProcedure:
@@ -190,6 +236,10 @@ func NewOrgServiceHandler(svc OrgServiceHandler, opts ...connect.HandlerOption) 
 			orgServiceCreateOrgHandler.ServeHTTP(w, r)
 		case OrgServiceDeleteOrgProcedure:
 			orgServiceDeleteOrgHandler.ServeHTTP(w, r)
+		case OrgServiceAddAdminToOrgProcedure:
+			orgServiceAddAdminToOrgHandler.ServeHTTP(w, r)
+		case OrgServiceRemoveAdminFromOrgProcedure:
+			orgServiceRemoveAdminFromOrgHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -217,4 +267,12 @@ func (UnimplementedOrgServiceHandler) CreateOrg(context.Context, *connect.Reques
 
 func (UnimplementedOrgServiceHandler) DeleteOrg(context.Context, *connect.Request[v1.DeleteOrgRequest]) (*connect.Response[v1.DeleteOrgResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("org.v1.OrgService.DeleteOrg is not implemented"))
+}
+
+func (UnimplementedOrgServiceHandler) AddAdminToOrg(context.Context, *connect.Request[v1.AddAdminToOrgRequest]) (*connect.Response[v1.AddAdminToOrgResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("org.v1.OrgService.AddAdminToOrg is not implemented"))
+}
+
+func (UnimplementedOrgServiceHandler) RemoveAdminFromOrg(context.Context, *connect.Request[v1.RemoveAdminFromOrgRequest]) (*connect.Response[v1.RemoveAdminFromOrgResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("org.v1.OrgService.RemoveAdminFromOrg is not implemented"))
 }

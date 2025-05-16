@@ -1,3 +1,4 @@
+import { AuthContext } from "@/components/auth-provider";
 import { queryClient } from "@/components/providers";
 import { CreateJob, Job, JobsByDateResponse } from "@/job/v1/job_pb";
 import { createJob, getJobs, getJobsByDate } from "@/lib/api";
@@ -8,9 +9,13 @@ import {
   useQuery,
   UseQueryResult,
 } from "@tanstack/react-query";
+import { use } from "react";
 
 export function useJobs(): UseQueryResult<Array<Plain<Job>> | undefined> {
+  const { authState } = use(AuthContext);
+
   return useQuery({
+    enabled: authState === "signedIn",
     queryKey: ["jobs"],
     async queryFn() {
       return await getJobs();
@@ -21,7 +26,10 @@ export function useJobs(): UseQueryResult<Array<Plain<Job>> | undefined> {
 export function useJobsByDate(
   date: Date,
 ): UseQueryResult<Array<Plain<JobsByDateResponse>> | undefined, Error> {
+  const { authState } = use(AuthContext);
+
   return useQuery({
+    enabled: authState === "signedIn",
     queryKey: ["jobs-by-date", date],
     async queryFn() {
       return await getJobsByDate(date);

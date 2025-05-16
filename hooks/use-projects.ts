@@ -1,3 +1,4 @@
+import { AuthContext } from "@/components/auth-provider";
 import { queryClient } from "@/components/providers";
 import {
   createProject,
@@ -8,12 +9,16 @@ import {
 import { CreateProject, Project, UpdateProject } from "@/project/v1/project_pb";
 import { Plain } from "@/types";
 import { useMutation, useQuery, UseQueryResult } from "@tanstack/react-query";
+import { use } from "react";
 
 export function useProjects(): UseQueryResult<
   Array<Plain<Project>> | undefined,
   Error
 > {
+  const { authState } = use(AuthContext);
+
   return useQuery({
+    enabled: authState === "signedIn",
     queryKey: ["projects"],
     async queryFn() {
       return await getProjects();
@@ -22,9 +27,10 @@ export function useProjects(): UseQueryResult<
 }
 
 export function useProject(id: string) {
+  const { authState } = use(AuthContext);
   return useQuery({
     queryKey: ["project", id],
-    enabled: !!id,
+    enabled: !!id && authState === "signedIn",
     async queryFn() {
       return await getProject(id);
     },

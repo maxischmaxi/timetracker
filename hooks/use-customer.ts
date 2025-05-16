@@ -1,3 +1,4 @@
+import { AuthContext } from "@/components/auth-provider";
 import { queryClient } from "@/components/providers";
 import {
   CreateCustomer,
@@ -7,9 +8,13 @@ import {
 import { createCustomer, getCustomers, updateCustomer } from "@/lib/api";
 import { Plain } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { use } from "react";
 
 export function useCustomers() {
+  const { authState } = use(AuthContext);
+
   return useQuery({
+    enabled: authState === "signedIn",
     queryKey: ["customers"],
     async queryFn() {
       return await getCustomers();

@@ -29,10 +29,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import Link from "next/link";
 import { NavAdministration } from "./nav-administration";
-import { use } from "react";
-import { AuthContext } from "./auth-provider";
+import { use, useState } from "react";
+import { AuthContext, setLocalOrg } from "./auth-provider";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const data = {
   navMain: [
@@ -106,28 +109,57 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { firebaseUser, user } = use(AuthContext);
+  const { firebaseUser, user, currentOrg, orgs } = use(AuthContext);
+  const router = useRouter();
+  const [open, setOpen] = useState<boolean>(false);
+
+  function handleSelectOrg(orgId: string) {
+    setOpen(false);
+    if (orgId === currentOrg?.id) {
+      toast.error(
+        "Sie sind bereits in der entsprechenden Organisation eingeloggt",
+      );
+      return;
+    }
+
+    setLocalOrg(orgId);
+    router.refresh();
+  }
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <Link href="/">
-                <ArrowUpCircleIcon className="h-5 w-5" />
-                <span className="text-base font-semibold">Logic Joe</span>
-              </Link>
-            </SidebarMenuButton>
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <SidebarMenuButton className="data-[slot=sidebar-menu-button]:!p-1.5 cursor-pointer">
+                  <ArrowUpCircleIcon className="h-5 w-5" />
+                  <span className="text-base font-semibold">Logic Joe</span>
+                </SidebarMenuButton>
+              </PopoverTrigger>
+              <PopoverContent side="right" align="start" className="space-y-2">
+                {orgs.map((org, index) => (
+                  <Button
+                    key={index}
+                    type="button"
+                    onClick={() => handleSelectOrg(org.id)}
+                    className="w-full flex items-center justify-start max-w-full truncate"
+                    variant="outline"
+                  >
+                    {org.name}
+                  </Button>
+                ))}
+              </PopoverContent>
+            </Popover>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavAdministration items={data.navAdministration} />
+        {currentOrg && user && currentOrg.admins.includes(user.id) && (
+          <NavAdministration items={data.navAdministration} />
+        )}
         <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>

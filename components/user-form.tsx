@@ -1,7 +1,7 @@
 "use client";
 
 import { Plain } from "@/types";
-import { EmploymentState, User, UserRole } from "@/user/v1/user_pb";
+import { EmploymentState, User } from "@/user/v1/user_pb";
 import { FieldErrors, useForm } from "react-hook-form";
 import { Form } from "./ui/form";
 import { z } from "zod";
@@ -11,8 +11,8 @@ import { useCreateUser, useUpdateUser } from "@/hooks/use-users";
 import { TagSelect } from "./tag-select";
 import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
-import { UserRoleRadio } from "./user-group-radio";
 import { CountrySelect } from "./country-select";
+import { Button } from "./ui/button";
 
 type Props = {
   user?: Plain<User>;
@@ -32,7 +32,6 @@ const defaultValue = {
   tags: [],
   employmentState: EmploymentState.ACTIVE,
   projectIds: [],
-  role: UserRole.USER,
   vacations: [],
   vacationRequests: [],
 } as unknown as z.infer<typeof createUserSchema>;
@@ -72,6 +71,13 @@ export function UserForm(props: Props) {
         <TagSelect control={form.control} name="tags" label="Tags" />
         <Input
           control={form.control}
+          name="name"
+          label="Name des Benutzers"
+          type="text"
+          placeholder="Vorname + Nachname eingeben"
+        />
+        <Input
+          control={form.control}
           name="email"
           type="email"
           label="Email"
@@ -95,6 +101,17 @@ export function UserForm(props: Props) {
             name="address.city"
             label="Stadt"
             placeholder="Stadt"
+            wrapperClassName="w-full"
+          />
+        </div>
+        <div className="flex flex-row flex-nowrap gap-4">
+          <Input
+            type="text"
+            control={form.control}
+            name="address.state"
+            label="Bundesland"
+            placeholder="Bayern..."
+            wrapperClassName="w-full"
           />
           <CountrySelect
             control={form.control}
@@ -102,7 +119,12 @@ export function UserForm(props: Props) {
             label="Land"
           />
         </div>
-        <UserRoleRadio label="Rolle" control={form.control} name="role" />
+        <div className="flex flex-row flex-nowrap justify-between">
+          <Button type="button" variant="outline">
+            Abbrechen
+          </Button>
+          <Button type="submit">Speichern</Button>
+        </div>
       </form>
     </Form>
   );

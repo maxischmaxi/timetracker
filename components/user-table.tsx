@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import Image from "next/image";
 import {
   DndContext,
   KeyboardSensor,
@@ -44,13 +44,13 @@ import {
   ChevronsRightIcon,
   ColumnsIcon,
   GripVerticalIcon,
-  LoaderIcon,
+  MailIcon,
   MoreVerticalIcon,
   PlusIcon,
   TrendingUpIcon,
+  XIcon,
 } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
-import { toast } from "sonner";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Badge } from "@/components/ui/badge";
@@ -100,9 +100,15 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plain } from "@/types";
-import { EmploymentState, User, UserRole } from "@/user/v1/user_pb";
+import { EmploymentState, User } from "@/user/v1/user_pb";
 import { useUsers } from "@/hooks/use-users";
 import Link from "next/link";
+import { use, useEffect, useId, useMemo, useState } from "react";
+import { AuthContext } from "./auth-provider";
+import { MailProvider } from "@/org/v1/org_pb";
+import { getGmailLink } from "@/lib/utils";
+import { UserDeleteDialog } from "./user-delete-dialog";
+import { countries } from "@/lib/countries";
 
 // Create a separate component for the drag handle
 function DragHandle({ id }: { id: string }) {
@@ -123,183 +129,6 @@ function DragHandle({ id }: { id: string }) {
     </Button>
   );
 }
-
-const columns: ColumnDef<Plain<User>>[] = [
-  {
-    id: "drag",
-    header: () => null,
-    cell: ({ row }) => <DragHandle id={row.original.id} />,
-  },
-  {
-    id: "select",
-    header: ({ table }) => (
-      <div className="flex items-center justify-center">
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      </div>
-    ),
-    cell: ({ row }) => (
-      <div className="flex items-center justify-center">
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      </div>
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "header",
-    header: "Header",
-    cell: ({ row }) => {
-      return <TableCellViewer item={row.original} />;
-    },
-    enableHiding: false,
-  },
-  {
-    accessorKey: "type",
-    header: "Section Type",
-    cell: ({ row }) => (
-      <div className="w-32">
-        <Badge variant="outline" className="px-1.5 text-muted-foreground">
-          {row.original.name}
-        </Badge>
-      </div>
-    ),
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <Badge
-        variant="outline"
-        className="flex gap-1 px-1.5 text-muted-foreground [&_svg]:size-3"
-      >
-        {row.original.role === UserRole.USER ? (
-          <CheckCircle2Icon className="text-green-500 dark:text-green-400" />
-        ) : (
-          <LoaderIcon />
-        )}
-        {row.original.role}
-      </Badge>
-    ),
-  },
-  {
-    accessorKey: "target",
-    header: () => <div className="w-full text-right">Target</div>,
-    cell: ({ row }) => (
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
-            loading: `Saving ${row.original.name}`,
-            success: "Done",
-            error: "Error",
-          });
-        }}
-      >
-        <Label htmlFor={`${row.original.id}-target`} className="sr-only">
-          Target
-        </Label>
-        <Input
-          className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border focus-visible:bg-background"
-          defaultValue={row.original.email}
-          id={`${row.original.id}-target`}
-        />
-      </form>
-    ),
-  },
-  {
-    accessorKey: "limit",
-    header: () => <div className="w-full text-right">Limit</div>,
-    cell: ({ row }) => (
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
-            loading: `Saving ${row.original.email}`,
-            success: "Done",
-            error: "Error",
-          });
-        }}
-      >
-        <Label htmlFor={`${row.original.id}-limit`} className="sr-only">
-          Limit
-        </Label>
-        <Input
-          className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border focus-visible:bg-background"
-          defaultValue={row.original.email}
-          id={`${row.original.id}-limit`}
-        />
-      </form>
-    ),
-  },
-  {
-    accessorKey: "reviewer",
-    header: "Reviewer",
-    cell: ({ row }) => {
-      const isAssigned = row.original.email !== "Assign reviewer";
-
-      if (isAssigned) {
-        return row.original.email;
-      }
-
-      return (
-        <>
-          <Label htmlFor={`${row.original.id}-reviewer`} className="sr-only">
-            Reviewer
-          </Label>
-          <Select>
-            <SelectTrigger
-              className="h-8 w-40"
-              id={`${row.original.id}-reviewer`}
-            >
-              <SelectValue placeholder="Assign reviewer" />
-            </SelectTrigger>
-            <SelectContent align="end">
-              <SelectItem value="Eddie Lake">Eddie Lake</SelectItem>
-              <SelectItem value="Jamik Tashpulatov">
-                Jamik Tashpulatov
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        </>
-      );
-    },
-  },
-  {
-    id: "actions",
-    cell: () => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
-            size="icon"
-          >
-            <MoreVerticalIcon />
-            <span className="sr-only">Open menu</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-32">
-          <DropdownMenuItem>Edit</DropdownMenuItem>
-          <DropdownMenuItem>Make a copy</DropdownMenuItem>
-          <DropdownMenuItem>Favorite</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Delete</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    ),
-  },
-];
 
 function DraggableRow({ row }: { row: Row<Plain<User>> }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
@@ -328,27 +157,25 @@ function DraggableRow({ row }: { row: Row<Plain<User>> }) {
 
 export function UserTable() {
   const users = useUsers();
-  const [data, setData] = React.useState<Array<Plain<User>>>([]);
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [pagination, setPagination] = React.useState({
+  const auth = use(AuthContext);
+  const [data, setData] = useState<Array<Plain<User>>>([]);
+  const [rowSelection, setRowSelection] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 10,
   });
-  const sortableId = React.useId();
+  const sortableId = useId();
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
     useSensor(TouchSensor, {}),
     useSensor(KeyboardSensor, {}),
   );
-  const [tabValue, setTabValue] = React.useState("all");
+  const [tabValue, setTabValue] = useState("all");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (users.data) {
       setData(users.data);
     } else {
@@ -356,9 +183,175 @@ export function UserTable() {
     }
   }, [users.data]);
 
-  const dataIds = React.useMemo<UniqueIdentifier[]>(
+  const dataIds = useMemo<UniqueIdentifier[]>(
     () => data?.map(({ id }) => id) || [],
     [data],
+  );
+
+  const columns: ColumnDef<Plain<User>>[] = useMemo(
+    () => [
+      {
+        id: "drag",
+        header: () => null,
+        cell: ({ row }) => <DragHandle id={row.original.id} />,
+      },
+      {
+        id: "select",
+        header: ({ table }) => (
+          <div className="flex items-center justify-center">
+            <Checkbox
+              checked={
+                table.getIsAllPageRowsSelected() ||
+                (table.getIsSomePageRowsSelected() && "indeterminate")
+              }
+              onCheckedChange={(value) =>
+                table.toggleAllPageRowsSelected(!!value)
+              }
+              aria-label="Select all"
+            />
+          </div>
+        ),
+        cell: ({ row }) => (
+          <div className="flex items-center justify-center">
+            <Checkbox
+              checked={row.getIsSelected()}
+              onCheckedChange={(value) => row.toggleSelected(!!value)}
+              aria-label="Select row"
+            />
+          </div>
+        ),
+        enableSorting: false,
+        enableHiding: false,
+      },
+      {
+        accessorKey: "header",
+        header: "Name",
+        cell: ({ row }) => {
+          return <TableCellViewer item={row.original} />;
+        },
+        enableHiding: false,
+      },
+      {
+        accessorKey: "type",
+        header: "Email",
+        cell: ({ row }) => {
+          let emailLink = row.original.email;
+          let target: undefined | "_blank" = undefined;
+          if (auth.currentOrg?.mailProvider === MailProvider.GMAIL) {
+            emailLink = getGmailLink(row.original.email, {
+              body: "Hello",
+              subject: "Test",
+            });
+            target = "_blank";
+          } else {
+            emailLink = `mailto:${emailLink}`;
+          }
+
+          return (
+            <div className="w-32">
+              <Badge
+                variant="outline"
+                className="px-1.5 text-muted-foreground"
+                asChild
+              >
+                <Link target={target} href={emailLink}>
+                  {row.original.email}
+                  <MailIcon />
+                </Link>
+              </Badge>
+            </div>
+          );
+        },
+      },
+      {
+        accessorKey: "tags",
+        header: "Tags",
+        cell: ({ row }) => {
+          return (
+            <div>
+              {row.original.tags.map((tag, index) => (
+                <Badge variant="secondary" key={index}>
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          );
+        },
+      },
+      {
+        accessorKey: "status",
+        header: "Anstellungsstatus",
+        cell: ({ row }) => (
+          <Badge
+            variant="outline"
+            className="flex gap-1 px-1.5 text-muted-foreground [&_svg]:size-3"
+          >
+            {row.original.employmentState === EmploymentState.ACTIVE ? (
+              <CheckCircle2Icon className="text-green-500 dark:text-green-400" />
+            ) : (
+              <XIcon className="text-red-500 dark:text-red-500" />
+            )}
+            {row.original.employmentState === EmploymentState.ACTIVE
+              ? "Aktiv"
+              : "Inaktiv"}
+          </Badge>
+        ),
+      },
+      {
+        accessorKey: "location",
+        header: "Location",
+        cell: ({ row }) => {
+          const country = countries.find(
+            (c) => c.code === row.original.address?.country.toUpperCase(),
+          );
+
+          return (
+            <span className="flex flex-row flex-nowrap gap-2 items-center text-xs">
+              {country && (
+                <Image
+                  src={country.flag}
+                  alt={country.name}
+                  width={16}
+                  height={16}
+                />
+              )}
+              {row.original.address?.state}
+            </span>
+          );
+        },
+      },
+      {
+        id: "actions",
+        cell: ({ row }) => (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
+                size="icon"
+              >
+                <MoreVerticalIcon />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-32">
+              <DropdownMenuItem asChild>
+                <Link href={`/users/${row.original.id}`}>Bearbeiten</Link>
+              </DropdownMenuItem>
+              {auth.user?.id !== row.original.id && (
+                <>
+                  <DropdownMenuSeparator />
+                  <UserDeleteDialog user={row.original}>
+                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                  </UserDeleteDialog>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ),
+      },
+    ],
+    [auth.currentOrg?.mailProvider, auth.user?.id],
   );
 
   const table = useReactTable({
@@ -426,7 +419,7 @@ export function UserTable() {
       }}
       className="flex w-full flex-col justify-start gap-6"
     >
-      <div className="flex items-center justify-between px-4 lg:px-6">
+      <div className="flex items-center justify-between">
         <Label htmlFor="view-selector" className="sr-only">
           View
         </Label>
@@ -515,7 +508,7 @@ export function UserTable() {
       </div>
       <TabsContent
         value="all"
-        className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
+        className="relative flex flex-col gap-4 overflow-auto"
       >
         <div className="overflow-hidden rounded-lg border">
           <DndContext

@@ -14,7 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file user/v1/user.proto.
  */
 export const file_user_v1_user: GenFile = /*@__PURE__*/
-  fileDesc("ChJ1c2VyL3YxL3VzZXIucHJvdG8SB3VzZXIudjEihgEKD1ZhY2F0aW9uUmVxdWVzdBISCgpzdGFydF9kYXRlGAEgASgDEhAKCGVuZF9kYXRlGAIgASgDEgwKBGRheXMYAyABKAUSDwoHY29tbWVudBgEIAEoCRIuCgZzdGF0dXMYBSABKA4yHi51c2VyLnYxLlZhY2F0aW9uUmVxdWVzdFN0YXR1cyKNAQoSQ3JlYXRlVXNlclZhY2F0aW9uEg8KB3VzZXJfaWQYASABKAkSDAoEeWVhchgCIAEoBRIMCgRkYXlzGAMgASgFEhQKDHNwZWNpYWxfZGF5cxgEIAEoBRIXCg9zaWNrX2RheXNfdGFrZW4YBSABKAUSGwoTdmFjYXRpb25fZGF5c190YWtlbhgGIAEoBSJ2CgxVc2VyVmFjYXRpb24SDAoEeWVhchgDIAEoBRIMCgRkYXlzGAQgASgFEhQKDHNwZWNpYWxfZGF5cxgFIAEoBRIXCg9zaWNrX2RheXNfdGFrZW4YBiABKAUSGwoTdmFjYXRpb25fZGF5c190YWtlbhgHIAEoBSLlAgoEVXNlchIKCgJpZBgBIAEoCRINCgVlbWFpbBgCIAEoCRIMCgRuYW1lGAMgASgJEiUKB2FkZHJlc3MYBCABKAsyFC5jdXN0b21lci52MS5BZGRyZXNzEhMKC3Byb2plY3RfaWRzGAUgAygJEgwKBHRhZ3MYBiADKAkSMgoQZW1wbG95bWVudF9zdGF0ZRgHIAEoDjIYLnVzZXIudjEuRW1wbG95bWVudFN0YXRlEigKCXZhY2F0aW9ucxgIIAMoCzIVLnVzZXIudjEuVXNlclZhY2F0aW9uEjMKEXZhY2F0aW9uX3JlcXVlc3RzGAkgAygLMhgudXNlci52MS5WYWNhdGlvblJlcXVlc3QSHwoEcm9sZRgKIAEoDjIRLnVzZXIudjEuVXNlclJvbGUSEgoKY3JlYXRlZF9hdBgLIAEoAxISCgp1cGRhdGVkX2F0GAwgASgDEg4KBm9yZ19pZBgNIAEoCSL4AQoKQ3JlYXRlVXNlchINCgVlbWFpbBgBIAEoCRIMCgRuYW1lGAIgASgJEiUKB2FkZHJlc3MYAyABKAsyFC5jdXN0b21lci52MS5BZGRyZXNzEhMKC3Byb2plY3RfaWRzGAQgAygJEgwKBHRhZ3MYBSADKAkSMgoQZW1wbG95bWVudF9zdGF0ZRgGIAEoDjIYLnVzZXIudjEuRW1wbG95bWVudFN0YXRlEi4KCXZhY2F0aW9ucxgHIAMoCzIbLnVzZXIudjEuQ3JlYXRlVXNlclZhY2F0aW9uEh8KBHJvbGUYCCABKA4yES51c2VyLnYxLlVzZXJSb2xlIqcCCgpVcGRhdGVVc2VyEg0KBWVtYWlsGAIgASgJEgwKBG5hbWUYAyABKAkSJQoHYWRkcmVzcxgEIAEoCzIULmN1c3RvbWVyLnYxLkFkZHJlc3MSEwoLcHJvamVjdF9pZHMYBSADKAkSDAoEdGFncxgGIAMoCRIyChBlbXBsb3ltZW50X3N0YXRlGAcgASgOMhgudXNlci52MS5FbXBsb3ltZW50U3RhdGUSKAoJdmFjYXRpb25zGAggAygLMhUudXNlci52MS5Vc2VyVmFjYXRpb24SMwoRdmFjYXRpb25fcmVxdWVzdHMYCSADKAsyGC51c2VyLnYxLlZhY2F0aW9uUmVxdWVzdBIfCgRyb2xlGAogASgOMhEudXNlci52MS5Vc2VyUm9sZSIgChJHZXRVc2VyQnlJZFJlcXVlc3QSCgoCaWQYASABKAkiTAoTR2V0VXNlckJ5SWRSZXNwb25zZRIbCgR1c2VyGAEgASgLMg0udXNlci52MS5Vc2VyEhgKA29yZxgCIAEoCzILLm9yZy52MS5PcmciFAoSR2V0QWxsVXNlcnNSZXF1ZXN0IjMKE0dldEFsbFVzZXJzUmVzcG9uc2USHAoFdXNlcnMYASADKAsyDS51c2VyLnYxLlVzZXIiNgoRQ3JlYXRlVXNlclJlcXVlc3QSIQoEdXNlchgBIAEoCzITLnVzZXIudjEuQ3JlYXRlVXNlciIxChJDcmVhdGVVc2VyUmVzcG9uc2USGwoEdXNlchgBIAEoCzINLnVzZXIudjEuVXNlciJCChFVcGRhdGVVc2VyUmVxdWVzdBIKCgJpZBgBIAEoCRIhCgR1c2VyGAIgASgLMhMudXNlci52MS5VcGRhdGVVc2VyIjEKElVwZGF0ZVVzZXJSZXNwb25zZRIbCgR1c2VyGAEgASgLMg0udXNlci52MS5Vc2VyIiYKFUdldFVzZXJCeUVtYWlsUmVxdWVzdBINCgVlbWFpbBgBIAEoCSJPChZHZXRVc2VyQnlFbWFpbFJlc3BvbnNlEhsKBHVzZXIYASABKAsyDS51c2VyLnYxLlVzZXISGAoDb3JnGAIgASgLMgsub3JnLnYxLk9yZypvCg9FbXBsb3ltZW50U3RhdGUSIAocRU1QTE9ZTUVOVF9TVEFURV9VTlNQRUNJRklFRBAAEhsKF0VNUExPWU1FTlRfU1RBVEVfQUNUSVZFEAESHQoZRU1QTE9ZTUVOVF9TVEFURV9JTkFDVElWRRACKrEBChVWYWNhdGlvblJlcXVlc3RTdGF0dXMSJwojVkFDQVRJT05fUkVRVUVTVF9TVEFUVVNfVU5TUEVDSUZJRUQQABIjCh9WQUNBVElPTl9SRVFVRVNUX1NUQVRVU19QRU5ESU5HEAESJAogVkFDQVRJT05fUkVRVUVTVF9TVEFUVVNfQVBQUk9WRUQQAhIkCiBWQUNBVElPTl9SRVFVRVNUX1NUQVRVU19SRUpFQ1RFRBADKk4KCFVzZXJSb2xlEhkKFVVTRVJfUk9MRV9VTlNQRUNJRklFRBAAEhMKD1VTRVJfUk9MRV9BRE1JThABEhIKDlVTRVJfUk9MRV9VU0VSEAIyggMKC1VzZXJTZXJ2aWNlEkgKC0dldFVzZXJCeUlkEhsudXNlci52MS5HZXRVc2VyQnlJZFJlcXVlc3QaHC51c2VyLnYxLkdldFVzZXJCeUlkUmVzcG9uc2USUQoOR2V0VXNlckJ5RW1haWwSHi51c2VyLnYxLkdldFVzZXJCeUVtYWlsUmVxdWVzdBofLnVzZXIudjEuR2V0VXNlckJ5RW1haWxSZXNwb25zZRJICgtHZXRBbGxVc2VycxIbLnVzZXIudjEuR2V0QWxsVXNlcnNSZXF1ZXN0GhwudXNlci52MS5HZXRBbGxVc2Vyc1Jlc3BvbnNlEkUKCkNyZWF0ZVVzZXISGi51c2VyLnYxLkNyZWF0ZVVzZXJSZXF1ZXN0GhsudXNlci52MS5DcmVhdGVVc2VyUmVzcG9uc2USRQoKVXBkYXRlVXNlchIaLnVzZXIudjEuVXBkYXRlVXNlclJlcXVlc3QaGy51c2VyLnYxLlVwZGF0ZVVzZXJSZXNwb25zZUIyWjBnaXRodWIuY29tL21heGlzY2htYXhpL2xqdGltZS1hcGkvdXNlci92MTt1c2VydjFiBnByb3RvMw", [file_customer_v1_customer, file_org_v1_org]);
+  fileDesc("ChJ1c2VyL3YxL3VzZXIucHJvdG8SB3VzZXIudjEihgEKD1ZhY2F0aW9uUmVxdWVzdBISCgpzdGFydF9kYXRlGAEgASgDEhAKCGVuZF9kYXRlGAIgASgDEgwKBGRheXMYAyABKAUSDwoHY29tbWVudBgEIAEoCRIuCgZzdGF0dXMYBSABKA4yHi51c2VyLnYxLlZhY2F0aW9uUmVxdWVzdFN0YXR1cyKNAQoSQ3JlYXRlVXNlclZhY2F0aW9uEg8KB3VzZXJfaWQYASABKAkSDAoEeWVhchgCIAEoBRIMCgRkYXlzGAMgASgFEhQKDHNwZWNpYWxfZGF5cxgEIAEoBRIXCg9zaWNrX2RheXNfdGFrZW4YBSABKAUSGwoTdmFjYXRpb25fZGF5c190YWtlbhgGIAEoBSJ2CgxVc2VyVmFjYXRpb24SDAoEeWVhchgDIAEoBRIMCgRkYXlzGAQgASgFEhQKDHNwZWNpYWxfZGF5cxgFIAEoBRIXCg9zaWNrX2RheXNfdGFrZW4YBiABKAUSGwoTdmFjYXRpb25fZGF5c190YWtlbhgHIAEoBSLbAgoEVXNlchIKCgJpZBgBIAEoCRINCgVlbWFpbBgCIAEoCRIMCgRuYW1lGAMgASgJEiUKB2FkZHJlc3MYBCABKAsyFC5jdXN0b21lci52MS5BZGRyZXNzEhMKC3Byb2plY3RfaWRzGAUgAygJEgwKBHRhZ3MYBiADKAkSMgoQZW1wbG95bWVudF9zdGF0ZRgHIAEoDjIYLnVzZXIudjEuRW1wbG95bWVudFN0YXRlEigKCXZhY2F0aW9ucxgIIAMoCzIVLnVzZXIudjEuVXNlclZhY2F0aW9uEjMKEXZhY2F0aW9uX3JlcXVlc3RzGAkgAygLMhgudXNlci52MS5WYWNhdGlvblJlcXVlc3QSEgoKY3JlYXRlZF9hdBgLIAEoAxISCgp1cGRhdGVkX2F0GAwgASgDEg8KB29yZ19pZHMYDSADKAkSFAoMZmlyZWJhc2VfdWlkGA4gASgJItcBCgpDcmVhdGVVc2VyEg0KBWVtYWlsGAEgASgJEgwKBG5hbWUYAiABKAkSJQoHYWRkcmVzcxgDIAEoCzIULmN1c3RvbWVyLnYxLkFkZHJlc3MSEwoLcHJvamVjdF9pZHMYBCADKAkSDAoEdGFncxgFIAMoCRIyChBlbXBsb3ltZW50X3N0YXRlGAYgASgOMhgudXNlci52MS5FbXBsb3ltZW50U3RhdGUSLgoJdmFjYXRpb25zGAcgAygLMhsudXNlci52MS5DcmVhdGVVc2VyVmFjYXRpb24iZAoKVXBkYXRlVXNlchIMCgRuYW1lGAMgASgJEiUKB2FkZHJlc3MYBCABKAsyFC5jdXN0b21lci52MS5BZGRyZXNzEhMKC3Byb2plY3RfaWRzGAUgAygJEgwKBHRhZ3MYBiADKAkiIAoSR2V0VXNlckJ5SWRSZXF1ZXN0EgoKAmlkGAEgASgJIk0KE0dldFVzZXJCeUlkUmVzcG9uc2USGwoEdXNlchgBIAEoCzINLnVzZXIudjEuVXNlchIZCgRvcmdzGAIgAygLMgsub3JnLnYxLk9yZyIUChJHZXRBbGxVc2Vyc1JlcXVlc3QiMwoTR2V0QWxsVXNlcnNSZXNwb25zZRIcCgV1c2VycxgBIAMoCzINLnVzZXIudjEuVXNlciJGChFDcmVhdGVVc2VyUmVxdWVzdBIhCgR1c2VyGAEgASgLMhMudXNlci52MS5DcmVhdGVVc2VyEg4KBm9yZ19pZBgCIAEoCSIxChJDcmVhdGVVc2VyUmVzcG9uc2USGwoEdXNlchgBIAEoCzINLnVzZXIudjEuVXNlciJCChFVcGRhdGVVc2VyUmVxdWVzdBIKCgJpZBgBIAEoCRIhCgR1c2VyGAIgASgLMhMudXNlci52MS5VcGRhdGVVc2VyIjEKElVwZGF0ZVVzZXJSZXNwb25zZRIbCgR1c2VyGAEgASgLMg0udXNlci52MS5Vc2VyIiYKFUdldFVzZXJCeUVtYWlsUmVxdWVzdBINCgVlbWFpbBgBIAEoCSJQChZHZXRVc2VyQnlFbWFpbFJlc3BvbnNlEhsKBHVzZXIYASABKAsyDS51c2VyLnYxLlVzZXISGQoEb3JncxgCIAMoCzILLm9yZy52MS5PcmciOwoYUmVtb3ZlVXNlckZyb21PcmdSZXF1ZXN0Eg8KB3VzZXJfaWQYASABKAkSDgoGb3JnX2lkGAIgASgJIhsKGVJlbW92ZVVzZXJGcm9tT3JnUmVzcG9uc2UiKgobR2V0VXNlckJ5RmlyZWJhc2VVaWRSZXF1ZXN0EgsKA3VpZBgBIAEoCSJWChxHZXRVc2VyQnlGaXJlYmFzZVVpZFJlc3BvbnNlEhsKBHVzZXIYASABKAsyDS51c2VyLnYxLlVzZXISGQoEb3JncxgCIAMoCzILLm9yZy52MS5PcmciUAoZU2V0VXNlckFjdGl2ZVN0YXRlUmVxdWVzdBInCgVzdGF0ZRgBIAEoDjIYLnVzZXIudjEuRW1wbG95bWVudFN0YXRlEgoKAmlkGAIgASgJIkUKGlNldFVzZXJBY3RpdmVTdGF0ZVJlc3BvbnNlEicKBXN0YXRlGAEgASgOMhgudXNlci52MS5FbXBsb3ltZW50U3RhdGUqbwoPRW1wbG95bWVudFN0YXRlEiAKHEVNUExPWU1FTlRfU1RBVEVfVU5TUEVDSUZJRUQQABIbChdFTVBMT1lNRU5UX1NUQVRFX0FDVElWRRABEh0KGUVNUExPWU1FTlRfU1RBVEVfSU5BQ1RJVkUQAiqxAQoVVmFjYXRpb25SZXF1ZXN0U3RhdHVzEicKI1ZBQ0FUSU9OX1JFUVVFU1RfU1RBVFVTX1VOU1BFQ0lGSUVEEAASIwofVkFDQVRJT05fUkVRVUVTVF9TVEFUVVNfUEVORElORxABEiQKIFZBQ0FUSU9OX1JFUVVFU1RfU1RBVFVTX0FQUFJPVkVEEAISJAogVkFDQVRJT05fUkVRVUVTVF9TVEFUVVNfUkVKRUNURUQQAzKiBQoLVXNlclNlcnZpY2USSAoLR2V0VXNlckJ5SWQSGy51c2VyLnYxLkdldFVzZXJCeUlkUmVxdWVzdBocLnVzZXIudjEuR2V0VXNlckJ5SWRSZXNwb25zZRJRCg5HZXRVc2VyQnlFbWFpbBIeLnVzZXIudjEuR2V0VXNlckJ5RW1haWxSZXF1ZXN0Gh8udXNlci52MS5HZXRVc2VyQnlFbWFpbFJlc3BvbnNlEkgKC0dldEFsbFVzZXJzEhsudXNlci52MS5HZXRBbGxVc2Vyc1JlcXVlc3QaHC51c2VyLnYxLkdldEFsbFVzZXJzUmVzcG9uc2USRQoKQ3JlYXRlVXNlchIaLnVzZXIudjEuQ3JlYXRlVXNlclJlcXVlc3QaGy51c2VyLnYxLkNyZWF0ZVVzZXJSZXNwb25zZRJFCgpVcGRhdGVVc2VyEhoudXNlci52MS5VcGRhdGVVc2VyUmVxdWVzdBobLnVzZXIudjEuVXBkYXRlVXNlclJlc3BvbnNlEloKEVJlbW92ZVVzZXJGcm9tT3JnEiEudXNlci52MS5SZW1vdmVVc2VyRnJvbU9yZ1JlcXVlc3QaIi51c2VyLnYxLlJlbW92ZVVzZXJGcm9tT3JnUmVzcG9uc2USYwoUR2V0VXNlckJ5RmlyZWJhc2VVaWQSJC51c2VyLnYxLkdldFVzZXJCeUZpcmViYXNlVWlkUmVxdWVzdBolLnVzZXIudjEuR2V0VXNlckJ5RmlyZWJhc2VVaWRSZXNwb25zZRJdChJTZXRVc2VyQWN0aXZlU3RhdGUSIi51c2VyLnYxLlNldFVzZXJBY3RpdmVTdGF0ZVJlcXVlc3QaIy51c2VyLnYxLlNldFVzZXJBY3RpdmVTdGF0ZVJlc3BvbnNlQjJaMGdpdGh1Yi5jb20vbWF4aXNjaG1heGkvbGp0aW1lLWFwaS91c2VyL3YxO3VzZXJ2MWIGcHJvdG8z", [file_customer_v1_customer, file_org_v1_org]);
 
 /**
  * @generated from message user.v1.VacationRequest
@@ -182,11 +182,6 @@ export type User = Message<"user.v1.User"> & {
   vacationRequests: VacationRequest[];
 
   /**
-   * @generated from field: user.v1.UserRole role = 10;
-   */
-  role: UserRole;
-
-  /**
    * @generated from field: int64 created_at = 11;
    */
   createdAt: bigint;
@@ -197,9 +192,14 @@ export type User = Message<"user.v1.User"> & {
   updatedAt: bigint;
 
   /**
-   * @generated from field: string org_id = 13;
+   * @generated from field: repeated string org_ids = 13;
    */
-  orgId: string;
+  orgIds: string[];
+
+  /**
+   * @generated from field: string firebase_uid = 14;
+   */
+  firebaseUid: string;
 };
 
 /**
@@ -247,11 +247,6 @@ export type CreateUser = Message<"user.v1.CreateUser"> & {
    * @generated from field: repeated user.v1.CreateUserVacation vacations = 7;
    */
   vacations: CreateUserVacation[];
-
-  /**
-   * @generated from field: user.v1.UserRole role = 8;
-   */
-  role: UserRole;
 };
 
 /**
@@ -265,11 +260,6 @@ export const CreateUserSchema: GenMessage<CreateUser> = /*@__PURE__*/
  * @generated from message user.v1.UpdateUser
  */
 export type UpdateUser = Message<"user.v1.UpdateUser"> & {
-  /**
-   * @generated from field: string email = 2;
-   */
-  email: string;
-
   /**
    * @generated from field: string name = 3;
    */
@@ -289,26 +279,6 @@ export type UpdateUser = Message<"user.v1.UpdateUser"> & {
    * @generated from field: repeated string tags = 6;
    */
   tags: string[];
-
-  /**
-   * @generated from field: user.v1.EmploymentState employment_state = 7;
-   */
-  employmentState: EmploymentState;
-
-  /**
-   * @generated from field: repeated user.v1.UserVacation vacations = 8;
-   */
-  vacations: UserVacation[];
-
-  /**
-   * @generated from field: repeated user.v1.VacationRequest vacation_requests = 9;
-   */
-  vacationRequests: VacationRequest[];
-
-  /**
-   * @generated from field: user.v1.UserRole role = 10;
-   */
-  role: UserRole;
 };
 
 /**
@@ -345,9 +315,9 @@ export type GetUserByIdResponse = Message<"user.v1.GetUserByIdResponse"> & {
   user?: User;
 
   /**
-   * @generated from field: org.v1.Org org = 2;
+   * @generated from field: repeated org.v1.Org orgs = 2;
    */
-  org?: Org;
+  orgs: Org[];
 };
 
 /**
@@ -395,6 +365,11 @@ export type CreateUserRequest = Message<"user.v1.CreateUserRequest"> & {
    * @generated from field: user.v1.CreateUser user = 1;
    */
   user?: CreateUser;
+
+  /**
+   * @generated from field: string org_id = 2;
+   */
+  orgId: string;
 };
 
 /**
@@ -487,9 +462,9 @@ export type GetUserByEmailResponse = Message<"user.v1.GetUserByEmailResponse"> &
   user?: User;
 
   /**
-   * @generated from field: org.v1.Org org = 2;
+   * @generated from field: repeated org.v1.Org orgs = 2;
    */
-  org?: Org;
+  orgs: Org[];
 };
 
 /**
@@ -498,6 +473,119 @@ export type GetUserByEmailResponse = Message<"user.v1.GetUserByEmailResponse"> &
  */
 export const GetUserByEmailResponseSchema: GenMessage<GetUserByEmailResponse> = /*@__PURE__*/
   messageDesc(file_user_v1_user, 15);
+
+/**
+ * @generated from message user.v1.RemoveUserFromOrgRequest
+ */
+export type RemoveUserFromOrgRequest = Message<"user.v1.RemoveUserFromOrgRequest"> & {
+  /**
+   * @generated from field: string user_id = 1;
+   */
+  userId: string;
+
+  /**
+   * @generated from field: string org_id = 2;
+   */
+  orgId: string;
+};
+
+/**
+ * Describes the message user.v1.RemoveUserFromOrgRequest.
+ * Use `create(RemoveUserFromOrgRequestSchema)` to create a new message.
+ */
+export const RemoveUserFromOrgRequestSchema: GenMessage<RemoveUserFromOrgRequest> = /*@__PURE__*/
+  messageDesc(file_user_v1_user, 16);
+
+/**
+ * @generated from message user.v1.RemoveUserFromOrgResponse
+ */
+export type RemoveUserFromOrgResponse = Message<"user.v1.RemoveUserFromOrgResponse"> & {
+};
+
+/**
+ * Describes the message user.v1.RemoveUserFromOrgResponse.
+ * Use `create(RemoveUserFromOrgResponseSchema)` to create a new message.
+ */
+export const RemoveUserFromOrgResponseSchema: GenMessage<RemoveUserFromOrgResponse> = /*@__PURE__*/
+  messageDesc(file_user_v1_user, 17);
+
+/**
+ * @generated from message user.v1.GetUserByFirebaseUidRequest
+ */
+export type GetUserByFirebaseUidRequest = Message<"user.v1.GetUserByFirebaseUidRequest"> & {
+  /**
+   * @generated from field: string uid = 1;
+   */
+  uid: string;
+};
+
+/**
+ * Describes the message user.v1.GetUserByFirebaseUidRequest.
+ * Use `create(GetUserByFirebaseUidRequestSchema)` to create a new message.
+ */
+export const GetUserByFirebaseUidRequestSchema: GenMessage<GetUserByFirebaseUidRequest> = /*@__PURE__*/
+  messageDesc(file_user_v1_user, 18);
+
+/**
+ * @generated from message user.v1.GetUserByFirebaseUidResponse
+ */
+export type GetUserByFirebaseUidResponse = Message<"user.v1.GetUserByFirebaseUidResponse"> & {
+  /**
+   * @generated from field: user.v1.User user = 1;
+   */
+  user?: User;
+
+  /**
+   * @generated from field: repeated org.v1.Org orgs = 2;
+   */
+  orgs: Org[];
+};
+
+/**
+ * Describes the message user.v1.GetUserByFirebaseUidResponse.
+ * Use `create(GetUserByFirebaseUidResponseSchema)` to create a new message.
+ */
+export const GetUserByFirebaseUidResponseSchema: GenMessage<GetUserByFirebaseUidResponse> = /*@__PURE__*/
+  messageDesc(file_user_v1_user, 19);
+
+/**
+ * @generated from message user.v1.SetUserActiveStateRequest
+ */
+export type SetUserActiveStateRequest = Message<"user.v1.SetUserActiveStateRequest"> & {
+  /**
+   * @generated from field: user.v1.EmploymentState state = 1;
+   */
+  state: EmploymentState;
+
+  /**
+   * @generated from field: string id = 2;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message user.v1.SetUserActiveStateRequest.
+ * Use `create(SetUserActiveStateRequestSchema)` to create a new message.
+ */
+export const SetUserActiveStateRequestSchema: GenMessage<SetUserActiveStateRequest> = /*@__PURE__*/
+  messageDesc(file_user_v1_user, 20);
+
+/**
+ * @generated from message user.v1.SetUserActiveStateResponse
+ */
+export type SetUserActiveStateResponse = Message<"user.v1.SetUserActiveStateResponse"> & {
+  /**
+   * @generated from field: user.v1.EmploymentState state = 1;
+   */
+  state: EmploymentState;
+};
+
+/**
+ * Describes the message user.v1.SetUserActiveStateResponse.
+ * Use `create(SetUserActiveStateResponseSchema)` to create a new message.
+ */
+export const SetUserActiveStateResponseSchema: GenMessage<SetUserActiveStateResponse> = /*@__PURE__*/
+  messageDesc(file_user_v1_user, 21);
 
 /**
  * @generated from enum user.v1.EmploymentState
@@ -557,32 +645,6 @@ export const VacationRequestStatusSchema: GenEnum<VacationRequestStatus> = /*@__
   enumDesc(file_user_v1_user, 1);
 
 /**
- * @generated from enum user.v1.UserRole
- */
-export enum UserRole {
-  /**
-   * @generated from enum value: USER_ROLE_UNSPECIFIED = 0;
-   */
-  UNSPECIFIED = 0,
-
-  /**
-   * @generated from enum value: USER_ROLE_ADMIN = 1;
-   */
-  ADMIN = 1,
-
-  /**
-   * @generated from enum value: USER_ROLE_USER = 2;
-   */
-  USER = 2,
-}
-
-/**
- * Describes the enum user.v1.UserRole.
- */
-export const UserRoleSchema: GenEnum<UserRole> = /*@__PURE__*/
-  enumDesc(file_user_v1_user, 2);
-
-/**
  * @generated from service user.v1.UserService
  */
 export const UserService: GenService<{
@@ -625,6 +687,30 @@ export const UserService: GenService<{
     methodKind: "unary";
     input: typeof UpdateUserRequestSchema;
     output: typeof UpdateUserResponseSchema;
+  },
+  /**
+   * @generated from rpc user.v1.UserService.RemoveUserFromOrg
+   */
+  removeUserFromOrg: {
+    methodKind: "unary";
+    input: typeof RemoveUserFromOrgRequestSchema;
+    output: typeof RemoveUserFromOrgResponseSchema;
+  },
+  /**
+   * @generated from rpc user.v1.UserService.GetUserByFirebaseUid
+   */
+  getUserByFirebaseUid: {
+    methodKind: "unary";
+    input: typeof GetUserByFirebaseUidRequestSchema;
+    output: typeof GetUserByFirebaseUidResponseSchema;
+  },
+  /**
+   * @generated from rpc user.v1.UserService.SetUserActiveState
+   */
+  setUserActiveState: {
+    methodKind: "unary";
+    input: typeof SetUserActiveStateRequestSchema;
+    output: typeof SetUserActiveStateResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_user_v1_user, 0);

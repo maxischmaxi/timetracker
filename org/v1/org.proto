@@ -10,6 +10,8 @@ service OrgService {
   rpc UpdateOrg (UpdateOrgRequest) returns (UpdateOrgResponse);
   rpc CreateOrg (CreateOrgRequest) returns (CreateOrgResponse);
   rpc DeleteOrg (DeleteOrgRequest) returns (DeleteOrgResponse);
+  rpc AddAdminToOrg (AddAdminToOrgRequest) returns (AddAdminToOrgResponse);
+  rpc RemoveAdminFromOrg (RemoveAdminFromOrgRequest) returns (RemoveAdminFromOrgResponse);
 }
 
 enum MailProvider {
@@ -18,24 +20,22 @@ enum MailProvider {
 }
 
 message UpdateOrg {
-  repeated string users = 1;
-  MailProvider mail_provider = 2;
-  string name = 3;
+  MailProvider mail_provider = 1;
+  string name = 2;
 }
 
 message CreateOrg {
-  repeated string users = 1;
-  MailProvider mail_provider = 2;
-  string name = 3;
+  MailProvider mail_provider = 1;
+  string name = 2;
 }
 
 message Org {
   string id = 1;
   MailProvider mail_provider = 2;
-  repeated string users = 3;
-  int64 created_at = 4;
-  int64 updated_at = 5;
-  string name = 6;
+  int64 created_at = 3;
+  int64 updated_at = 4;
+  string name = 5;
+  repeated string admins = 6;
 }
 
 message GetOrgRequest { }
@@ -76,3 +76,15 @@ message DeleteOrgRequest {
 message DeleteOrgResponse {
   string id = 1;
 }
+
+message AddAdminToOrgRequest {
+  string user_id = 1;
+}
+
+message AddAdminToOrgResponse {}
+
+message RemoveAdminFromOrgRequest {
+  string user_id = 1;
+}
+
+message RemoveAdminFromOrgResponse {}

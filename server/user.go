@@ -2,11 +2,15 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"time"
 
 	"connectrpc.com/connect"
+	"firebase.google.com/go/v4/auth"
 	customerv1 "github.com/maxischmaxi/ljtime-api/customer/v1"
 	userv1 "github.com/maxischmaxi/ljtime-api/user/v1"
 	"github.com/maxischmaxi/ljtime-api/user/v1/userv1connect"
+	"github.com/sethvargo/go-password/password"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 )
@@ -33,7 +37,6 @@ type DbVacationRequest struct {
 type DbUser struct {
 	Id               bson.ObjectID       `bson:"_id"`
 	Email            string              `bson:"email"`
-	Role             int32               `bson:"role"`
 	Name             string              `bson:"name"`
 	Address          Address             `bson:"address"`
 	ProjectIds       []string            `bson:"project_ids"`
@@ -43,7 +46,61 @@ type DbUser struct {
 	VacationRequests []DbVacationRequest `bson:"vacation_requests"`
 	CreatedAt        int64               `bson:"created_at"`
 	UpdatedAt        int64               `bson:"updated_at"`
-	OrgId            string              `bson:"org_id"`
+	OrgIds           []string            `bson:"org_ids"`
+	FirebaseUid      string              `bson:"firebase_uid"`
+}
+
+func FromUser(user *userv1.User) *DbUser {
+	vacations := make([]DbUserVacation, len(user.Vacations))
+	vacationRequests := make([]DbVacationRequest, len(user.VacationRequests))
+
+	for _, v := range user.Vacations {
+		vacations = append(vacations, DbUserVacation{
+			Year:              v.Year,
+			Days:              v.Days,
+			SpecialDays:       v.SpecialDays,
+			SickDaysTaken:     v.SickDaysTaken,
+			VacationDaysTaken: v.VacationDaysTaken,
+		})
+	}
+
+	for _, v := range user.VacationRequests {
+		vacationRequests = append(vacationRequests, DbVacationRequest{
+			StartDate: v.StartDate,
+			EndDate:   v.EndDate,
+			Days:      v.Days,
+			Comment:   v.Comment,
+		})
+	}
+
+	address := &Address{
+		Street:  user.Address.Street,
+		City:    user.Address.City,
+		State:   user.Address.State,
+		Zip:     user.Address.Zip,
+		Country: user.Address.Country,
+	}
+
+	id, err := bson.ObjectIDFromHex(user.Id)
+	if err != nil {
+		return nil
+	}
+
+	return &DbUser{
+		EmploymentState:  int32(user.EmploymentState),
+		Address:          *address,
+		VacationRequests: vacationRequests,
+		Id:               id,
+		Vacations:        vacations,
+		Tags:             user.Tags,
+		Email:            user.Email,
+		Name:             user.Name,
+		ProjectIds:       user.ProjectIds,
+		CreatedAt:        user.CreatedAt,
+		UpdatedAt:        user.UpdatedAt,
+		OrgIds:           user.OrgIds,
+		FirebaseUid:      user.FirebaseUid,
+	}
 }
 
 func (u *DbUser) ToUser() *userv1.User {
@@ -79,7 +136,6 @@ func (u *DbUser) ToUser() *userv1.User {
 
 	return &userv1.User{
 		EmploymentState:  userv1.EmploymentState(u.EmploymentState),
-		OrgId:            u.OrgId,
 		Id:               u.Id.Hex(),
 		Email:            u.Email,
 		Name:             u.Name,
@@ -88,10 +144,24 @@ func (u *DbUser) ToUser() *userv1.User {
 		Tags:             u.Tags,
 		Vacations:        vacations,
 		VacationRequests: vacationRequests,
-		Role:             userv1.UserRole(u.Role),
 		CreatedAt:        u.CreatedAt,
 		UpdatedAt:        u.UpdatedAt,
+		OrgIds:           u.OrgIds,
+		FirebaseUid:      u.FirebaseUid,
 	}
+}
+
+func GetUserByFirebaseUID(ctx context.Context, uid string) (*userv1.User, error) {
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_USER)
+	var user DbUser
+
+	if err := collection.FindOne(ctx, bson.M{"firebase_uid": uid}).Decode(&user); err != nil {
+		return nil, err
+	}
+
+	u := user.ToUser()
+
+	return u, nil
 }
 
 func GetUserByEmail(ctx context.Context, collection *mongo.Collection, email string) (*userv1.User, error) {
@@ -107,7 +177,8 @@ func GetUserByEmail(ctx context.Context, collection *mongo.Collection, email str
 	return dbUser.ToUser(), nil
 }
 
-func GetUserById(ctx context.Context, collection *mongo.Collection, id string) (*userv1.User, error) {
+func GetUserById(ctx context.Context, id string) (*userv1.User, error) {
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_USER)
 	objId, err := bson.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
@@ -127,28 +198,25 @@ func GetUserById(ctx context.Context, collection *mongo.Collection, id string) (
 
 func (s *UserServer) GetUserByEmail(ctx context.Context, req *connect.Request[userv1.GetUserByEmailRequest]) (*connect.Response[userv1.GetUserByEmailResponse], error) {
 	userCollection := mongoClient.Database(DB_NAME).Collection(COLLECTION_USER)
-	orgCollection := mongoClient.Database(DB_NAME).Collection(COLLECTION_ORG)
 
 	user, err := GetUserByEmail(ctx, userCollection, req.Msg.Email)
 	if err != nil {
 		return nil, err
 	}
 
-	org, err := GetOrgById(ctx, orgCollection, user.OrgId)
+	orgs, err := GetOrgsByOrgIds(ctx, user.OrgIds)
 	if err != nil {
-		return nil, connect.NewError(connect.CodeInternal, err)
+		return nil, err
 	}
 
 	return connect.NewResponse(&userv1.GetUserByEmailResponse{
 		User: user,
-		Org:  org,
+		Orgs: orgs,
 	}), nil
 }
 
 func (s *UserServer) GetUserById(ctx context.Context, req *connect.Request[userv1.GetUserByIdRequest]) (*connect.Response[userv1.GetUserByIdResponse], error) {
-	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_USER)
-
-	user, err := GetUserById(ctx, collection, req.Msg.Id)
+	user, err := GetUserById(ctx, req.Msg.Id)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
@@ -180,4 +248,184 @@ func (s *UserServer) GetAllUsers(ctx context.Context, req *connect.Request[userv
 	return connect.NewResponse(&userv1.GetAllUsersResponse{
 		Users: users,
 	}), nil
+}
+
+func (s *UserServer) CreateUser(ctx context.Context, req *connect.Request[userv1.CreateUserRequest]) (*connect.Response[userv1.CreateUserResponse], error) {
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_USER)
+
+	password, err := password.Generate(64, 10, 10, false, false)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	firebaseUser := (&auth.UserToCreate{}).
+		Email(req.Msg.User.Email).
+		EmailVerified(false).
+		Password(password).
+		DisplayName(req.Msg.User.Name)
+
+	fmt.Println(password)
+
+	u, err := authClient.CreateUser(ctx, firebaseUser)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	now := time.Now().Unix()
+
+	user := DbUser{
+		Id:    bson.NewObjectID(),
+		Email: req.Msg.User.Email,
+		Name:  req.Msg.User.Name,
+		Address: Address{
+			Street:  req.Msg.User.Address.Street,
+			City:    req.Msg.User.Address.City,
+			Zip:     req.Msg.User.Address.Zip,
+			State:   req.Msg.User.Address.State,
+			Country: req.Msg.User.Address.Country,
+		},
+		ProjectIds:       []string{},
+		Tags:             req.Msg.User.Tags,
+		EmploymentState:  int32(userv1.EmploymentState_EMPLOYMENT_STATE_ACTIVE.Number()),
+		Vacations:        []DbUserVacation{},
+		VacationRequests: []DbVacationRequest{},
+		CreatedAt:        now,
+		UpdatedAt:        now,
+		OrgIds:           []string{req.Msg.OrgId},
+		FirebaseUid:      u.UID,
+	}
+
+	_, err = collection.InsertOne(ctx, user)
+	if err != nil {
+		fErr := authClient.DeleteUser(ctx, u.UID)
+		if fErr != nil {
+			return nil, connect.NewError(connect.CodeInternal, fErr)
+		}
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	tags, err := GetAllTags(ctx)
+	if err != nil {
+		return connect.NewResponse(&userv1.CreateUserResponse{
+			User: user.ToUser(),
+		}), nil
+	}
+
+	for _, t := range req.Msg.User.Tags {
+		found := false
+
+		for _, tag := range tags {
+			if t == tag.Tag {
+				found = true
+				break
+			}
+		}
+
+		if !found {
+			err := InsertTag(ctx, t)
+			if err != nil {
+				return connect.NewResponse(&userv1.CreateUserResponse{
+					User: user.ToUser(),
+				}), nil
+			}
+		}
+	}
+
+	return connect.NewResponse(&userv1.CreateUserResponse{
+		User: user.ToUser(),
+	}), nil
+}
+
+func (s *UserServer) GetUserByFirebaseUid(ctx context.Context, req *connect.Request[userv1.GetUserByFirebaseUidRequest]) (*connect.Response[userv1.GetUserByFirebaseUidResponse], error) {
+	user, err := GetUserByFirebaseUID(ctx, req.Msg.Uid)
+	if err != nil {
+		return nil, err
+	}
+
+	orgs, err := GetOrgsByOrgIds(ctx, user.OrgIds)
+	if err != nil {
+		return nil, err
+	}
+
+	return connect.NewResponse(&userv1.GetUserByFirebaseUidResponse{
+		User: user,
+		Orgs: orgs,
+	}), nil
+}
+
+func (s *UserServer) UpdateUser(ctx context.Context, req *connect.Request[userv1.UpdateUserRequest]) (*connect.Response[userv1.UpdateUserResponse], error) {
+	user, err := GetUserById(ctx, req.Msg.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_USER)
+
+	now := time.Now().Unix()
+
+	dbUser := FromUser(user)
+	dbUser.Name = req.Msg.User.Name
+
+	dbUser.Address.Street = req.Msg.User.Address.Street
+	dbUser.Address.City = req.Msg.User.Address.City
+	dbUser.Address.Country = req.Msg.User.Address.Country
+	dbUser.Address.Zip = req.Msg.User.Address.Zip
+	dbUser.Address.State = req.Msg.User.Address.State
+
+	dbUser.ProjectIds = req.Msg.User.ProjectIds
+	dbUser.Tags = req.Msg.User.Tags
+	dbUser.UpdatedAt = now
+
+	update := bson.M{
+		"$set": dbUser,
+	}
+
+	id, err := bson.ObjectIDFromHex(req.Msg.Id)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	_, err = collection.UpdateByID(ctx, id, update)
+	if err != nil {
+		return nil, err
+	}
+
+	response := &userv1.UpdateUserResponse{}
+
+	return connect.NewResponse(response), nil
+}
+
+func (s *UserServer) SetUserActiveState(ctx context.Context, req *connect.Request[userv1.SetUserActiveStateRequest]) (*connect.Response[userv1.SetUserActiveStateResponse], error) {
+	user, err := GetUserById(ctx, req.Msg.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_USER)
+
+	now := time.Now().Unix()
+
+	dbUser := FromUser(user)
+	dbUser.EmploymentState = int32(req.Msg.State)
+	dbUser.UpdatedAt = now
+
+	update := bson.M{
+		"$set": dbUser,
+	}
+
+	id, err := bson.ObjectIDFromHex(req.Msg.Id)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	_, err = collection.UpdateByID(ctx, id, update)
+	if err != nil {
+		return nil, err
+	}
+
+	response := &userv1.SetUserActiveStateResponse{
+		State: req.Msg.State,
+	}
+
+	return connect.NewResponse(response), nil
 }

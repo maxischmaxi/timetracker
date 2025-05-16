@@ -19,8 +19,9 @@ import { Form } from "./ui/form";
 import { toast } from "sonner";
 import { signInWithEmailAndPassword } from "@/lib/auth";
 import { useState } from "react";
-import { EyeClosedIcon, EyeIcon } from "lucide-react";
+import { EyeClosedIcon, EyeIcon, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Props = React.ComponentPropsWithoutRef<"div">;
 
@@ -70,6 +71,7 @@ export function LoginForm({ className, ...rest }: Props) {
                     placeholder="m@example.com"
                     required
                     {...form.register("email")}
+                    disabled={form.formState.isSubmitting}
                   />
                   {!!form.formState.errors.email?.message && (
                     <p className="text-red-500 text-xs">
@@ -80,12 +82,17 @@ export function LoginForm({ className, ...rest }: Props) {
                 <div className="grid gap-2">
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
-                    <a
-                      href="#"
+                    <Link
+                      href="/auth/forgot-password"
                       className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                      style={{
+                        pointerEvents: form.formState.isSubmitting
+                          ? "none"
+                          : undefined,
+                      }}
                     >
                       Forgot your password?
-                    </a>
+                    </Link>
                   </div>
                   <div className="flex flex-row flex-nowrap gap-2">
                     <Input
@@ -95,11 +102,13 @@ export function LoginForm({ className, ...rest }: Props) {
                       type={passwordHidden ? "password" : "text"}
                       required
                       {...form.register("password")}
+                      disabled={form.formState.isSubmitting}
                     />
                     <Button
                       type="button"
                       variant="outline"
                       onClick={() => setPasswordHidden((prev) => !prev)}
+                      disabled={form.formState.isSubmitting}
                     >
                       {passwordHidden ? <EyeIcon /> : <EyeClosedIcon />}
                     </Button>
@@ -110,18 +119,39 @@ export function LoginForm({ className, ...rest }: Props) {
                     </p>
                   )}
                 </div>
-                <Button type="submit" className="w-full">
-                  Login
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={form.formState.isSubmitting}
+                >
+                  {form.formState.isSubmitting ? (
+                    <Loader className="animate-spin h-4 w-4" />
+                  ) : (
+                    "Login"
+                  )}
                 </Button>
-                <Button type="button" variant="outline" className="w-full">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  disabled={form.formState.isSubmitting}
+                >
                   Login with Google
                 </Button>
               </div>
               <div className="mt-4 text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <a href="#" className="underline underline-offset-4">
+                <Link
+                  href="/auth/register"
+                  style={{
+                    pointerEvents: form.formState.isSubmitting
+                      ? "none"
+                      : undefined,
+                  }}
+                  className="underline underline-offset-4"
+                >
                   Sign up
-                </a>
+                </Link>
               </div>
             </form>
           </Form>

@@ -20,17 +20,39 @@ type OrgServer struct {
 type DbOrg struct {
 	Id           bson.ObjectID `bson:"_id"`
 	MailProvider int32         `bson:"mail_provider"`
-	Users        []string      `bson:"users"`
 	Name         string        `bson:"name"`
+	Admins       []string      `bson:"admins"`
 }
 
 func (o *DbOrg) ToOrg() *orgv1.Org {
 	return &orgv1.Org{
 		Name:         o.Name,
-		Users:        o.Users,
 		Id:           o.Id.Hex(),
+		Admins:       o.Admins,
 		MailProvider: orgv1.MailProvider(o.MailProvider),
 	}
+}
+
+func GetOrgsByOrgIds(ctx context.Context, ids []string) ([]*orgv1.Org, error) {
+	orgCollection := mongoClient.Database(DB_NAME).Collection(COLLECTION_ORG)
+	orgs := []*orgv1.Org{}
+
+	for _, orgId := range ids {
+		org, err := GetOrgById(ctx, orgCollection, orgId)
+		if err != nil {
+			if err == mongo.ErrNoDocuments {
+				return nil, connect.NewError(connect.CodeInternal, err)
+			}
+			if err == mongo.ErrNilDocument {
+				return nil, connect.NewError(connect.CodeInternal, err)
+			}
+			continue
+		}
+
+		orgs = append(orgs, org)
+	}
+
+	return orgs, nil
 }
 
 func GetOrgById(ctx context.Context, collection *mongo.Collection, id string) (*orgv1.Org, error) {

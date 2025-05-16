@@ -18,6 +18,7 @@ import {
 import { getLang } from "./locale";
 import { deleteCookie, setCookie } from "./cookies";
 import { firebaseConfig } from "./firebase";
+import { removeLocalOrg } from "@/components/auth-provider";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -60,5 +61,7 @@ export async function getToken(): Promise<string | null> {
 }
 
 export async function signOut() {
+  removeLocalOrg();
+  deleteCookie("__session");
   await _signOut(auth);
 }

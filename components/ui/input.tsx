@@ -15,10 +15,12 @@ type InputProps<T extends FieldValues> = {
   control?: Control<T>;
   name?: Path<T>;
   label?: string;
+  wrapperClassName?: string;
 } & React.ComponentProps<"input">;
 
 function Input<T extends FieldValues>(props: InputProps<T>) {
-  const { className, label, control, name, type, ...rest } = props;
+  const { className, label, control, name, wrapperClassName, type, ...rest } =
+    props;
 
   if (control && name) {
     return (
@@ -37,7 +39,7 @@ function Input<T extends FieldValues>(props: InputProps<T>) {
           }
 
           return (
-            <FormItem>
+            <FormItem className={wrapperClassName}>
               {!!label && <FormLabel>{label}</FormLabel>}
               <FormControl>
                 <input

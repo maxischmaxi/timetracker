@@ -1,5 +1,5 @@
 import { JobType } from "@/job/v1/job_pb";
-import { EmploymentState, UserRole } from "@/user/v1/user_pb";
+import { EmploymentState } from "@/user/v1/user_pb";
 import { z } from "zod";
 
 export const createJobSchema = z.object({
@@ -236,9 +236,6 @@ export const createUserSchema = z.object({
     message: "Employment state is required",
   }),
   projectIds: z.array(z.string()).optional(),
-  role: z.nativeEnum(UserRole, {
-    message: "Role is required",
-  }),
   vacations: z.array(vacationSchema).optional(),
   vacationRequests: z.array(vacationRequestSchema),
 });

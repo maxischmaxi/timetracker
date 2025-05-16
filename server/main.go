@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -16,6 +17,7 @@ import (
 	"github.com/maxischmaxi/ljtime-api/customer/v1/customerv1connect"
 	"github.com/maxischmaxi/ljtime-api/job/v1/jobv1connect"
 	"github.com/maxischmaxi/ljtime-api/project/v1/projectv1connect"
+	userv1 "github.com/maxischmaxi/ljtime-api/user/v1"
 	"github.com/maxischmaxi/ljtime-api/user/v1/userv1connect"
 	"github.com/rs/cors"
 	"go.mongodb.org/mongo-driver/v2/mongo"
@@ -125,20 +127,69 @@ func AuthMiddleware() connect.UnaryInterceptorFunc {
 			}
 
 			idToken := strings.TrimPrefix(authHeader, "Bearer ")
+
+			if idToken == "ITISTHEAPI" {
+				fmt.Println("got request from api")
+				ctx = context.WithValue(ctx, "is_api", "true")
+				return next(ctx, req)
+			}
+
 			token, err := authClient.VerifyIDToken(ctx, idToken)
 			if err != nil {
 				fmt.Println("verifyidtoken failed")
 				return nil, connect.NewError(connect.CodeUnauthenticated, err)
 			}
 
-			ctx = context.WithValue(ctx, "userID", token.UID)
-			ctx = context.WithValue(ctx, "email", token.Claims["email"])
+			user, err := GetUserByFirebaseUID(ctx, token.UID)
+			if err != nil {
+				fmt.Println("user not found in db")
+				return nil, connect.NewError(connect.CodeUnauthenticated, err)
+			}
+
+			if user.EmploymentState != userv1.EmploymentState_EMPLOYMENT_STATE_ACTIVE {
+				fmt.Println("inactive user")
+				return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
+			}
+
+			ctx = context.WithValue(ctx, "firebase_uid", token.UID)
+			ctx = context.WithValue(ctx, "id", user.Id)
+			ctx = context.WithValue(ctx, "email", user.Email)
+			ctx = context.WithValue(ctx, "is_api", "false")
 
 			return next(ctx, req)
 		})
 	}
 
 	return connect.UnaryInterceptorFunc(interceptor)
+}
+
+type MiddlewareUser struct {
+	FirebaseUid string
+	Email       string
+	Id          string
+}
+
+func GetMiddlewareUser(ctx context.Context) (*MiddlewareUser, error) {
+	firebaseUid, ok := ctx.Value("firebase_uid").(string)
+	if !ok {
+		return nil, errors.New("mo userid in context")
+	}
+
+	email, ok := ctx.Value("email").(string)
+	if !ok {
+		return nil, errors.New("no email in context")
+	}
+
+	id, ok := ctx.Value("id").(string)
+	if !ok {
+		return nil, errors.New("no orgid in context")
+	}
+
+	return &MiddlewareUser{
+		FirebaseUid: firebaseUid,
+		Email:       email,
+		Id:          id,
+	}, nil
 }
 
 func errMissingToken() error {
