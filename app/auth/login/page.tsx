@@ -1,5 +1,7 @@
 import { LoginForm } from "@/components/login-form";
-import { notFound } from "next/navigation";
+import { getAuthenticatedAppForUser } from "@/lib/server-auth";
+import { cookies } from "next/headers";
+import { notFound, redirect } from "next/navigation";
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -7,6 +9,17 @@ type Props = {
 
 export default async function Page({ searchParams }: Props) {
   const { orgId = "", token = "" } = await searchParams;
+  const { currentUser } = await getAuthenticatedAppForUser();
+
+  if (currentUser) {
+    const org_id = (await cookies()).get("__org")?.value;
+
+    if (!org_id) {
+      redirect("/auth/org");
+    }
+
+    redirect("/");
+  }
 
   if (Array.isArray(orgId) || Array.isArray(token)) {
     notFound();

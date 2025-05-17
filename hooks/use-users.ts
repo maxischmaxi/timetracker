@@ -5,6 +5,7 @@ import { createUserSchema } from "@/lib/schemas";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { use } from "react";
 import { z } from "zod";
+import { useCurrentOrg } from "./use-org";
 
 type RegisterProps = {
   email: string;
@@ -48,11 +49,11 @@ export function useUsers() {
 }
 
 export function useCreateUser() {
-  const { currentOrg } = use(AuthContext);
+  const org = useCurrentOrg();
 
   return useMutation({
     async mutationFn(data: z.infer<typeof createUserSchema>) {
-      if (!currentOrg) {
+      if (!org) {
         throw new Error("no org selected");
       }
 
@@ -72,7 +73,7 @@ export function useCreateUser() {
             zip: data.address.zip,
           },
         },
-        currentOrg.id,
+        org.id,
       );
     },
     onSuccess() {

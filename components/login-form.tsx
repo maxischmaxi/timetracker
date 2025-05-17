@@ -19,7 +19,7 @@ import { Form } from "./ui/form";
 import { toast } from "sonner";
 import { useState } from "react";
 import { EyeClosedIcon, EyeIcon, Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signInWithEmailAndPassword } from "./auth-provider";
 
@@ -37,7 +37,7 @@ export function LoginForm({ className, orgId, token }: Props) {
       password: "",
     },
   });
-  const router = useRouter();
+  // const router = useRouter();
   const [passwordHidden, setPasswordHidden] = useState<boolean>(true);
 
   async function onSubmit(data: z.infer<typeof loginSchema>) {
@@ -45,11 +45,11 @@ export function LoginForm({ className, orgId, token }: Props) {
 
     if (orgId && token) {
       console.log(orgId, token, "redirecting join org");
-      router.push(`/auth/join-org?orgId=${orgId}&token=${token}`);
+      // router.push(`/auth/join-org?orgId=${orgId}&token=${token}`);
       return;
     }
 
-    router.push("/auth/redirect");
+    // router.push("/auth/redirect");
   }
 
   function onError() {

@@ -9,7 +9,6 @@ import {
   onIdTokenChanged,
 } from "@firebase/auth";
 import { Plain } from "@/types";
-import { Org } from "@/org/v1/org_pb";
 import { getUserByFirebaseUid } from "@/lib/api";
 import { firebaseConfig } from "@/lib/firebase";
 import { initializeApp } from "@firebase/app";
@@ -18,7 +17,6 @@ import Cookie from "js-cookie";
 import { useQuery } from "@tanstack/react-query";
 import { GetUserByFirebaseUidResponse } from "@/auth/v1/auth_pb";
 import { queryClient } from "./providers";
-import { useRouter } from "next/navigation";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -34,14 +32,12 @@ export async function getToken(): Promise<string | null> {
 
 type IUseAuth = {
   firebaseUser: User | null;
-  currentOrg: Plain<Org> | null;
   user: Plain<GetUserByFirebaseUidResponse> | null;
 };
 
 export const AuthContext = createContext<IUseAuth>({
   firebaseUser: null,
   user: null,
-  currentOrg: null,
 });
 
 export async function signInWithEmailAndPassword(
@@ -60,13 +56,11 @@ export function AuthProvider({
   children: ReactNode;
   initialUser?: User;
 }) {
-  const [currentOrg, setCurrentOrg] = useState<Plain<Org> | null>(null);
   const [firebaseUser, setFirebaseUser] = useState<User | null>(
     initialUser || null,
   );
-  const router = useRouter();
 
-  const { isPending, data, refetch } = useQuery({
+  const { data, refetch } = useQuery({
     enabled: !!firebaseUser,
     queryKey: ["getUserByFirebaseUid", firebaseUser?.uid || ""],
     async queryFn({ queryKey }) {
@@ -74,36 +68,6 @@ export function AuthProvider({
     },
     initialData: null,
   });
-
-  useEffect(() => {
-    if (isPending) {
-      setCurrentOrg(null);
-      return;
-    }
-
-    if (!data) {
-      setCurrentOrg(null);
-      return;
-    }
-
-    const orgId = Cookie.get("__org");
-    if (!orgId) {
-      Cookie.remove("__org");
-      setCurrentOrg(null);
-      router.push("/auth/org");
-      return;
-    }
-
-    const org = data.orgs.find((o) => o.id === orgId);
-    if (!org) {
-      setCurrentOrg(null);
-      Cookie.remove("__org");
-      router.push("/auth/org");
-      return;
-    }
-
-    setCurrentOrg(org);
-  }, [data, isPending, router]);
 
   useEffect(() => {
     return onIdTokenChanged(auth, async (user) => {
@@ -132,7 +96,6 @@ export function AuthProvider({
     <AuthContext.Provider
       value={{
         firebaseUser,
-        currentOrg,
         user: data || null,
       }}
     >

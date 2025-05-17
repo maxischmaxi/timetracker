@@ -19,7 +19,6 @@ import {
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
-import Cookie from "js-cookie";
 import {
   Sidebar,
   SidebarContent,
@@ -36,6 +35,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Cookie from "js-cookie";
+import { useCurrentOrg } from "@/hooks/use-org";
 
 const data = {
   navMain: [
@@ -107,13 +108,13 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { firebaseUser, user, currentOrg } = use(AuthContext);
+  const { firebaseUser, user } = use(AuthContext);
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
 
   function handleSelectOrg(orgId: string) {
     setOpen(false);
-    if (orgId === currentOrg?.id) {
+    if (orgId === Cookie.get("__org")) {
       toast.error(
         "Sie sind bereits in der entsprechenden Organisation eingeloggt",
       );
@@ -128,6 +129,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     router.refresh();
   }
 
+  const org = useCurrentOrg();
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -137,9 +140,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <PopoverTrigger asChild>
                 <SidebarMenuButton className="data-[slot=sidebar-menu-button]:!p-1.5 cursor-pointer">
                   <ArrowUpCircleIcon className="h-5 w-5" />
-                  <span className="text-base font-semibold">
-                    {currentOrg?.name}
-                  </span>
+                  <span className="text-base font-semibold">{org?.name}</span>
                 </SidebarMenuButton>
               </PopoverTrigger>
               <PopoverContent side="right" align="start" className="space-y-2">
@@ -161,11 +162,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        {currentOrg &&
-          user?.user &&
-          currentOrg.admins.includes(user.user.id) && (
-            <NavAdministration items={data.navAdministration} />
-          )}
+        {user?.user && org?.admins.includes(user.user.id) && (
+          <NavAdministration items={data.navAdministration} />
+        )}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

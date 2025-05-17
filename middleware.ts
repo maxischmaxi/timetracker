@@ -7,6 +7,15 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
   const preferredLanguage = languages[0]?.code || "en";
   const href = req.nextUrl.href;
 
+  if (
+    req.nextUrl.pathname === "/.well-known/appspecific/com.chrome.devtools.json"
+  ) {
+    return new NextResponse(null, {
+      status: 404,
+      statusText: "not found",
+    });
+  }
+
   return NextResponse.next({
     headers: {
       "x-locale": preferredLanguage,

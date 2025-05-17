@@ -110,6 +110,7 @@ import { getGmailLink } from "@/lib/utils";
 import { UserDeleteDialog } from "./user-delete-dialog";
 import { countries } from "@/lib/countries";
 import { UserInviteDialog } from "./user-invite-dialog";
+import { useCurrentOrg } from "@/hooks/use-org";
 
 // Create a separate component for the drag handle
 function DragHandle({ id }: { id: string }) {
@@ -164,6 +165,7 @@ export function UserTable() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
+  const org = useCurrentOrg();
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 10,
@@ -238,7 +240,7 @@ export function UserTable() {
         cell: ({ row }) => {
           let emailLink = row.original.email;
           let target: undefined | "_blank" = undefined;
-          if (auth.currentOrg?.mailProvider === MailProvider.GMAIL) {
+          if (org?.mailProvider === MailProvider.GMAIL) {
             emailLink = getGmailLink(row.original.email, {
               body: "Hello",
               subject: "Test",
@@ -352,7 +354,7 @@ export function UserTable() {
         ),
       },
     ],
-    [auth.currentOrg?.mailProvider, auth.user?.user?.id],
+    [auth.user?.user?.id, org?.mailProvider],
   );
 
   const table = useReactTable({
