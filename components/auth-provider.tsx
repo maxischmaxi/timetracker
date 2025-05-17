@@ -14,6 +14,7 @@ import {
   signInWithEmailAndPassword as _signInWithEmailAndPassword,
   signOut as _signOut,
   User,
+  onIdTokenChanged,
 } from "@firebase/auth";
 import { Plain } from "@/types";
 import { Org } from "@/org/v1/org_pb";
@@ -29,7 +30,6 @@ const auth = getAuth(app);
 auth.languageCode = getLang();
 
 export async function signOut() {
-  deleteCookie("__session");
   await _signOut(auth);
 }
 
@@ -53,6 +53,16 @@ export const AuthContext = createContext<IUseAuth>({
   orgs: [],
   currentOrg: null,
   authState: "pending",
+});
+
+onIdTokenChanged(auth, async (user) => {
+  console.log("token changed", user);
+  if (user) {
+    const token = await user.getIdToken();
+    setCookie("__session", token);
+  } else {
+    deleteCookie("__session");
+  }
 });
 
 export async function signInWithEmailAndPassword(
@@ -94,9 +104,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async (user: User) => {
       console.log("auth state changed");
       console.log(user);
-      const token = await user.getIdToken();
-      console.log(token);
-      setCookie("__session", token);
       try {
         const res = await getUserByFirebaseUid(user.uid);
 
@@ -149,12 +156,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (user) {
         await handleUserAuthenticated(user);
       } else {
+        console.log("no user");
         setFirebaseUser(null);
         setCurrentOrg(null);
         setOrgs([]);
         setUser(null);
         setAuthState("signedOut");
-        deleteCookie("__session");
       }
     });
 
