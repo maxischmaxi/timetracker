@@ -15,10 +15,10 @@ export function useProjects(): UseQueryResult<
   Array<Plain<Project>> | undefined,
   Error
 > {
-  const { authState } = use(AuthContext);
+  const { user } = use(AuthContext);
 
   return useQuery({
-    enabled: authState === "signedIn",
+    enabled: !!user,
     queryKey: ["projects"],
     async queryFn() {
       return await getProjects();
@@ -27,10 +27,10 @@ export function useProjects(): UseQueryResult<
 }
 
 export function useProject(id: string) {
-  const { authState } = use(AuthContext);
+  const { user } = use(AuthContext);
   return useQuery({
     queryKey: ["project", id],
-    enabled: !!id && authState === "signedIn",
+    enabled: !!id && !!user,
     async queryFn() {
       return await getProject(id);
     },

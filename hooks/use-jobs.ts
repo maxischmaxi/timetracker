@@ -12,10 +12,10 @@ import {
 import { use } from "react";
 
 export function useJobs(): UseQueryResult<Array<Plain<Job>> | undefined> {
-  const { authState } = use(AuthContext);
+  const { user } = use(AuthContext);
 
   return useQuery({
-    enabled: authState === "signedIn",
+    enabled: !!user,
     queryKey: ["jobs"],
     async queryFn() {
       return await getJobs();
@@ -26,10 +26,10 @@ export function useJobs(): UseQueryResult<Array<Plain<Job>> | undefined> {
 export function useJobsByDate(
   date: Date,
 ): UseQueryResult<Array<Plain<JobsByDateResponse>> | undefined, Error> {
-  const { authState } = use(AuthContext);
+  const { user } = use(AuthContext);
 
   return useQuery({
-    enabled: authState === "signedIn",
+    enabled: !!user,
     queryKey: ["jobs-by-date", date],
     async queryFn() {
       return await getJobsByDate(date);

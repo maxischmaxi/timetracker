@@ -1,13 +1,7 @@
 "use client";
 
 import { User as DbUser } from "@/user/v1/user_pb";
-import {
-  createContext,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import {
   getAuth,
   onAuthStateChanged,
@@ -37,14 +31,11 @@ export async function getToken(): Promise<string | null> {
   return (await auth.currentUser?.getIdToken()) || null;
 }
 
-type AuthState = "pending" | "signedIn" | "signedOut";
-
 type IUseAuth = {
   firebaseUser: User | null;
   user: Plain<DbUser> | null;
   orgs: Array<Plain<Org>>;
   currentOrg: Plain<Org> | null;
-  authState: AuthState;
 };
 
 export const AuthContext = createContext<IUseAuth>({
@@ -52,7 +43,6 @@ export const AuthContext = createContext<IUseAuth>({
   user: null,
   orgs: [],
   currentOrg: null,
-  authState: "pending",
 });
 
 onIdTokenChanged(auth, async (user) => {
@@ -96,79 +86,73 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [orgs, setOrgs] = useState<Array<Plain<Org>>>([]);
   const [currentOrg, setCurrentOrg] = useState<Plain<Org> | null>(null);
   const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
-  const [authState, setAuthState] = useState<AuthState>("pending");
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleUserAuthenticated = useCallback(
-    async (user: User) => {
-      console.log("auth state changed");
-      console.log(user);
-      try {
-        const res = await getUserByFirebaseUid(user.uid);
+  useEffect(() => {
+    let cancel = false;
 
-        if (!res || !res.user || typeof res.orgs === "undefined") {
-          setAuthState("signedOut");
-          await signOut();
-          return;
-        }
+    const cleanup = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        console.log("auth state changed");
+        console.log(user);
+        try {
+          const res = await getUserByFirebaseUid(user.uid);
+          if (cancel) return;
+          console.log(res);
 
-        setFirebaseUser(user);
-        setAuthState("signedIn");
-        setUser(res.user);
-        setOrgs(res.orgs);
-
-        const localOrg = getLocalOrg();
-        if (localOrg) {
-          const org = res.orgs.find((o) => o.id === localOrg);
-          if (!org) {
-            removeLocalOrg();
-
-            if (pathname === "/auth/org") {
-              return;
-            }
-
-            router.push("/auth/org");
+          if (!res || !res.user || typeof res.orgs === "undefined") {
+            // await signOut();
             return;
           }
 
-          setCurrentOrg(org);
+          setFirebaseUser(user);
+          setUser(res.user);
+          setOrgs(res.orgs);
 
-          if (pathname === "/auth/login") {
-            router.push("/");
+          const localOrg = getLocalOrg();
+          if (localOrg) {
+            const org = res.orgs.find((o) => o.id === localOrg);
+            if (!org) {
+              removeLocalOrg();
+
+              if (pathname === "/auth/org") {
+                return;
+              }
+
+              router.push("/auth/org");
+              return;
+            }
+
+            setCurrentOrg(org);
+
+            if (pathname === "/auth/login") {
+              router.push("/");
+            }
+            return;
           }
-          return;
-        }
 
-        if (pathname !== "/auth/org") {
-          router.push("/auth/org");
+          if (pathname !== "/auth/org") {
+            router.push("/auth/org");
+          }
+        } catch {
+          await signOut();
+          router.push("/auth/login");
         }
-      } catch {
-        await signOut();
-        router.push("/auth/login");
-      }
-    },
-    [pathname, router],
-  );
-
-  useEffect(() => {
-    const cleanup = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        await handleUserAuthenticated(user);
       } else {
         console.log("no user");
         setFirebaseUser(null);
         setCurrentOrg(null);
         setOrgs([]);
         setUser(null);
-        setAuthState("signedOut");
       }
     });
 
     return () => {
+      cancel = true;
       cleanup();
     };
-  }, [handleUserAuthenticated, pathname, router]);
+  }, [pathname, router]);
 
   return (
     <AuthContext.Provider
@@ -176,7 +160,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         orgs,
         user,
         firebaseUser,
-        authState,
         currentOrg,
       }}
     >

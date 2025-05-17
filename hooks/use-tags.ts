@@ -4,10 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import { use } from "react";
 
 export function useTags() {
-  const { authState } = use(AuthContext);
+  const { user } = use(AuthContext);
 
   return useQuery({
-    enabled: authState === "signedIn",
+    enabled: !!user,
     queryKey: ["tags"],
     initialData: [] as string[],
     async queryFn() {

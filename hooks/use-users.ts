@@ -33,10 +33,10 @@ export function useRegister(props?: UseRegister) {
 }
 
 export function useUsers() {
-  const { authState } = use(AuthContext);
+  const { user } = use(AuthContext);
 
   return useQuery({
-    enabled: authState === "signedIn",
+    enabled: !!user,
     queryKey: ["users"],
     async queryFn() {
       return await getAllUsers().then((res) => {

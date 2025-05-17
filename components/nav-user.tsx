@@ -26,8 +26,6 @@ import {
 } from "@/components/ui/sidebar";
 import { useSignout } from "@/hooks/use-signout";
 import Link from "next/link";
-import { use } from "react";
-import { AuthContext } from "./auth-provider";
 
 export function NavUser({
   user,
@@ -40,7 +38,6 @@ export function NavUser({
 }) {
   const { isMobile } = useSidebar();
   const signOut = useSignout();
-  const { authState } = use(AuthContext);
 
   return (
     <SidebarMenu>
@@ -49,7 +46,6 @@ export function NavUser({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              disabled={authState === "pending"}
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">

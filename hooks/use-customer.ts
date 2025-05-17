@@ -11,10 +11,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { use } from "react";
 
 export function useCustomers() {
-  const { authState } = use(AuthContext);
+  const { user } = use(AuthContext);
 
   return useQuery({
-    enabled: authState === "signedIn",
+    enabled: !!user,
     queryKey: ["customers"],
     async queryFn() {
       return await getCustomers();
