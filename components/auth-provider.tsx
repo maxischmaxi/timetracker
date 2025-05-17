@@ -17,7 +17,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { firebaseConfig } from "@/lib/firebase";
 import { initializeApp } from "@firebase/app";
 import { getLang } from "@/lib/locale";
-import { deleteCookie, setCookie } from "@/lib/cookies";
+import Cookie from "js-cookie";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -49,9 +49,11 @@ onIdTokenChanged(auth, async (user) => {
   console.log("token changed", user);
   if (user) {
     const token = await user.getIdToken();
-    setCookie("__session", token);
-  } else {
-    deleteCookie("__session");
+    Cookie.set("__session", token, {
+      secure: true,
+      sameSite: "none",
+      path: "/",
+    });
   }
 });
 
