@@ -19,11 +19,21 @@ type OrgServer struct {
 	DBName      string
 }
 
+type DbServiceType struct {
+	Id     bson.ObjectID `bson:"_id,omitempty"`
+	Name   string        `bson:"name,omitempty"`
+	Status bool          `bson:"status,omitempty"`
+}
+
 type DbOrg struct {
-	Id           bson.ObjectID `bson:"_id"`
-	MailProvider int32         `bson:"mail_provider"`
-	Name         string        `bson:"name"`
-	Admins       []string      `bson:"admins"`
+	Id           bson.ObjectID   `bson:"_id,omitempty"`
+	MailProvider int32           `bson:"mail_provider,omitempty"`
+	Name         string          `bson:"name,omitempty"`
+	CustomerID   string          `bson:"customer_id,omitempty"`
+	Admins       []string        `bson:"admins,omitempty"`
+	CreatedAt    int64           `bson:"created_at,omitempty"`
+	UpdatedAt    int64           `bson:"updated_at,omitempty"`
+	ServiceTypes []DbServiceType `bson:"service_types,omitempty"`
 }
 
 type OrgInvite struct {
@@ -33,11 +43,24 @@ type OrgInvite struct {
 }
 
 func (o *DbOrg) ToOrg() *orgv1.Org {
+	var serviceTypes []*orgv1.ServiceType
+
+	for _, i := range o.ServiceTypes {
+		serviceTypes = append(serviceTypes, &orgv1.ServiceType{
+			Id:     i.Id.Hex(),
+			Name:   i.Name,
+			Status: i.Status,
+		})
+	}
+
 	return &orgv1.Org{
 		Name:         o.Name,
 		Id:           o.Id.Hex(),
 		Admins:       o.Admins,
 		MailProvider: orgv1.MailProvider(o.MailProvider),
+		CreatedAt:    o.CreatedAt,
+		UpdatedAt:    o.UpdatedAt,
+		ServiceTypes: serviceTypes,
 	}
 }
 
@@ -114,7 +137,29 @@ func (s *OrgServer) GetOrgById(ctx context.Context, req *connect.Request[orgv1.G
 }
 
 func (s *OrgServer) UpdateOrg(ctx context.Context, req *connect.Request[orgv1.UpdateOrgRequest]) (*connect.Response[orgv1.UpdateOrgResponse], error) {
-	return nil, connect.NewError(connect.CodeInternal, nil)
+	org, err := GetOrgById(ctx, req.Msg.Id)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	id, err := bson.ObjectIDFromHex(org.Id)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	data := DbOrg{
+		Name:         req.Msg.Org.Name,
+		MailProvider: int32(req.Msg.Org.MailProvider),
+	}
+
+	filter := bson.M{"_id": id}
+	set := bson.M{"$set": data}
+
+	if _, err := ORGS.UpdateOne(ctx, filter, set); err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	return connect.NewResponse(&orgv1.UpdateOrgResponse{}), nil
 }
 
 func (s *OrgServer) CreateOrg(ctx context.Context, req *connect.Request[orgv1.CreateOrgRequest]) (*connect.Response[orgv1.CreateOrgResponse], error) {
@@ -182,4 +227,117 @@ func (s *OrgServer) AcceptEmailInvite(ctx context.Context, req *connect.Request[
 	}
 
 	return connect.NewResponse(&orgv1.AcceptEmailInviteResponse{}), nil
+}
+
+func (s *OrgServer) CreateServiceType(ctx context.Context, req *connect.Request[orgv1.CreateServiceTypeRequest]) (*connect.Response[orgv1.CreateServiceTypeResponse], error) {
+	org, err := GetOrgById(ctx, req.Msg.OrgId)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	dbServiceType := DbServiceType{
+		Name:   req.Msg.Name,
+		Id:     bson.NewObjectID(),
+		Status: true,
+	}
+
+	orgId, err := bson.ObjectIDFromHex(org.Id)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	filter := bson.M{"_id": orgId}
+
+	data := bson.M{"$push": bson.M{
+		"service_types": dbServiceType,
+	}}
+
+	_, err = ORGS.UpdateOne(ctx, filter, data)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	return connect.NewResponse(&orgv1.CreateServiceTypeResponse{}), nil
+}
+
+func (s *OrgServer) UpdateServiceTypeStatus(ctx context.Context, req *connect.Request[orgv1.UpdateServiceTypeStatusRequest]) (*connect.Response[orgv1.UpdateServiceTypeStatusResponse], error) {
+	org, err := GetOrgById(ctx, req.Msg.OrgId)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	orgId, err := bson.ObjectIDFromHex(org.Id)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	serviceTypeId, err := bson.ObjectIDFromHex(req.Msg.ServiceTypeId)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	filter := bson.M{
+		"_id": orgId,
+		"service_types": bson.M{
+			"$elemMatch": bson.M{
+				"_id": serviceTypeId,
+			},
+		},
+	}
+
+	update := bson.M{
+		"$set": bson.M{
+			"service_types.$.status": req.Msg.Status,
+		},
+	}
+
+	updateResult, err := ORGS.UpdateOne(ctx, filter, update)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	if updateResult.ModifiedCount == 0 {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("No documents were updated."))
+	}
+
+	return connect.NewResponse(&orgv1.UpdateServiceTypeStatusResponse{
+		Status: req.Msg.Status,
+	}), nil
+}
+
+func (s *OrgServer) DeleteServiceType(ctx context.Context, req *connect.Request[orgv1.DeleteServiceTypeRequest]) (*connect.Response[orgv1.DeleteServiceTypeResponse], error) {
+	org, err := GetOrgById(ctx, req.Msg.OrgId)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	orgId, err := bson.ObjectIDFromHex(org.Id)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	serviceTypeId, err := bson.ObjectIDFromHex(req.Msg.ServiceTypeId)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	filter := bson.M{
+		"_id": orgId,
+	}
+
+	update := bson.M{
+		"$pull": bson.M{
+			"service_types": bson.M{
+				"_id": serviceTypeId,
+			},
+		},
+	}
+
+	updateResult, err := ORGS.UpdateOne(ctx, filter, update)
+
+	if updateResult.ModifiedCount == 0 {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("No documents were updated."))
+	}
+
+	return connect.NewResponse(&orgv1.DeleteServiceTypeResponse{}), nil
 }

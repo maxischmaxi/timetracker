@@ -32,6 +32,7 @@ type Props<T extends FieldValues> = {
   popoverClassName?: string;
   label?: string;
   onNavigateCreateCustomer?: () => void;
+  disabled?: boolean;
 };
 
 export function CustomerSelect<T extends FieldValues>(props: Props<T>) {
@@ -41,6 +42,7 @@ export function CustomerSelect<T extends FieldValues>(props: Props<T>) {
     control,
     onNavigateCreateCustomer,
     className,
+    disabled,
     popoverClassName,
   } = props;
   const customers = useCustomers();
@@ -57,7 +59,9 @@ export function CustomerSelect<T extends FieldValues>(props: Props<T>) {
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Button
-                  disabled={customers.isPending || customers.isLoading}
+                  disabled={
+                    customers.isPending || customers.isLoading || disabled
+                  }
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
@@ -97,7 +101,7 @@ export function CustomerSelect<T extends FieldValues>(props: Props<T>) {
                                 : "opacity-0",
                             )}
                           />
-                          {customer.name} <b>{customer.tag.toUpperCase()}</b>
+                          <b>{customer.tag.toUpperCase()}</b> {customer.name}
                         </CommandItem>
                       ))}
                     </CommandGroup>

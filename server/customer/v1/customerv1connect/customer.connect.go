@@ -48,6 +48,9 @@ const (
 	// CustomerServiceGetCustomersProcedure is the fully-qualified name of the CustomerService's
 	// GetCustomers RPC.
 	CustomerServiceGetCustomersProcedure = "/customer.v1.CustomerService/GetCustomers"
+	// CustomerServiceGetCustomersByOrgProcedure is the fully-qualified name of the CustomerService's
+	// GetCustomersByOrg RPC.
+	CustomerServiceGetCustomersByOrgProcedure = "/customer.v1.CustomerService/GetCustomersByOrg"
 )
 
 // CustomerServiceClient is a client for the customer.v1.CustomerService service.
@@ -57,6 +60,7 @@ type CustomerServiceClient interface {
 	UpdateCustomer(context.Context, *connect.Request[v1.UpdateCustomerRequest]) (*connect.Response[v1.UpdateCustomerResponse], error)
 	DeleteCustomer(context.Context, *connect.Request[v1.DeleteCustomerRequest]) (*connect.Response[v1.DeleteCustomerResponse], error)
 	GetCustomers(context.Context, *connect.Request[v1.GetCustomersRequest]) (*connect.Response[v1.GetCustomersResponse], error)
+	GetCustomersByOrg(context.Context, *connect.Request[v1.GetCustomersByOrgRequest]) (*connect.Response[v1.GetCustomersByOrgResponse], error)
 }
 
 // NewCustomerServiceClient constructs a client for the customer.v1.CustomerService service. By
@@ -100,16 +104,23 @@ func NewCustomerServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 			connect.WithSchema(customerServiceMethods.ByName("GetCustomers")),
 			connect.WithClientOptions(opts...),
 		),
+		getCustomersByOrg: connect.NewClient[v1.GetCustomersByOrgRequest, v1.GetCustomersByOrgResponse](
+			httpClient,
+			baseURL+CustomerServiceGetCustomersByOrgProcedure,
+			connect.WithSchema(customerServiceMethods.ByName("GetCustomersByOrg")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // customerServiceClient implements CustomerServiceClient.
 type customerServiceClient struct {
-	getCustomer    *connect.Client[v1.GetCustomerRequest, v1.GetCustomerResponse]
-	createCustomer *connect.Client[v1.CreateCustomerRequest, v1.CreateCustomerResponse]
-	updateCustomer *connect.Client[v1.UpdateCustomerRequest, v1.UpdateCustomerResponse]
-	deleteCustomer *connect.Client[v1.DeleteCustomerRequest, v1.DeleteCustomerResponse]
-	getCustomers   *connect.Client[v1.GetCustomersRequest, v1.GetCustomersResponse]
+	getCustomer       *connect.Client[v1.GetCustomerRequest, v1.GetCustomerResponse]
+	createCustomer    *connect.Client[v1.CreateCustomerRequest, v1.CreateCustomerResponse]
+	updateCustomer    *connect.Client[v1.UpdateCustomerRequest, v1.UpdateCustomerResponse]
+	deleteCustomer    *connect.Client[v1.DeleteCustomerRequest, v1.DeleteCustomerResponse]
+	getCustomers      *connect.Client[v1.GetCustomersRequest, v1.GetCustomersResponse]
+	getCustomersByOrg *connect.Client[v1.GetCustomersByOrgRequest, v1.GetCustomersByOrgResponse]
 }
 
 // GetCustomer calls customer.v1.CustomerService.GetCustomer.
@@ -137,6 +148,11 @@ func (c *customerServiceClient) GetCustomers(ctx context.Context, req *connect.R
 	return c.getCustomers.CallUnary(ctx, req)
 }
 
+// GetCustomersByOrg calls customer.v1.CustomerService.GetCustomersByOrg.
+func (c *customerServiceClient) GetCustomersByOrg(ctx context.Context, req *connect.Request[v1.GetCustomersByOrgRequest]) (*connect.Response[v1.GetCustomersByOrgResponse], error) {
+	return c.getCustomersByOrg.CallUnary(ctx, req)
+}
+
 // CustomerServiceHandler is an implementation of the customer.v1.CustomerService service.
 type CustomerServiceHandler interface {
 	GetCustomer(context.Context, *connect.Request[v1.GetCustomerRequest]) (*connect.Response[v1.GetCustomerResponse], error)
@@ -144,6 +160,7 @@ type CustomerServiceHandler interface {
 	UpdateCustomer(context.Context, *connect.Request[v1.UpdateCustomerRequest]) (*connect.Response[v1.UpdateCustomerResponse], error)
 	DeleteCustomer(context.Context, *connect.Request[v1.DeleteCustomerRequest]) (*connect.Response[v1.DeleteCustomerResponse], error)
 	GetCustomers(context.Context, *connect.Request[v1.GetCustomersRequest]) (*connect.Response[v1.GetCustomersResponse], error)
+	GetCustomersByOrg(context.Context, *connect.Request[v1.GetCustomersByOrgRequest]) (*connect.Response[v1.GetCustomersByOrgResponse], error)
 }
 
 // NewCustomerServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -183,6 +200,12 @@ func NewCustomerServiceHandler(svc CustomerServiceHandler, opts ...connect.Handl
 		connect.WithSchema(customerServiceMethods.ByName("GetCustomers")),
 		connect.WithHandlerOptions(opts...),
 	)
+	customerServiceGetCustomersByOrgHandler := connect.NewUnaryHandler(
+		CustomerServiceGetCustomersByOrgProcedure,
+		svc.GetCustomersByOrg,
+		connect.WithSchema(customerServiceMethods.ByName("GetCustomersByOrg")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/customer.v1.CustomerService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case CustomerServiceGetCustomerProcedure:
@@ -195,6 +218,8 @@ func NewCustomerServiceHandler(svc CustomerServiceHandler, opts ...connect.Handl
 			customerServiceDeleteCustomerHandler.ServeHTTP(w, r)
 		case CustomerServiceGetCustomersProcedure:
 			customerServiceGetCustomersHandler.ServeHTTP(w, r)
+		case CustomerServiceGetCustomersByOrgProcedure:
+			customerServiceGetCustomersByOrgHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -222,4 +247,8 @@ func (UnimplementedCustomerServiceHandler) DeleteCustomer(context.Context, *conn
 
 func (UnimplementedCustomerServiceHandler) GetCustomers(context.Context, *connect.Request[v1.GetCustomersRequest]) (*connect.Response[v1.GetCustomersResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("customer.v1.CustomerService.GetCustomers is not implemented"))
+}
+
+func (UnimplementedCustomerServiceHandler) GetCustomersByOrg(context.Context, *connect.Request[v1.GetCustomersByOrgRequest]) (*connect.Response[v1.GetCustomersByOrgResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("customer.v1.CustomerService.GetCustomersByOrg is not implemented"))
 }

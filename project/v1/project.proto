@@ -4,6 +4,8 @@ package project.v1;
 
 option go_package = "github.com/maxischmaxi/ljtime-api/project/v1;projectv1";
 
+import "customer/v1/customer.proto";
+
 service ProjectService {
   rpc GetProject (GetProjectRequest) returns (GetProjectResponse);
   rpc CreateProject (CreateProjectRequest) returns (CreateProjectResponse);
@@ -11,6 +13,39 @@ service ProjectService {
   rpc DeleteProject (DeleteProjectRequest) returns (DeleteProjectResponse);
   rpc GetProjects (GetProjectsRequest) returns (GetProjectsResponse);
   rpc GetProjectsByCustomer (GetProjectsByCustomerRequest) returns (GetProjectsByCustomerResponse);
+  rpc GetProjectsByOrg (GetProjectsByOrgRequest) returns (GetProjectsByOrgResponse);
+  rpc GetJobsByProject (GetJobsByProjectRequest) returns (GetJobsByProjectResponse);
+  rpc GetJobsByCustomer (GetJobsByCustomerRequest) returns (GetJobsByCustomerResponse);
+  rpc GetJobsByDate (GetJobsByDateRequest) returns (GetJobsByDateResponse);
+  rpc GetJob (GetJobRequest) returns (GetJobResponse);
+  rpc CreateJob (CreateJobRequest) returns (CreateJobResponse);
+  rpc UpdateJob (UpdateJobRequest) returns (UpdateJobResponse);
+  rpc DeleteJob (DeleteJobRequest) returns (DeleteJobResponse);
+  rpc UpdateProjectType (UpdateProjectTypeRequest) returns (UpdateProjectTypeResponse);
+}
+
+enum ProjectType {
+  PROJECT_TYPE_UNSPECIFIED = 0;
+  PROJECT_TYPE_BILLABLE = 1;
+  PROJECT_TYPE_NON_BILLABLE = 2;
+}
+
+enum JobType {
+  JOB_TYPE_UNSPECIFIED = 0;
+  JOB_TYPE_BILLABLE = 1;
+  JOB_TYPE_NON_BILLABLE = 2;
+}
+
+message Job {
+  string id = 1;
+  string description = 3;
+  JobType type = 4;
+  int64 created_at = 5;
+  int64 updated_at = 6;
+  int64 hours = 7;
+  int64 minutes = 8;
+  string service_type_id = 9;
+  string date = 10;
 }
 
 message Project {
@@ -18,8 +53,12 @@ message Project {
   string name = 2;
   string description = 3;
   string customer_id = 4;
-  int64 created_at = 5;
-  int64 updated_at = 6;
+  string org_id = 5;
+  int64 created_at = 6;
+  int64 updated_at = 7;
+  ProjectType project_type = 8;
+  repeated Job jobs = 9;
+  string custom_color = 10;
 }
 
 message GetProjectRequest {
@@ -34,6 +73,7 @@ message CreateProject {
   string name = 2;
   string description = 3;
   string customer_id = 4;
+  string custom_color = 5;
 }
 
 message UpdateProject {
@@ -41,10 +81,12 @@ message UpdateProject {
   string name = 2;
   string description = 3;
   string customer_id = 4;
+  string custom_color = 5;
 }
 
 message CreateProjectRequest {
   CreateProject project = 1;
+  string org_id = 2;
 }
 
 message CreateProjectResponse {
@@ -53,6 +95,7 @@ message CreateProjectResponse {
 
 message UpdateProjectRequest {
   UpdateProject project = 1;
+  string org_id = 2;
 }
 
 message UpdateProjectResponse {
@@ -80,3 +123,83 @@ message GetProjectsByCustomerRequest {
 message GetProjectsByCustomerResponse {
   repeated Project projects = 1;
 }
+
+message GetProjectsByOrgRequest {
+  string org_id = 1;
+}
+
+message GetProjectsByOrgResponse {
+  repeated Project projects = 1;
+}
+
+message GetJobRequest {
+  string id = 1;
+}
+
+message GetJobResponse {
+  Job job = 1;
+}
+
+message CreateJobRequest {
+  string project_id = 1;
+  string description = 3;
+  JobType type = 4;
+  int64 hours = 5;
+  int64 minutes = 6;
+  string date = 7;
+  string service_type_id = 8;
+}
+
+message CreateJobResponse {}
+
+message UpdateJobRequest {
+  Job job = 1;
+}
+
+message UpdateJobResponse { }
+
+message DeleteJobRequest {
+  string id = 1;
+}
+
+message DeleteJobResponse {
+  string id = 1;
+}
+
+message GetJobsByProjectRequest {
+  string project_id = 1;
+}
+
+message GetJobsByProjectResponse {
+  repeated Job jobs = 1;
+}
+
+message GetJobsByCustomerRequest {
+  string customer_id = 1;
+  string project_id = 2;
+}
+
+message GetJobsByCustomerResponse {
+  repeated Job jobs = 1;
+}
+
+message GetJobsByDateRequest {
+  string date = 1;
+}
+
+message DateJob {
+  Job job = 1;
+  customer.v1.Customer customer = 2;
+  project.v1.Project project = 3;
+}
+
+message GetJobsByDateResponse {
+  repeated DateJob jobs = 1;
+}
+
+message UpdateProjectTypeRequest {
+  string project_id = 1;
+  ProjectType project_type = 2;
+}
+
+message UpdateProjectTypeResponse {}

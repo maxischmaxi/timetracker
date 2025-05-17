@@ -37,3 +37,16 @@ export async function sleep(ms: number): Promise<void> {
     setTimeout(() => resolve(), ms);
   });
 }
+
+export function isRouteActive(path: string, currentPathname: string): boolean {
+  if (currentPathname === "/" && path === "/") {
+    return true;
+  }
+  if (currentPathname === path) {
+    return true;
+  }
+  if (currentPathname.startsWith(path)) {
+    return true;
+  }
+  return false;
+}

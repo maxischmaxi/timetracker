@@ -14,6 +14,9 @@ service OrgService {
   rpc RemoveAdminFromOrg (RemoveAdminFromOrgRequest) returns (RemoveAdminFromOrgResponse);
   rpc InviteEmailToOrg (InviteEmailToOrgRequest) returns (InviteEmailToOrgResponse);
   rpc AcceptEmailInvite (AcceptEmailInviteRequest) returns (AcceptEmailInviteResponse);
+  rpc CreateServiceType (CreateServiceTypeRequest) returns (CreateServiceTypeResponse);
+  rpc UpdateServiceTypeStatus (UpdateServiceTypeStatusRequest) returns (UpdateServiceTypeStatusResponse);
+  rpc DeleteServiceType (DeleteServiceTypeRequest) returns (DeleteServiceTypeResponse);
 }
 
 enum MailProvider {
@@ -31,13 +34,20 @@ message CreateOrg {
   string name = 2;
 }
 
+message ServiceType {
+  string id = 1;
+  string name = 2;
+  bool status = 3;
+}
+
 message Org {
   string id = 1;
   MailProvider mail_provider = 2;
   int64 created_at = 3;
   int64 updated_at = 4;
   string name = 5;
-  repeated string admins = 6;
+  repeated string admins = 7;
+  repeated ServiceType service_types = 8;
 }
 
 message GetOrgRequest { }
@@ -59,9 +69,7 @@ message UpdateOrgRequest {
   UpdateOrg org = 2;
 }
 
-message UpdateOrgResponse {
-  Org org = 1;
-}
+message UpdateOrgResponse { }
 
 message CreateOrgRequest {
   CreateOrg org = 1;
@@ -105,3 +113,27 @@ message AcceptEmailInviteRequest {
 }
 
 message AcceptEmailInviteResponse {}
+
+message CreateServiceTypeRequest {
+  string name = 1;
+  string org_id = 2;
+}
+
+message CreateServiceTypeResponse { }
+
+message UpdateServiceTypeStatusRequest {
+  string org_id = 1;
+  string service_type_id = 2;
+  bool status = 3;
+}
+
+message UpdateServiceTypeStatusResponse {
+  bool status = 1;
+}
+
+message DeleteServiceTypeRequest {
+  string org_id = 1;
+  string service_type_id = 2;
+}
+
+message DeleteServiceTypeResponse {}

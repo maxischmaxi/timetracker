@@ -15,6 +15,7 @@ service UserService {
   rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse);
   rpc RemoveUserFromOrg (RemoveUserFromOrgRequest) returns (RemoveUserFromOrgResponse);
   rpc SetUserActiveState (SetUserActiveStateRequest) returns (SetUserActiveStateResponse);
+  rpc GetAllOrgsByFirebaseUid (GetAllOrgsByFirebaseUidRequest) returns (GetAllOrgsByFirebaseUidResponse);
 }
 
 enum EmploymentState {
@@ -145,4 +146,12 @@ message SetUserActiveStateRequest {
 
 message SetUserActiveStateResponse {
   EmploymentState state = 1;
+}
+
+message GetAllOrgsByFirebaseUidRequest {
+  string firebase_uid = 1;
+}
+
+message GetAllOrgsByFirebaseUidResponse {
+  repeated org.v1.Org orgs = 1;
 }

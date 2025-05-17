@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file customer/v1/customer.proto.
  */
 export const file_customer_v1_customer: GenFile = /*@__PURE__*/
-  fileDesc("ChpjdXN0b21lci92MS9jdXN0b21lci5wcm90bxILY3VzdG9tZXIudjEiVAoHQWRkcmVzcxIOCgZzdHJlZXQYASABKAkSDAoEY2l0eRgCIAEoCRINCgVzdGF0ZRgDIAEoCRILCgN6aXAYBCABKAkSDwoHY291bnRyeRgFIAEoCSJ8Cg5VcGRhdGVDdXN0b21lchIKCgJpZBgBIAEoCRILCgN0YWcYAiABKAkSDAoEbmFtZRgDIAEoCRINCgVlbWFpbBgEIAEoCRINCgVwaG9uZRgFIAEoCRIlCgdhZGRyZXNzGAYgASgLMhQuY3VzdG9tZXIudjEuQWRkcmVzcyKeAQoIQ3VzdG9tZXISCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRINCgVlbWFpbBgDIAEoCRINCgVwaG9uZRgEIAEoCRILCgN0YWcYBSABKAkSEgoKY3JlYXRlZF9hdBgGIAEoAxISCgp1cGRhdGVkX2F0GAcgASgDEiUKB2FkZHJlc3MYCCABKAsyFC5jdXN0b21lci52MS5BZGRyZXNzInAKDkNyZWF0ZUN1c3RvbWVyEgsKA3RhZxgBIAEoCRIMCgRuYW1lGAIgASgJEg0KBWVtYWlsGAMgASgJEg0KBXBob25lGAQgASgJEiUKB2FkZHJlc3MYBSABKAsyFC5jdXN0b21lci52MS5BZGRyZXNzIiAKEkdldEN1c3RvbWVyUmVxdWVzdBIKCgJpZBgBIAEoCSI+ChNHZXRDdXN0b21lclJlc3BvbnNlEicKCGN1c3RvbWVyGAEgASgLMhUuY3VzdG9tZXIudjEuQ3VzdG9tZXIiRgoVQ3JlYXRlQ3VzdG9tZXJSZXF1ZXN0Ei0KCGN1c3RvbWVyGAEgASgLMhsuY3VzdG9tZXIudjEuQ3JlYXRlQ3VzdG9tZXIiQQoWQ3JlYXRlQ3VzdG9tZXJSZXNwb25zZRInCghjdXN0b21lchgBIAEoCzIVLmN1c3RvbWVyLnYxLkN1c3RvbWVyIkYKFVVwZGF0ZUN1c3RvbWVyUmVxdWVzdBItCghjdXN0b21lchgBIAEoCzIbLmN1c3RvbWVyLnYxLlVwZGF0ZUN1c3RvbWVyIkEKFlVwZGF0ZUN1c3RvbWVyUmVzcG9uc2USJwoIY3VzdG9tZXIYASABKAsyFS5jdXN0b21lci52MS5DdXN0b21lciIjChVEZWxldGVDdXN0b21lclJlcXVlc3QSCgoCaWQYASABKAkiJAoWRGVsZXRlQ3VzdG9tZXJSZXNwb25zZRIKCgJpZBgBIAEoCSIVChNHZXRDdXN0b21lcnNSZXF1ZXN0IkAKFEdldEN1c3RvbWVyc1Jlc3BvbnNlEigKCWN1c3RvbWVycxgBIAMoCzIVLmN1c3RvbWVyLnYxLkN1c3RvbWVyMskDCg9DdXN0b21lclNlcnZpY2USUAoLR2V0Q3VzdG9tZXISHy5jdXN0b21lci52MS5HZXRDdXN0b21lclJlcXVlc3QaIC5jdXN0b21lci52MS5HZXRDdXN0b21lclJlc3BvbnNlElkKDkNyZWF0ZUN1c3RvbWVyEiIuY3VzdG9tZXIudjEuQ3JlYXRlQ3VzdG9tZXJSZXF1ZXN0GiMuY3VzdG9tZXIudjEuQ3JlYXRlQ3VzdG9tZXJSZXNwb25zZRJZCg5VcGRhdGVDdXN0b21lchIiLmN1c3RvbWVyLnYxLlVwZGF0ZUN1c3RvbWVyUmVxdWVzdBojLmN1c3RvbWVyLnYxLlVwZGF0ZUN1c3RvbWVyUmVzcG9uc2USWQoORGVsZXRlQ3VzdG9tZXISIi5jdXN0b21lci52MS5EZWxldGVDdXN0b21lclJlcXVlc3QaIy5jdXN0b21lci52MS5EZWxldGVDdXN0b21lclJlc3BvbnNlElMKDEdldEN1c3RvbWVycxIgLmN1c3RvbWVyLnYxLkdldEN1c3RvbWVyc1JlcXVlc3QaIS5jdXN0b21lci52MS5HZXRDdXN0b21lcnNSZXNwb25zZUI6WjhnaXRodWIuY29tL21heGlzY2htYXhpL2xqdGltZS1hcGkvY3VzdG9tZXIvdjE7Y3VzdG9tZXJ2MWIGcHJvdG8z");
+  fileDesc("ChpjdXN0b21lci92MS9jdXN0b21lci5wcm90bxILY3VzdG9tZXIudjEiVAoHQWRkcmVzcxIOCgZzdHJlZXQYASABKAkSDAoEY2l0eRgCIAEoCRINCgVzdGF0ZRgDIAEoCRILCgN6aXAYBCABKAkSDwoHY291bnRyeRgFIAEoCSKWAQoOVXBkYXRlQ3VzdG9tZXISCgoCaWQYASABKAkSCwoDdGFnGAIgASgJEgwKBG5hbWUYAyABKAkSDQoFZW1haWwYBCABKAkSDQoFcGhvbmUYBSABKAkSJQoHYWRkcmVzcxgGIAEoCzIULmN1c3RvbWVyLnYxLkFkZHJlc3MSGAoQc2VydmljZV90eXBlX2lkcxgHIAMoCSLIAQoIQ3VzdG9tZXISCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRINCgVlbWFpbBgDIAEoCRINCgVwaG9uZRgEIAEoCRILCgN0YWcYBSABKAkSDgoGb3JnX2lkGAYgASgJEhIKCmNyZWF0ZWRfYXQYByABKAMSEgoKdXBkYXRlZF9hdBgIIAEoAxIlCgdhZGRyZXNzGAkgASgLMhQuY3VzdG9tZXIudjEuQWRkcmVzcxIYChBzZXJ2aWNlX3R5cGVfaWRzGAogAygJIooBCg5DcmVhdGVDdXN0b21lchILCgN0YWcYASABKAkSDAoEbmFtZRgCIAEoCRINCgVlbWFpbBgDIAEoCRINCgVwaG9uZRgEIAEoCRIlCgdhZGRyZXNzGAUgASgLMhQuY3VzdG9tZXIudjEuQWRkcmVzcxIYChBzZXJ2aWNlX3R5cGVfaWRzGAYgAygJIiAKEkdldEN1c3RvbWVyUmVxdWVzdBIKCgJpZBgBIAEoCSI+ChNHZXRDdXN0b21lclJlc3BvbnNlEicKCGN1c3RvbWVyGAEgASgLMhUuY3VzdG9tZXIudjEuQ3VzdG9tZXIiVgoVQ3JlYXRlQ3VzdG9tZXJSZXF1ZXN0Ei0KCGN1c3RvbWVyGAEgASgLMhsuY3VzdG9tZXIudjEuQ3JlYXRlQ3VzdG9tZXISDgoGb3JnX2lkGAIgASgJIkEKFkNyZWF0ZUN1c3RvbWVyUmVzcG9uc2USJwoIY3VzdG9tZXIYASABKAsyFS5jdXN0b21lci52MS5DdXN0b21lciJWChVVcGRhdGVDdXN0b21lclJlcXVlc3QSLQoIY3VzdG9tZXIYASABKAsyGy5jdXN0b21lci52MS5VcGRhdGVDdXN0b21lchIOCgZvcmdfaWQYAiABKAkiGAoWVXBkYXRlQ3VzdG9tZXJSZXNwb25zZSIjChVEZWxldGVDdXN0b21lclJlcXVlc3QSCgoCaWQYASABKAkiJAoWRGVsZXRlQ3VzdG9tZXJSZXNwb25zZRIKCgJpZBgBIAEoCSIVChNHZXRDdXN0b21lcnNSZXF1ZXN0IkAKFEdldEN1c3RvbWVyc1Jlc3BvbnNlEigKCWN1c3RvbWVycxgBIAMoCzIVLmN1c3RvbWVyLnYxLkN1c3RvbWVyIioKGEdldEN1c3RvbWVyc0J5T3JnUmVxdWVzdBIOCgZvcmdfaWQYASABKAkiRQoZR2V0Q3VzdG9tZXJzQnlPcmdSZXNwb25zZRIoCgljdXN0b21lcnMYASADKAsyFS5jdXN0b21lci52MS5DdXN0b21lcjKtBAoPQ3VzdG9tZXJTZXJ2aWNlElAKC0dldEN1c3RvbWVyEh8uY3VzdG9tZXIudjEuR2V0Q3VzdG9tZXJSZXF1ZXN0GiAuY3VzdG9tZXIudjEuR2V0Q3VzdG9tZXJSZXNwb25zZRJZCg5DcmVhdGVDdXN0b21lchIiLmN1c3RvbWVyLnYxLkNyZWF0ZUN1c3RvbWVyUmVxdWVzdBojLmN1c3RvbWVyLnYxLkNyZWF0ZUN1c3RvbWVyUmVzcG9uc2USWQoOVXBkYXRlQ3VzdG9tZXISIi5jdXN0b21lci52MS5VcGRhdGVDdXN0b21lclJlcXVlc3QaIy5jdXN0b21lci52MS5VcGRhdGVDdXN0b21lclJlc3BvbnNlElkKDkRlbGV0ZUN1c3RvbWVyEiIuY3VzdG9tZXIudjEuRGVsZXRlQ3VzdG9tZXJSZXF1ZXN0GiMuY3VzdG9tZXIudjEuRGVsZXRlQ3VzdG9tZXJSZXNwb25zZRJTCgxHZXRDdXN0b21lcnMSIC5jdXN0b21lci52MS5HZXRDdXN0b21lcnNSZXF1ZXN0GiEuY3VzdG9tZXIudjEuR2V0Q3VzdG9tZXJzUmVzcG9uc2USYgoRR2V0Q3VzdG9tZXJzQnlPcmcSJS5jdXN0b21lci52MS5HZXRDdXN0b21lcnNCeU9yZ1JlcXVlc3QaJi5jdXN0b21lci52MS5HZXRDdXN0b21lcnNCeU9yZ1Jlc3BvbnNlQjpaOGdpdGh1Yi5jb20vbWF4aXNjaG1heGkvbGp0aW1lLWFwaS9jdXN0b21lci92MTtjdXN0b21lcnYxYgZwcm90bzM");
 
 /**
  * @generated from message customer.v1.Address
@@ -82,6 +82,11 @@ export type UpdateCustomer = Message<"customer.v1.UpdateCustomer"> & {
    * @generated from field: customer.v1.Address address = 6;
    */
   address?: Address;
+
+  /**
+   * @generated from field: repeated string service_type_ids = 7;
+   */
+  serviceTypeIds: string[];
 };
 
 /**
@@ -121,19 +126,29 @@ export type Customer = Message<"customer.v1.Customer"> & {
   tag: string;
 
   /**
-   * @generated from field: int64 created_at = 6;
+   * @generated from field: string org_id = 6;
+   */
+  orgId: string;
+
+  /**
+   * @generated from field: int64 created_at = 7;
    */
   createdAt: bigint;
 
   /**
-   * @generated from field: int64 updated_at = 7;
+   * @generated from field: int64 updated_at = 8;
    */
   updatedAt: bigint;
 
   /**
-   * @generated from field: customer.v1.Address address = 8;
+   * @generated from field: customer.v1.Address address = 9;
    */
   address?: Address;
+
+  /**
+   * @generated from field: repeated string service_type_ids = 10;
+   */
+  serviceTypeIds: string[];
 };
 
 /**
@@ -171,6 +186,11 @@ export type CreateCustomer = Message<"customer.v1.CreateCustomer"> & {
    * @generated from field: customer.v1.Address address = 5;
    */
   address?: Address;
+
+  /**
+   * @generated from field: repeated string service_type_ids = 6;
+   */
+  serviceTypeIds: string[];
 };
 
 /**
@@ -222,6 +242,11 @@ export type CreateCustomerRequest = Message<"customer.v1.CreateCustomerRequest">
    * @generated from field: customer.v1.CreateCustomer customer = 1;
    */
   customer?: CreateCustomer;
+
+  /**
+   * @generated from field: string org_id = 2;
+   */
+  orgId: string;
 };
 
 /**
@@ -256,6 +281,11 @@ export type UpdateCustomerRequest = Message<"customer.v1.UpdateCustomerRequest">
    * @generated from field: customer.v1.UpdateCustomer customer = 1;
    */
   customer?: UpdateCustomer;
+
+  /**
+   * @generated from field: string org_id = 2;
+   */
+  orgId: string;
 };
 
 /**
@@ -269,10 +299,6 @@ export const UpdateCustomerRequestSchema: GenMessage<UpdateCustomerRequest> = /*
  * @generated from message customer.v1.UpdateCustomerResponse
  */
 export type UpdateCustomerResponse = Message<"customer.v1.UpdateCustomerResponse"> & {
-  /**
-   * @generated from field: customer.v1.Customer customer = 1;
-   */
-  customer?: Customer;
 };
 
 /**
@@ -347,6 +373,40 @@ export const GetCustomersResponseSchema: GenMessage<GetCustomersResponse> = /*@_
   messageDesc(file_customer_v1_customer, 13);
 
 /**
+ * @generated from message customer.v1.GetCustomersByOrgRequest
+ */
+export type GetCustomersByOrgRequest = Message<"customer.v1.GetCustomersByOrgRequest"> & {
+  /**
+   * @generated from field: string org_id = 1;
+   */
+  orgId: string;
+};
+
+/**
+ * Describes the message customer.v1.GetCustomersByOrgRequest.
+ * Use `create(GetCustomersByOrgRequestSchema)` to create a new message.
+ */
+export const GetCustomersByOrgRequestSchema: GenMessage<GetCustomersByOrgRequest> = /*@__PURE__*/
+  messageDesc(file_customer_v1_customer, 14);
+
+/**
+ * @generated from message customer.v1.GetCustomersByOrgResponse
+ */
+export type GetCustomersByOrgResponse = Message<"customer.v1.GetCustomersByOrgResponse"> & {
+  /**
+   * @generated from field: repeated customer.v1.Customer customers = 1;
+   */
+  customers: Customer[];
+};
+
+/**
+ * Describes the message customer.v1.GetCustomersByOrgResponse.
+ * Use `create(GetCustomersByOrgResponseSchema)` to create a new message.
+ */
+export const GetCustomersByOrgResponseSchema: GenMessage<GetCustomersByOrgResponse> = /*@__PURE__*/
+  messageDesc(file_customer_v1_customer, 15);
+
+/**
  * @generated from service customer.v1.CustomerService
  */
 export const CustomerService: GenService<{
@@ -389,6 +449,14 @@ export const CustomerService: GenService<{
     methodKind: "unary";
     input: typeof GetCustomersRequestSchema;
     output: typeof GetCustomersResponseSchema;
+  },
+  /**
+   * @generated from rpc customer.v1.CustomerService.GetCustomersByOrg
+   */
+  getCustomersByOrg: {
+    methodKind: "unary";
+    input: typeof GetCustomersByOrgRequestSchema;
+    output: typeof GetCustomersByOrgResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_customer_v1_customer, 0);

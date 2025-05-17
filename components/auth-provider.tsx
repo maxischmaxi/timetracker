@@ -7,6 +7,8 @@ import {
   signOut as _signOut,
   User,
   onIdTokenChanged,
+  GoogleAuthProvider,
+  signInWithPopup as _signInWithPopup,
 } from "@firebase/auth";
 import { Plain } from "@/types";
 import { getUserByFirebaseUid } from "@/lib/api";
@@ -18,12 +20,30 @@ import { useQuery } from "@tanstack/react-query";
 import { GetUserByFirebaseUidResponse } from "@/auth/v1/auth_pb";
 import { queryClient } from "./providers";
 
+const googleProvider = new GoogleAuthProvider();
+googleProvider.addScope("https://www.googleapis.com/auth/contacts.readonly");
+googleProvider.addScope("https://www.googleapis.com/auth/calendar");
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 auth.languageCode = getLang();
 
+export async function signInWithPopup() {
+  const result = await _signInWithPopup(auth, googleProvider);
+  const credentials = GoogleAuthProvider.credentialFromResult(result);
+  if (credentials?.accessToken) {
+    Cookie.set("__access_token", credentials.accessToken, {
+      sameSite: "none",
+      secure: true,
+      path: "/",
+    });
+  }
+}
+
 export async function signOut() {
   await _signOut(auth);
+  Cookie.remove("__session");
+  Cookie.remove("__access_token");
 }
 
 export async function getToken(): Promise<string | null> {
@@ -47,6 +67,12 @@ export async function signInWithEmailAndPassword(
   await _signInWithEmailAndPassword(auth, email, password).then(
     (res) => res.user,
   );
+}
+
+export async function refetchUser(uid: string | undefined) {
+  await queryClient.refetchQueries({
+    queryKey: ["getUserByFirebaseUid", uid || ""],
+  });
 }
 
 export function AuthProvider({

@@ -1,5 +1,6 @@
 "use client";
 
+import { Block } from "@uiw/react-color";
 import { FieldErrors, useForm } from "react-hook-form";
 import { Form } from "./ui/form";
 import { z } from "zod";
@@ -13,6 +14,7 @@ import { Textarea } from "./ui/textarea";
 import { CustomerSelect } from "./customer-select";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import { Loader } from "lucide-react";
 
 type Props = {
   className?: string;
@@ -35,6 +37,7 @@ export function ProjectForm({
       name: "",
       description: "",
       customerId: "",
+      customColor: "#83aee6",
     },
   });
 
@@ -59,12 +62,14 @@ export function ProjectForm({
         name: data.name,
         description: data.description,
         customerId: data.customerId,
+        customColor: data.customColor || "#000",
       });
     } else {
       await create.mutateAsync({
         name: data.name,
         description: data.description,
         customerId: data.customerId,
+        customColor: data.customColor || "#000",
       });
     }
   }
@@ -79,18 +84,30 @@ export function ProjectForm({
         onSubmit={form.handleSubmit(onSubmit, onError)}
         className={cn("space-y-4", className)}
       >
-        <CustomerSelect control={form.control} name="customerId" />
+        <CustomerSelect
+          disabled={create.isPending || update.isPending}
+          control={form.control}
+          name="customerId"
+        />
         <Input
           control={form.control}
           name="name"
           label="Project Name"
           placeholder="Project Name"
+          disabled={create.isPending || update.isPending}
         />
         <Textarea
           control={form.control}
           name="description"
           label="Description"
           placeholder="Description"
+          disabled={create.isPending || update.isPending}
+        />
+        <Block
+          onChange={(color) => {
+            form.setValue("customColor", color.hex);
+          }}
+          color={form.watch("customColor")}
         />
         <div className="flex flex-row flex-nowrap justify-between gap-2">
           {!hideCancel && (
@@ -101,11 +118,18 @@ export function ProjectForm({
                 form.reset();
                 onCancel?.();
               }}
+              disabled={create.isPending || update.isPending}
             >
               Abbrechen
             </Button>
           )}
-          <Button type="submit">Erstellen</Button>
+          <Button type="submit" disabled={create.isPending || update.isPending}>
+            {create.isPending || update.isPending ? (
+              <Loader className="animate-spin" />
+            ) : (
+              "Erstellen"
+            )}
+          </Button>
         </div>
       </form>
     </Form>

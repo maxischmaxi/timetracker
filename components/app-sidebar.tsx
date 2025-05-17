@@ -9,9 +9,6 @@ import {
   FileArchiveIcon,
   FolderIcon,
   HelpCircleIcon,
-  LayoutDashboardIcon,
-  SearchIcon,
-  SettingsIcon,
   TimerIcon,
   UsersIcon,
 } from "lucide-react";
@@ -40,11 +37,6 @@ import { useCurrentOrg } from "@/hooks/use-org";
 
 const data = {
   navMain: [
-    {
-      title: "Dashboard",
-      url: "/",
-      icon: LayoutDashboardIcon,
-    },
     {
       title: "Jobs",
       url: "/jobs",
@@ -78,19 +70,9 @@ const data = {
   ],
   navSecondary: [
     {
-      title: "Settings",
-      url: "/settings",
-      icon: SettingsIcon,
-    },
-    {
       title: "Get Help",
       url: "/help",
       icon: HelpCircleIcon,
-    },
-    {
-      title: "Search",
-      url: "/search",
-      icon: SearchIcon,
     },
   ],
   navAdministration: [

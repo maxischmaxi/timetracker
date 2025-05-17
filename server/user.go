@@ -7,6 +7,7 @@ import (
 	"connectrpc.com/connect"
 	"firebase.google.com/go/v4/auth"
 	customerv1 "github.com/maxischmaxi/ljtime-api/customer/v1"
+	orgv1 "github.com/maxischmaxi/ljtime-api/org/v1"
 	userv1 "github.com/maxischmaxi/ljtime-api/user/v1"
 	"github.com/maxischmaxi/ljtime-api/user/v1/userv1connect"
 	"github.com/sethvargo/go-password/password"
@@ -396,4 +397,44 @@ func (s *UserServer) SetUserActiveState(ctx context.Context, req *connect.Reques
 	}
 
 	return connect.NewResponse(response), nil
+}
+
+func (s *UserServer) GetAllOrgsByFirebaseUid(ctx context.Context, req *connect.Request[userv1.GetAllOrgsByFirebaseUidRequest]) (*connect.Response[userv1.GetAllOrgsByFirebaseUidResponse], error) {
+	user, err := GetUserByFirebaseUID(ctx, req.Msg.FirebaseUid)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	orgIds := make([]bson.ObjectID, len(user.OrgIds))
+
+	for _, id := range user.OrgIds {
+		i, err := bson.ObjectIDFromHex(id)
+		if err != nil {
+			return nil, connect.NewError(connect.CodeInternal, err)
+		}
+
+		orgIds = append(orgIds, i)
+	}
+
+	filter := bson.M{"_id": bson.M{"$in": orgIds}}
+
+	cursor, err := ORGS.Find(ctx, filter)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+	defer cursor.Close(ctx)
+
+	var orgs []*orgv1.Org
+	for cursor.Next(ctx) {
+		var org DbOrg
+		if err := cursor.Decode(&org); err != nil {
+			return nil, connect.NewError(connect.CodeInternal, err)
+		}
+
+		orgs = append(orgs, org.ToOrg())
+	}
+
+	return connect.NewResponse(&userv1.GetAllOrgsByFirebaseUidResponse{
+		Orgs: orgs,
+	}), nil
 }

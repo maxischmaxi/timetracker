@@ -16,7 +16,6 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/maxischmaxi/ljtime-api/auth/v1/authv1connect"
 	"github.com/maxischmaxi/ljtime-api/customer/v1/customerv1connect"
-	"github.com/maxischmaxi/ljtime-api/job/v1/jobv1connect"
 	"github.com/maxischmaxi/ljtime-api/org/v1/orgv1connect"
 	"github.com/maxischmaxi/ljtime-api/project/v1/projectv1connect"
 	userv1 "github.com/maxischmaxi/ljtime-api/user/v1"
@@ -37,7 +36,6 @@ var (
 	ORGS              *mongo.Collection
 	TAGS              *mongo.Collection
 	USERS             *mongo.Collection
-	JOBS              *mongo.Collection
 	PROJECTS          *mongo.Collection
 	CUSTOMERS         *mongo.Collection
 	ORG_INVITE_TOKENS *mongo.Collection
@@ -82,9 +80,8 @@ func main() {
 	ORGS = db.Collection("orgs")
 	TAGS = db.Collection("tags")
 	USERS = db.Collection("users")
-	JOBS = db.Collection("jobs")
 	CUSTOMERS = db.Collection("customers")
-	PROJECTS = db.Collection("customers")
+	PROJECTS = db.Collection("projects")
 	ORG_INVITE_TOKENS = db.Collection("org-invite-tokens")
 
 	defer func() {
@@ -104,10 +101,6 @@ func main() {
 	))
 	mux.Handle(projectv1connect.NewProjectServiceHandler(
 		&ProjectServer{},
-		interceptors,
-	))
-	mux.Handle(jobv1connect.NewJobServiceHandler(
-		&JobServer{},
 		interceptors,
 	))
 	mux.Handle(userv1connect.NewUserServiceHandler(
@@ -169,10 +162,13 @@ func AuthMiddleware() connect.UnaryInterceptorFunc {
 				return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
 			}
 
+			orgId := req.Header().Get("x-org-id")
+
 			ctx = context.WithValue(ctx, "firebase_uid", token.UID)
 			ctx = context.WithValue(ctx, "id", user.Id)
 			ctx = context.WithValue(ctx, "email", user.Email)
 			ctx = context.WithValue(ctx, "is_api", "false")
+			ctx = context.WithValue(ctx, "orgId", orgId)
 
 			return next(ctx, req)
 		})
@@ -185,12 +181,13 @@ type MiddlewareUser struct {
 	FirebaseUid string
 	Email       string
 	Id          string
+	OrgId       string
 }
 
 func GetMiddlewareUser(ctx context.Context) (*MiddlewareUser, error) {
 	firebaseUid, ok := ctx.Value("firebase_uid").(string)
 	if !ok {
-		return nil, errors.New("mo userid in context")
+		return nil, errors.New("mo firebase_uid in context")
 	}
 
 	email, ok := ctx.Value("email").(string)
@@ -200,13 +197,19 @@ func GetMiddlewareUser(ctx context.Context) (*MiddlewareUser, error) {
 
 	id, ok := ctx.Value("id").(string)
 	if !ok {
-		return nil, errors.New("no orgid in context")
+		return nil, errors.New("no id in context")
+	}
+
+	orgId, ok := ctx.Value("orgId").(string)
+	if !ok {
+		return nil, errors.New("no orgId in context")
 	}
 
 	return &MiddlewareUser{
 		FirebaseUid: firebaseUid,
 		Email:       email,
 		Id:          id,
+		OrgId:       orgId,
 	}, nil
 }
 

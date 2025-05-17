@@ -19,7 +19,7 @@ type Props = {
   className?: string;
   hideCancel?: boolean;
   customer?: Plain<Customer>;
-  onSuccess?: (data: Plain<Customer>) => void;
+  onSuccess?: (data?: Plain<Customer>) => void;
   onClose?: () => void;
 };
 
@@ -70,10 +70,14 @@ export function CustomerForm({
     if (customer) {
       await update.mutateAsync({
         id: customer.id,
+        serviceTypeIds: customer.serviceTypeIds,
         ...data,
       });
     } else {
-      await create.mutateAsync(data);
+      await create.mutateAsync({
+        ...data,
+        serviceTypeIds: [],
+      });
     }
   }
 

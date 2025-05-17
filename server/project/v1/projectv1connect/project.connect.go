@@ -51,6 +51,32 @@ const (
 	// ProjectServiceGetProjectsByCustomerProcedure is the fully-qualified name of the ProjectService's
 	// GetProjectsByCustomer RPC.
 	ProjectServiceGetProjectsByCustomerProcedure = "/project.v1.ProjectService/GetProjectsByCustomer"
+	// ProjectServiceGetProjectsByOrgProcedure is the fully-qualified name of the ProjectService's
+	// GetProjectsByOrg RPC.
+	ProjectServiceGetProjectsByOrgProcedure = "/project.v1.ProjectService/GetProjectsByOrg"
+	// ProjectServiceGetJobsByProjectProcedure is the fully-qualified name of the ProjectService's
+	// GetJobsByProject RPC.
+	ProjectServiceGetJobsByProjectProcedure = "/project.v1.ProjectService/GetJobsByProject"
+	// ProjectServiceGetJobsByCustomerProcedure is the fully-qualified name of the ProjectService's
+	// GetJobsByCustomer RPC.
+	ProjectServiceGetJobsByCustomerProcedure = "/project.v1.ProjectService/GetJobsByCustomer"
+	// ProjectServiceGetJobsByDateProcedure is the fully-qualified name of the ProjectService's
+	// GetJobsByDate RPC.
+	ProjectServiceGetJobsByDateProcedure = "/project.v1.ProjectService/GetJobsByDate"
+	// ProjectServiceGetJobProcedure is the fully-qualified name of the ProjectService's GetJob RPC.
+	ProjectServiceGetJobProcedure = "/project.v1.ProjectService/GetJob"
+	// ProjectServiceCreateJobProcedure is the fully-qualified name of the ProjectService's CreateJob
+	// RPC.
+	ProjectServiceCreateJobProcedure = "/project.v1.ProjectService/CreateJob"
+	// ProjectServiceUpdateJobProcedure is the fully-qualified name of the ProjectService's UpdateJob
+	// RPC.
+	ProjectServiceUpdateJobProcedure = "/project.v1.ProjectService/UpdateJob"
+	// ProjectServiceDeleteJobProcedure is the fully-qualified name of the ProjectService's DeleteJob
+	// RPC.
+	ProjectServiceDeleteJobProcedure = "/project.v1.ProjectService/DeleteJob"
+	// ProjectServiceUpdateProjectTypeProcedure is the fully-qualified name of the ProjectService's
+	// UpdateProjectType RPC.
+	ProjectServiceUpdateProjectTypeProcedure = "/project.v1.ProjectService/UpdateProjectType"
 )
 
 // ProjectServiceClient is a client for the project.v1.ProjectService service.
@@ -61,6 +87,15 @@ type ProjectServiceClient interface {
 	DeleteProject(context.Context, *connect.Request[v1.DeleteProjectRequest]) (*connect.Response[v1.DeleteProjectResponse], error)
 	GetProjects(context.Context, *connect.Request[v1.GetProjectsRequest]) (*connect.Response[v1.GetProjectsResponse], error)
 	GetProjectsByCustomer(context.Context, *connect.Request[v1.GetProjectsByCustomerRequest]) (*connect.Response[v1.GetProjectsByCustomerResponse], error)
+	GetProjectsByOrg(context.Context, *connect.Request[v1.GetProjectsByOrgRequest]) (*connect.Response[v1.GetProjectsByOrgResponse], error)
+	GetJobsByProject(context.Context, *connect.Request[v1.GetJobsByProjectRequest]) (*connect.Response[v1.GetJobsByProjectResponse], error)
+	GetJobsByCustomer(context.Context, *connect.Request[v1.GetJobsByCustomerRequest]) (*connect.Response[v1.GetJobsByCustomerResponse], error)
+	GetJobsByDate(context.Context, *connect.Request[v1.GetJobsByDateRequest]) (*connect.Response[v1.GetJobsByDateResponse], error)
+	GetJob(context.Context, *connect.Request[v1.GetJobRequest]) (*connect.Response[v1.GetJobResponse], error)
+	CreateJob(context.Context, *connect.Request[v1.CreateJobRequest]) (*connect.Response[v1.CreateJobResponse], error)
+	UpdateJob(context.Context, *connect.Request[v1.UpdateJobRequest]) (*connect.Response[v1.UpdateJobResponse], error)
+	DeleteJob(context.Context, *connect.Request[v1.DeleteJobRequest]) (*connect.Response[v1.DeleteJobResponse], error)
+	UpdateProjectType(context.Context, *connect.Request[v1.UpdateProjectTypeRequest]) (*connect.Response[v1.UpdateProjectTypeResponse], error)
 }
 
 // NewProjectServiceClient constructs a client for the project.v1.ProjectService service. By
@@ -110,6 +145,60 @@ func NewProjectServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(projectServiceMethods.ByName("GetProjectsByCustomer")),
 			connect.WithClientOptions(opts...),
 		),
+		getProjectsByOrg: connect.NewClient[v1.GetProjectsByOrgRequest, v1.GetProjectsByOrgResponse](
+			httpClient,
+			baseURL+ProjectServiceGetProjectsByOrgProcedure,
+			connect.WithSchema(projectServiceMethods.ByName("GetProjectsByOrg")),
+			connect.WithClientOptions(opts...),
+		),
+		getJobsByProject: connect.NewClient[v1.GetJobsByProjectRequest, v1.GetJobsByProjectResponse](
+			httpClient,
+			baseURL+ProjectServiceGetJobsByProjectProcedure,
+			connect.WithSchema(projectServiceMethods.ByName("GetJobsByProject")),
+			connect.WithClientOptions(opts...),
+		),
+		getJobsByCustomer: connect.NewClient[v1.GetJobsByCustomerRequest, v1.GetJobsByCustomerResponse](
+			httpClient,
+			baseURL+ProjectServiceGetJobsByCustomerProcedure,
+			connect.WithSchema(projectServiceMethods.ByName("GetJobsByCustomer")),
+			connect.WithClientOptions(opts...),
+		),
+		getJobsByDate: connect.NewClient[v1.GetJobsByDateRequest, v1.GetJobsByDateResponse](
+			httpClient,
+			baseURL+ProjectServiceGetJobsByDateProcedure,
+			connect.WithSchema(projectServiceMethods.ByName("GetJobsByDate")),
+			connect.WithClientOptions(opts...),
+		),
+		getJob: connect.NewClient[v1.GetJobRequest, v1.GetJobResponse](
+			httpClient,
+			baseURL+ProjectServiceGetJobProcedure,
+			connect.WithSchema(projectServiceMethods.ByName("GetJob")),
+			connect.WithClientOptions(opts...),
+		),
+		createJob: connect.NewClient[v1.CreateJobRequest, v1.CreateJobResponse](
+			httpClient,
+			baseURL+ProjectServiceCreateJobProcedure,
+			connect.WithSchema(projectServiceMethods.ByName("CreateJob")),
+			connect.WithClientOptions(opts...),
+		),
+		updateJob: connect.NewClient[v1.UpdateJobRequest, v1.UpdateJobResponse](
+			httpClient,
+			baseURL+ProjectServiceUpdateJobProcedure,
+			connect.WithSchema(projectServiceMethods.ByName("UpdateJob")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteJob: connect.NewClient[v1.DeleteJobRequest, v1.DeleteJobResponse](
+			httpClient,
+			baseURL+ProjectServiceDeleteJobProcedure,
+			connect.WithSchema(projectServiceMethods.ByName("DeleteJob")),
+			connect.WithClientOptions(opts...),
+		),
+		updateProjectType: connect.NewClient[v1.UpdateProjectTypeRequest, v1.UpdateProjectTypeResponse](
+			httpClient,
+			baseURL+ProjectServiceUpdateProjectTypeProcedure,
+			connect.WithSchema(projectServiceMethods.ByName("UpdateProjectType")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -121,6 +210,15 @@ type projectServiceClient struct {
 	deleteProject         *connect.Client[v1.DeleteProjectRequest, v1.DeleteProjectResponse]
 	getProjects           *connect.Client[v1.GetProjectsRequest, v1.GetProjectsResponse]
 	getProjectsByCustomer *connect.Client[v1.GetProjectsByCustomerRequest, v1.GetProjectsByCustomerResponse]
+	getProjectsByOrg      *connect.Client[v1.GetProjectsByOrgRequest, v1.GetProjectsByOrgResponse]
+	getJobsByProject      *connect.Client[v1.GetJobsByProjectRequest, v1.GetJobsByProjectResponse]
+	getJobsByCustomer     *connect.Client[v1.GetJobsByCustomerRequest, v1.GetJobsByCustomerResponse]
+	getJobsByDate         *connect.Client[v1.GetJobsByDateRequest, v1.GetJobsByDateResponse]
+	getJob                *connect.Client[v1.GetJobRequest, v1.GetJobResponse]
+	createJob             *connect.Client[v1.CreateJobRequest, v1.CreateJobResponse]
+	updateJob             *connect.Client[v1.UpdateJobRequest, v1.UpdateJobResponse]
+	deleteJob             *connect.Client[v1.DeleteJobRequest, v1.DeleteJobResponse]
+	updateProjectType     *connect.Client[v1.UpdateProjectTypeRequest, v1.UpdateProjectTypeResponse]
 }
 
 // GetProject calls project.v1.ProjectService.GetProject.
@@ -153,6 +251,51 @@ func (c *projectServiceClient) GetProjectsByCustomer(ctx context.Context, req *c
 	return c.getProjectsByCustomer.CallUnary(ctx, req)
 }
 
+// GetProjectsByOrg calls project.v1.ProjectService.GetProjectsByOrg.
+func (c *projectServiceClient) GetProjectsByOrg(ctx context.Context, req *connect.Request[v1.GetProjectsByOrgRequest]) (*connect.Response[v1.GetProjectsByOrgResponse], error) {
+	return c.getProjectsByOrg.CallUnary(ctx, req)
+}
+
+// GetJobsByProject calls project.v1.ProjectService.GetJobsByProject.
+func (c *projectServiceClient) GetJobsByProject(ctx context.Context, req *connect.Request[v1.GetJobsByProjectRequest]) (*connect.Response[v1.GetJobsByProjectResponse], error) {
+	return c.getJobsByProject.CallUnary(ctx, req)
+}
+
+// GetJobsByCustomer calls project.v1.ProjectService.GetJobsByCustomer.
+func (c *projectServiceClient) GetJobsByCustomer(ctx context.Context, req *connect.Request[v1.GetJobsByCustomerRequest]) (*connect.Response[v1.GetJobsByCustomerResponse], error) {
+	return c.getJobsByCustomer.CallUnary(ctx, req)
+}
+
+// GetJobsByDate calls project.v1.ProjectService.GetJobsByDate.
+func (c *projectServiceClient) GetJobsByDate(ctx context.Context, req *connect.Request[v1.GetJobsByDateRequest]) (*connect.Response[v1.GetJobsByDateResponse], error) {
+	return c.getJobsByDate.CallUnary(ctx, req)
+}
+
+// GetJob calls project.v1.ProjectService.GetJob.
+func (c *projectServiceClient) GetJob(ctx context.Context, req *connect.Request[v1.GetJobRequest]) (*connect.Response[v1.GetJobResponse], error) {
+	return c.getJob.CallUnary(ctx, req)
+}
+
+// CreateJob calls project.v1.ProjectService.CreateJob.
+func (c *projectServiceClient) CreateJob(ctx context.Context, req *connect.Request[v1.CreateJobRequest]) (*connect.Response[v1.CreateJobResponse], error) {
+	return c.createJob.CallUnary(ctx, req)
+}
+
+// UpdateJob calls project.v1.ProjectService.UpdateJob.
+func (c *projectServiceClient) UpdateJob(ctx context.Context, req *connect.Request[v1.UpdateJobRequest]) (*connect.Response[v1.UpdateJobResponse], error) {
+	return c.updateJob.CallUnary(ctx, req)
+}
+
+// DeleteJob calls project.v1.ProjectService.DeleteJob.
+func (c *projectServiceClient) DeleteJob(ctx context.Context, req *connect.Request[v1.DeleteJobRequest]) (*connect.Response[v1.DeleteJobResponse], error) {
+	return c.deleteJob.CallUnary(ctx, req)
+}
+
+// UpdateProjectType calls project.v1.ProjectService.UpdateProjectType.
+func (c *projectServiceClient) UpdateProjectType(ctx context.Context, req *connect.Request[v1.UpdateProjectTypeRequest]) (*connect.Response[v1.UpdateProjectTypeResponse], error) {
+	return c.updateProjectType.CallUnary(ctx, req)
+}
+
 // ProjectServiceHandler is an implementation of the project.v1.ProjectService service.
 type ProjectServiceHandler interface {
 	GetProject(context.Context, *connect.Request[v1.GetProjectRequest]) (*connect.Response[v1.GetProjectResponse], error)
@@ -161,6 +304,15 @@ type ProjectServiceHandler interface {
 	DeleteProject(context.Context, *connect.Request[v1.DeleteProjectRequest]) (*connect.Response[v1.DeleteProjectResponse], error)
 	GetProjects(context.Context, *connect.Request[v1.GetProjectsRequest]) (*connect.Response[v1.GetProjectsResponse], error)
 	GetProjectsByCustomer(context.Context, *connect.Request[v1.GetProjectsByCustomerRequest]) (*connect.Response[v1.GetProjectsByCustomerResponse], error)
+	GetProjectsByOrg(context.Context, *connect.Request[v1.GetProjectsByOrgRequest]) (*connect.Response[v1.GetProjectsByOrgResponse], error)
+	GetJobsByProject(context.Context, *connect.Request[v1.GetJobsByProjectRequest]) (*connect.Response[v1.GetJobsByProjectResponse], error)
+	GetJobsByCustomer(context.Context, *connect.Request[v1.GetJobsByCustomerRequest]) (*connect.Response[v1.GetJobsByCustomerResponse], error)
+	GetJobsByDate(context.Context, *connect.Request[v1.GetJobsByDateRequest]) (*connect.Response[v1.GetJobsByDateResponse], error)
+	GetJob(context.Context, *connect.Request[v1.GetJobRequest]) (*connect.Response[v1.GetJobResponse], error)
+	CreateJob(context.Context, *connect.Request[v1.CreateJobRequest]) (*connect.Response[v1.CreateJobResponse], error)
+	UpdateJob(context.Context, *connect.Request[v1.UpdateJobRequest]) (*connect.Response[v1.UpdateJobResponse], error)
+	DeleteJob(context.Context, *connect.Request[v1.DeleteJobRequest]) (*connect.Response[v1.DeleteJobResponse], error)
+	UpdateProjectType(context.Context, *connect.Request[v1.UpdateProjectTypeRequest]) (*connect.Response[v1.UpdateProjectTypeResponse], error)
 }
 
 // NewProjectServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -206,6 +358,60 @@ func NewProjectServiceHandler(svc ProjectServiceHandler, opts ...connect.Handler
 		connect.WithSchema(projectServiceMethods.ByName("GetProjectsByCustomer")),
 		connect.WithHandlerOptions(opts...),
 	)
+	projectServiceGetProjectsByOrgHandler := connect.NewUnaryHandler(
+		ProjectServiceGetProjectsByOrgProcedure,
+		svc.GetProjectsByOrg,
+		connect.WithSchema(projectServiceMethods.ByName("GetProjectsByOrg")),
+		connect.WithHandlerOptions(opts...),
+	)
+	projectServiceGetJobsByProjectHandler := connect.NewUnaryHandler(
+		ProjectServiceGetJobsByProjectProcedure,
+		svc.GetJobsByProject,
+		connect.WithSchema(projectServiceMethods.ByName("GetJobsByProject")),
+		connect.WithHandlerOptions(opts...),
+	)
+	projectServiceGetJobsByCustomerHandler := connect.NewUnaryHandler(
+		ProjectServiceGetJobsByCustomerProcedure,
+		svc.GetJobsByCustomer,
+		connect.WithSchema(projectServiceMethods.ByName("GetJobsByCustomer")),
+		connect.WithHandlerOptions(opts...),
+	)
+	projectServiceGetJobsByDateHandler := connect.NewUnaryHandler(
+		ProjectServiceGetJobsByDateProcedure,
+		svc.GetJobsByDate,
+		connect.WithSchema(projectServiceMethods.ByName("GetJobsByDate")),
+		connect.WithHandlerOptions(opts...),
+	)
+	projectServiceGetJobHandler := connect.NewUnaryHandler(
+		ProjectServiceGetJobProcedure,
+		svc.GetJob,
+		connect.WithSchema(projectServiceMethods.ByName("GetJob")),
+		connect.WithHandlerOptions(opts...),
+	)
+	projectServiceCreateJobHandler := connect.NewUnaryHandler(
+		ProjectServiceCreateJobProcedure,
+		svc.CreateJob,
+		connect.WithSchema(projectServiceMethods.ByName("CreateJob")),
+		connect.WithHandlerOptions(opts...),
+	)
+	projectServiceUpdateJobHandler := connect.NewUnaryHandler(
+		ProjectServiceUpdateJobProcedure,
+		svc.UpdateJob,
+		connect.WithSchema(projectServiceMethods.ByName("UpdateJob")),
+		connect.WithHandlerOptions(opts...),
+	)
+	projectServiceDeleteJobHandler := connect.NewUnaryHandler(
+		ProjectServiceDeleteJobProcedure,
+		svc.DeleteJob,
+		connect.WithSchema(projectServiceMethods.ByName("DeleteJob")),
+		connect.WithHandlerOptions(opts...),
+	)
+	projectServiceUpdateProjectTypeHandler := connect.NewUnaryHandler(
+		ProjectServiceUpdateProjectTypeProcedure,
+		svc.UpdateProjectType,
+		connect.WithSchema(projectServiceMethods.ByName("UpdateProjectType")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/project.v1.ProjectService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case ProjectServiceGetProjectProcedure:
@@ -220,6 +426,24 @@ func NewProjectServiceHandler(svc ProjectServiceHandler, opts ...connect.Handler
 			projectServiceGetProjectsHandler.ServeHTTP(w, r)
 		case ProjectServiceGetProjectsByCustomerProcedure:
 			projectServiceGetProjectsByCustomerHandler.ServeHTTP(w, r)
+		case ProjectServiceGetProjectsByOrgProcedure:
+			projectServiceGetProjectsByOrgHandler.ServeHTTP(w, r)
+		case ProjectServiceGetJobsByProjectProcedure:
+			projectServiceGetJobsByProjectHandler.ServeHTTP(w, r)
+		case ProjectServiceGetJobsByCustomerProcedure:
+			projectServiceGetJobsByCustomerHandler.ServeHTTP(w, r)
+		case ProjectServiceGetJobsByDateProcedure:
+			projectServiceGetJobsByDateHandler.ServeHTTP(w, r)
+		case ProjectServiceGetJobProcedure:
+			projectServiceGetJobHandler.ServeHTTP(w, r)
+		case ProjectServiceCreateJobProcedure:
+			projectServiceCreateJobHandler.ServeHTTP(w, r)
+		case ProjectServiceUpdateJobProcedure:
+			projectServiceUpdateJobHandler.ServeHTTP(w, r)
+		case ProjectServiceDeleteJobProcedure:
+			projectServiceDeleteJobHandler.ServeHTTP(w, r)
+		case ProjectServiceUpdateProjectTypeProcedure:
+			projectServiceUpdateProjectTypeHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -251,4 +475,40 @@ func (UnimplementedProjectServiceHandler) GetProjects(context.Context, *connect.
 
 func (UnimplementedProjectServiceHandler) GetProjectsByCustomer(context.Context, *connect.Request[v1.GetProjectsByCustomerRequest]) (*connect.Response[v1.GetProjectsByCustomerResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("project.v1.ProjectService.GetProjectsByCustomer is not implemented"))
+}
+
+func (UnimplementedProjectServiceHandler) GetProjectsByOrg(context.Context, *connect.Request[v1.GetProjectsByOrgRequest]) (*connect.Response[v1.GetProjectsByOrgResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("project.v1.ProjectService.GetProjectsByOrg is not implemented"))
+}
+
+func (UnimplementedProjectServiceHandler) GetJobsByProject(context.Context, *connect.Request[v1.GetJobsByProjectRequest]) (*connect.Response[v1.GetJobsByProjectResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("project.v1.ProjectService.GetJobsByProject is not implemented"))
+}
+
+func (UnimplementedProjectServiceHandler) GetJobsByCustomer(context.Context, *connect.Request[v1.GetJobsByCustomerRequest]) (*connect.Response[v1.GetJobsByCustomerResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("project.v1.ProjectService.GetJobsByCustomer is not implemented"))
+}
+
+func (UnimplementedProjectServiceHandler) GetJobsByDate(context.Context, *connect.Request[v1.GetJobsByDateRequest]) (*connect.Response[v1.GetJobsByDateResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("project.v1.ProjectService.GetJobsByDate is not implemented"))
+}
+
+func (UnimplementedProjectServiceHandler) GetJob(context.Context, *connect.Request[v1.GetJobRequest]) (*connect.Response[v1.GetJobResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("project.v1.ProjectService.GetJob is not implemented"))
+}
+
+func (UnimplementedProjectServiceHandler) CreateJob(context.Context, *connect.Request[v1.CreateJobRequest]) (*connect.Response[v1.CreateJobResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("project.v1.ProjectService.CreateJob is not implemented"))
+}
+
+func (UnimplementedProjectServiceHandler) UpdateJob(context.Context, *connect.Request[v1.UpdateJobRequest]) (*connect.Response[v1.UpdateJobResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("project.v1.ProjectService.UpdateJob is not implemented"))
+}
+
+func (UnimplementedProjectServiceHandler) DeleteJob(context.Context, *connect.Request[v1.DeleteJobRequest]) (*connect.Response[v1.DeleteJobResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("project.v1.ProjectService.DeleteJob is not implemented"))
+}
+
+func (UnimplementedProjectServiceHandler) UpdateProjectType(context.Context, *connect.Request[v1.UpdateProjectTypeRequest]) (*connect.Response[v1.UpdateProjectTypeResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("project.v1.ProjectService.UpdateProjectType is not implemented"))
 }

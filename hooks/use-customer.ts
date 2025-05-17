@@ -1,3 +1,5 @@
+"use client";
+
 import { AuthContext } from "@/components/auth-provider";
 import { queryClient } from "@/components/providers";
 import {
@@ -23,7 +25,7 @@ export function useCustomers() {
 }
 
 type CreateCustomerProps = {
-  onSuccess?: (customer: Plain<Customer>) => void;
+  onSuccess?: (customer?: Plain<Customer>) => void;
   onError?: () => void;
 };
 
@@ -49,15 +51,13 @@ export function useCreateCustomer(props?: CreateCustomerProps) {
 export function useUpdateCustomer(props?: CreateCustomerProps) {
   return useMutation({
     async mutationFn(data: Plain<UpdateCustomer>) {
-      return await updateCustomer(data);
+      await updateCustomer(data);
     },
-    onSuccess(data) {
+    onSuccess() {
       queryClient.refetchQueries({
         queryKey: ["customers"],
       });
-      if (data) {
-        props?.onSuccess?.(data);
-      }
+      props?.onSuccess?.();
     },
     onError() {
       props?.onError?.();

@@ -1,3 +1,5 @@
+"use client";
+
 import { AuthContext } from "@/components/auth-provider";
 import { queryClient } from "@/components/providers";
 import {
@@ -5,6 +7,7 @@ import {
   getProject,
   getProjects,
   updateProject,
+  updateProjectType,
 } from "@/lib/api";
 import { CreateProject, Project, UpdateProject } from "@/project/v1/project_pb";
 import { Plain } from "@/types";
@@ -73,6 +76,34 @@ export function useUpdateProject(props?: CreateProjectProps) {
       if (data) {
         props?.onSuccess?.(data);
       }
+    },
+    onError() {
+      props?.onError?.();
+    },
+  });
+}
+
+type Props = {
+  onSuccess?: () => void;
+  onError?: () => void;
+};
+
+export function useUpdateProjectType(props?: Props) {
+  return useMutation({
+    async mutationFn({
+      value,
+      projectId,
+    }: {
+      value: boolean;
+      projectId: string;
+    }) {
+      await updateProjectType(projectId, value);
+      await queryClient.refetchQueries({
+        queryKey: ["projects"],
+      });
+    },
+    onSuccess() {
+      props?.onSuccess?.();
     },
     onError() {
       props?.onError?.();

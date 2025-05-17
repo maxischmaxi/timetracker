@@ -1,3 +1,5 @@
+"use client";
+
 import { AuthContext } from "@/components/auth-provider";
 import { queryClient } from "@/components/providers";
 import { createUser, getAllUsers, register, updateUser } from "@/lib/api";

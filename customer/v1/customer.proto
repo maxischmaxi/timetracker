@@ -10,6 +10,7 @@ service CustomerService {
   rpc UpdateCustomer (UpdateCustomerRequest) returns (UpdateCustomerResponse);
   rpc DeleteCustomer (DeleteCustomerRequest) returns (DeleteCustomerResponse);
   rpc GetCustomers (GetCustomersRequest) returns (GetCustomersResponse);
+  rpc GetCustomersByOrg (GetCustomersByOrgRequest) returns (GetCustomersByOrgResponse);
 }
 
 message Address {
@@ -27,6 +28,7 @@ message UpdateCustomer {
   string email = 4;
   string phone = 5;
   Address address = 6;
+  repeated string service_type_ids = 7;
 }
 
 message Customer {
@@ -35,9 +37,11 @@ message Customer {
   string email = 3;
   string phone = 4;
   string tag = 5;
-  int64 created_at = 6;
-  int64 updated_at = 7;
-  Address address = 8;
+  string org_id = 6;
+  int64 created_at = 7;
+  int64 updated_at = 8;
+  Address address = 9;
+  repeated string service_type_ids = 10;
 }
 
 message CreateCustomer {
@@ -46,6 +50,7 @@ message CreateCustomer {
   string email = 3;
   string phone = 4;
   Address address = 5;
+  repeated string service_type_ids = 6;
 }
 
 message GetCustomerRequest {
@@ -58,6 +63,7 @@ message GetCustomerResponse {
 
 message CreateCustomerRequest {
   CreateCustomer customer = 1;
+  string org_id = 2;
 }
 
 message CreateCustomerResponse {
@@ -66,11 +72,10 @@ message CreateCustomerResponse {
 
 message UpdateCustomerRequest {
   UpdateCustomer customer = 1;
+  string org_id = 2;
 }
 
-message UpdateCustomerResponse {
-  Customer customer = 1;
-}
+message UpdateCustomerResponse { }
 
 message DeleteCustomerRequest {
   string id = 1;
@@ -83,5 +88,13 @@ message DeleteCustomerResponse {
 message GetCustomersRequest { }
 
 message GetCustomersResponse {
+  repeated Customer customers = 1;
+}
+
+message GetCustomersByOrgRequest {
+  string org_id = 1;
+}
+
+message GetCustomersByOrgResponse {
   repeated Customer customers = 1;
 }

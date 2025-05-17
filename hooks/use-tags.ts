@@ -1,3 +1,5 @@
+"use client";
+
 import { AuthContext } from "@/components/auth-provider";
 import { getAllTags } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";

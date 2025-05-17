@@ -31,6 +31,7 @@ import {
   ChevronsRightIcon,
   ColumnsIcon,
   GripVerticalIcon,
+  MoreVerticalIcon,
   PlusIcon,
 } from "lucide-react";
 import { Checkbox } from "./ui/checkbox";
@@ -60,6 +61,8 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import {
@@ -75,6 +78,8 @@ import Link from "next/link";
 import { Project } from "@/project/v1/project_pb";
 import { useProjects } from "@/hooks/use-projects";
 import { Plain } from "@/types";
+import { ProjectSheet } from "./project-sheet";
+import { ProjectBillableSwitch } from "./project-billable-switch";
 
 function DragHandle({ id }: { id: number }) {
   const { attributes, listeners } = useSortable({
@@ -134,13 +139,43 @@ const columns: ColumnDef<Plain<Project>>[] = [
       return (
         <Link
           href={`/projects/${row.original.id}`}
-          className="text-blue-600 hover:underline"
+          className="text-blue-600 hover:underline font-bold text-xs"
+          style={{ color: row.original.customColor }}
         >
           {row.original.name}
         </Link>
       );
     },
     enableHiding: false,
+  },
+  {
+    accessorKey: "bookable",
+    header: "Buchbar",
+    cell: ({ row }) => <ProjectBillableSwitch project={row.original} />,
+  },
+  {
+    id: "actions",
+    cell: () => (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
+            size="icon"
+          >
+            <MoreVerticalIcon />
+            <span className="sr-only">Open menu</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-32">
+          <DropdownMenuItem>Edit</DropdownMenuItem>
+          <DropdownMenuItem>Make a copy</DropdownMenuItem>
+          <DropdownMenuItem>Favorite</DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>Delete</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
   },
 ];
 
@@ -316,12 +351,12 @@ export function ProjectssTable() {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/projects/create">
+          <ProjectSheet>
+            <Button variant="outline" size="sm">
               <PlusIcon />
-              <span className="hidden lg:inline">Add Project</span>
-            </Link>
-          </Button>
+              <span className="hidden lg:inline">Projekt erstellen</span>
+            </Button>
+          </ProjectSheet>
         </div>
       </div>
       <TabsContent

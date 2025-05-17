@@ -55,6 +55,15 @@ const (
 	// OrgServiceAcceptEmailInviteProcedure is the fully-qualified name of the OrgService's
 	// AcceptEmailInvite RPC.
 	OrgServiceAcceptEmailInviteProcedure = "/org.v1.OrgService/AcceptEmailInvite"
+	// OrgServiceCreateServiceTypeProcedure is the fully-qualified name of the OrgService's
+	// CreateServiceType RPC.
+	OrgServiceCreateServiceTypeProcedure = "/org.v1.OrgService/CreateServiceType"
+	// OrgServiceUpdateServiceTypeStatusProcedure is the fully-qualified name of the OrgService's
+	// UpdateServiceTypeStatus RPC.
+	OrgServiceUpdateServiceTypeStatusProcedure = "/org.v1.OrgService/UpdateServiceTypeStatus"
+	// OrgServiceDeleteServiceTypeProcedure is the fully-qualified name of the OrgService's
+	// DeleteServiceType RPC.
+	OrgServiceDeleteServiceTypeProcedure = "/org.v1.OrgService/DeleteServiceType"
 )
 
 // OrgServiceClient is a client for the org.v1.OrgService service.
@@ -68,6 +77,9 @@ type OrgServiceClient interface {
 	RemoveAdminFromOrg(context.Context, *connect.Request[v1.RemoveAdminFromOrgRequest]) (*connect.Response[v1.RemoveAdminFromOrgResponse], error)
 	InviteEmailToOrg(context.Context, *connect.Request[v1.InviteEmailToOrgRequest]) (*connect.Response[v1.InviteEmailToOrgResponse], error)
 	AcceptEmailInvite(context.Context, *connect.Request[v1.AcceptEmailInviteRequest]) (*connect.Response[v1.AcceptEmailInviteResponse], error)
+	CreateServiceType(context.Context, *connect.Request[v1.CreateServiceTypeRequest]) (*connect.Response[v1.CreateServiceTypeResponse], error)
+	UpdateServiceTypeStatus(context.Context, *connect.Request[v1.UpdateServiceTypeStatusRequest]) (*connect.Response[v1.UpdateServiceTypeStatusResponse], error)
+	DeleteServiceType(context.Context, *connect.Request[v1.DeleteServiceTypeRequest]) (*connect.Response[v1.DeleteServiceTypeResponse], error)
 }
 
 // NewOrgServiceClient constructs a client for the org.v1.OrgService service. By default, it uses
@@ -135,20 +147,41 @@ func NewOrgServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(orgServiceMethods.ByName("AcceptEmailInvite")),
 			connect.WithClientOptions(opts...),
 		),
+		createServiceType: connect.NewClient[v1.CreateServiceTypeRequest, v1.CreateServiceTypeResponse](
+			httpClient,
+			baseURL+OrgServiceCreateServiceTypeProcedure,
+			connect.WithSchema(orgServiceMethods.ByName("CreateServiceType")),
+			connect.WithClientOptions(opts...),
+		),
+		updateServiceTypeStatus: connect.NewClient[v1.UpdateServiceTypeStatusRequest, v1.UpdateServiceTypeStatusResponse](
+			httpClient,
+			baseURL+OrgServiceUpdateServiceTypeStatusProcedure,
+			connect.WithSchema(orgServiceMethods.ByName("UpdateServiceTypeStatus")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteServiceType: connect.NewClient[v1.DeleteServiceTypeRequest, v1.DeleteServiceTypeResponse](
+			httpClient,
+			baseURL+OrgServiceDeleteServiceTypeProcedure,
+			connect.WithSchema(orgServiceMethods.ByName("DeleteServiceType")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // orgServiceClient implements OrgServiceClient.
 type orgServiceClient struct {
-	getOrg             *connect.Client[v1.GetOrgRequest, v1.GetOrgResponse]
-	getOrgById         *connect.Client[v1.GetOrgByIdRequest, v1.GetOrgByIdResponse]
-	updateOrg          *connect.Client[v1.UpdateOrgRequest, v1.UpdateOrgResponse]
-	createOrg          *connect.Client[v1.CreateOrgRequest, v1.CreateOrgResponse]
-	deleteOrg          *connect.Client[v1.DeleteOrgRequest, v1.DeleteOrgResponse]
-	addAdminToOrg      *connect.Client[v1.AddAdminToOrgRequest, v1.AddAdminToOrgResponse]
-	removeAdminFromOrg *connect.Client[v1.RemoveAdminFromOrgRequest, v1.RemoveAdminFromOrgResponse]
-	inviteEmailToOrg   *connect.Client[v1.InviteEmailToOrgRequest, v1.InviteEmailToOrgResponse]
-	acceptEmailInvite  *connect.Client[v1.AcceptEmailInviteRequest, v1.AcceptEmailInviteResponse]
+	getOrg                  *connect.Client[v1.GetOrgRequest, v1.GetOrgResponse]
+	getOrgById              *connect.Client[v1.GetOrgByIdRequest, v1.GetOrgByIdResponse]
+	updateOrg               *connect.Client[v1.UpdateOrgRequest, v1.UpdateOrgResponse]
+	createOrg               *connect.Client[v1.CreateOrgRequest, v1.CreateOrgResponse]
+	deleteOrg               *connect.Client[v1.DeleteOrgRequest, v1.DeleteOrgResponse]
+	addAdminToOrg           *connect.Client[v1.AddAdminToOrgRequest, v1.AddAdminToOrgResponse]
+	removeAdminFromOrg      *connect.Client[v1.RemoveAdminFromOrgRequest, v1.RemoveAdminFromOrgResponse]
+	inviteEmailToOrg        *connect.Client[v1.InviteEmailToOrgRequest, v1.InviteEmailToOrgResponse]
+	acceptEmailInvite       *connect.Client[v1.AcceptEmailInviteRequest, v1.AcceptEmailInviteResponse]
+	createServiceType       *connect.Client[v1.CreateServiceTypeRequest, v1.CreateServiceTypeResponse]
+	updateServiceTypeStatus *connect.Client[v1.UpdateServiceTypeStatusRequest, v1.UpdateServiceTypeStatusResponse]
+	deleteServiceType       *connect.Client[v1.DeleteServiceTypeRequest, v1.DeleteServiceTypeResponse]
 }
 
 // GetOrg calls org.v1.OrgService.GetOrg.
@@ -196,6 +229,21 @@ func (c *orgServiceClient) AcceptEmailInvite(ctx context.Context, req *connect.R
 	return c.acceptEmailInvite.CallUnary(ctx, req)
 }
 
+// CreateServiceType calls org.v1.OrgService.CreateServiceType.
+func (c *orgServiceClient) CreateServiceType(ctx context.Context, req *connect.Request[v1.CreateServiceTypeRequest]) (*connect.Response[v1.CreateServiceTypeResponse], error) {
+	return c.createServiceType.CallUnary(ctx, req)
+}
+
+// UpdateServiceTypeStatus calls org.v1.OrgService.UpdateServiceTypeStatus.
+func (c *orgServiceClient) UpdateServiceTypeStatus(ctx context.Context, req *connect.Request[v1.UpdateServiceTypeStatusRequest]) (*connect.Response[v1.UpdateServiceTypeStatusResponse], error) {
+	return c.updateServiceTypeStatus.CallUnary(ctx, req)
+}
+
+// DeleteServiceType calls org.v1.OrgService.DeleteServiceType.
+func (c *orgServiceClient) DeleteServiceType(ctx context.Context, req *connect.Request[v1.DeleteServiceTypeRequest]) (*connect.Response[v1.DeleteServiceTypeResponse], error) {
+	return c.deleteServiceType.CallUnary(ctx, req)
+}
+
 // OrgServiceHandler is an implementation of the org.v1.OrgService service.
 type OrgServiceHandler interface {
 	GetOrg(context.Context, *connect.Request[v1.GetOrgRequest]) (*connect.Response[v1.GetOrgResponse], error)
@@ -207,6 +255,9 @@ type OrgServiceHandler interface {
 	RemoveAdminFromOrg(context.Context, *connect.Request[v1.RemoveAdminFromOrgRequest]) (*connect.Response[v1.RemoveAdminFromOrgResponse], error)
 	InviteEmailToOrg(context.Context, *connect.Request[v1.InviteEmailToOrgRequest]) (*connect.Response[v1.InviteEmailToOrgResponse], error)
 	AcceptEmailInvite(context.Context, *connect.Request[v1.AcceptEmailInviteRequest]) (*connect.Response[v1.AcceptEmailInviteResponse], error)
+	CreateServiceType(context.Context, *connect.Request[v1.CreateServiceTypeRequest]) (*connect.Response[v1.CreateServiceTypeResponse], error)
+	UpdateServiceTypeStatus(context.Context, *connect.Request[v1.UpdateServiceTypeStatusRequest]) (*connect.Response[v1.UpdateServiceTypeStatusResponse], error)
+	DeleteServiceType(context.Context, *connect.Request[v1.DeleteServiceTypeRequest]) (*connect.Response[v1.DeleteServiceTypeResponse], error)
 }
 
 // NewOrgServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -270,6 +321,24 @@ func NewOrgServiceHandler(svc OrgServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(orgServiceMethods.ByName("AcceptEmailInvite")),
 		connect.WithHandlerOptions(opts...),
 	)
+	orgServiceCreateServiceTypeHandler := connect.NewUnaryHandler(
+		OrgServiceCreateServiceTypeProcedure,
+		svc.CreateServiceType,
+		connect.WithSchema(orgServiceMethods.ByName("CreateServiceType")),
+		connect.WithHandlerOptions(opts...),
+	)
+	orgServiceUpdateServiceTypeStatusHandler := connect.NewUnaryHandler(
+		OrgServiceUpdateServiceTypeStatusProcedure,
+		svc.UpdateServiceTypeStatus,
+		connect.WithSchema(orgServiceMethods.ByName("UpdateServiceTypeStatus")),
+		connect.WithHandlerOptions(opts...),
+	)
+	orgServiceDeleteServiceTypeHandler := connect.NewUnaryHandler(
+		OrgServiceDeleteServiceTypeProcedure,
+		svc.DeleteServiceType,
+		connect.WithSchema(orgServiceMethods.ByName("DeleteServiceType")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/org.v1.OrgService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case OrgServiceGetOrgProcedure:
@@ -290,6 +359,12 @@ func NewOrgServiceHandler(svc OrgServiceHandler, opts ...connect.HandlerOption) 
 			orgServiceInviteEmailToOrgHandler.ServeHTTP(w, r)
 		case OrgServiceAcceptEmailInviteProcedure:
 			orgServiceAcceptEmailInviteHandler.ServeHTTP(w, r)
+		case OrgServiceCreateServiceTypeProcedure:
+			orgServiceCreateServiceTypeHandler.ServeHTTP(w, r)
+		case OrgServiceUpdateServiceTypeStatusProcedure:
+			orgServiceUpdateServiceTypeStatusHandler.ServeHTTP(w, r)
+		case OrgServiceDeleteServiceTypeProcedure:
+			orgServiceDeleteServiceTypeHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -333,4 +408,16 @@ func (UnimplementedOrgServiceHandler) InviteEmailToOrg(context.Context, *connect
 
 func (UnimplementedOrgServiceHandler) AcceptEmailInvite(context.Context, *connect.Request[v1.AcceptEmailInviteRequest]) (*connect.Response[v1.AcceptEmailInviteResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("org.v1.OrgService.AcceptEmailInvite is not implemented"))
+}
+
+func (UnimplementedOrgServiceHandler) CreateServiceType(context.Context, *connect.Request[v1.CreateServiceTypeRequest]) (*connect.Response[v1.CreateServiceTypeResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("org.v1.OrgService.CreateServiceType is not implemented"))
+}
+
+func (UnimplementedOrgServiceHandler) UpdateServiceTypeStatus(context.Context, *connect.Request[v1.UpdateServiceTypeStatusRequest]) (*connect.Response[v1.UpdateServiceTypeStatusResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("org.v1.OrgService.UpdateServiceTypeStatus is not implemented"))
+}
+
+func (UnimplementedOrgServiceHandler) DeleteServiceType(context.Context, *connect.Request[v1.DeleteServiceTypeRequest]) (*connect.Response[v1.DeleteServiceTypeResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("org.v1.OrgService.DeleteServiceType is not implemented"))
 }

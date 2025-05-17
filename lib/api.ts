@@ -12,15 +12,13 @@ import {
   UpdateCustomer,
 } from "@/customer/v1/customer_pb";
 import {
-  CreateJob,
-  Job,
-  JobsByDateResponse,
-  JobService,
-} from "@/job/v1/job_pb";
-import {
+  CreateJobRequest,
   CreateProject,
+  DateJob,
+  Job,
   Project,
   ProjectService,
+  ProjectType,
   UpdateProject,
 } from "@/project/v1/project_pb";
 import { Plain } from "@/types";
@@ -46,6 +44,10 @@ const transport = createConnectTransport({
     if (token) {
       headers.append("Authorization", `Bearer ${token}`);
     }
+    const orgId = Cookie.get("__org");
+    if (orgId) {
+      headers.append("x-org-id", orgId);
+    }
 
     return fetch(input, {
       ...init,
@@ -56,7 +58,6 @@ const transport = createConnectTransport({
 
 const customerClient = createClient(CustomerService, transport);
 const projectClient = createClient(ProjectService, transport);
-const jobsClient = createClient(JobService, transport);
 const userClient = createClient(UserService, transport);
 const tagsClient = createClient(TagsService, transport);
 const orgsClient = createClient(OrgService, transport);
@@ -114,85 +115,73 @@ export async function deleteCustomer(id: string): Promise<string | undefined> {
   return await customerClient.deleteCustomer({ id }).then((res) => res.id);
 }
 
-export async function updateCustomer(
-  data: Plain<UpdateCustomer>,
-): Promise<Plain<Customer> | undefined> {
-  return await customerClient
-    .updateCustomer({ customer: data })
-    .then((res) => res.customer as unknown as Plain<Customer>);
+export async function updateCustomer(data: Plain<UpdateCustomer>) {
+  const orgId = Cookie.get("__org");
+  if (!orgId) {
+    throw new Error("org_id not found");
+  }
+
+  await customerClient.updateCustomer({ customer: data, orgId });
 }
 
 export async function createCustomer(
   data: Plain<CreateCustomer>,
 ): Promise<Plain<Customer> | undefined> {
+  const orgId = Cookie.get("__org");
+  if (!orgId) {
+    throw new Error("org_id not set");
+  }
+
   return await customerClient
-    .createCustomer({ customer: data })
+    .createCustomer({ customer: data, orgId })
     .then((res) => res.customer as unknown as Plain<Customer>);
 }
 
 export async function getJob(id: string): Promise<Plain<Job> | undefined> {
-  return await jobsClient
+  return await projectClient
     .getJob({ id })
     .then((res) => res.job as unknown as Plain<Job>);
-}
-
-export async function getJobs(): Promise<Array<Plain<Job>> | undefined> {
-  return await jobsClient
-    .getJobs({})
-    .then((res) => res.jobs as unknown as Array<Plain<Job>>);
 }
 
 export async function getJobsByProject(
   id: string,
 ): Promise<Array<Plain<Job>> | undefined> {
-  return await jobsClient
+  return await projectClient
     .getJobsByProject({ projectId: id })
     .then((res) => res.jobs as unknown as Array<Plain<Job>>);
 }
 
 export async function deleteJob(id: string): Promise<string | undefined> {
-  return await jobsClient.deleteJob({ id }).then((res) => res.id);
+  return await projectClient.deleteJob({ id }).then((res) => res.id);
 }
 
-export async function updateJob(data: Job): Promise<Plain<Job> | undefined> {
-  return await jobsClient
-    .updateJob({ job: data })
-    .then((res) => res.job as unknown as Plain<Job>);
+export async function updateJob(data: Job) {
+  await projectClient.updateJob({ job: data });
 }
 
-export async function createJob(
-  data: Plain<CreateJob>,
-): Promise<Plain<Job> | undefined> {
-  return await jobsClient
-    .createJob({
-      job: {
-        date: data.date,
-        description: data.description,
-        projectId: data.projectId,
-        hours: BigInt(data.hours),
-        minutes: BigInt(data.minutes),
-        type: data.type,
-      },
-    })
-    .then((res) => res.job as unknown as Plain<Job>);
+export async function createJob(data: Plain<CreateJobRequest>) {
+  await projectClient.createJob({
+    ...data,
+    hours: BigInt(data.hours),
+    minutes: BigInt(data.minutes),
+  });
 }
 
 export async function getJobByCustomer(
-  id: string,
+  customerId: string,
+  projectId: string,
 ): Promise<Array<Plain<Job>> | undefined> {
-  return await jobsClient
-    .getJobsByCustomer({ customerId: id })
+  return await projectClient
+    .getJobsByCustomer({ projectId, customerId })
     .then((res) => res.jobs as unknown as Array<Plain<Job>>);
 }
 
-export async function getJobsByDate(
-  date: Date,
-): Promise<Array<Plain<JobsByDateResponse>> | undefined> {
-  return await jobsClient
+export async function getJobsByDate(date: Date) {
+  return await projectClient
     .getJobsByDate({
       date: format(date, "yyyy-MM-dd"),
     })
-    .then((res) => res.jobs as unknown as Array<Plain<JobsByDateResponse>>);
+    .then((res) => res.jobs as unknown as Array<Plain<DateJob>>);
 }
 
 export async function createProject(
@@ -295,5 +284,54 @@ export async function register(
     password,
     name,
     orgId,
+  });
+}
+
+export async function createServiceType(name: string): Promise<void> {
+  const orgId = Cookie.get("__org");
+  if (!orgId) {
+    throw new Error("org_id missing");
+  }
+
+  await orgsClient.createServiceType({
+    name,
+    orgId,
+  });
+}
+
+export async function updateServiceTypeStatus(
+  value: boolean,
+  id: string,
+): Promise<boolean> {
+  const orgId = Cookie.get("__org");
+  if (!orgId) {
+    throw new Error("org_id missing");
+  }
+
+  return await orgsClient
+    .updateServiceTypeStatus({
+      orgId,
+      status: value,
+      serviceTypeId: id,
+    })
+    .then((res) => res.status);
+}
+
+export async function deleteServiceType(id: string) {
+  const orgId = Cookie.get("__org");
+  if (!orgId) {
+    throw new Error("org_id missing");
+  }
+
+  await orgsClient.deleteServiceType({
+    orgId,
+    serviceTypeId: id,
+  });
+}
+
+export async function updateProjectType(projectId: string, value: boolean) {
+  await projectClient.updateProjectType({
+    projectId,
+    projectType: value ? ProjectType.BILLABLE : ProjectType.NON_BILLABLE,
   });
 }

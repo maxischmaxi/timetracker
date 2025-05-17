@@ -7,6 +7,7 @@
 package projectv1
 
 import (
+	v1 "github.com/maxischmaxi/ljtime-api/customer/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -21,21 +22,231 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type ProjectType int32
+
+const (
+	ProjectType_PROJECT_TYPE_UNSPECIFIED  ProjectType = 0
+	ProjectType_PROJECT_TYPE_BILLABLE     ProjectType = 1
+	ProjectType_PROJECT_TYPE_NON_BILLABLE ProjectType = 2
+)
+
+// Enum value maps for ProjectType.
+var (
+	ProjectType_name = map[int32]string{
+		0: "PROJECT_TYPE_UNSPECIFIED",
+		1: "PROJECT_TYPE_BILLABLE",
+		2: "PROJECT_TYPE_NON_BILLABLE",
+	}
+	ProjectType_value = map[string]int32{
+		"PROJECT_TYPE_UNSPECIFIED":  0,
+		"PROJECT_TYPE_BILLABLE":     1,
+		"PROJECT_TYPE_NON_BILLABLE": 2,
+	}
+)
+
+func (x ProjectType) Enum() *ProjectType {
+	p := new(ProjectType)
+	*p = x
+	return p
+}
+
+func (x ProjectType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ProjectType) Descriptor() protoreflect.EnumDescriptor {
+	return file_project_v1_project_proto_enumTypes[0].Descriptor()
+}
+
+func (ProjectType) Type() protoreflect.EnumType {
+	return &file_project_v1_project_proto_enumTypes[0]
+}
+
+func (x ProjectType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ProjectType.Descriptor instead.
+func (ProjectType) EnumDescriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{0}
+}
+
+type JobType int32
+
+const (
+	JobType_JOB_TYPE_UNSPECIFIED  JobType = 0
+	JobType_JOB_TYPE_BILLABLE     JobType = 1
+	JobType_JOB_TYPE_NON_BILLABLE JobType = 2
+)
+
+// Enum value maps for JobType.
+var (
+	JobType_name = map[int32]string{
+		0: "JOB_TYPE_UNSPECIFIED",
+		1: "JOB_TYPE_BILLABLE",
+		2: "JOB_TYPE_NON_BILLABLE",
+	}
+	JobType_value = map[string]int32{
+		"JOB_TYPE_UNSPECIFIED":  0,
+		"JOB_TYPE_BILLABLE":     1,
+		"JOB_TYPE_NON_BILLABLE": 2,
+	}
+)
+
+func (x JobType) Enum() *JobType {
+	p := new(JobType)
+	*p = x
+	return p
+}
+
+func (x JobType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (JobType) Descriptor() protoreflect.EnumDescriptor {
+	return file_project_v1_project_proto_enumTypes[1].Descriptor()
+}
+
+func (JobType) Type() protoreflect.EnumType {
+	return &file_project_v1_project_proto_enumTypes[1]
+}
+
+func (x JobType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use JobType.Descriptor instead.
+func (JobType) EnumDescriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{1}
+}
+
+type Job struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Type          JobType                `protobuf:"varint,4,opt,name=type,proto3,enum=project.v1.JobType" json:"type,omitempty"`
+	CreatedAt     int64                  `protobuf:"varint,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     int64                  `protobuf:"varint,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Hours         int64                  `protobuf:"varint,7,opt,name=hours,proto3" json:"hours,omitempty"`
+	Minutes       int64                  `protobuf:"varint,8,opt,name=minutes,proto3" json:"minutes,omitempty"`
+	ServiceTypeId string                 `protobuf:"bytes,9,opt,name=service_type_id,json=serviceTypeId,proto3" json:"service_type_id,omitempty"`
+	Date          string                 `protobuf:"bytes,10,opt,name=date,proto3" json:"date,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Job) Reset() {
+	*x = Job{}
+	mi := &file_project_v1_project_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Job) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Job) ProtoMessage() {}
+
+func (x *Job) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Job.ProtoReflect.Descriptor instead.
+func (*Job) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Job) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Job) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *Job) GetType() JobType {
+	if x != nil {
+		return x.Type
+	}
+	return JobType_JOB_TYPE_UNSPECIFIED
+}
+
+func (x *Job) GetCreatedAt() int64 {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return 0
+}
+
+func (x *Job) GetUpdatedAt() int64 {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return 0
+}
+
+func (x *Job) GetHours() int64 {
+	if x != nil {
+		return x.Hours
+	}
+	return 0
+}
+
+func (x *Job) GetMinutes() int64 {
+	if x != nil {
+		return x.Minutes
+	}
+	return 0
+}
+
+func (x *Job) GetServiceTypeId() string {
+	if x != nil {
+		return x.ServiceTypeId
+	}
+	return ""
+}
+
+func (x *Job) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
+}
+
 type Project struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	CustomerId    string                 `protobuf:"bytes,4,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
-	CreatedAt     int64                  `protobuf:"varint,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     int64                  `protobuf:"varint,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	OrgId         string                 `protobuf:"bytes,5,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
+	CreatedAt     int64                  `protobuf:"varint,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     int64                  `protobuf:"varint,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	ProjectType   ProjectType            `protobuf:"varint,8,opt,name=project_type,json=projectType,proto3,enum=project.v1.ProjectType" json:"project_type,omitempty"`
+	Jobs          []*Job                 `protobuf:"bytes,9,rep,name=jobs,proto3" json:"jobs,omitempty"`
+	CustomColor   string                 `protobuf:"bytes,10,opt,name=custom_color,json=customColor,proto3" json:"custom_color,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Project) Reset() {
 	*x = Project{}
-	mi := &file_project_v1_project_proto_msgTypes[0]
+	mi := &file_project_v1_project_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -47,7 +258,7 @@ func (x *Project) String() string {
 func (*Project) ProtoMessage() {}
 
 func (x *Project) ProtoReflect() protoreflect.Message {
-	mi := &file_project_v1_project_proto_msgTypes[0]
+	mi := &file_project_v1_project_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,7 +271,7 @@ func (x *Project) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Project.ProtoReflect.Descriptor instead.
 func (*Project) Descriptor() ([]byte, []int) {
-	return file_project_v1_project_proto_rawDescGZIP(), []int{0}
+	return file_project_v1_project_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Project) GetId() string {
@@ -91,6 +302,13 @@ func (x *Project) GetCustomerId() string {
 	return ""
 }
 
+func (x *Project) GetOrgId() string {
+	if x != nil {
+		return x.OrgId
+	}
+	return ""
+}
+
 func (x *Project) GetCreatedAt() int64 {
 	if x != nil {
 		return x.CreatedAt
@@ -105,6 +323,27 @@ func (x *Project) GetUpdatedAt() int64 {
 	return 0
 }
 
+func (x *Project) GetProjectType() ProjectType {
+	if x != nil {
+		return x.ProjectType
+	}
+	return ProjectType_PROJECT_TYPE_UNSPECIFIED
+}
+
+func (x *Project) GetJobs() []*Job {
+	if x != nil {
+		return x.Jobs
+	}
+	return nil
+}
+
+func (x *Project) GetCustomColor() string {
+	if x != nil {
+		return x.CustomColor
+	}
+	return ""
+}
+
 type GetProjectRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -114,7 +353,7 @@ type GetProjectRequest struct {
 
 func (x *GetProjectRequest) Reset() {
 	*x = GetProjectRequest{}
-	mi := &file_project_v1_project_proto_msgTypes[1]
+	mi := &file_project_v1_project_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -126,7 +365,7 @@ func (x *GetProjectRequest) String() string {
 func (*GetProjectRequest) ProtoMessage() {}
 
 func (x *GetProjectRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_project_v1_project_proto_msgTypes[1]
+	mi := &file_project_v1_project_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -139,7 +378,7 @@ func (x *GetProjectRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProjectRequest.ProtoReflect.Descriptor instead.
 func (*GetProjectRequest) Descriptor() ([]byte, []int) {
-	return file_project_v1_project_proto_rawDescGZIP(), []int{1}
+	return file_project_v1_project_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetProjectRequest) GetId() string {
@@ -158,7 +397,7 @@ type GetProjectResponse struct {
 
 func (x *GetProjectResponse) Reset() {
 	*x = GetProjectResponse{}
-	mi := &file_project_v1_project_proto_msgTypes[2]
+	mi := &file_project_v1_project_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -170,7 +409,7 @@ func (x *GetProjectResponse) String() string {
 func (*GetProjectResponse) ProtoMessage() {}
 
 func (x *GetProjectResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_project_v1_project_proto_msgTypes[2]
+	mi := &file_project_v1_project_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -183,7 +422,7 @@ func (x *GetProjectResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProjectResponse.ProtoReflect.Descriptor instead.
 func (*GetProjectResponse) Descriptor() ([]byte, []int) {
-	return file_project_v1_project_proto_rawDescGZIP(), []int{2}
+	return file_project_v1_project_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetProjectResponse) GetProject() *Project {
@@ -198,13 +437,14 @@ type CreateProject struct {
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	CustomerId    string                 `protobuf:"bytes,4,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
+	CustomColor   string                 `protobuf:"bytes,5,opt,name=custom_color,json=customColor,proto3" json:"custom_color,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateProject) Reset() {
 	*x = CreateProject{}
-	mi := &file_project_v1_project_proto_msgTypes[3]
+	mi := &file_project_v1_project_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -216,7 +456,7 @@ func (x *CreateProject) String() string {
 func (*CreateProject) ProtoMessage() {}
 
 func (x *CreateProject) ProtoReflect() protoreflect.Message {
-	mi := &file_project_v1_project_proto_msgTypes[3]
+	mi := &file_project_v1_project_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -229,7 +469,7 @@ func (x *CreateProject) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateProject.ProtoReflect.Descriptor instead.
 func (*CreateProject) Descriptor() ([]byte, []int) {
-	return file_project_v1_project_proto_rawDescGZIP(), []int{3}
+	return file_project_v1_project_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CreateProject) GetName() string {
@@ -253,19 +493,27 @@ func (x *CreateProject) GetCustomerId() string {
 	return ""
 }
 
+func (x *CreateProject) GetCustomColor() string {
+	if x != nil {
+		return x.CustomColor
+	}
+	return ""
+}
+
 type UpdateProject struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	CustomerId    string                 `protobuf:"bytes,4,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
+	CustomColor   string                 `protobuf:"bytes,5,opt,name=custom_color,json=customColor,proto3" json:"custom_color,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateProject) Reset() {
 	*x = UpdateProject{}
-	mi := &file_project_v1_project_proto_msgTypes[4]
+	mi := &file_project_v1_project_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -277,7 +525,7 @@ func (x *UpdateProject) String() string {
 func (*UpdateProject) ProtoMessage() {}
 
 func (x *UpdateProject) ProtoReflect() protoreflect.Message {
-	mi := &file_project_v1_project_proto_msgTypes[4]
+	mi := &file_project_v1_project_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -290,7 +538,7 @@ func (x *UpdateProject) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateProject.ProtoReflect.Descriptor instead.
 func (*UpdateProject) Descriptor() ([]byte, []int) {
-	return file_project_v1_project_proto_rawDescGZIP(), []int{4}
+	return file_project_v1_project_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *UpdateProject) GetId() string {
@@ -321,16 +569,24 @@ func (x *UpdateProject) GetCustomerId() string {
 	return ""
 }
 
+func (x *UpdateProject) GetCustomColor() string {
+	if x != nil {
+		return x.CustomColor
+	}
+	return ""
+}
+
 type CreateProjectRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Project       *CreateProject         `protobuf:"bytes,1,opt,name=project,proto3" json:"project,omitempty"`
+	OrgId         string                 `protobuf:"bytes,2,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateProjectRequest) Reset() {
 	*x = CreateProjectRequest{}
-	mi := &file_project_v1_project_proto_msgTypes[5]
+	mi := &file_project_v1_project_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -342,7 +598,7 @@ func (x *CreateProjectRequest) String() string {
 func (*CreateProjectRequest) ProtoMessage() {}
 
 func (x *CreateProjectRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_project_v1_project_proto_msgTypes[5]
+	mi := &file_project_v1_project_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -355,7 +611,7 @@ func (x *CreateProjectRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateProjectRequest.ProtoReflect.Descriptor instead.
 func (*CreateProjectRequest) Descriptor() ([]byte, []int) {
-	return file_project_v1_project_proto_rawDescGZIP(), []int{5}
+	return file_project_v1_project_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CreateProjectRequest) GetProject() *CreateProject {
@@ -363,6 +619,13 @@ func (x *CreateProjectRequest) GetProject() *CreateProject {
 		return x.Project
 	}
 	return nil
+}
+
+func (x *CreateProjectRequest) GetOrgId() string {
+	if x != nil {
+		return x.OrgId
+	}
+	return ""
 }
 
 type CreateProjectResponse struct {
@@ -374,7 +637,7 @@ type CreateProjectResponse struct {
 
 func (x *CreateProjectResponse) Reset() {
 	*x = CreateProjectResponse{}
-	mi := &file_project_v1_project_proto_msgTypes[6]
+	mi := &file_project_v1_project_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -386,7 +649,7 @@ func (x *CreateProjectResponse) String() string {
 func (*CreateProjectResponse) ProtoMessage() {}
 
 func (x *CreateProjectResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_project_v1_project_proto_msgTypes[6]
+	mi := &file_project_v1_project_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -399,7 +662,7 @@ func (x *CreateProjectResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateProjectResponse.ProtoReflect.Descriptor instead.
 func (*CreateProjectResponse) Descriptor() ([]byte, []int) {
-	return file_project_v1_project_proto_rawDescGZIP(), []int{6}
+	return file_project_v1_project_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *CreateProjectResponse) GetProject() *Project {
@@ -412,13 +675,14 @@ func (x *CreateProjectResponse) GetProject() *Project {
 type UpdateProjectRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Project       *UpdateProject         `protobuf:"bytes,1,opt,name=project,proto3" json:"project,omitempty"`
+	OrgId         string                 `protobuf:"bytes,2,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateProjectRequest) Reset() {
 	*x = UpdateProjectRequest{}
-	mi := &file_project_v1_project_proto_msgTypes[7]
+	mi := &file_project_v1_project_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -430,7 +694,7 @@ func (x *UpdateProjectRequest) String() string {
 func (*UpdateProjectRequest) ProtoMessage() {}
 
 func (x *UpdateProjectRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_project_v1_project_proto_msgTypes[7]
+	mi := &file_project_v1_project_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -443,7 +707,7 @@ func (x *UpdateProjectRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateProjectRequest.ProtoReflect.Descriptor instead.
 func (*UpdateProjectRequest) Descriptor() ([]byte, []int) {
-	return file_project_v1_project_proto_rawDescGZIP(), []int{7}
+	return file_project_v1_project_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *UpdateProjectRequest) GetProject() *UpdateProject {
@@ -451,6 +715,13 @@ func (x *UpdateProjectRequest) GetProject() *UpdateProject {
 		return x.Project
 	}
 	return nil
+}
+
+func (x *UpdateProjectRequest) GetOrgId() string {
+	if x != nil {
+		return x.OrgId
+	}
+	return ""
 }
 
 type UpdateProjectResponse struct {
@@ -462,7 +733,7 @@ type UpdateProjectResponse struct {
 
 func (x *UpdateProjectResponse) Reset() {
 	*x = UpdateProjectResponse{}
-	mi := &file_project_v1_project_proto_msgTypes[8]
+	mi := &file_project_v1_project_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -474,7 +745,7 @@ func (x *UpdateProjectResponse) String() string {
 func (*UpdateProjectResponse) ProtoMessage() {}
 
 func (x *UpdateProjectResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_project_v1_project_proto_msgTypes[8]
+	mi := &file_project_v1_project_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -487,7 +758,7 @@ func (x *UpdateProjectResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateProjectResponse.ProtoReflect.Descriptor instead.
 func (*UpdateProjectResponse) Descriptor() ([]byte, []int) {
-	return file_project_v1_project_proto_rawDescGZIP(), []int{8}
+	return file_project_v1_project_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *UpdateProjectResponse) GetProject() *Project {
@@ -506,7 +777,7 @@ type DeleteProjectRequest struct {
 
 func (x *DeleteProjectRequest) Reset() {
 	*x = DeleteProjectRequest{}
-	mi := &file_project_v1_project_proto_msgTypes[9]
+	mi := &file_project_v1_project_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -518,7 +789,7 @@ func (x *DeleteProjectRequest) String() string {
 func (*DeleteProjectRequest) ProtoMessage() {}
 
 func (x *DeleteProjectRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_project_v1_project_proto_msgTypes[9]
+	mi := &file_project_v1_project_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -531,7 +802,7 @@ func (x *DeleteProjectRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteProjectRequest.ProtoReflect.Descriptor instead.
 func (*DeleteProjectRequest) Descriptor() ([]byte, []int) {
-	return file_project_v1_project_proto_rawDescGZIP(), []int{9}
+	return file_project_v1_project_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *DeleteProjectRequest) GetId() string {
@@ -550,7 +821,7 @@ type DeleteProjectResponse struct {
 
 func (x *DeleteProjectResponse) Reset() {
 	*x = DeleteProjectResponse{}
-	mi := &file_project_v1_project_proto_msgTypes[10]
+	mi := &file_project_v1_project_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -562,7 +833,7 @@ func (x *DeleteProjectResponse) String() string {
 func (*DeleteProjectResponse) ProtoMessage() {}
 
 func (x *DeleteProjectResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_project_v1_project_proto_msgTypes[10]
+	mi := &file_project_v1_project_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -575,7 +846,7 @@ func (x *DeleteProjectResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteProjectResponse.ProtoReflect.Descriptor instead.
 func (*DeleteProjectResponse) Descriptor() ([]byte, []int) {
-	return file_project_v1_project_proto_rawDescGZIP(), []int{10}
+	return file_project_v1_project_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *DeleteProjectResponse) GetId() string {
@@ -593,7 +864,7 @@ type GetProjectsRequest struct {
 
 func (x *GetProjectsRequest) Reset() {
 	*x = GetProjectsRequest{}
-	mi := &file_project_v1_project_proto_msgTypes[11]
+	mi := &file_project_v1_project_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -605,7 +876,7 @@ func (x *GetProjectsRequest) String() string {
 func (*GetProjectsRequest) ProtoMessage() {}
 
 func (x *GetProjectsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_project_v1_project_proto_msgTypes[11]
+	mi := &file_project_v1_project_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -618,7 +889,7 @@ func (x *GetProjectsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProjectsRequest.ProtoReflect.Descriptor instead.
 func (*GetProjectsRequest) Descriptor() ([]byte, []int) {
-	return file_project_v1_project_proto_rawDescGZIP(), []int{11}
+	return file_project_v1_project_proto_rawDescGZIP(), []int{12}
 }
 
 type GetProjectsResponse struct {
@@ -630,7 +901,7 @@ type GetProjectsResponse struct {
 
 func (x *GetProjectsResponse) Reset() {
 	*x = GetProjectsResponse{}
-	mi := &file_project_v1_project_proto_msgTypes[12]
+	mi := &file_project_v1_project_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -642,7 +913,7 @@ func (x *GetProjectsResponse) String() string {
 func (*GetProjectsResponse) ProtoMessage() {}
 
 func (x *GetProjectsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_project_v1_project_proto_msgTypes[12]
+	mi := &file_project_v1_project_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -655,7 +926,7 @@ func (x *GetProjectsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProjectsResponse.ProtoReflect.Descriptor instead.
 func (*GetProjectsResponse) Descriptor() ([]byte, []int) {
-	return file_project_v1_project_proto_rawDescGZIP(), []int{12}
+	return file_project_v1_project_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *GetProjectsResponse) GetProjects() []*Project {
@@ -674,7 +945,7 @@ type GetProjectsByCustomerRequest struct {
 
 func (x *GetProjectsByCustomerRequest) Reset() {
 	*x = GetProjectsByCustomerRequest{}
-	mi := &file_project_v1_project_proto_msgTypes[13]
+	mi := &file_project_v1_project_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -686,7 +957,7 @@ func (x *GetProjectsByCustomerRequest) String() string {
 func (*GetProjectsByCustomerRequest) ProtoMessage() {}
 
 func (x *GetProjectsByCustomerRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_project_v1_project_proto_msgTypes[13]
+	mi := &file_project_v1_project_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -699,7 +970,7 @@ func (x *GetProjectsByCustomerRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProjectsByCustomerRequest.ProtoReflect.Descriptor instead.
 func (*GetProjectsByCustomerRequest) Descriptor() ([]byte, []int) {
-	return file_project_v1_project_proto_rawDescGZIP(), []int{13}
+	return file_project_v1_project_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *GetProjectsByCustomerRequest) GetCustomerId() string {
@@ -718,7 +989,7 @@ type GetProjectsByCustomerResponse struct {
 
 func (x *GetProjectsByCustomerResponse) Reset() {
 	*x = GetProjectsByCustomerResponse{}
-	mi := &file_project_v1_project_proto_msgTypes[14]
+	mi := &file_project_v1_project_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -730,7 +1001,7 @@ func (x *GetProjectsByCustomerResponse) String() string {
 func (*GetProjectsByCustomerResponse) ProtoMessage() {}
 
 func (x *GetProjectsByCustomerResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_project_v1_project_proto_msgTypes[14]
+	mi := &file_project_v1_project_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -743,7 +1014,7 @@ func (x *GetProjectsByCustomerResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProjectsByCustomerResponse.ProtoReflect.Descriptor instead.
 func (*GetProjectsByCustomerResponse) Descriptor() ([]byte, []int) {
-	return file_project_v1_project_proto_rawDescGZIP(), []int{14}
+	return file_project_v1_project_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *GetProjectsByCustomerResponse) GetProjects() []*Project {
@@ -753,43 +1024,957 @@ func (x *GetProjectsByCustomerResponse) GetProjects() []*Project {
 	return nil
 }
 
+type GetProjectsByOrgRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetProjectsByOrgRequest) Reset() {
+	*x = GetProjectsByOrgRequest{}
+	mi := &file_project_v1_project_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetProjectsByOrgRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetProjectsByOrgRequest) ProtoMessage() {}
+
+func (x *GetProjectsByOrgRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetProjectsByOrgRequest.ProtoReflect.Descriptor instead.
+func (*GetProjectsByOrgRequest) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *GetProjectsByOrgRequest) GetOrgId() string {
+	if x != nil {
+		return x.OrgId
+	}
+	return ""
+}
+
+type GetProjectsByOrgResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Projects      []*Project             `protobuf:"bytes,1,rep,name=projects,proto3" json:"projects,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetProjectsByOrgResponse) Reset() {
+	*x = GetProjectsByOrgResponse{}
+	mi := &file_project_v1_project_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetProjectsByOrgResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetProjectsByOrgResponse) ProtoMessage() {}
+
+func (x *GetProjectsByOrgResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetProjectsByOrgResponse.ProtoReflect.Descriptor instead.
+func (*GetProjectsByOrgResponse) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetProjectsByOrgResponse) GetProjects() []*Project {
+	if x != nil {
+		return x.Projects
+	}
+	return nil
+}
+
+type GetJobRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetJobRequest) Reset() {
+	*x = GetJobRequest{}
+	mi := &file_project_v1_project_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetJobRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetJobRequest) ProtoMessage() {}
+
+func (x *GetJobRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetJobRequest.ProtoReflect.Descriptor instead.
+func (*GetJobRequest) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *GetJobRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type GetJobResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Job           *Job                   `protobuf:"bytes,1,opt,name=job,proto3" json:"job,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetJobResponse) Reset() {
+	*x = GetJobResponse{}
+	mi := &file_project_v1_project_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetJobResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetJobResponse) ProtoMessage() {}
+
+func (x *GetJobResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetJobResponse.ProtoReflect.Descriptor instead.
+func (*GetJobResponse) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *GetJobResponse) GetJob() *Job {
+	if x != nil {
+		return x.Job
+	}
+	return nil
+}
+
+type CreateJobRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Type          JobType                `protobuf:"varint,4,opt,name=type,proto3,enum=project.v1.JobType" json:"type,omitempty"`
+	Hours         int64                  `protobuf:"varint,5,opt,name=hours,proto3" json:"hours,omitempty"`
+	Minutes       int64                  `protobuf:"varint,6,opt,name=minutes,proto3" json:"minutes,omitempty"`
+	Date          string                 `protobuf:"bytes,7,opt,name=date,proto3" json:"date,omitempty"`
+	ServiceTypeId string                 `protobuf:"bytes,8,opt,name=service_type_id,json=serviceTypeId,proto3" json:"service_type_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateJobRequest) Reset() {
+	*x = CreateJobRequest{}
+	mi := &file_project_v1_project_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateJobRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateJobRequest) ProtoMessage() {}
+
+func (x *CreateJobRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateJobRequest.ProtoReflect.Descriptor instead.
+func (*CreateJobRequest) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *CreateJobRequest) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+func (x *CreateJobRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateJobRequest) GetType() JobType {
+	if x != nil {
+		return x.Type
+	}
+	return JobType_JOB_TYPE_UNSPECIFIED
+}
+
+func (x *CreateJobRequest) GetHours() int64 {
+	if x != nil {
+		return x.Hours
+	}
+	return 0
+}
+
+func (x *CreateJobRequest) GetMinutes() int64 {
+	if x != nil {
+		return x.Minutes
+	}
+	return 0
+}
+
+func (x *CreateJobRequest) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
+}
+
+func (x *CreateJobRequest) GetServiceTypeId() string {
+	if x != nil {
+		return x.ServiceTypeId
+	}
+	return ""
+}
+
+type CreateJobResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateJobResponse) Reset() {
+	*x = CreateJobResponse{}
+	mi := &file_project_v1_project_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateJobResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateJobResponse) ProtoMessage() {}
+
+func (x *CreateJobResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateJobResponse.ProtoReflect.Descriptor instead.
+func (*CreateJobResponse) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{21}
+}
+
+type UpdateJobRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Job           *Job                   `protobuf:"bytes,1,opt,name=job,proto3" json:"job,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateJobRequest) Reset() {
+	*x = UpdateJobRequest{}
+	mi := &file_project_v1_project_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateJobRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateJobRequest) ProtoMessage() {}
+
+func (x *UpdateJobRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateJobRequest.ProtoReflect.Descriptor instead.
+func (*UpdateJobRequest) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *UpdateJobRequest) GetJob() *Job {
+	if x != nil {
+		return x.Job
+	}
+	return nil
+}
+
+type UpdateJobResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateJobResponse) Reset() {
+	*x = UpdateJobResponse{}
+	mi := &file_project_v1_project_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateJobResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateJobResponse) ProtoMessage() {}
+
+func (x *UpdateJobResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateJobResponse.ProtoReflect.Descriptor instead.
+func (*UpdateJobResponse) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{23}
+}
+
+type DeleteJobRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteJobRequest) Reset() {
+	*x = DeleteJobRequest{}
+	mi := &file_project_v1_project_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteJobRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteJobRequest) ProtoMessage() {}
+
+func (x *DeleteJobRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteJobRequest.ProtoReflect.Descriptor instead.
+func (*DeleteJobRequest) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *DeleteJobRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type DeleteJobResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteJobResponse) Reset() {
+	*x = DeleteJobResponse{}
+	mi := &file_project_v1_project_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteJobResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteJobResponse) ProtoMessage() {}
+
+func (x *DeleteJobResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteJobResponse.ProtoReflect.Descriptor instead.
+func (*DeleteJobResponse) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *DeleteJobResponse) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type GetJobsByProjectRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetJobsByProjectRequest) Reset() {
+	*x = GetJobsByProjectRequest{}
+	mi := &file_project_v1_project_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetJobsByProjectRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetJobsByProjectRequest) ProtoMessage() {}
+
+func (x *GetJobsByProjectRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetJobsByProjectRequest.ProtoReflect.Descriptor instead.
+func (*GetJobsByProjectRequest) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *GetJobsByProjectRequest) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+type GetJobsByProjectResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Jobs          []*Job                 `protobuf:"bytes,1,rep,name=jobs,proto3" json:"jobs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetJobsByProjectResponse) Reset() {
+	*x = GetJobsByProjectResponse{}
+	mi := &file_project_v1_project_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetJobsByProjectResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetJobsByProjectResponse) ProtoMessage() {}
+
+func (x *GetJobsByProjectResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetJobsByProjectResponse.ProtoReflect.Descriptor instead.
+func (*GetJobsByProjectResponse) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *GetJobsByProjectResponse) GetJobs() []*Job {
+	if x != nil {
+		return x.Jobs
+	}
+	return nil
+}
+
+type GetJobsByCustomerRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CustomerId    string                 `protobuf:"bytes,1,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
+	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetJobsByCustomerRequest) Reset() {
+	*x = GetJobsByCustomerRequest{}
+	mi := &file_project_v1_project_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetJobsByCustomerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetJobsByCustomerRequest) ProtoMessage() {}
+
+func (x *GetJobsByCustomerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetJobsByCustomerRequest.ProtoReflect.Descriptor instead.
+func (*GetJobsByCustomerRequest) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *GetJobsByCustomerRequest) GetCustomerId() string {
+	if x != nil {
+		return x.CustomerId
+	}
+	return ""
+}
+
+func (x *GetJobsByCustomerRequest) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+type GetJobsByCustomerResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Jobs          []*Job                 `protobuf:"bytes,1,rep,name=jobs,proto3" json:"jobs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetJobsByCustomerResponse) Reset() {
+	*x = GetJobsByCustomerResponse{}
+	mi := &file_project_v1_project_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetJobsByCustomerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetJobsByCustomerResponse) ProtoMessage() {}
+
+func (x *GetJobsByCustomerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetJobsByCustomerResponse.ProtoReflect.Descriptor instead.
+func (*GetJobsByCustomerResponse) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *GetJobsByCustomerResponse) GetJobs() []*Job {
+	if x != nil {
+		return x.Jobs
+	}
+	return nil
+}
+
+type GetJobsByDateRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Date          string                 `protobuf:"bytes,1,opt,name=date,proto3" json:"date,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetJobsByDateRequest) Reset() {
+	*x = GetJobsByDateRequest{}
+	mi := &file_project_v1_project_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetJobsByDateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetJobsByDateRequest) ProtoMessage() {}
+
+func (x *GetJobsByDateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetJobsByDateRequest.ProtoReflect.Descriptor instead.
+func (*GetJobsByDateRequest) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *GetJobsByDateRequest) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
+}
+
+type DateJob struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Job           *Job                   `protobuf:"bytes,1,opt,name=job,proto3" json:"job,omitempty"`
+	Customer      *v1.Customer           `protobuf:"bytes,2,opt,name=customer,proto3" json:"customer,omitempty"`
+	Project       *Project               `protobuf:"bytes,3,opt,name=project,proto3" json:"project,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DateJob) Reset() {
+	*x = DateJob{}
+	mi := &file_project_v1_project_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DateJob) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DateJob) ProtoMessage() {}
+
+func (x *DateJob) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DateJob.ProtoReflect.Descriptor instead.
+func (*DateJob) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *DateJob) GetJob() *Job {
+	if x != nil {
+		return x.Job
+	}
+	return nil
+}
+
+func (x *DateJob) GetCustomer() *v1.Customer {
+	if x != nil {
+		return x.Customer
+	}
+	return nil
+}
+
+func (x *DateJob) GetProject() *Project {
+	if x != nil {
+		return x.Project
+	}
+	return nil
+}
+
+type GetJobsByDateResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Jobs          []*DateJob             `protobuf:"bytes,1,rep,name=jobs,proto3" json:"jobs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetJobsByDateResponse) Reset() {
+	*x = GetJobsByDateResponse{}
+	mi := &file_project_v1_project_proto_msgTypes[32]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetJobsByDateResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetJobsByDateResponse) ProtoMessage() {}
+
+func (x *GetJobsByDateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[32]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetJobsByDateResponse.ProtoReflect.Descriptor instead.
+func (*GetJobsByDateResponse) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{32}
+}
+
+func (x *GetJobsByDateResponse) GetJobs() []*DateJob {
+	if x != nil {
+		return x.Jobs
+	}
+	return nil
+}
+
+type UpdateProjectTypeRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	ProjectType   ProjectType            `protobuf:"varint,2,opt,name=project_type,json=projectType,proto3,enum=project.v1.ProjectType" json:"project_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateProjectTypeRequest) Reset() {
+	*x = UpdateProjectTypeRequest{}
+	mi := &file_project_v1_project_proto_msgTypes[33]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateProjectTypeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateProjectTypeRequest) ProtoMessage() {}
+
+func (x *UpdateProjectTypeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[33]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateProjectTypeRequest.ProtoReflect.Descriptor instead.
+func (*UpdateProjectTypeRequest) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{33}
+}
+
+func (x *UpdateProjectTypeRequest) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+func (x *UpdateProjectTypeRequest) GetProjectType() ProjectType {
+	if x != nil {
+		return x.ProjectType
+	}
+	return ProjectType_PROJECT_TYPE_UNSPECIFIED
+}
+
+type UpdateProjectTypeResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateProjectTypeResponse) Reset() {
+	*x = UpdateProjectTypeResponse{}
+	mi := &file_project_v1_project_proto_msgTypes[34]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateProjectTypeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateProjectTypeResponse) ProtoMessage() {}
+
+func (x *UpdateProjectTypeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_project_v1_project_proto_msgTypes[34]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateProjectTypeResponse.ProtoReflect.Descriptor instead.
+func (*UpdateProjectTypeResponse) Descriptor() ([]byte, []int) {
+	return file_project_v1_project_proto_rawDescGZIP(), []int{34}
+}
+
 var File_project_v1_project_proto protoreflect.FileDescriptor
 
 const file_project_v1_project_proto_rawDesc = "" +
 	"\n" +
 	"\x18project/v1/project.proto\x12\n" +
-	"project.v1\"\xae\x01\n" +
+	"project.v1\x1a\x1acustomer/v1/customer.proto\"\x8a\x02\n" +
+	"\x03Job\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12'\n" +
+	"\x04type\x18\x04 \x01(\x0e2\x13.project.v1.JobTypeR\x04type\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\x03R\tcreatedAt\x12\x1d\n" +
+	"\n" +
+	"updated_at\x18\x06 \x01(\x03R\tupdatedAt\x12\x14\n" +
+	"\x05hours\x18\a \x01(\x03R\x05hours\x12\x18\n" +
+	"\aminutes\x18\b \x01(\x03R\aminutes\x12&\n" +
+	"\x0fservice_type_id\x18\t \x01(\tR\rserviceTypeId\x12\x12\n" +
+	"\x04date\x18\n" +
+	" \x01(\tR\x04date\"\xc9\x02\n" +
 	"\aProject\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1f\n" +
 	"\vcustomer_id\x18\x04 \x01(\tR\n" +
-	"customerId\x12\x1d\n" +
+	"customerId\x12\x15\n" +
+	"\x06org_id\x18\x05 \x01(\tR\x05orgId\x12\x1d\n" +
 	"\n" +
-	"created_at\x18\x05 \x01(\x03R\tcreatedAt\x12\x1d\n" +
+	"created_at\x18\x06 \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\x06 \x01(\x03R\tupdatedAt\"#\n" +
+	"updated_at\x18\a \x01(\x03R\tupdatedAt\x12:\n" +
+	"\fproject_type\x18\b \x01(\x0e2\x17.project.v1.ProjectTypeR\vprojectType\x12#\n" +
+	"\x04jobs\x18\t \x03(\v2\x0f.project.v1.JobR\x04jobs\x12!\n" +
+	"\fcustom_color\x18\n" +
+	" \x01(\tR\vcustomColor\"#\n" +
 	"\x11GetProjectRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"C\n" +
 	"\x12GetProjectResponse\x12-\n" +
-	"\aproject\x18\x01 \x01(\v2\x13.project.v1.ProjectR\aproject\"f\n" +
+	"\aproject\x18\x01 \x01(\v2\x13.project.v1.ProjectR\aproject\"\x89\x01\n" +
 	"\rCreateProject\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1f\n" +
 	"\vcustomer_id\x18\x04 \x01(\tR\n" +
-	"customerId\"v\n" +
+	"customerId\x12!\n" +
+	"\fcustom_color\x18\x05 \x01(\tR\vcustomColor\"\x99\x01\n" +
 	"\rUpdateProject\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1f\n" +
 	"\vcustomer_id\x18\x04 \x01(\tR\n" +
-	"customerId\"K\n" +
+	"customerId\x12!\n" +
+	"\fcustom_color\x18\x05 \x01(\tR\vcustomColor\"b\n" +
 	"\x14CreateProjectRequest\x123\n" +
-	"\aproject\x18\x01 \x01(\v2\x19.project.v1.CreateProjectR\aproject\"F\n" +
+	"\aproject\x18\x01 \x01(\v2\x19.project.v1.CreateProjectR\aproject\x12\x15\n" +
+	"\x06org_id\x18\x02 \x01(\tR\x05orgId\"F\n" +
 	"\x15CreateProjectResponse\x12-\n" +
-	"\aproject\x18\x01 \x01(\v2\x13.project.v1.ProjectR\aproject\"K\n" +
+	"\aproject\x18\x01 \x01(\v2\x13.project.v1.ProjectR\aproject\"b\n" +
 	"\x14UpdateProjectRequest\x123\n" +
-	"\aproject\x18\x01 \x01(\v2\x19.project.v1.UpdateProjectR\aproject\"F\n" +
+	"\aproject\x18\x01 \x01(\v2\x19.project.v1.UpdateProjectR\aproject\x12\x15\n" +
+	"\x06org_id\x18\x02 \x01(\tR\x05orgId\"F\n" +
 	"\x15UpdateProjectResponse\x12-\n" +
 	"\aproject\x18\x01 \x01(\v2\x13.project.v1.ProjectR\aproject\"&\n" +
 	"\x14DeleteProjectRequest\x12\x0e\n" +
@@ -803,7 +1988,66 @@ const file_project_v1_project_proto_rawDesc = "" +
 	"\vcustomer_id\x18\x01 \x01(\tR\n" +
 	"customerId\"P\n" +
 	"\x1dGetProjectsByCustomerResponse\x12/\n" +
-	"\bprojects\x18\x01 \x03(\v2\x13.project.v1.ProjectR\bprojects2\x9d\x04\n" +
+	"\bprojects\x18\x01 \x03(\v2\x13.project.v1.ProjectR\bprojects\"0\n" +
+	"\x17GetProjectsByOrgRequest\x12\x15\n" +
+	"\x06org_id\x18\x01 \x01(\tR\x05orgId\"K\n" +
+	"\x18GetProjectsByOrgResponse\x12/\n" +
+	"\bprojects\x18\x01 \x03(\v2\x13.project.v1.ProjectR\bprojects\"\x1f\n" +
+	"\rGetJobRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"3\n" +
+	"\x0eGetJobResponse\x12!\n" +
+	"\x03job\x18\x01 \x01(\v2\x0f.project.v1.JobR\x03job\"\xe8\x01\n" +
+	"\x10CreateJobRequest\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12'\n" +
+	"\x04type\x18\x04 \x01(\x0e2\x13.project.v1.JobTypeR\x04type\x12\x14\n" +
+	"\x05hours\x18\x05 \x01(\x03R\x05hours\x12\x18\n" +
+	"\aminutes\x18\x06 \x01(\x03R\aminutes\x12\x12\n" +
+	"\x04date\x18\a \x01(\tR\x04date\x12&\n" +
+	"\x0fservice_type_id\x18\b \x01(\tR\rserviceTypeId\"\x13\n" +
+	"\x11CreateJobResponse\"5\n" +
+	"\x10UpdateJobRequest\x12!\n" +
+	"\x03job\x18\x01 \x01(\v2\x0f.project.v1.JobR\x03job\"\x13\n" +
+	"\x11UpdateJobResponse\"\"\n" +
+	"\x10DeleteJobRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"#\n" +
+	"\x11DeleteJobResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"8\n" +
+	"\x17GetJobsByProjectRequest\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\"?\n" +
+	"\x18GetJobsByProjectResponse\x12#\n" +
+	"\x04jobs\x18\x01 \x03(\v2\x0f.project.v1.JobR\x04jobs\"Z\n" +
+	"\x18GetJobsByCustomerRequest\x12\x1f\n" +
+	"\vcustomer_id\x18\x01 \x01(\tR\n" +
+	"customerId\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\"@\n" +
+	"\x19GetJobsByCustomerResponse\x12#\n" +
+	"\x04jobs\x18\x01 \x03(\v2\x0f.project.v1.JobR\x04jobs\"*\n" +
+	"\x14GetJobsByDateRequest\x12\x12\n" +
+	"\x04date\x18\x01 \x01(\tR\x04date\"\x8e\x01\n" +
+	"\aDateJob\x12!\n" +
+	"\x03job\x18\x01 \x01(\v2\x0f.project.v1.JobR\x03job\x121\n" +
+	"\bcustomer\x18\x02 \x01(\v2\x15.customer.v1.CustomerR\bcustomer\x12-\n" +
+	"\aproject\x18\x03 \x01(\v2\x13.project.v1.ProjectR\aproject\"@\n" +
+	"\x15GetJobsByDateResponse\x12'\n" +
+	"\x04jobs\x18\x01 \x03(\v2\x13.project.v1.DateJobR\x04jobs\"u\n" +
+	"\x18UpdateProjectTypeRequest\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12:\n" +
+	"\fproject_type\x18\x02 \x01(\x0e2\x17.project.v1.ProjectTypeR\vprojectType\"\x1b\n" +
+	"\x19UpdateProjectTypeResponse*e\n" +
+	"\vProjectType\x12\x1c\n" +
+	"\x18PROJECT_TYPE_UNSPECIFIED\x10\x00\x12\x19\n" +
+	"\x15PROJECT_TYPE_BILLABLE\x10\x01\x12\x1d\n" +
+	"\x19PROJECT_TYPE_NON_BILLABLE\x10\x02*U\n" +
+	"\aJobType\x12\x18\n" +
+	"\x14JOB_TYPE_UNSPECIFIED\x10\x00\x12\x15\n" +
+	"\x11JOB_TYPE_BILLABLE\x10\x01\x12\x19\n" +
+	"\x15JOB_TYPE_NON_BILLABLE\x10\x022\x94\n" +
+	"\n" +
 	"\x0eProjectService\x12K\n" +
 	"\n" +
 	"GetProject\x12\x1d.project.v1.GetProjectRequest\x1a\x1e.project.v1.GetProjectResponse\x12T\n" +
@@ -811,7 +2055,16 @@ const file_project_v1_project_proto_rawDesc = "" +
 	"\rUpdateProject\x12 .project.v1.UpdateProjectRequest\x1a!.project.v1.UpdateProjectResponse\x12T\n" +
 	"\rDeleteProject\x12 .project.v1.DeleteProjectRequest\x1a!.project.v1.DeleteProjectResponse\x12N\n" +
 	"\vGetProjects\x12\x1e.project.v1.GetProjectsRequest\x1a\x1f.project.v1.GetProjectsResponse\x12l\n" +
-	"\x15GetProjectsByCustomer\x12(.project.v1.GetProjectsByCustomerRequest\x1a).project.v1.GetProjectsByCustomerResponseB8Z6github.com/maxischmaxi/ljtime-api/project/v1;projectv1b\x06proto3"
+	"\x15GetProjectsByCustomer\x12(.project.v1.GetProjectsByCustomerRequest\x1a).project.v1.GetProjectsByCustomerResponse\x12]\n" +
+	"\x10GetProjectsByOrg\x12#.project.v1.GetProjectsByOrgRequest\x1a$.project.v1.GetProjectsByOrgResponse\x12]\n" +
+	"\x10GetJobsByProject\x12#.project.v1.GetJobsByProjectRequest\x1a$.project.v1.GetJobsByProjectResponse\x12`\n" +
+	"\x11GetJobsByCustomer\x12$.project.v1.GetJobsByCustomerRequest\x1a%.project.v1.GetJobsByCustomerResponse\x12T\n" +
+	"\rGetJobsByDate\x12 .project.v1.GetJobsByDateRequest\x1a!.project.v1.GetJobsByDateResponse\x12?\n" +
+	"\x06GetJob\x12\x19.project.v1.GetJobRequest\x1a\x1a.project.v1.GetJobResponse\x12H\n" +
+	"\tCreateJob\x12\x1c.project.v1.CreateJobRequest\x1a\x1d.project.v1.CreateJobResponse\x12H\n" +
+	"\tUpdateJob\x12\x1c.project.v1.UpdateJobRequest\x1a\x1d.project.v1.UpdateJobResponse\x12H\n" +
+	"\tDeleteJob\x12\x1c.project.v1.DeleteJobRequest\x1a\x1d.project.v1.DeleteJobResponse\x12`\n" +
+	"\x11UpdateProjectType\x12$.project.v1.UpdateProjectTypeRequest\x1a%.project.v1.UpdateProjectTypeResponseB8Z6github.com/maxischmaxi/ljtime-api/project/v1;projectv1b\x06proto3"
 
 var (
 	file_project_v1_project_proto_rawDescOnce sync.Once
@@ -825,49 +2078,105 @@ func file_project_v1_project_proto_rawDescGZIP() []byte {
 	return file_project_v1_project_proto_rawDescData
 }
 
-var file_project_v1_project_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_project_v1_project_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_project_v1_project_proto_msgTypes = make([]protoimpl.MessageInfo, 35)
 var file_project_v1_project_proto_goTypes = []any{
-	(*Project)(nil),                       // 0: project.v1.Project
-	(*GetProjectRequest)(nil),             // 1: project.v1.GetProjectRequest
-	(*GetProjectResponse)(nil),            // 2: project.v1.GetProjectResponse
-	(*CreateProject)(nil),                 // 3: project.v1.CreateProject
-	(*UpdateProject)(nil),                 // 4: project.v1.UpdateProject
-	(*CreateProjectRequest)(nil),          // 5: project.v1.CreateProjectRequest
-	(*CreateProjectResponse)(nil),         // 6: project.v1.CreateProjectResponse
-	(*UpdateProjectRequest)(nil),          // 7: project.v1.UpdateProjectRequest
-	(*UpdateProjectResponse)(nil),         // 8: project.v1.UpdateProjectResponse
-	(*DeleteProjectRequest)(nil),          // 9: project.v1.DeleteProjectRequest
-	(*DeleteProjectResponse)(nil),         // 10: project.v1.DeleteProjectResponse
-	(*GetProjectsRequest)(nil),            // 11: project.v1.GetProjectsRequest
-	(*GetProjectsResponse)(nil),           // 12: project.v1.GetProjectsResponse
-	(*GetProjectsByCustomerRequest)(nil),  // 13: project.v1.GetProjectsByCustomerRequest
-	(*GetProjectsByCustomerResponse)(nil), // 14: project.v1.GetProjectsByCustomerResponse
+	(ProjectType)(0),                      // 0: project.v1.ProjectType
+	(JobType)(0),                          // 1: project.v1.JobType
+	(*Job)(nil),                           // 2: project.v1.Job
+	(*Project)(nil),                       // 3: project.v1.Project
+	(*GetProjectRequest)(nil),             // 4: project.v1.GetProjectRequest
+	(*GetProjectResponse)(nil),            // 5: project.v1.GetProjectResponse
+	(*CreateProject)(nil),                 // 6: project.v1.CreateProject
+	(*UpdateProject)(nil),                 // 7: project.v1.UpdateProject
+	(*CreateProjectRequest)(nil),          // 8: project.v1.CreateProjectRequest
+	(*CreateProjectResponse)(nil),         // 9: project.v1.CreateProjectResponse
+	(*UpdateProjectRequest)(nil),          // 10: project.v1.UpdateProjectRequest
+	(*UpdateProjectResponse)(nil),         // 11: project.v1.UpdateProjectResponse
+	(*DeleteProjectRequest)(nil),          // 12: project.v1.DeleteProjectRequest
+	(*DeleteProjectResponse)(nil),         // 13: project.v1.DeleteProjectResponse
+	(*GetProjectsRequest)(nil),            // 14: project.v1.GetProjectsRequest
+	(*GetProjectsResponse)(nil),           // 15: project.v1.GetProjectsResponse
+	(*GetProjectsByCustomerRequest)(nil),  // 16: project.v1.GetProjectsByCustomerRequest
+	(*GetProjectsByCustomerResponse)(nil), // 17: project.v1.GetProjectsByCustomerResponse
+	(*GetProjectsByOrgRequest)(nil),       // 18: project.v1.GetProjectsByOrgRequest
+	(*GetProjectsByOrgResponse)(nil),      // 19: project.v1.GetProjectsByOrgResponse
+	(*GetJobRequest)(nil),                 // 20: project.v1.GetJobRequest
+	(*GetJobResponse)(nil),                // 21: project.v1.GetJobResponse
+	(*CreateJobRequest)(nil),              // 22: project.v1.CreateJobRequest
+	(*CreateJobResponse)(nil),             // 23: project.v1.CreateJobResponse
+	(*UpdateJobRequest)(nil),              // 24: project.v1.UpdateJobRequest
+	(*UpdateJobResponse)(nil),             // 25: project.v1.UpdateJobResponse
+	(*DeleteJobRequest)(nil),              // 26: project.v1.DeleteJobRequest
+	(*DeleteJobResponse)(nil),             // 27: project.v1.DeleteJobResponse
+	(*GetJobsByProjectRequest)(nil),       // 28: project.v1.GetJobsByProjectRequest
+	(*GetJobsByProjectResponse)(nil),      // 29: project.v1.GetJobsByProjectResponse
+	(*GetJobsByCustomerRequest)(nil),      // 30: project.v1.GetJobsByCustomerRequest
+	(*GetJobsByCustomerResponse)(nil),     // 31: project.v1.GetJobsByCustomerResponse
+	(*GetJobsByDateRequest)(nil),          // 32: project.v1.GetJobsByDateRequest
+	(*DateJob)(nil),                       // 33: project.v1.DateJob
+	(*GetJobsByDateResponse)(nil),         // 34: project.v1.GetJobsByDateResponse
+	(*UpdateProjectTypeRequest)(nil),      // 35: project.v1.UpdateProjectTypeRequest
+	(*UpdateProjectTypeResponse)(nil),     // 36: project.v1.UpdateProjectTypeResponse
+	(*v1.Customer)(nil),                   // 37: customer.v1.Customer
 }
 var file_project_v1_project_proto_depIdxs = []int32{
-	0,  // 0: project.v1.GetProjectResponse.project:type_name -> project.v1.Project
-	3,  // 1: project.v1.CreateProjectRequest.project:type_name -> project.v1.CreateProject
-	0,  // 2: project.v1.CreateProjectResponse.project:type_name -> project.v1.Project
-	4,  // 3: project.v1.UpdateProjectRequest.project:type_name -> project.v1.UpdateProject
-	0,  // 4: project.v1.UpdateProjectResponse.project:type_name -> project.v1.Project
-	0,  // 5: project.v1.GetProjectsResponse.projects:type_name -> project.v1.Project
-	0,  // 6: project.v1.GetProjectsByCustomerResponse.projects:type_name -> project.v1.Project
-	1,  // 7: project.v1.ProjectService.GetProject:input_type -> project.v1.GetProjectRequest
-	5,  // 8: project.v1.ProjectService.CreateProject:input_type -> project.v1.CreateProjectRequest
-	7,  // 9: project.v1.ProjectService.UpdateProject:input_type -> project.v1.UpdateProjectRequest
-	9,  // 10: project.v1.ProjectService.DeleteProject:input_type -> project.v1.DeleteProjectRequest
-	11, // 11: project.v1.ProjectService.GetProjects:input_type -> project.v1.GetProjectsRequest
-	13, // 12: project.v1.ProjectService.GetProjectsByCustomer:input_type -> project.v1.GetProjectsByCustomerRequest
-	2,  // 13: project.v1.ProjectService.GetProject:output_type -> project.v1.GetProjectResponse
-	6,  // 14: project.v1.ProjectService.CreateProject:output_type -> project.v1.CreateProjectResponse
-	8,  // 15: project.v1.ProjectService.UpdateProject:output_type -> project.v1.UpdateProjectResponse
-	10, // 16: project.v1.ProjectService.DeleteProject:output_type -> project.v1.DeleteProjectResponse
-	12, // 17: project.v1.ProjectService.GetProjects:output_type -> project.v1.GetProjectsResponse
-	14, // 18: project.v1.ProjectService.GetProjectsByCustomer:output_type -> project.v1.GetProjectsByCustomerResponse
-	13, // [13:19] is the sub-list for method output_type
-	7,  // [7:13] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	1,  // 0: project.v1.Job.type:type_name -> project.v1.JobType
+	0,  // 1: project.v1.Project.project_type:type_name -> project.v1.ProjectType
+	2,  // 2: project.v1.Project.jobs:type_name -> project.v1.Job
+	3,  // 3: project.v1.GetProjectResponse.project:type_name -> project.v1.Project
+	6,  // 4: project.v1.CreateProjectRequest.project:type_name -> project.v1.CreateProject
+	3,  // 5: project.v1.CreateProjectResponse.project:type_name -> project.v1.Project
+	7,  // 6: project.v1.UpdateProjectRequest.project:type_name -> project.v1.UpdateProject
+	3,  // 7: project.v1.UpdateProjectResponse.project:type_name -> project.v1.Project
+	3,  // 8: project.v1.GetProjectsResponse.projects:type_name -> project.v1.Project
+	3,  // 9: project.v1.GetProjectsByCustomerResponse.projects:type_name -> project.v1.Project
+	3,  // 10: project.v1.GetProjectsByOrgResponse.projects:type_name -> project.v1.Project
+	2,  // 11: project.v1.GetJobResponse.job:type_name -> project.v1.Job
+	1,  // 12: project.v1.CreateJobRequest.type:type_name -> project.v1.JobType
+	2,  // 13: project.v1.UpdateJobRequest.job:type_name -> project.v1.Job
+	2,  // 14: project.v1.GetJobsByProjectResponse.jobs:type_name -> project.v1.Job
+	2,  // 15: project.v1.GetJobsByCustomerResponse.jobs:type_name -> project.v1.Job
+	2,  // 16: project.v1.DateJob.job:type_name -> project.v1.Job
+	37, // 17: project.v1.DateJob.customer:type_name -> customer.v1.Customer
+	3,  // 18: project.v1.DateJob.project:type_name -> project.v1.Project
+	33, // 19: project.v1.GetJobsByDateResponse.jobs:type_name -> project.v1.DateJob
+	0,  // 20: project.v1.UpdateProjectTypeRequest.project_type:type_name -> project.v1.ProjectType
+	4,  // 21: project.v1.ProjectService.GetProject:input_type -> project.v1.GetProjectRequest
+	8,  // 22: project.v1.ProjectService.CreateProject:input_type -> project.v1.CreateProjectRequest
+	10, // 23: project.v1.ProjectService.UpdateProject:input_type -> project.v1.UpdateProjectRequest
+	12, // 24: project.v1.ProjectService.DeleteProject:input_type -> project.v1.DeleteProjectRequest
+	14, // 25: project.v1.ProjectService.GetProjects:input_type -> project.v1.GetProjectsRequest
+	16, // 26: project.v1.ProjectService.GetProjectsByCustomer:input_type -> project.v1.GetProjectsByCustomerRequest
+	18, // 27: project.v1.ProjectService.GetProjectsByOrg:input_type -> project.v1.GetProjectsByOrgRequest
+	28, // 28: project.v1.ProjectService.GetJobsByProject:input_type -> project.v1.GetJobsByProjectRequest
+	30, // 29: project.v1.ProjectService.GetJobsByCustomer:input_type -> project.v1.GetJobsByCustomerRequest
+	32, // 30: project.v1.ProjectService.GetJobsByDate:input_type -> project.v1.GetJobsByDateRequest
+	20, // 31: project.v1.ProjectService.GetJob:input_type -> project.v1.GetJobRequest
+	22, // 32: project.v1.ProjectService.CreateJob:input_type -> project.v1.CreateJobRequest
+	24, // 33: project.v1.ProjectService.UpdateJob:input_type -> project.v1.UpdateJobRequest
+	26, // 34: project.v1.ProjectService.DeleteJob:input_type -> project.v1.DeleteJobRequest
+	35, // 35: project.v1.ProjectService.UpdateProjectType:input_type -> project.v1.UpdateProjectTypeRequest
+	5,  // 36: project.v1.ProjectService.GetProject:output_type -> project.v1.GetProjectResponse
+	9,  // 37: project.v1.ProjectService.CreateProject:output_type -> project.v1.CreateProjectResponse
+	11, // 38: project.v1.ProjectService.UpdateProject:output_type -> project.v1.UpdateProjectResponse
+	13, // 39: project.v1.ProjectService.DeleteProject:output_type -> project.v1.DeleteProjectResponse
+	15, // 40: project.v1.ProjectService.GetProjects:output_type -> project.v1.GetProjectsResponse
+	17, // 41: project.v1.ProjectService.GetProjectsByCustomer:output_type -> project.v1.GetProjectsByCustomerResponse
+	19, // 42: project.v1.ProjectService.GetProjectsByOrg:output_type -> project.v1.GetProjectsByOrgResponse
+	29, // 43: project.v1.ProjectService.GetJobsByProject:output_type -> project.v1.GetJobsByProjectResponse
+	31, // 44: project.v1.ProjectService.GetJobsByCustomer:output_type -> project.v1.GetJobsByCustomerResponse
+	34, // 45: project.v1.ProjectService.GetJobsByDate:output_type -> project.v1.GetJobsByDateResponse
+	21, // 46: project.v1.ProjectService.GetJob:output_type -> project.v1.GetJobResponse
+	23, // 47: project.v1.ProjectService.CreateJob:output_type -> project.v1.CreateJobResponse
+	25, // 48: project.v1.ProjectService.UpdateJob:output_type -> project.v1.UpdateJobResponse
+	27, // 49: project.v1.ProjectService.DeleteJob:output_type -> project.v1.DeleteJobResponse
+	36, // 50: project.v1.ProjectService.UpdateProjectType:output_type -> project.v1.UpdateProjectTypeResponse
+	36, // [36:51] is the sub-list for method output_type
+	21, // [21:36] is the sub-list for method input_type
+	21, // [21:21] is the sub-list for extension type_name
+	21, // [21:21] is the sub-list for extension extendee
+	0,  // [0:21] is the sub-list for field type_name
 }
 
 func init() { file_project_v1_project_proto_init() }
@@ -880,13 +2189,14 @@ func file_project_v1_project_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_project_v1_project_proto_rawDesc), len(file_project_v1_project_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   15,
+			NumEnums:      2,
+			NumMessages:   35,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_project_v1_project_proto_goTypes,
 		DependencyIndexes: file_project_v1_project_proto_depIdxs,
+		EnumInfos:         file_project_v1_project_proto_enumTypes,
 		MessageInfos:      file_project_v1_project_proto_msgTypes,
 	}.Build()
 	File_project_v1_project_proto = out.File

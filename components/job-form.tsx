@@ -2,7 +2,6 @@
 
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
-import { CreateJob, JobType } from "@/job/v1/job_pb";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
 import { Form } from "@/components/ui/form";
@@ -13,6 +12,8 @@ import { format } from "date-fns";
 import { Plain } from "@/types";
 import { useCreateJob } from "@/hooks/use-jobs";
 import { Button } from "./ui/button";
+import { CreateJobRequest, JobType } from "@/project/v1/project_pb";
+import { ServiceTypeSelect } from "./service-type-select";
 
 type Props = {
   date: Date;
@@ -43,11 +44,9 @@ export function JobForm({
     },
   });
   const create = useCreateJob({
-    onSuccess(data) {
+    onSuccess() {
       form.reset();
-      if (data) {
-        parentSuccess?.();
-      }
+      parentSuccess?.();
     },
     onError() {
       parentError?.();
@@ -60,8 +59,9 @@ export function JobForm({
   }
 
   async function onSubmit(data: z.infer<typeof createJobSchema>) {
-    const job: Plain<CreateJob> = {
+    const job: Plain<CreateJobRequest> = {
       date: format(date, "yyyy-MM-dd"),
+      serviceTypeId: data.serviceTypeId,
       type: data.type,
       projectId: data.projectId,
       description: data.description,
@@ -87,6 +87,7 @@ export function JobForm({
           control={form.control}
           name="projectId"
         />
+        <ServiceTypeSelect control={form.control} name="serviceTypeId" />
         <Textarea
           control={form.control}
           name="description"

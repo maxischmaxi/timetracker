@@ -1,6 +1,6 @@
 "use client";
 
-import { MailIcon, PlusCircleIcon } from "lucide-react";
+import { LayoutDashboardIcon, MailIcon, PlusCircleIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +22,8 @@ import {
 import { JobForm } from "./job-form";
 import { useState } from "react";
 import { NavigationItem } from "@/types";
+import { usePathname } from "next/navigation";
+import { isRouteActive } from "@/lib/utils";
 
 type Props = {
   items: NavigationItem[];
@@ -29,6 +31,7 @@ type Props = {
 
 export function NavMain({ items }: Props) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <SidebarGroup>
@@ -39,7 +42,8 @@ export function NavMain({ items }: Props) {
               <DialogTrigger asChild>
                 <SidebarMenuButton
                   tooltip="Quick Create"
-                  className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
+                  variant="outline"
+                  className="min-w-8 cursor-pointer"
                 >
                   <PlusCircleIcon />
                   <span>Quick Create</span>
@@ -60,7 +64,6 @@ export function NavMain({ items }: Props) {
                 />
               </DialogContent>
             </Dialog>
-
             <Button
               size="icon"
               className="h-9 w-9 shrink-0 group-data-[collapsible=icon]:opacity-0"
@@ -75,9 +78,25 @@ export function NavMain({ items }: Props) {
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              isActive={pathname === "/"}
+              tooltip={"Dashboard"}
+              asChild
+            >
+              <Link href="/">
+                <LayoutDashboardIcon />
+                <span>Dashboard</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title} asChild>
+              <SidebarMenuButton
+                isActive={isRouteActive(item.url, pathname)}
+                tooltip={item.title}
+                asChild
+              >
                 <Link href={item.url}>
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>

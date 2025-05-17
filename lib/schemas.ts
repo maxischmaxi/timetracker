@@ -1,8 +1,11 @@
-import { JobType } from "@/job/v1/job_pb";
+import { JobType } from "@/project/v1/project_pb";
 import { EmploymentState } from "@/user/v1/user_pb";
 import { z } from "zod";
 
 export const createJobSchema = z.object({
+  serviceTypeId: z.string().min(1, {
+    message: "ServiceTypeId Is required",
+  }),
   projectId: z
     .string({
       message: "Project ID is required",
@@ -38,30 +41,16 @@ export const createJobSchema = z.object({
 });
 
 export const createProjectSchema = z.object({
-  name: z
-    .string({
-      message: "Name is required",
-    })
-    .trim()
-    .min(3, {
-      message: "Name is required",
-    }),
-  description: z
-    .string({
-      message: "Description is required",
-    })
-    .trim()
-    .min(10, {
-      message: "Description is required",
-    }),
-  customerId: z
-    .string({
-      message: "Customer ID is required",
-    })
-    .trim()
-    .min(1, {
-      message: "Customer ID is required",
-    }),
+  customColor: z.string().optional(),
+  name: z.string({
+    message: "Name is required",
+  }),
+  description: z.string({
+    message: "Description is required",
+  }),
+  customerId: z.string({
+    message: "Customer ID is required",
+  }),
 });
 
 export const addressSchema = z.object({
@@ -295,3 +284,7 @@ export const registerSchema = z
       });
     }
   });
+
+export const serviceTypeSchema = z.object({
+  name: z.string({ message: "Please add a name" }),
+});

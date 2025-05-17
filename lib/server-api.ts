@@ -7,12 +7,6 @@ import {
   UpdateCustomer,
 } from "@/customer/v1/customer_pb";
 import {
-  CreateJob,
-  Job,
-  JobsByDateResponse,
-  JobService,
-} from "@/job/v1/job_pb";
-import {
   CreateProject,
   Project,
   ProjectService,
@@ -30,7 +24,6 @@ import {
 } from "@/user/v1/user_pb";
 import { createClient } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-web";
-import { format } from "date-fns";
 import { Org, OrgService } from "@/org/v1/org_pb";
 import { AuthService, GetUserByFirebaseUidResponse } from "@/auth/v1/auth_pb";
 
@@ -55,7 +48,6 @@ const authClient = createClient(AuthService, transport);
 const orgsClient = createClient(OrgService, transport);
 const customerClient = createClient(CustomerService, transport);
 const projectClient = createClient(ProjectService, transport);
-const jobsClient = createClient(JobService, transport);
 const userClient = createClient(UserService, transport);
 const tagsClient = createClient(TagsService, transport);
 
@@ -111,12 +103,8 @@ export async function deleteCustomer(id: string): Promise<string | undefined> {
   return await customerClient.deleteCustomer({ id }).then((res) => res.id);
 }
 
-export async function updateCustomer(
-  data: Plain<UpdateCustomer>,
-): Promise<Plain<Customer> | undefined> {
-  return await customerClient
-    .updateCustomer({ customer: data })
-    .then((res) => res.customer as unknown as Plain<Customer>);
+export async function updateCustomer(data: Plain<UpdateCustomer>) {
+  await customerClient.updateCustomer({ customer: data });
 }
 
 export async function createCustomer(
@@ -125,71 +113,6 @@ export async function createCustomer(
   return await customerClient
     .createCustomer({ customer: data })
     .then((res) => res.customer as unknown as Plain<Customer>);
-}
-
-export async function getJob(id: string): Promise<Plain<Job> | undefined> {
-  return await jobsClient
-    .getJob({ id })
-    .then((res) => res.job as unknown as Plain<Job>);
-}
-
-export async function getJobs(): Promise<Array<Plain<Job>> | undefined> {
-  return await jobsClient
-    .getJobs({})
-    .then((res) => res.jobs as unknown as Array<Plain<Job>>);
-}
-
-export async function getJobsByProject(
-  id: string,
-): Promise<Array<Plain<Job>> | undefined> {
-  return await jobsClient
-    .getJobsByProject({ projectId: id })
-    .then((res) => res.jobs as unknown as Array<Plain<Job>>);
-}
-
-export async function deleteJob(id: string): Promise<string | undefined> {
-  return await jobsClient.deleteJob({ id }).then((res) => res.id);
-}
-
-export async function updateJob(data: Job): Promise<Plain<Job> | undefined> {
-  return await jobsClient
-    .updateJob({ job: data })
-    .then((res) => res.job as unknown as Plain<Job>);
-}
-
-export async function createJob(
-  data: Plain<CreateJob>,
-): Promise<Plain<Job> | undefined> {
-  return await jobsClient
-    .createJob({
-      job: {
-        date: data.date,
-        description: data.description,
-        projectId: data.projectId,
-        hours: BigInt(data.hours),
-        minutes: BigInt(data.minutes),
-        type: data.type,
-      },
-    })
-    .then((res) => res.job as unknown as Plain<Job>);
-}
-
-export async function getJobByCustomer(
-  id: string,
-): Promise<Array<Plain<Job>> | undefined> {
-  return await jobsClient
-    .getJobsByCustomer({ customerId: id })
-    .then((res) => res.jobs as unknown as Array<Plain<Job>>);
-}
-
-export async function getJobsByDate(
-  date: Date,
-): Promise<Array<Plain<JobsByDateResponse>> | undefined> {
-  return await jobsClient
-    .getJobsByDate({
-      date: format(date, "yyyy-MM-dd"),
-    })
-    .then((res) => res.jobs as unknown as Array<Plain<JobsByDateResponse>>);
 }
 
 export async function createProject(
@@ -272,4 +195,24 @@ export async function acceptEmailInvite(
   firebaseUid: string,
 ): Promise<void> {
   await orgsClient.acceptEmailInvite({ orgId, token, firebaseUid });
+}
+
+export async function getAllOrgsByFirebaseUid(uid: string) {
+  return await userClient
+    .getAllOrgsByFirebaseUid({ firebaseUid: uid })
+    .then((res) => res.orgs as unknown as Plain<Org>[]);
+}
+
+export async function getCustomersByOrg(orgId: string) {
+  return await customerClient
+    .getCustomersByOrg({ orgId })
+    .then((res) => res.customers as unknown as Plain<Customer>[]);
+}
+
+export async function getProjectsByOrg(orgId: string) {
+  return await projectClient
+    .getProjectsByOrg({
+      orgId,
+    })
+    .then((res) => res.projects as unknown as Plain<Project>[]);
 }

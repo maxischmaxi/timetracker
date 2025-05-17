@@ -2,15 +2,74 @@
 // @generated from file project/v1/project.proto (package project.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
+import type { Customer } from "../../customer/v1/customer_pb";
+import { file_customer_v1_customer } from "../../customer/v1/customer_pb";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file project/v1/project.proto.
  */
 export const file_project_v1_project: GenFile = /*@__PURE__*/
-  fileDesc("Chhwcm9qZWN0L3YxL3Byb2plY3QucHJvdG8SCnByb2plY3QudjEidQoHUHJvamVjdBIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEhMKC2N1c3RvbWVyX2lkGAQgASgJEhIKCmNyZWF0ZWRfYXQYBSABKAMSEgoKdXBkYXRlZF9hdBgGIAEoAyIfChFHZXRQcm9qZWN0UmVxdWVzdBIKCgJpZBgBIAEoCSI6ChJHZXRQcm9qZWN0UmVzcG9uc2USJAoHcHJvamVjdBgBIAEoCzITLnByb2plY3QudjEuUHJvamVjdCJHCg1DcmVhdGVQcm9qZWN0EgwKBG5hbWUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSEwoLY3VzdG9tZXJfaWQYBCABKAkiUwoNVXBkYXRlUHJvamVjdBIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEhMKC2N1c3RvbWVyX2lkGAQgASgJIkIKFENyZWF0ZVByb2plY3RSZXF1ZXN0EioKB3Byb2plY3QYASABKAsyGS5wcm9qZWN0LnYxLkNyZWF0ZVByb2plY3QiPQoVQ3JlYXRlUHJvamVjdFJlc3BvbnNlEiQKB3Byb2plY3QYASABKAsyEy5wcm9qZWN0LnYxLlByb2plY3QiQgoUVXBkYXRlUHJvamVjdFJlcXVlc3QSKgoHcHJvamVjdBgBIAEoCzIZLnByb2plY3QudjEuVXBkYXRlUHJvamVjdCI9ChVVcGRhdGVQcm9qZWN0UmVzcG9uc2USJAoHcHJvamVjdBgBIAEoCzITLnByb2plY3QudjEuUHJvamVjdCIiChREZWxldGVQcm9qZWN0UmVxdWVzdBIKCgJpZBgBIAEoCSIjChVEZWxldGVQcm9qZWN0UmVzcG9uc2USCgoCaWQYASABKAkiFAoSR2V0UHJvamVjdHNSZXF1ZXN0IjwKE0dldFByb2plY3RzUmVzcG9uc2USJQoIcHJvamVjdHMYASADKAsyEy5wcm9qZWN0LnYxLlByb2plY3QiMwocR2V0UHJvamVjdHNCeUN1c3RvbWVyUmVxdWVzdBITCgtjdXN0b21lcl9pZBgBIAEoCSJGCh1HZXRQcm9qZWN0c0J5Q3VzdG9tZXJSZXNwb25zZRIlCghwcm9qZWN0cxgBIAMoCzITLnByb2plY3QudjEuUHJvamVjdDKdBAoOUHJvamVjdFNlcnZpY2USSwoKR2V0UHJvamVjdBIdLnByb2plY3QudjEuR2V0UHJvamVjdFJlcXVlc3QaHi5wcm9qZWN0LnYxLkdldFByb2plY3RSZXNwb25zZRJUCg1DcmVhdGVQcm9qZWN0EiAucHJvamVjdC52MS5DcmVhdGVQcm9qZWN0UmVxdWVzdBohLnByb2plY3QudjEuQ3JlYXRlUHJvamVjdFJlc3BvbnNlElQKDVVwZGF0ZVByb2plY3QSIC5wcm9qZWN0LnYxLlVwZGF0ZVByb2plY3RSZXF1ZXN0GiEucHJvamVjdC52MS5VcGRhdGVQcm9qZWN0UmVzcG9uc2USVAoNRGVsZXRlUHJvamVjdBIgLnByb2plY3QudjEuRGVsZXRlUHJvamVjdFJlcXVlc3QaIS5wcm9qZWN0LnYxLkRlbGV0ZVByb2plY3RSZXNwb25zZRJOCgtHZXRQcm9qZWN0cxIeLnByb2plY3QudjEuR2V0UHJvamVjdHNSZXF1ZXN0Gh8ucHJvamVjdC52MS5HZXRQcm9qZWN0c1Jlc3BvbnNlEmwKFUdldFByb2plY3RzQnlDdXN0b21lchIoLnByb2plY3QudjEuR2V0UHJvamVjdHNCeUN1c3RvbWVyUmVxdWVzdBopLnByb2plY3QudjEuR2V0UHJvamVjdHNCeUN1c3RvbWVyUmVzcG9uc2VCOFo2Z2l0aHViLmNvbS9tYXhpc2NobWF4aS9sanRpbWUtYXBpL3Byb2plY3QvdjE7cHJvamVjdHYxYgZwcm90bzM");
+  fileDesc("Chhwcm9qZWN0L3YxL3Byb2plY3QucHJvdG8SCnByb2plY3QudjEiuAEKA0pvYhIKCgJpZBgBIAEoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRIhCgR0eXBlGAQgASgOMhMucHJvamVjdC52MS5Kb2JUeXBlEhIKCmNyZWF0ZWRfYXQYBSABKAMSEgoKdXBkYXRlZF9hdBgGIAEoAxINCgVob3VycxgHIAEoAxIPCgdtaW51dGVzGAggASgDEhcKD3NlcnZpY2VfdHlwZV9pZBgJIAEoCRIMCgRkYXRlGAogASgJIukBCgdQcm9qZWN0EgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSEwoLY3VzdG9tZXJfaWQYBCABKAkSDgoGb3JnX2lkGAUgASgJEhIKCmNyZWF0ZWRfYXQYBiABKAMSEgoKdXBkYXRlZF9hdBgHIAEoAxItCgxwcm9qZWN0X3R5cGUYCCABKA4yFy5wcm9qZWN0LnYxLlByb2plY3RUeXBlEh0KBGpvYnMYCSADKAsyDy5wcm9qZWN0LnYxLkpvYhIUCgxjdXN0b21fY29sb3IYCiABKAkiHwoRR2V0UHJvamVjdFJlcXVlc3QSCgoCaWQYASABKAkiOgoSR2V0UHJvamVjdFJlc3BvbnNlEiQKB3Byb2plY3QYASABKAsyEy5wcm9qZWN0LnYxLlByb2plY3QiXQoNQ3JlYXRlUHJvamVjdBIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEhMKC2N1c3RvbWVyX2lkGAQgASgJEhQKDGN1c3RvbV9jb2xvchgFIAEoCSJpCg1VcGRhdGVQcm9qZWN0EgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSEwoLY3VzdG9tZXJfaWQYBCABKAkSFAoMY3VzdG9tX2NvbG9yGAUgASgJIlIKFENyZWF0ZVByb2plY3RSZXF1ZXN0EioKB3Byb2plY3QYASABKAsyGS5wcm9qZWN0LnYxLkNyZWF0ZVByb2plY3QSDgoGb3JnX2lkGAIgASgJIj0KFUNyZWF0ZVByb2plY3RSZXNwb25zZRIkCgdwcm9qZWN0GAEgASgLMhMucHJvamVjdC52MS5Qcm9qZWN0IlIKFFVwZGF0ZVByb2plY3RSZXF1ZXN0EioKB3Byb2plY3QYASABKAsyGS5wcm9qZWN0LnYxLlVwZGF0ZVByb2plY3QSDgoGb3JnX2lkGAIgASgJIj0KFVVwZGF0ZVByb2plY3RSZXNwb25zZRIkCgdwcm9qZWN0GAEgASgLMhMucHJvamVjdC52MS5Qcm9qZWN0IiIKFERlbGV0ZVByb2plY3RSZXF1ZXN0EgoKAmlkGAEgASgJIiMKFURlbGV0ZVByb2plY3RSZXNwb25zZRIKCgJpZBgBIAEoCSIUChJHZXRQcm9qZWN0c1JlcXVlc3QiPAoTR2V0UHJvamVjdHNSZXNwb25zZRIlCghwcm9qZWN0cxgBIAMoCzITLnByb2plY3QudjEuUHJvamVjdCIzChxHZXRQcm9qZWN0c0J5Q3VzdG9tZXJSZXF1ZXN0EhMKC2N1c3RvbWVyX2lkGAEgASgJIkYKHUdldFByb2plY3RzQnlDdXN0b21lclJlc3BvbnNlEiUKCHByb2plY3RzGAEgAygLMhMucHJvamVjdC52MS5Qcm9qZWN0IikKF0dldFByb2plY3RzQnlPcmdSZXF1ZXN0Eg4KBm9yZ19pZBgBIAEoCSJBChhHZXRQcm9qZWN0c0J5T3JnUmVzcG9uc2USJQoIcHJvamVjdHMYASADKAsyEy5wcm9qZWN0LnYxLlByb2plY3QiGwoNR2V0Sm9iUmVxdWVzdBIKCgJpZBgBIAEoCSIuCg5HZXRKb2JSZXNwb25zZRIcCgNqb2IYASABKAsyDy5wcm9qZWN0LnYxLkpvYiKlAQoQQ3JlYXRlSm9iUmVxdWVzdBISCgpwcm9qZWN0X2lkGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEiEKBHR5cGUYBCABKA4yEy5wcm9qZWN0LnYxLkpvYlR5cGUSDQoFaG91cnMYBSABKAMSDwoHbWludXRlcxgGIAEoAxIMCgRkYXRlGAcgASgJEhcKD3NlcnZpY2VfdHlwZV9pZBgIIAEoCSITChFDcmVhdGVKb2JSZXNwb25zZSIwChBVcGRhdGVKb2JSZXF1ZXN0EhwKA2pvYhgBIAEoCzIPLnByb2plY3QudjEuSm9iIhMKEVVwZGF0ZUpvYlJlc3BvbnNlIh4KEERlbGV0ZUpvYlJlcXVlc3QSCgoCaWQYASABKAkiHwoRRGVsZXRlSm9iUmVzcG9uc2USCgoCaWQYASABKAkiLQoXR2V0Sm9ic0J5UHJvamVjdFJlcXVlc3QSEgoKcHJvamVjdF9pZBgBIAEoCSI5ChhHZXRKb2JzQnlQcm9qZWN0UmVzcG9uc2USHQoEam9icxgBIAMoCzIPLnByb2plY3QudjEuSm9iIkMKGEdldEpvYnNCeUN1c3RvbWVyUmVxdWVzdBITCgtjdXN0b21lcl9pZBgBIAEoCRISCgpwcm9qZWN0X2lkGAIgASgJIjoKGUdldEpvYnNCeUN1c3RvbWVyUmVzcG9uc2USHQoEam9icxgBIAMoCzIPLnByb2plY3QudjEuSm9iIiQKFEdldEpvYnNCeURhdGVSZXF1ZXN0EgwKBGRhdGUYASABKAkidgoHRGF0ZUpvYhIcCgNqb2IYASABKAsyDy5wcm9qZWN0LnYxLkpvYhInCghjdXN0b21lchgCIAEoCzIVLmN1c3RvbWVyLnYxLkN1c3RvbWVyEiQKB3Byb2plY3QYAyABKAsyEy5wcm9qZWN0LnYxLlByb2plY3QiOgoVR2V0Sm9ic0J5RGF0ZVJlc3BvbnNlEiEKBGpvYnMYASADKAsyEy5wcm9qZWN0LnYxLkRhdGVKb2IiXQoYVXBkYXRlUHJvamVjdFR5cGVSZXF1ZXN0EhIKCnByb2plY3RfaWQYASABKAkSLQoMcHJvamVjdF90eXBlGAIgASgOMhcucHJvamVjdC52MS5Qcm9qZWN0VHlwZSIbChlVcGRhdGVQcm9qZWN0VHlwZVJlc3BvbnNlKmUKC1Byb2plY3RUeXBlEhwKGFBST0pFQ1RfVFlQRV9VTlNQRUNJRklFRBAAEhkKFVBST0pFQ1RfVFlQRV9CSUxMQUJMRRABEh0KGVBST0pFQ1RfVFlQRV9OT05fQklMTEFCTEUQAipVCgdKb2JUeXBlEhgKFEpPQl9UWVBFX1VOU1BFQ0lGSUVEEAASFQoRSk9CX1RZUEVfQklMTEFCTEUQARIZChVKT0JfVFlQRV9OT05fQklMTEFCTEUQAjKUCgoOUHJvamVjdFNlcnZpY2USSwoKR2V0UHJvamVjdBIdLnByb2plY3QudjEuR2V0UHJvamVjdFJlcXVlc3QaHi5wcm9qZWN0LnYxLkdldFByb2plY3RSZXNwb25zZRJUCg1DcmVhdGVQcm9qZWN0EiAucHJvamVjdC52MS5DcmVhdGVQcm9qZWN0UmVxdWVzdBohLnByb2plY3QudjEuQ3JlYXRlUHJvamVjdFJlc3BvbnNlElQKDVVwZGF0ZVByb2plY3QSIC5wcm9qZWN0LnYxLlVwZGF0ZVByb2plY3RSZXF1ZXN0GiEucHJvamVjdC52MS5VcGRhdGVQcm9qZWN0UmVzcG9uc2USVAoNRGVsZXRlUHJvamVjdBIgLnByb2plY3QudjEuRGVsZXRlUHJvamVjdFJlcXVlc3QaIS5wcm9qZWN0LnYxLkRlbGV0ZVByb2plY3RSZXNwb25zZRJOCgtHZXRQcm9qZWN0cxIeLnByb2plY3QudjEuR2V0UHJvamVjdHNSZXF1ZXN0Gh8ucHJvamVjdC52MS5HZXRQcm9qZWN0c1Jlc3BvbnNlEmwKFUdldFByb2plY3RzQnlDdXN0b21lchIoLnByb2plY3QudjEuR2V0UHJvamVjdHNCeUN1c3RvbWVyUmVxdWVzdBopLnByb2plY3QudjEuR2V0UHJvamVjdHNCeUN1c3RvbWVyUmVzcG9uc2USXQoQR2V0UHJvamVjdHNCeU9yZxIjLnByb2plY3QudjEuR2V0UHJvamVjdHNCeU9yZ1JlcXVlc3QaJC5wcm9qZWN0LnYxLkdldFByb2plY3RzQnlPcmdSZXNwb25zZRJdChBHZXRKb2JzQnlQcm9qZWN0EiMucHJvamVjdC52MS5HZXRKb2JzQnlQcm9qZWN0UmVxdWVzdBokLnByb2plY3QudjEuR2V0Sm9ic0J5UHJvamVjdFJlc3BvbnNlEmAKEUdldEpvYnNCeUN1c3RvbWVyEiQucHJvamVjdC52MS5HZXRKb2JzQnlDdXN0b21lclJlcXVlc3QaJS5wcm9qZWN0LnYxLkdldEpvYnNCeUN1c3RvbWVyUmVzcG9uc2USVAoNR2V0Sm9ic0J5RGF0ZRIgLnByb2plY3QudjEuR2V0Sm9ic0J5RGF0ZVJlcXVlc3QaIS5wcm9qZWN0LnYxLkdldEpvYnNCeURhdGVSZXNwb25zZRI/CgZHZXRKb2ISGS5wcm9qZWN0LnYxLkdldEpvYlJlcXVlc3QaGi5wcm9qZWN0LnYxLkdldEpvYlJlc3BvbnNlEkgKCUNyZWF0ZUpvYhIcLnByb2plY3QudjEuQ3JlYXRlSm9iUmVxdWVzdBodLnByb2plY3QudjEuQ3JlYXRlSm9iUmVzcG9uc2USSAoJVXBkYXRlSm9iEhwucHJvamVjdC52MS5VcGRhdGVKb2JSZXF1ZXN0Gh0ucHJvamVjdC52MS5VcGRhdGVKb2JSZXNwb25zZRJICglEZWxldGVKb2ISHC5wcm9qZWN0LnYxLkRlbGV0ZUpvYlJlcXVlc3QaHS5wcm9qZWN0LnYxLkRlbGV0ZUpvYlJlc3BvbnNlEmAKEVVwZGF0ZVByb2plY3RUeXBlEiQucHJvamVjdC52MS5VcGRhdGVQcm9qZWN0VHlwZVJlcXVlc3QaJS5wcm9qZWN0LnYxLlVwZGF0ZVByb2plY3RUeXBlUmVzcG9uc2VCOFo2Z2l0aHViLmNvbS9tYXhpc2NobWF4aS9sanRpbWUtYXBpL3Byb2plY3QvdjE7cHJvamVjdHYxYgZwcm90bzM", [file_customer_v1_customer]);
+
+/**
+ * @generated from message project.v1.Job
+ */
+export type Job = Message<"project.v1.Job"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: string description = 3;
+   */
+  description: string;
+
+  /**
+   * @generated from field: project.v1.JobType type = 4;
+   */
+  type: JobType;
+
+  /**
+   * @generated from field: int64 created_at = 5;
+   */
+  createdAt: bigint;
+
+  /**
+   * @generated from field: int64 updated_at = 6;
+   */
+  updatedAt: bigint;
+
+  /**
+   * @generated from field: int64 hours = 7;
+   */
+  hours: bigint;
+
+  /**
+   * @generated from field: int64 minutes = 8;
+   */
+  minutes: bigint;
+
+  /**
+   * @generated from field: string service_type_id = 9;
+   */
+  serviceTypeId: string;
+
+  /**
+   * @generated from field: string date = 10;
+   */
+  date: string;
+};
+
+/**
+ * Describes the message project.v1.Job.
+ * Use `create(JobSchema)` to create a new message.
+ */
+export const JobSchema: GenMessage<Job> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 0);
 
 /**
  * @generated from message project.v1.Project
@@ -37,14 +96,34 @@ export type Project = Message<"project.v1.Project"> & {
   customerId: string;
 
   /**
-   * @generated from field: int64 created_at = 5;
+   * @generated from field: string org_id = 5;
+   */
+  orgId: string;
+
+  /**
+   * @generated from field: int64 created_at = 6;
    */
   createdAt: bigint;
 
   /**
-   * @generated from field: int64 updated_at = 6;
+   * @generated from field: int64 updated_at = 7;
    */
   updatedAt: bigint;
+
+  /**
+   * @generated from field: project.v1.ProjectType project_type = 8;
+   */
+  projectType: ProjectType;
+
+  /**
+   * @generated from field: repeated project.v1.Job jobs = 9;
+   */
+  jobs: Job[];
+
+  /**
+   * @generated from field: string custom_color = 10;
+   */
+  customColor: string;
 };
 
 /**
@@ -52,7 +131,7 @@ export type Project = Message<"project.v1.Project"> & {
  * Use `create(ProjectSchema)` to create a new message.
  */
 export const ProjectSchema: GenMessage<Project> = /*@__PURE__*/
-  messageDesc(file_project_v1_project, 0);
+  messageDesc(file_project_v1_project, 1);
 
 /**
  * @generated from message project.v1.GetProjectRequest
@@ -69,7 +148,7 @@ export type GetProjectRequest = Message<"project.v1.GetProjectRequest"> & {
  * Use `create(GetProjectRequestSchema)` to create a new message.
  */
 export const GetProjectRequestSchema: GenMessage<GetProjectRequest> = /*@__PURE__*/
-  messageDesc(file_project_v1_project, 1);
+  messageDesc(file_project_v1_project, 2);
 
 /**
  * @generated from message project.v1.GetProjectResponse
@@ -86,7 +165,7 @@ export type GetProjectResponse = Message<"project.v1.GetProjectResponse"> & {
  * Use `create(GetProjectResponseSchema)` to create a new message.
  */
 export const GetProjectResponseSchema: GenMessage<GetProjectResponse> = /*@__PURE__*/
-  messageDesc(file_project_v1_project, 2);
+  messageDesc(file_project_v1_project, 3);
 
 /**
  * @generated from message project.v1.CreateProject
@@ -106,6 +185,11 @@ export type CreateProject = Message<"project.v1.CreateProject"> & {
    * @generated from field: string customer_id = 4;
    */
   customerId: string;
+
+  /**
+   * @generated from field: string custom_color = 5;
+   */
+  customColor: string;
 };
 
 /**
@@ -113,7 +197,7 @@ export type CreateProject = Message<"project.v1.CreateProject"> & {
  * Use `create(CreateProjectSchema)` to create a new message.
  */
 export const CreateProjectSchema: GenMessage<CreateProject> = /*@__PURE__*/
-  messageDesc(file_project_v1_project, 3);
+  messageDesc(file_project_v1_project, 4);
 
 /**
  * @generated from message project.v1.UpdateProject
@@ -138,6 +222,11 @@ export type UpdateProject = Message<"project.v1.UpdateProject"> & {
    * @generated from field: string customer_id = 4;
    */
   customerId: string;
+
+  /**
+   * @generated from field: string custom_color = 5;
+   */
+  customColor: string;
 };
 
 /**
@@ -145,7 +234,7 @@ export type UpdateProject = Message<"project.v1.UpdateProject"> & {
  * Use `create(UpdateProjectSchema)` to create a new message.
  */
 export const UpdateProjectSchema: GenMessage<UpdateProject> = /*@__PURE__*/
-  messageDesc(file_project_v1_project, 4);
+  messageDesc(file_project_v1_project, 5);
 
 /**
  * @generated from message project.v1.CreateProjectRequest
@@ -155,6 +244,11 @@ export type CreateProjectRequest = Message<"project.v1.CreateProjectRequest"> & 
    * @generated from field: project.v1.CreateProject project = 1;
    */
   project?: CreateProject;
+
+  /**
+   * @generated from field: string org_id = 2;
+   */
+  orgId: string;
 };
 
 /**
@@ -162,7 +256,7 @@ export type CreateProjectRequest = Message<"project.v1.CreateProjectRequest"> & 
  * Use `create(CreateProjectRequestSchema)` to create a new message.
  */
 export const CreateProjectRequestSchema: GenMessage<CreateProjectRequest> = /*@__PURE__*/
-  messageDesc(file_project_v1_project, 5);
+  messageDesc(file_project_v1_project, 6);
 
 /**
  * @generated from message project.v1.CreateProjectResponse
@@ -179,7 +273,7 @@ export type CreateProjectResponse = Message<"project.v1.CreateProjectResponse"> 
  * Use `create(CreateProjectResponseSchema)` to create a new message.
  */
 export const CreateProjectResponseSchema: GenMessage<CreateProjectResponse> = /*@__PURE__*/
-  messageDesc(file_project_v1_project, 6);
+  messageDesc(file_project_v1_project, 7);
 
 /**
  * @generated from message project.v1.UpdateProjectRequest
@@ -189,6 +283,11 @@ export type UpdateProjectRequest = Message<"project.v1.UpdateProjectRequest"> & 
    * @generated from field: project.v1.UpdateProject project = 1;
    */
   project?: UpdateProject;
+
+  /**
+   * @generated from field: string org_id = 2;
+   */
+  orgId: string;
 };
 
 /**
@@ -196,7 +295,7 @@ export type UpdateProjectRequest = Message<"project.v1.UpdateProjectRequest"> & 
  * Use `create(UpdateProjectRequestSchema)` to create a new message.
  */
 export const UpdateProjectRequestSchema: GenMessage<UpdateProjectRequest> = /*@__PURE__*/
-  messageDesc(file_project_v1_project, 7);
+  messageDesc(file_project_v1_project, 8);
 
 /**
  * @generated from message project.v1.UpdateProjectResponse
@@ -213,7 +312,7 @@ export type UpdateProjectResponse = Message<"project.v1.UpdateProjectResponse"> 
  * Use `create(UpdateProjectResponseSchema)` to create a new message.
  */
 export const UpdateProjectResponseSchema: GenMessage<UpdateProjectResponse> = /*@__PURE__*/
-  messageDesc(file_project_v1_project, 8);
+  messageDesc(file_project_v1_project, 9);
 
 /**
  * @generated from message project.v1.DeleteProjectRequest
@@ -230,7 +329,7 @@ export type DeleteProjectRequest = Message<"project.v1.DeleteProjectRequest"> & 
  * Use `create(DeleteProjectRequestSchema)` to create a new message.
  */
 export const DeleteProjectRequestSchema: GenMessage<DeleteProjectRequest> = /*@__PURE__*/
-  messageDesc(file_project_v1_project, 9);
+  messageDesc(file_project_v1_project, 10);
 
 /**
  * @generated from message project.v1.DeleteProjectResponse
@@ -247,7 +346,7 @@ export type DeleteProjectResponse = Message<"project.v1.DeleteProjectResponse"> 
  * Use `create(DeleteProjectResponseSchema)` to create a new message.
  */
 export const DeleteProjectResponseSchema: GenMessage<DeleteProjectResponse> = /*@__PURE__*/
-  messageDesc(file_project_v1_project, 10);
+  messageDesc(file_project_v1_project, 11);
 
 /**
  * @generated from message project.v1.GetProjectsRequest
@@ -260,7 +359,7 @@ export type GetProjectsRequest = Message<"project.v1.GetProjectsRequest"> & {
  * Use `create(GetProjectsRequestSchema)` to create a new message.
  */
 export const GetProjectsRequestSchema: GenMessage<GetProjectsRequest> = /*@__PURE__*/
-  messageDesc(file_project_v1_project, 11);
+  messageDesc(file_project_v1_project, 12);
 
 /**
  * @generated from message project.v1.GetProjectsResponse
@@ -277,7 +376,7 @@ export type GetProjectsResponse = Message<"project.v1.GetProjectsResponse"> & {
  * Use `create(GetProjectsResponseSchema)` to create a new message.
  */
 export const GetProjectsResponseSchema: GenMessage<GetProjectsResponse> = /*@__PURE__*/
-  messageDesc(file_project_v1_project, 12);
+  messageDesc(file_project_v1_project, 13);
 
 /**
  * @generated from message project.v1.GetProjectsByCustomerRequest
@@ -294,7 +393,7 @@ export type GetProjectsByCustomerRequest = Message<"project.v1.GetProjectsByCust
  * Use `create(GetProjectsByCustomerRequestSchema)` to create a new message.
  */
 export const GetProjectsByCustomerRequestSchema: GenMessage<GetProjectsByCustomerRequest> = /*@__PURE__*/
-  messageDesc(file_project_v1_project, 13);
+  messageDesc(file_project_v1_project, 14);
 
 /**
  * @generated from message project.v1.GetProjectsByCustomerResponse
@@ -311,7 +410,420 @@ export type GetProjectsByCustomerResponse = Message<"project.v1.GetProjectsByCus
  * Use `create(GetProjectsByCustomerResponseSchema)` to create a new message.
  */
 export const GetProjectsByCustomerResponseSchema: GenMessage<GetProjectsByCustomerResponse> = /*@__PURE__*/
-  messageDesc(file_project_v1_project, 14);
+  messageDesc(file_project_v1_project, 15);
+
+/**
+ * @generated from message project.v1.GetProjectsByOrgRequest
+ */
+export type GetProjectsByOrgRequest = Message<"project.v1.GetProjectsByOrgRequest"> & {
+  /**
+   * @generated from field: string org_id = 1;
+   */
+  orgId: string;
+};
+
+/**
+ * Describes the message project.v1.GetProjectsByOrgRequest.
+ * Use `create(GetProjectsByOrgRequestSchema)` to create a new message.
+ */
+export const GetProjectsByOrgRequestSchema: GenMessage<GetProjectsByOrgRequest> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 16);
+
+/**
+ * @generated from message project.v1.GetProjectsByOrgResponse
+ */
+export type GetProjectsByOrgResponse = Message<"project.v1.GetProjectsByOrgResponse"> & {
+  /**
+   * @generated from field: repeated project.v1.Project projects = 1;
+   */
+  projects: Project[];
+};
+
+/**
+ * Describes the message project.v1.GetProjectsByOrgResponse.
+ * Use `create(GetProjectsByOrgResponseSchema)` to create a new message.
+ */
+export const GetProjectsByOrgResponseSchema: GenMessage<GetProjectsByOrgResponse> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 17);
+
+/**
+ * @generated from message project.v1.GetJobRequest
+ */
+export type GetJobRequest = Message<"project.v1.GetJobRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message project.v1.GetJobRequest.
+ * Use `create(GetJobRequestSchema)` to create a new message.
+ */
+export const GetJobRequestSchema: GenMessage<GetJobRequest> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 18);
+
+/**
+ * @generated from message project.v1.GetJobResponse
+ */
+export type GetJobResponse = Message<"project.v1.GetJobResponse"> & {
+  /**
+   * @generated from field: project.v1.Job job = 1;
+   */
+  job?: Job;
+};
+
+/**
+ * Describes the message project.v1.GetJobResponse.
+ * Use `create(GetJobResponseSchema)` to create a new message.
+ */
+export const GetJobResponseSchema: GenMessage<GetJobResponse> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 19);
+
+/**
+ * @generated from message project.v1.CreateJobRequest
+ */
+export type CreateJobRequest = Message<"project.v1.CreateJobRequest"> & {
+  /**
+   * @generated from field: string project_id = 1;
+   */
+  projectId: string;
+
+  /**
+   * @generated from field: string description = 3;
+   */
+  description: string;
+
+  /**
+   * @generated from field: project.v1.JobType type = 4;
+   */
+  type: JobType;
+
+  /**
+   * @generated from field: int64 hours = 5;
+   */
+  hours: bigint;
+
+  /**
+   * @generated from field: int64 minutes = 6;
+   */
+  minutes: bigint;
+
+  /**
+   * @generated from field: string date = 7;
+   */
+  date: string;
+
+  /**
+   * @generated from field: string service_type_id = 8;
+   */
+  serviceTypeId: string;
+};
+
+/**
+ * Describes the message project.v1.CreateJobRequest.
+ * Use `create(CreateJobRequestSchema)` to create a new message.
+ */
+export const CreateJobRequestSchema: GenMessage<CreateJobRequest> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 20);
+
+/**
+ * @generated from message project.v1.CreateJobResponse
+ */
+export type CreateJobResponse = Message<"project.v1.CreateJobResponse"> & {
+};
+
+/**
+ * Describes the message project.v1.CreateJobResponse.
+ * Use `create(CreateJobResponseSchema)` to create a new message.
+ */
+export const CreateJobResponseSchema: GenMessage<CreateJobResponse> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 21);
+
+/**
+ * @generated from message project.v1.UpdateJobRequest
+ */
+export type UpdateJobRequest = Message<"project.v1.UpdateJobRequest"> & {
+  /**
+   * @generated from field: project.v1.Job job = 1;
+   */
+  job?: Job;
+};
+
+/**
+ * Describes the message project.v1.UpdateJobRequest.
+ * Use `create(UpdateJobRequestSchema)` to create a new message.
+ */
+export const UpdateJobRequestSchema: GenMessage<UpdateJobRequest> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 22);
+
+/**
+ * @generated from message project.v1.UpdateJobResponse
+ */
+export type UpdateJobResponse = Message<"project.v1.UpdateJobResponse"> & {
+};
+
+/**
+ * Describes the message project.v1.UpdateJobResponse.
+ * Use `create(UpdateJobResponseSchema)` to create a new message.
+ */
+export const UpdateJobResponseSchema: GenMessage<UpdateJobResponse> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 23);
+
+/**
+ * @generated from message project.v1.DeleteJobRequest
+ */
+export type DeleteJobRequest = Message<"project.v1.DeleteJobRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message project.v1.DeleteJobRequest.
+ * Use `create(DeleteJobRequestSchema)` to create a new message.
+ */
+export const DeleteJobRequestSchema: GenMessage<DeleteJobRequest> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 24);
+
+/**
+ * @generated from message project.v1.DeleteJobResponse
+ */
+export type DeleteJobResponse = Message<"project.v1.DeleteJobResponse"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message project.v1.DeleteJobResponse.
+ * Use `create(DeleteJobResponseSchema)` to create a new message.
+ */
+export const DeleteJobResponseSchema: GenMessage<DeleteJobResponse> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 25);
+
+/**
+ * @generated from message project.v1.GetJobsByProjectRequest
+ */
+export type GetJobsByProjectRequest = Message<"project.v1.GetJobsByProjectRequest"> & {
+  /**
+   * @generated from field: string project_id = 1;
+   */
+  projectId: string;
+};
+
+/**
+ * Describes the message project.v1.GetJobsByProjectRequest.
+ * Use `create(GetJobsByProjectRequestSchema)` to create a new message.
+ */
+export const GetJobsByProjectRequestSchema: GenMessage<GetJobsByProjectRequest> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 26);
+
+/**
+ * @generated from message project.v1.GetJobsByProjectResponse
+ */
+export type GetJobsByProjectResponse = Message<"project.v1.GetJobsByProjectResponse"> & {
+  /**
+   * @generated from field: repeated project.v1.Job jobs = 1;
+   */
+  jobs: Job[];
+};
+
+/**
+ * Describes the message project.v1.GetJobsByProjectResponse.
+ * Use `create(GetJobsByProjectResponseSchema)` to create a new message.
+ */
+export const GetJobsByProjectResponseSchema: GenMessage<GetJobsByProjectResponse> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 27);
+
+/**
+ * @generated from message project.v1.GetJobsByCustomerRequest
+ */
+export type GetJobsByCustomerRequest = Message<"project.v1.GetJobsByCustomerRequest"> & {
+  /**
+   * @generated from field: string customer_id = 1;
+   */
+  customerId: string;
+
+  /**
+   * @generated from field: string project_id = 2;
+   */
+  projectId: string;
+};
+
+/**
+ * Describes the message project.v1.GetJobsByCustomerRequest.
+ * Use `create(GetJobsByCustomerRequestSchema)` to create a new message.
+ */
+export const GetJobsByCustomerRequestSchema: GenMessage<GetJobsByCustomerRequest> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 28);
+
+/**
+ * @generated from message project.v1.GetJobsByCustomerResponse
+ */
+export type GetJobsByCustomerResponse = Message<"project.v1.GetJobsByCustomerResponse"> & {
+  /**
+   * @generated from field: repeated project.v1.Job jobs = 1;
+   */
+  jobs: Job[];
+};
+
+/**
+ * Describes the message project.v1.GetJobsByCustomerResponse.
+ * Use `create(GetJobsByCustomerResponseSchema)` to create a new message.
+ */
+export const GetJobsByCustomerResponseSchema: GenMessage<GetJobsByCustomerResponse> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 29);
+
+/**
+ * @generated from message project.v1.GetJobsByDateRequest
+ */
+export type GetJobsByDateRequest = Message<"project.v1.GetJobsByDateRequest"> & {
+  /**
+   * @generated from field: string date = 1;
+   */
+  date: string;
+};
+
+/**
+ * Describes the message project.v1.GetJobsByDateRequest.
+ * Use `create(GetJobsByDateRequestSchema)` to create a new message.
+ */
+export const GetJobsByDateRequestSchema: GenMessage<GetJobsByDateRequest> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 30);
+
+/**
+ * @generated from message project.v1.DateJob
+ */
+export type DateJob = Message<"project.v1.DateJob"> & {
+  /**
+   * @generated from field: project.v1.Job job = 1;
+   */
+  job?: Job;
+
+  /**
+   * @generated from field: customer.v1.Customer customer = 2;
+   */
+  customer?: Customer;
+
+  /**
+   * @generated from field: project.v1.Project project = 3;
+   */
+  project?: Project;
+};
+
+/**
+ * Describes the message project.v1.DateJob.
+ * Use `create(DateJobSchema)` to create a new message.
+ */
+export const DateJobSchema: GenMessage<DateJob> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 31);
+
+/**
+ * @generated from message project.v1.GetJobsByDateResponse
+ */
+export type GetJobsByDateResponse = Message<"project.v1.GetJobsByDateResponse"> & {
+  /**
+   * @generated from field: repeated project.v1.DateJob jobs = 1;
+   */
+  jobs: DateJob[];
+};
+
+/**
+ * Describes the message project.v1.GetJobsByDateResponse.
+ * Use `create(GetJobsByDateResponseSchema)` to create a new message.
+ */
+export const GetJobsByDateResponseSchema: GenMessage<GetJobsByDateResponse> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 32);
+
+/**
+ * @generated from message project.v1.UpdateProjectTypeRequest
+ */
+export type UpdateProjectTypeRequest = Message<"project.v1.UpdateProjectTypeRequest"> & {
+  /**
+   * @generated from field: string project_id = 1;
+   */
+  projectId: string;
+
+  /**
+   * @generated from field: project.v1.ProjectType project_type = 2;
+   */
+  projectType: ProjectType;
+};
+
+/**
+ * Describes the message project.v1.UpdateProjectTypeRequest.
+ * Use `create(UpdateProjectTypeRequestSchema)` to create a new message.
+ */
+export const UpdateProjectTypeRequestSchema: GenMessage<UpdateProjectTypeRequest> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 33);
+
+/**
+ * @generated from message project.v1.UpdateProjectTypeResponse
+ */
+export type UpdateProjectTypeResponse = Message<"project.v1.UpdateProjectTypeResponse"> & {
+};
+
+/**
+ * Describes the message project.v1.UpdateProjectTypeResponse.
+ * Use `create(UpdateProjectTypeResponseSchema)` to create a new message.
+ */
+export const UpdateProjectTypeResponseSchema: GenMessage<UpdateProjectTypeResponse> = /*@__PURE__*/
+  messageDesc(file_project_v1_project, 34);
+
+/**
+ * @generated from enum project.v1.ProjectType
+ */
+export enum ProjectType {
+  /**
+   * @generated from enum value: PROJECT_TYPE_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: PROJECT_TYPE_BILLABLE = 1;
+   */
+  BILLABLE = 1,
+
+  /**
+   * @generated from enum value: PROJECT_TYPE_NON_BILLABLE = 2;
+   */
+  NON_BILLABLE = 2,
+}
+
+/**
+ * Describes the enum project.v1.ProjectType.
+ */
+export const ProjectTypeSchema: GenEnum<ProjectType> = /*@__PURE__*/
+  enumDesc(file_project_v1_project, 0);
+
+/**
+ * @generated from enum project.v1.JobType
+ */
+export enum JobType {
+  /**
+   * @generated from enum value: JOB_TYPE_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: JOB_TYPE_BILLABLE = 1;
+   */
+  BILLABLE = 1,
+
+  /**
+   * @generated from enum value: JOB_TYPE_NON_BILLABLE = 2;
+   */
+  NON_BILLABLE = 2,
+}
+
+/**
+ * Describes the enum project.v1.JobType.
+ */
+export const JobTypeSchema: GenEnum<JobType> = /*@__PURE__*/
+  enumDesc(file_project_v1_project, 1);
 
 /**
  * @generated from service project.v1.ProjectService
@@ -364,6 +876,78 @@ export const ProjectService: GenService<{
     methodKind: "unary";
     input: typeof GetProjectsByCustomerRequestSchema;
     output: typeof GetProjectsByCustomerResponseSchema;
+  },
+  /**
+   * @generated from rpc project.v1.ProjectService.GetProjectsByOrg
+   */
+  getProjectsByOrg: {
+    methodKind: "unary";
+    input: typeof GetProjectsByOrgRequestSchema;
+    output: typeof GetProjectsByOrgResponseSchema;
+  },
+  /**
+   * @generated from rpc project.v1.ProjectService.GetJobsByProject
+   */
+  getJobsByProject: {
+    methodKind: "unary";
+    input: typeof GetJobsByProjectRequestSchema;
+    output: typeof GetJobsByProjectResponseSchema;
+  },
+  /**
+   * @generated from rpc project.v1.ProjectService.GetJobsByCustomer
+   */
+  getJobsByCustomer: {
+    methodKind: "unary";
+    input: typeof GetJobsByCustomerRequestSchema;
+    output: typeof GetJobsByCustomerResponseSchema;
+  },
+  /**
+   * @generated from rpc project.v1.ProjectService.GetJobsByDate
+   */
+  getJobsByDate: {
+    methodKind: "unary";
+    input: typeof GetJobsByDateRequestSchema;
+    output: typeof GetJobsByDateResponseSchema;
+  },
+  /**
+   * @generated from rpc project.v1.ProjectService.GetJob
+   */
+  getJob: {
+    methodKind: "unary";
+    input: typeof GetJobRequestSchema;
+    output: typeof GetJobResponseSchema;
+  },
+  /**
+   * @generated from rpc project.v1.ProjectService.CreateJob
+   */
+  createJob: {
+    methodKind: "unary";
+    input: typeof CreateJobRequestSchema;
+    output: typeof CreateJobResponseSchema;
+  },
+  /**
+   * @generated from rpc project.v1.ProjectService.UpdateJob
+   */
+  updateJob: {
+    methodKind: "unary";
+    input: typeof UpdateJobRequestSchema;
+    output: typeof UpdateJobResponseSchema;
+  },
+  /**
+   * @generated from rpc project.v1.ProjectService.DeleteJob
+   */
+  deleteJob: {
+    methodKind: "unary";
+    input: typeof DeleteJobRequestSchema;
+    output: typeof DeleteJobResponseSchema;
+  },
+  /**
+   * @generated from rpc project.v1.ProjectService.UpdateProjectType
+   */
+  updateProjectType: {
+    methodKind: "unary";
+    input: typeof UpdateProjectTypeRequestSchema;
+    output: typeof UpdateProjectTypeResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_project_v1_project, 0);
