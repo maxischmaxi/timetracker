@@ -47,9 +47,6 @@ const (
 	// UserServiceRemoveUserFromOrgProcedure is the fully-qualified name of the UserService's
 	// RemoveUserFromOrg RPC.
 	UserServiceRemoveUserFromOrgProcedure = "/user.v1.UserService/RemoveUserFromOrg"
-	// UserServiceGetUserByFirebaseUidProcedure is the fully-qualified name of the UserService's
-	// GetUserByFirebaseUid RPC.
-	UserServiceGetUserByFirebaseUidProcedure = "/user.v1.UserService/GetUserByFirebaseUid"
 	// UserServiceSetUserActiveStateProcedure is the fully-qualified name of the UserService's
 	// SetUserActiveState RPC.
 	UserServiceSetUserActiveStateProcedure = "/user.v1.UserService/SetUserActiveState"
@@ -63,7 +60,6 @@ type UserServiceClient interface {
 	CreateUser(context.Context, *connect.Request[v1.CreateUserRequest]) (*connect.Response[v1.CreateUserResponse], error)
 	UpdateUser(context.Context, *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error)
 	RemoveUserFromOrg(context.Context, *connect.Request[v1.RemoveUserFromOrgRequest]) (*connect.Response[v1.RemoveUserFromOrgResponse], error)
-	GetUserByFirebaseUid(context.Context, *connect.Request[v1.GetUserByFirebaseUidRequest]) (*connect.Response[v1.GetUserByFirebaseUidResponse], error)
 	SetUserActiveState(context.Context, *connect.Request[v1.SetUserActiveStateRequest]) (*connect.Response[v1.SetUserActiveStateResponse], error)
 }
 
@@ -114,12 +110,6 @@ func NewUserServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			connect.WithSchema(userServiceMethods.ByName("RemoveUserFromOrg")),
 			connect.WithClientOptions(opts...),
 		),
-		getUserByFirebaseUid: connect.NewClient[v1.GetUserByFirebaseUidRequest, v1.GetUserByFirebaseUidResponse](
-			httpClient,
-			baseURL+UserServiceGetUserByFirebaseUidProcedure,
-			connect.WithSchema(userServiceMethods.ByName("GetUserByFirebaseUid")),
-			connect.WithClientOptions(opts...),
-		),
 		setUserActiveState: connect.NewClient[v1.SetUserActiveStateRequest, v1.SetUserActiveStateResponse](
 			httpClient,
 			baseURL+UserServiceSetUserActiveStateProcedure,
@@ -131,14 +121,13 @@ func NewUserServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 
 // userServiceClient implements UserServiceClient.
 type userServiceClient struct {
-	getUserById          *connect.Client[v1.GetUserByIdRequest, v1.GetUserByIdResponse]
-	getUserByEmail       *connect.Client[v1.GetUserByEmailRequest, v1.GetUserByEmailResponse]
-	getAllUsers          *connect.Client[v1.GetAllUsersRequest, v1.GetAllUsersResponse]
-	createUser           *connect.Client[v1.CreateUserRequest, v1.CreateUserResponse]
-	updateUser           *connect.Client[v1.UpdateUserRequest, v1.UpdateUserResponse]
-	removeUserFromOrg    *connect.Client[v1.RemoveUserFromOrgRequest, v1.RemoveUserFromOrgResponse]
-	getUserByFirebaseUid *connect.Client[v1.GetUserByFirebaseUidRequest, v1.GetUserByFirebaseUidResponse]
-	setUserActiveState   *connect.Client[v1.SetUserActiveStateRequest, v1.SetUserActiveStateResponse]
+	getUserById        *connect.Client[v1.GetUserByIdRequest, v1.GetUserByIdResponse]
+	getUserByEmail     *connect.Client[v1.GetUserByEmailRequest, v1.GetUserByEmailResponse]
+	getAllUsers        *connect.Client[v1.GetAllUsersRequest, v1.GetAllUsersResponse]
+	createUser         *connect.Client[v1.CreateUserRequest, v1.CreateUserResponse]
+	updateUser         *connect.Client[v1.UpdateUserRequest, v1.UpdateUserResponse]
+	removeUserFromOrg  *connect.Client[v1.RemoveUserFromOrgRequest, v1.RemoveUserFromOrgResponse]
+	setUserActiveState *connect.Client[v1.SetUserActiveStateRequest, v1.SetUserActiveStateResponse]
 }
 
 // GetUserById calls user.v1.UserService.GetUserById.
@@ -171,11 +160,6 @@ func (c *userServiceClient) RemoveUserFromOrg(ctx context.Context, req *connect.
 	return c.removeUserFromOrg.CallUnary(ctx, req)
 }
 
-// GetUserByFirebaseUid calls user.v1.UserService.GetUserByFirebaseUid.
-func (c *userServiceClient) GetUserByFirebaseUid(ctx context.Context, req *connect.Request[v1.GetUserByFirebaseUidRequest]) (*connect.Response[v1.GetUserByFirebaseUidResponse], error) {
-	return c.getUserByFirebaseUid.CallUnary(ctx, req)
-}
-
 // SetUserActiveState calls user.v1.UserService.SetUserActiveState.
 func (c *userServiceClient) SetUserActiveState(ctx context.Context, req *connect.Request[v1.SetUserActiveStateRequest]) (*connect.Response[v1.SetUserActiveStateResponse], error) {
 	return c.setUserActiveState.CallUnary(ctx, req)
@@ -189,7 +173,6 @@ type UserServiceHandler interface {
 	CreateUser(context.Context, *connect.Request[v1.CreateUserRequest]) (*connect.Response[v1.CreateUserResponse], error)
 	UpdateUser(context.Context, *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error)
 	RemoveUserFromOrg(context.Context, *connect.Request[v1.RemoveUserFromOrgRequest]) (*connect.Response[v1.RemoveUserFromOrgResponse], error)
-	GetUserByFirebaseUid(context.Context, *connect.Request[v1.GetUserByFirebaseUidRequest]) (*connect.Response[v1.GetUserByFirebaseUidResponse], error)
 	SetUserActiveState(context.Context, *connect.Request[v1.SetUserActiveStateRequest]) (*connect.Response[v1.SetUserActiveStateResponse], error)
 }
 
@@ -236,12 +219,6 @@ func NewUserServiceHandler(svc UserServiceHandler, opts ...connect.HandlerOption
 		connect.WithSchema(userServiceMethods.ByName("RemoveUserFromOrg")),
 		connect.WithHandlerOptions(opts...),
 	)
-	userServiceGetUserByFirebaseUidHandler := connect.NewUnaryHandler(
-		UserServiceGetUserByFirebaseUidProcedure,
-		svc.GetUserByFirebaseUid,
-		connect.WithSchema(userServiceMethods.ByName("GetUserByFirebaseUid")),
-		connect.WithHandlerOptions(opts...),
-	)
 	userServiceSetUserActiveStateHandler := connect.NewUnaryHandler(
 		UserServiceSetUserActiveStateProcedure,
 		svc.SetUserActiveState,
@@ -262,8 +239,6 @@ func NewUserServiceHandler(svc UserServiceHandler, opts ...connect.HandlerOption
 			userServiceUpdateUserHandler.ServeHTTP(w, r)
 		case UserServiceRemoveUserFromOrgProcedure:
 			userServiceRemoveUserFromOrgHandler.ServeHTTP(w, r)
-		case UserServiceGetUserByFirebaseUidProcedure:
-			userServiceGetUserByFirebaseUidHandler.ServeHTTP(w, r)
 		case UserServiceSetUserActiveStateProcedure:
 			userServiceSetUserActiveStateHandler.ServeHTTP(w, r)
 		default:
@@ -297,10 +272,6 @@ func (UnimplementedUserServiceHandler) UpdateUser(context.Context, *connect.Requ
 
 func (UnimplementedUserServiceHandler) RemoveUserFromOrg(context.Context, *connect.Request[v1.RemoveUserFromOrgRequest]) (*connect.Response[v1.RemoveUserFromOrgResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.v1.UserService.RemoveUserFromOrg is not implemented"))
-}
-
-func (UnimplementedUserServiceHandler) GetUserByFirebaseUid(context.Context, *connect.Request[v1.GetUserByFirebaseUidRequest]) (*connect.Response[v1.GetUserByFirebaseUidResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.v1.UserService.GetUserByFirebaseUid is not implemented"))
 }
 
 func (UnimplementedUserServiceHandler) SetUserActiveState(context.Context, *connect.Request[v1.SetUserActiveStateRequest]) (*connect.Response[v1.SetUserActiveStateResponse], error) {

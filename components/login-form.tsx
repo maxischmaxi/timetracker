@@ -17,12 +17,11 @@ import { loginSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "./ui/form";
 import { toast } from "sonner";
-import { signInWithEmailAndPassword } from "@/lib/auth";
 import { useState } from "react";
 import { EyeClosedIcon, EyeIcon, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getLocalOrg } from "./auth-provider";
+import { getLocalOrg, signInWithEmailAndPassword } from "./auth-provider";
 
 type Props = {
   orgId?: string;
@@ -45,12 +44,15 @@ export function LoginForm({ className, orgId, token }: Props) {
     await signInWithEmailAndPassword(data.email, data.password);
 
     if (orgId && token) {
+      console.log(orgId, token, "redirecting join org");
       router.push(`/auth/join-org?orgId=${orgId}&token=${token}`);
     }
 
     if (!getLocalOrg()) {
+      console.log("no local org, redirecting /auth/org");
       router.push("/auth/org");
     } else {
+      console.log("org set, going to dashboard");
       router.push("/");
     }
   }

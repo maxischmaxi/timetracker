@@ -14,7 +14,6 @@ service UserService {
   rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
   rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse);
   rpc RemoveUserFromOrg (RemoveUserFromOrgRequest) returns (RemoveUserFromOrgResponse);
-  rpc GetUserByFirebaseUid (GetUserByFirebaseUidRequest) returns (GetUserByFirebaseUidResponse);
   rpc SetUserActiveState (SetUserActiveStateRequest) returns (SetUserActiveStateResponse);
 }
 
@@ -138,15 +137,6 @@ message RemoveUserFromOrgRequest {
 }
 
 message RemoveUserFromOrgResponse { }
-
-message GetUserByFirebaseUidRequest {
-  string uid = 1;
-}
-
-message GetUserByFirebaseUidResponse {
-  User user = 1;
-  repeated org.v1.Org orgs = 2;
-}
 
 message SetUserActiveStateRequest {
   EmploymentState state = 1;

@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut } from "@/lib/auth";
+import { signOut } from "@/components/auth-provider";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 

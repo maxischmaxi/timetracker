@@ -4,8 +4,12 @@ package auth.v1;
 
 option go_package = "github.com/maxischmaxi/ljtime-api/auth/v1;authv1";
 
+import "user/v1/user.proto";
+import "org/v1/org.proto";
+
 service AuthService {
   rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc GetUserByFirebaseUid (GetUserByFirebaseUidRequest) returns (GetUserByFirebaseUidResponse);
 }
 
 message RegisterRequest {
@@ -16,3 +20,12 @@ message RegisterRequest {
 }
 
 message RegisterResponse {}
+
+message GetUserByFirebaseUidRequest {
+  string uid = 1;
+}
+
+message GetUserByFirebaseUidResponse {
+  user.v1.User user = 1;
+  repeated org.v1.Org orgs = 2;
+}

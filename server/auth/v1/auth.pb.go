@@ -7,6 +7,8 @@
 package authv1
 
 import (
+	v11 "github.com/maxischmaxi/ljtime-api/org/v1"
+	v1 "github.com/maxischmaxi/ljtime-api/user/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -125,19 +127,121 @@ func (*RegisterResponse) Descriptor() ([]byte, []int) {
 	return file_auth_v1_auth_proto_rawDescGZIP(), []int{1}
 }
 
+type GetUserByFirebaseUidRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Uid           string                 `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserByFirebaseUidRequest) Reset() {
+	*x = GetUserByFirebaseUidRequest{}
+	mi := &file_auth_v1_auth_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserByFirebaseUidRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserByFirebaseUidRequest) ProtoMessage() {}
+
+func (x *GetUserByFirebaseUidRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_auth_v1_auth_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserByFirebaseUidRequest.ProtoReflect.Descriptor instead.
+func (*GetUserByFirebaseUidRequest) Descriptor() ([]byte, []int) {
+	return file_auth_v1_auth_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetUserByFirebaseUidRequest) GetUid() string {
+	if x != nil {
+		return x.Uid
+	}
+	return ""
+}
+
+type GetUserByFirebaseUidResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	User          *v1.User               `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	Orgs          []*v11.Org             `protobuf:"bytes,2,rep,name=orgs,proto3" json:"orgs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserByFirebaseUidResponse) Reset() {
+	*x = GetUserByFirebaseUidResponse{}
+	mi := &file_auth_v1_auth_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserByFirebaseUidResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserByFirebaseUidResponse) ProtoMessage() {}
+
+func (x *GetUserByFirebaseUidResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_auth_v1_auth_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserByFirebaseUidResponse.ProtoReflect.Descriptor instead.
+func (*GetUserByFirebaseUidResponse) Descriptor() ([]byte, []int) {
+	return file_auth_v1_auth_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetUserByFirebaseUidResponse) GetUser() *v1.User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+func (x *GetUserByFirebaseUidResponse) GetOrgs() []*v11.Org {
+	if x != nil {
+		return x.Orgs
+	}
+	return nil
+}
+
 var File_auth_v1_auth_proto protoreflect.FileDescriptor
 
 const file_auth_v1_auth_proto_rawDesc = "" +
 	"\n" +
-	"\x12auth/v1/auth.proto\x12\aauth.v1\"n\n" +
+	"\x12auth/v1/auth.proto\x12\aauth.v1\x1a\x12user/v1/user.proto\x1a\x10org/v1/org.proto\"n\n" +
 	"\x0fRegisterRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12\x15\n" +
 	"\x06org_id\x18\x04 \x01(\tR\x05orgId\"\x12\n" +
-	"\x10RegisterResponse2N\n" +
+	"\x10RegisterResponse\"/\n" +
+	"\x1bGetUserByFirebaseUidRequest\x12\x10\n" +
+	"\x03uid\x18\x01 \x01(\tR\x03uid\"b\n" +
+	"\x1cGetUserByFirebaseUidResponse\x12!\n" +
+	"\x04user\x18\x01 \x01(\v2\r.user.v1.UserR\x04user\x12\x1f\n" +
+	"\x04orgs\x18\x02 \x03(\v2\v.org.v1.OrgR\x04orgs2\xb3\x01\n" +
 	"\vAuthService\x12?\n" +
-	"\bRegister\x12\x18.auth.v1.RegisterRequest\x1a\x19.auth.v1.RegisterResponseB2Z0github.com/maxischmaxi/ljtime-api/auth/v1;authv1b\x06proto3"
+	"\bRegister\x12\x18.auth.v1.RegisterRequest\x1a\x19.auth.v1.RegisterResponse\x12c\n" +
+	"\x14GetUserByFirebaseUid\x12$.auth.v1.GetUserByFirebaseUidRequest\x1a%.auth.v1.GetUserByFirebaseUidResponseB2Z0github.com/maxischmaxi/ljtime-api/auth/v1;authv1b\x06proto3"
 
 var (
 	file_auth_v1_auth_proto_rawDescOnce sync.Once
@@ -151,19 +255,27 @@ func file_auth_v1_auth_proto_rawDescGZIP() []byte {
 	return file_auth_v1_auth_proto_rawDescData
 }
 
-var file_auth_v1_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_auth_v1_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_auth_v1_auth_proto_goTypes = []any{
-	(*RegisterRequest)(nil),  // 0: auth.v1.RegisterRequest
-	(*RegisterResponse)(nil), // 1: auth.v1.RegisterResponse
+	(*RegisterRequest)(nil),              // 0: auth.v1.RegisterRequest
+	(*RegisterResponse)(nil),             // 1: auth.v1.RegisterResponse
+	(*GetUserByFirebaseUidRequest)(nil),  // 2: auth.v1.GetUserByFirebaseUidRequest
+	(*GetUserByFirebaseUidResponse)(nil), // 3: auth.v1.GetUserByFirebaseUidResponse
+	(*v1.User)(nil),                      // 4: user.v1.User
+	(*v11.Org)(nil),                      // 5: org.v1.Org
 }
 var file_auth_v1_auth_proto_depIdxs = []int32{
-	0, // 0: auth.v1.AuthService.Register:input_type -> auth.v1.RegisterRequest
-	1, // 1: auth.v1.AuthService.Register:output_type -> auth.v1.RegisterResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	4, // 0: auth.v1.GetUserByFirebaseUidResponse.user:type_name -> user.v1.User
+	5, // 1: auth.v1.GetUserByFirebaseUidResponse.orgs:type_name -> org.v1.Org
+	0, // 2: auth.v1.AuthService.Register:input_type -> auth.v1.RegisterRequest
+	2, // 3: auth.v1.AuthService.GetUserByFirebaseUid:input_type -> auth.v1.GetUserByFirebaseUidRequest
+	1, // 4: auth.v1.AuthService.Register:output_type -> auth.v1.RegisterResponse
+	3, // 5: auth.v1.AuthService.GetUserByFirebaseUid:output_type -> auth.v1.GetUserByFirebaseUidResponse
+	4, // [4:6] is the sub-list for method output_type
+	2, // [2:4] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_auth_v1_auth_proto_init() }
@@ -177,7 +289,7 @@ func file_auth_v1_auth_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_auth_v1_auth_proto_rawDesc), len(file_auth_v1_auth_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -27,17 +27,15 @@ import {
   CreateUser,
   EmploymentState,
   GetUserByEmailResponse,
-  GetUserByFirebaseUidResponse,
   GetUserByIdResponse,
   SetUserActiveStateResponse,
   UpdateUser,
   User,
   UserService,
 } from "@/user/v1/user_pb";
-import { getToken } from "./auth";
 import { InviteEmailToOrgResponse, OrgService } from "@/org/v1/org_pb";
-import { getLocalOrg } from "@/components/auth-provider";
-import { AuthService } from "@/auth/v1/auth_pb";
+import { getLocalOrg, getToken } from "@/components/auth-provider";
+import { AuthService, GetUserByFirebaseUidResponse } from "@/auth/v1/auth_pb";
 
 const transport = createConnectTransport({
   baseUrl: process.env.NEXT_PUBLIC_API_GATEWAY as string,
@@ -273,7 +271,7 @@ export async function getUserByEmail(
 export async function getUserByFirebaseUid(
   uid: string,
 ): Promise<Plain<GetUserByFirebaseUidResponse> | undefined> {
-  return await userClient
+  return await authClient
     .getUserByFirebaseUid({ uid }, { headers: await getHeaders() })
     .then((res) => res as unknown as Plain<GetUserByFirebaseUidResponse>);
 }

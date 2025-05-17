@@ -35,11 +35,15 @@ const (
 const (
 	// AuthServiceRegisterProcedure is the fully-qualified name of the AuthService's Register RPC.
 	AuthServiceRegisterProcedure = "/auth.v1.AuthService/Register"
+	// AuthServiceGetUserByFirebaseUidProcedure is the fully-qualified name of the AuthService's
+	// GetUserByFirebaseUid RPC.
+	AuthServiceGetUserByFirebaseUidProcedure = "/auth.v1.AuthService/GetUserByFirebaseUid"
 )
 
 // AuthServiceClient is a client for the auth.v1.AuthService service.
 type AuthServiceClient interface {
 	Register(context.Context, *connect.Request[v1.RegisterRequest]) (*connect.Response[v1.RegisterResponse], error)
+	GetUserByFirebaseUid(context.Context, *connect.Request[v1.GetUserByFirebaseUidRequest]) (*connect.Response[v1.GetUserByFirebaseUidResponse], error)
 }
 
 // NewAuthServiceClient constructs a client for the auth.v1.AuthService service. By default, it uses
@@ -59,12 +63,19 @@ func NewAuthServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			connect.WithSchema(authServiceMethods.ByName("Register")),
 			connect.WithClientOptions(opts...),
 		),
+		getUserByFirebaseUid: connect.NewClient[v1.GetUserByFirebaseUidRequest, v1.GetUserByFirebaseUidResponse](
+			httpClient,
+			baseURL+AuthServiceGetUserByFirebaseUidProcedure,
+			connect.WithSchema(authServiceMethods.ByName("GetUserByFirebaseUid")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // authServiceClient implements AuthServiceClient.
 type authServiceClient struct {
-	register *connect.Client[v1.RegisterRequest, v1.RegisterResponse]
+	register             *connect.Client[v1.RegisterRequest, v1.RegisterResponse]
+	getUserByFirebaseUid *connect.Client[v1.GetUserByFirebaseUidRequest, v1.GetUserByFirebaseUidResponse]
 }
 
 // Register calls auth.v1.AuthService.Register.
@@ -72,9 +83,15 @@ func (c *authServiceClient) Register(ctx context.Context, req *connect.Request[v
 	return c.register.CallUnary(ctx, req)
 }
 
+// GetUserByFirebaseUid calls auth.v1.AuthService.GetUserByFirebaseUid.
+func (c *authServiceClient) GetUserByFirebaseUid(ctx context.Context, req *connect.Request[v1.GetUserByFirebaseUidRequest]) (*connect.Response[v1.GetUserByFirebaseUidResponse], error) {
+	return c.getUserByFirebaseUid.CallUnary(ctx, req)
+}
+
 // AuthServiceHandler is an implementation of the auth.v1.AuthService service.
 type AuthServiceHandler interface {
 	Register(context.Context, *connect.Request[v1.RegisterRequest]) (*connect.Response[v1.RegisterResponse], error)
+	GetUserByFirebaseUid(context.Context, *connect.Request[v1.GetUserByFirebaseUidRequest]) (*connect.Response[v1.GetUserByFirebaseUidResponse], error)
 }
 
 // NewAuthServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -90,10 +107,18 @@ func NewAuthServiceHandler(svc AuthServiceHandler, opts ...connect.HandlerOption
 		connect.WithSchema(authServiceMethods.ByName("Register")),
 		connect.WithHandlerOptions(opts...),
 	)
+	authServiceGetUserByFirebaseUidHandler := connect.NewUnaryHandler(
+		AuthServiceGetUserByFirebaseUidProcedure,
+		svc.GetUserByFirebaseUid,
+		connect.WithSchema(authServiceMethods.ByName("GetUserByFirebaseUid")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/auth.v1.AuthService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case AuthServiceRegisterProcedure:
 			authServiceRegisterHandler.ServeHTTP(w, r)
+		case AuthServiceGetUserByFirebaseUidProcedure:
+			authServiceGetUserByFirebaseUidHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -105,4 +130,8 @@ type UnimplementedAuthServiceHandler struct{}
 
 func (UnimplementedAuthServiceHandler) Register(context.Context, *connect.Request[v1.RegisterRequest]) (*connect.Response[v1.RegisterResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("auth.v1.AuthService.Register is not implemented"))
+}
+
+func (UnimplementedAuthServiceHandler) GetUserByFirebaseUid(context.Context, *connect.Request[v1.GetUserByFirebaseUidRequest]) (*connect.Response[v1.GetUserByFirebaseUidResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("auth.v1.AuthService.GetUserByFirebaseUid is not implemented"))
 }

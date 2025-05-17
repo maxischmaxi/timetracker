@@ -1212,102 +1212,6 @@ func (*RemoveUserFromOrgResponse) Descriptor() ([]byte, []int) {
 	return file_user_v1_user_proto_rawDescGZIP(), []int{17}
 }
 
-type GetUserByFirebaseUidRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Uid           string                 `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetUserByFirebaseUidRequest) Reset() {
-	*x = GetUserByFirebaseUidRequest{}
-	mi := &file_user_v1_user_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetUserByFirebaseUidRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetUserByFirebaseUidRequest) ProtoMessage() {}
-
-func (x *GetUserByFirebaseUidRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_user_proto_msgTypes[18]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetUserByFirebaseUidRequest.ProtoReflect.Descriptor instead.
-func (*GetUserByFirebaseUidRequest) Descriptor() ([]byte, []int) {
-	return file_user_v1_user_proto_rawDescGZIP(), []int{18}
-}
-
-func (x *GetUserByFirebaseUidRequest) GetUid() string {
-	if x != nil {
-		return x.Uid
-	}
-	return ""
-}
-
-type GetUserByFirebaseUidResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	Orgs          []*v11.Org             `protobuf:"bytes,2,rep,name=orgs,proto3" json:"orgs,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetUserByFirebaseUidResponse) Reset() {
-	*x = GetUserByFirebaseUidResponse{}
-	mi := &file_user_v1_user_proto_msgTypes[19]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetUserByFirebaseUidResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetUserByFirebaseUidResponse) ProtoMessage() {}
-
-func (x *GetUserByFirebaseUidResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_user_proto_msgTypes[19]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetUserByFirebaseUidResponse.ProtoReflect.Descriptor instead.
-func (*GetUserByFirebaseUidResponse) Descriptor() ([]byte, []int) {
-	return file_user_v1_user_proto_rawDescGZIP(), []int{19}
-}
-
-func (x *GetUserByFirebaseUidResponse) GetUser() *User {
-	if x != nil {
-		return x.User
-	}
-	return nil
-}
-
-func (x *GetUserByFirebaseUidResponse) GetOrgs() []*v11.Org {
-	if x != nil {
-		return x.Orgs
-	}
-	return nil
-}
-
 type SetUserActiveStateRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	State         EmploymentState        `protobuf:"varint,1,opt,name=state,proto3,enum=user.v1.EmploymentState" json:"state,omitempty"`
@@ -1318,7 +1222,7 @@ type SetUserActiveStateRequest struct {
 
 func (x *SetUserActiveStateRequest) Reset() {
 	*x = SetUserActiveStateRequest{}
-	mi := &file_user_v1_user_proto_msgTypes[20]
+	mi := &file_user_v1_user_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1330,7 +1234,7 @@ func (x *SetUserActiveStateRequest) String() string {
 func (*SetUserActiveStateRequest) ProtoMessage() {}
 
 func (x *SetUserActiveStateRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_user_proto_msgTypes[20]
+	mi := &file_user_v1_user_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1343,7 +1247,7 @@ func (x *SetUserActiveStateRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetUserActiveStateRequest.ProtoReflect.Descriptor instead.
 func (*SetUserActiveStateRequest) Descriptor() ([]byte, []int) {
-	return file_user_v1_user_proto_rawDescGZIP(), []int{20}
+	return file_user_v1_user_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *SetUserActiveStateRequest) GetState() EmploymentState {
@@ -1369,7 +1273,7 @@ type SetUserActiveStateResponse struct {
 
 func (x *SetUserActiveStateResponse) Reset() {
 	*x = SetUserActiveStateResponse{}
-	mi := &file_user_v1_user_proto_msgTypes[21]
+	mi := &file_user_v1_user_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1381,7 +1285,7 @@ func (x *SetUserActiveStateResponse) String() string {
 func (*SetUserActiveStateResponse) ProtoMessage() {}
 
 func (x *SetUserActiveStateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_v1_user_proto_msgTypes[21]
+	mi := &file_user_v1_user_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1394,7 +1298,7 @@ func (x *SetUserActiveStateResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetUserActiveStateResponse.ProtoReflect.Descriptor instead.
 func (*SetUserActiveStateResponse) Descriptor() ([]byte, []int) {
-	return file_user_v1_user_proto_rawDescGZIP(), []int{21}
+	return file_user_v1_user_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *SetUserActiveStateResponse) GetState() EmploymentState {
@@ -1489,12 +1393,7 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\x18RemoveUserFromOrgRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x15\n" +
 	"\x06org_id\x18\x02 \x01(\tR\x05orgId\"\x1b\n" +
-	"\x19RemoveUserFromOrgResponse\"/\n" +
-	"\x1bGetUserByFirebaseUidRequest\x12\x10\n" +
-	"\x03uid\x18\x01 \x01(\tR\x03uid\"b\n" +
-	"\x1cGetUserByFirebaseUidResponse\x12!\n" +
-	"\x04user\x18\x01 \x01(\v2\r.user.v1.UserR\x04user\x12\x1f\n" +
-	"\x04orgs\x18\x02 \x03(\v2\v.org.v1.OrgR\x04orgs\"[\n" +
+	"\x19RemoveUserFromOrgResponse\"[\n" +
 	"\x19SetUserActiveStateRequest\x12.\n" +
 	"\x05state\x18\x01 \x01(\x0e2\x18.user.v1.EmploymentStateR\x05state\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\"L\n" +
@@ -1508,7 +1407,7 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"#VACATION_REQUEST_STATUS_UNSPECIFIED\x10\x00\x12#\n" +
 	"\x1fVACATION_REQUEST_STATUS_PENDING\x10\x01\x12$\n" +
 	" VACATION_REQUEST_STATUS_APPROVED\x10\x02\x12$\n" +
-	" VACATION_REQUEST_STATUS_REJECTED\x10\x032\xa2\x05\n" +
+	" VACATION_REQUEST_STATUS_REJECTED\x10\x032\xbd\x04\n" +
 	"\vUserService\x12H\n" +
 	"\vGetUserById\x12\x1b.user.v1.GetUserByIdRequest\x1a\x1c.user.v1.GetUserByIdResponse\x12Q\n" +
 	"\x0eGetUserByEmail\x12\x1e.user.v1.GetUserByEmailRequest\x1a\x1f.user.v1.GetUserByEmailResponse\x12H\n" +
@@ -1517,8 +1416,7 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"CreateUser\x12\x1a.user.v1.CreateUserRequest\x1a\x1b.user.v1.CreateUserResponse\x12E\n" +
 	"\n" +
 	"UpdateUser\x12\x1a.user.v1.UpdateUserRequest\x1a\x1b.user.v1.UpdateUserResponse\x12Z\n" +
-	"\x11RemoveUserFromOrg\x12!.user.v1.RemoveUserFromOrgRequest\x1a\".user.v1.RemoveUserFromOrgResponse\x12c\n" +
-	"\x14GetUserByFirebaseUid\x12$.user.v1.GetUserByFirebaseUidRequest\x1a%.user.v1.GetUserByFirebaseUidResponse\x12]\n" +
+	"\x11RemoveUserFromOrg\x12!.user.v1.RemoveUserFromOrgRequest\x1a\".user.v1.RemoveUserFromOrgResponse\x12]\n" +
 	"\x12SetUserActiveState\x12\".user.v1.SetUserActiveStateRequest\x1a#.user.v1.SetUserActiveStateResponseB2Z0github.com/maxischmaxi/ljtime-api/user/v1;userv1b\x06proto3"
 
 var (
@@ -1534,79 +1432,73 @@ func file_user_v1_user_proto_rawDescGZIP() []byte {
 }
 
 var file_user_v1_user_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
+var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_user_v1_user_proto_goTypes = []any{
-	(EmploymentState)(0),                 // 0: user.v1.EmploymentState
-	(VacationRequestStatus)(0),           // 1: user.v1.VacationRequestStatus
-	(*VacationRequest)(nil),              // 2: user.v1.VacationRequest
-	(*CreateUserVacation)(nil),           // 3: user.v1.CreateUserVacation
-	(*UserVacation)(nil),                 // 4: user.v1.UserVacation
-	(*User)(nil),                         // 5: user.v1.User
-	(*CreateUser)(nil),                   // 6: user.v1.CreateUser
-	(*UpdateUser)(nil),                   // 7: user.v1.UpdateUser
-	(*GetUserByIdRequest)(nil),           // 8: user.v1.GetUserByIdRequest
-	(*GetUserByIdResponse)(nil),          // 9: user.v1.GetUserByIdResponse
-	(*GetAllUsersRequest)(nil),           // 10: user.v1.GetAllUsersRequest
-	(*GetAllUsersResponse)(nil),          // 11: user.v1.GetAllUsersResponse
-	(*CreateUserRequest)(nil),            // 12: user.v1.CreateUserRequest
-	(*CreateUserResponse)(nil),           // 13: user.v1.CreateUserResponse
-	(*UpdateUserRequest)(nil),            // 14: user.v1.UpdateUserRequest
-	(*UpdateUserResponse)(nil),           // 15: user.v1.UpdateUserResponse
-	(*GetUserByEmailRequest)(nil),        // 16: user.v1.GetUserByEmailRequest
-	(*GetUserByEmailResponse)(nil),       // 17: user.v1.GetUserByEmailResponse
-	(*RemoveUserFromOrgRequest)(nil),     // 18: user.v1.RemoveUserFromOrgRequest
-	(*RemoveUserFromOrgResponse)(nil),    // 19: user.v1.RemoveUserFromOrgResponse
-	(*GetUserByFirebaseUidRequest)(nil),  // 20: user.v1.GetUserByFirebaseUidRequest
-	(*GetUserByFirebaseUidResponse)(nil), // 21: user.v1.GetUserByFirebaseUidResponse
-	(*SetUserActiveStateRequest)(nil),    // 22: user.v1.SetUserActiveStateRequest
-	(*SetUserActiveStateResponse)(nil),   // 23: user.v1.SetUserActiveStateResponse
-	(*v1.Address)(nil),                   // 24: customer.v1.Address
-	(*v11.Org)(nil),                      // 25: org.v1.Org
+	(EmploymentState)(0),               // 0: user.v1.EmploymentState
+	(VacationRequestStatus)(0),         // 1: user.v1.VacationRequestStatus
+	(*VacationRequest)(nil),            // 2: user.v1.VacationRequest
+	(*CreateUserVacation)(nil),         // 3: user.v1.CreateUserVacation
+	(*UserVacation)(nil),               // 4: user.v1.UserVacation
+	(*User)(nil),                       // 5: user.v1.User
+	(*CreateUser)(nil),                 // 6: user.v1.CreateUser
+	(*UpdateUser)(nil),                 // 7: user.v1.UpdateUser
+	(*GetUserByIdRequest)(nil),         // 8: user.v1.GetUserByIdRequest
+	(*GetUserByIdResponse)(nil),        // 9: user.v1.GetUserByIdResponse
+	(*GetAllUsersRequest)(nil),         // 10: user.v1.GetAllUsersRequest
+	(*GetAllUsersResponse)(nil),        // 11: user.v1.GetAllUsersResponse
+	(*CreateUserRequest)(nil),          // 12: user.v1.CreateUserRequest
+	(*CreateUserResponse)(nil),         // 13: user.v1.CreateUserResponse
+	(*UpdateUserRequest)(nil),          // 14: user.v1.UpdateUserRequest
+	(*UpdateUserResponse)(nil),         // 15: user.v1.UpdateUserResponse
+	(*GetUserByEmailRequest)(nil),      // 16: user.v1.GetUserByEmailRequest
+	(*GetUserByEmailResponse)(nil),     // 17: user.v1.GetUserByEmailResponse
+	(*RemoveUserFromOrgRequest)(nil),   // 18: user.v1.RemoveUserFromOrgRequest
+	(*RemoveUserFromOrgResponse)(nil),  // 19: user.v1.RemoveUserFromOrgResponse
+	(*SetUserActiveStateRequest)(nil),  // 20: user.v1.SetUserActiveStateRequest
+	(*SetUserActiveStateResponse)(nil), // 21: user.v1.SetUserActiveStateResponse
+	(*v1.Address)(nil),                 // 22: customer.v1.Address
+	(*v11.Org)(nil),                    // 23: org.v1.Org
 }
 var file_user_v1_user_proto_depIdxs = []int32{
 	1,  // 0: user.v1.VacationRequest.status:type_name -> user.v1.VacationRequestStatus
-	24, // 1: user.v1.User.address:type_name -> customer.v1.Address
+	22, // 1: user.v1.User.address:type_name -> customer.v1.Address
 	0,  // 2: user.v1.User.employment_state:type_name -> user.v1.EmploymentState
 	4,  // 3: user.v1.User.vacations:type_name -> user.v1.UserVacation
 	2,  // 4: user.v1.User.vacation_requests:type_name -> user.v1.VacationRequest
-	24, // 5: user.v1.CreateUser.address:type_name -> customer.v1.Address
+	22, // 5: user.v1.CreateUser.address:type_name -> customer.v1.Address
 	0,  // 6: user.v1.CreateUser.employment_state:type_name -> user.v1.EmploymentState
 	3,  // 7: user.v1.CreateUser.vacations:type_name -> user.v1.CreateUserVacation
-	24, // 8: user.v1.UpdateUser.address:type_name -> customer.v1.Address
+	22, // 8: user.v1.UpdateUser.address:type_name -> customer.v1.Address
 	5,  // 9: user.v1.GetUserByIdResponse.user:type_name -> user.v1.User
-	25, // 10: user.v1.GetUserByIdResponse.orgs:type_name -> org.v1.Org
+	23, // 10: user.v1.GetUserByIdResponse.orgs:type_name -> org.v1.Org
 	5,  // 11: user.v1.GetAllUsersResponse.users:type_name -> user.v1.User
 	6,  // 12: user.v1.CreateUserRequest.user:type_name -> user.v1.CreateUser
 	5,  // 13: user.v1.CreateUserResponse.user:type_name -> user.v1.User
 	7,  // 14: user.v1.UpdateUserRequest.user:type_name -> user.v1.UpdateUser
 	5,  // 15: user.v1.UpdateUserResponse.user:type_name -> user.v1.User
 	5,  // 16: user.v1.GetUserByEmailResponse.user:type_name -> user.v1.User
-	25, // 17: user.v1.GetUserByEmailResponse.orgs:type_name -> org.v1.Org
-	5,  // 18: user.v1.GetUserByFirebaseUidResponse.user:type_name -> user.v1.User
-	25, // 19: user.v1.GetUserByFirebaseUidResponse.orgs:type_name -> org.v1.Org
-	0,  // 20: user.v1.SetUserActiveStateRequest.state:type_name -> user.v1.EmploymentState
-	0,  // 21: user.v1.SetUserActiveStateResponse.state:type_name -> user.v1.EmploymentState
-	8,  // 22: user.v1.UserService.GetUserById:input_type -> user.v1.GetUserByIdRequest
-	16, // 23: user.v1.UserService.GetUserByEmail:input_type -> user.v1.GetUserByEmailRequest
-	10, // 24: user.v1.UserService.GetAllUsers:input_type -> user.v1.GetAllUsersRequest
-	12, // 25: user.v1.UserService.CreateUser:input_type -> user.v1.CreateUserRequest
-	14, // 26: user.v1.UserService.UpdateUser:input_type -> user.v1.UpdateUserRequest
-	18, // 27: user.v1.UserService.RemoveUserFromOrg:input_type -> user.v1.RemoveUserFromOrgRequest
-	20, // 28: user.v1.UserService.GetUserByFirebaseUid:input_type -> user.v1.GetUserByFirebaseUidRequest
-	22, // 29: user.v1.UserService.SetUserActiveState:input_type -> user.v1.SetUserActiveStateRequest
-	9,  // 30: user.v1.UserService.GetUserById:output_type -> user.v1.GetUserByIdResponse
-	17, // 31: user.v1.UserService.GetUserByEmail:output_type -> user.v1.GetUserByEmailResponse
-	11, // 32: user.v1.UserService.GetAllUsers:output_type -> user.v1.GetAllUsersResponse
-	13, // 33: user.v1.UserService.CreateUser:output_type -> user.v1.CreateUserResponse
-	15, // 34: user.v1.UserService.UpdateUser:output_type -> user.v1.UpdateUserResponse
-	19, // 35: user.v1.UserService.RemoveUserFromOrg:output_type -> user.v1.RemoveUserFromOrgResponse
-	21, // 36: user.v1.UserService.GetUserByFirebaseUid:output_type -> user.v1.GetUserByFirebaseUidResponse
-	23, // 37: user.v1.UserService.SetUserActiveState:output_type -> user.v1.SetUserActiveStateResponse
-	30, // [30:38] is the sub-list for method output_type
-	22, // [22:30] is the sub-list for method input_type
-	22, // [22:22] is the sub-list for extension type_name
-	22, // [22:22] is the sub-list for extension extendee
-	0,  // [0:22] is the sub-list for field type_name
+	23, // 17: user.v1.GetUserByEmailResponse.orgs:type_name -> org.v1.Org
+	0,  // 18: user.v1.SetUserActiveStateRequest.state:type_name -> user.v1.EmploymentState
+	0,  // 19: user.v1.SetUserActiveStateResponse.state:type_name -> user.v1.EmploymentState
+	8,  // 20: user.v1.UserService.GetUserById:input_type -> user.v1.GetUserByIdRequest
+	16, // 21: user.v1.UserService.GetUserByEmail:input_type -> user.v1.GetUserByEmailRequest
+	10, // 22: user.v1.UserService.GetAllUsers:input_type -> user.v1.GetAllUsersRequest
+	12, // 23: user.v1.UserService.CreateUser:input_type -> user.v1.CreateUserRequest
+	14, // 24: user.v1.UserService.UpdateUser:input_type -> user.v1.UpdateUserRequest
+	18, // 25: user.v1.UserService.RemoveUserFromOrg:input_type -> user.v1.RemoveUserFromOrgRequest
+	20, // 26: user.v1.UserService.SetUserActiveState:input_type -> user.v1.SetUserActiveStateRequest
+	9,  // 27: user.v1.UserService.GetUserById:output_type -> user.v1.GetUserByIdResponse
+	17, // 28: user.v1.UserService.GetUserByEmail:output_type -> user.v1.GetUserByEmailResponse
+	11, // 29: user.v1.UserService.GetAllUsers:output_type -> user.v1.GetAllUsersResponse
+	13, // 30: user.v1.UserService.CreateUser:output_type -> user.v1.CreateUserResponse
+	15, // 31: user.v1.UserService.UpdateUser:output_type -> user.v1.UpdateUserResponse
+	19, // 32: user.v1.UserService.RemoveUserFromOrg:output_type -> user.v1.RemoveUserFromOrgResponse
+	21, // 33: user.v1.UserService.SetUserActiveState:output_type -> user.v1.SetUserActiveStateResponse
+	27, // [27:34] is the sub-list for method output_type
+	20, // [20:27] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_user_v1_user_proto_init() }
@@ -1620,7 +1512,7 @@ func file_user_v1_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_v1_user_proto_rawDesc), len(file_user_v1_user_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   22,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

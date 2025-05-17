@@ -4,13 +4,17 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
+import type { User } from "../../user/v1/user_pb";
+import { file_user_v1_user } from "../../user/v1/user_pb";
+import type { Org } from "../../org/v1/org_pb";
+import { file_org_v1_org } from "../../org/v1/org_pb";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file auth/v1/auth.proto.
  */
 export const file_auth_v1_auth: GenFile = /*@__PURE__*/
-  fileDesc("ChJhdXRoL3YxL2F1dGgucHJvdG8SB2F1dGgudjEiUAoPUmVnaXN0ZXJSZXF1ZXN0Eg0KBWVtYWlsGAEgASgJEhAKCHBhc3N3b3JkGAIgASgJEgwKBG5hbWUYAyABKAkSDgoGb3JnX2lkGAQgASgJIhIKEFJlZ2lzdGVyUmVzcG9uc2UyTgoLQXV0aFNlcnZpY2USPwoIUmVnaXN0ZXISGC5hdXRoLnYxLlJlZ2lzdGVyUmVxdWVzdBoZLmF1dGgudjEuUmVnaXN0ZXJSZXNwb25zZUIyWjBnaXRodWIuY29tL21heGlzY2htYXhpL2xqdGltZS1hcGkvYXV0aC92MTthdXRodjFiBnByb3RvMw");
+  fileDesc("ChJhdXRoL3YxL2F1dGgucHJvdG8SB2F1dGgudjEiUAoPUmVnaXN0ZXJSZXF1ZXN0Eg0KBWVtYWlsGAEgASgJEhAKCHBhc3N3b3JkGAIgASgJEgwKBG5hbWUYAyABKAkSDgoGb3JnX2lkGAQgASgJIhIKEFJlZ2lzdGVyUmVzcG9uc2UiKgobR2V0VXNlckJ5RmlyZWJhc2VVaWRSZXF1ZXN0EgsKA3VpZBgBIAEoCSJWChxHZXRVc2VyQnlGaXJlYmFzZVVpZFJlc3BvbnNlEhsKBHVzZXIYASABKAsyDS51c2VyLnYxLlVzZXISGQoEb3JncxgCIAMoCzILLm9yZy52MS5PcmcyswEKC0F1dGhTZXJ2aWNlEj8KCFJlZ2lzdGVyEhguYXV0aC52MS5SZWdpc3RlclJlcXVlc3QaGS5hdXRoLnYxLlJlZ2lzdGVyUmVzcG9uc2USYwoUR2V0VXNlckJ5RmlyZWJhc2VVaWQSJC5hdXRoLnYxLkdldFVzZXJCeUZpcmViYXNlVWlkUmVxdWVzdBolLmF1dGgudjEuR2V0VXNlckJ5RmlyZWJhc2VVaWRSZXNwb25zZUIyWjBnaXRodWIuY29tL21heGlzY2htYXhpL2xqdGltZS1hcGkvYXV0aC92MTthdXRodjFiBnByb3RvMw", [file_user_v1_user, file_org_v1_org]);
 
 /**
  * @generated from message auth.v1.RegisterRequest
@@ -58,6 +62,45 @@ export const RegisterResponseSchema: GenMessage<RegisterResponse> = /*@__PURE__*
   messageDesc(file_auth_v1_auth, 1);
 
 /**
+ * @generated from message auth.v1.GetUserByFirebaseUidRequest
+ */
+export type GetUserByFirebaseUidRequest = Message<"auth.v1.GetUserByFirebaseUidRequest"> & {
+  /**
+   * @generated from field: string uid = 1;
+   */
+  uid: string;
+};
+
+/**
+ * Describes the message auth.v1.GetUserByFirebaseUidRequest.
+ * Use `create(GetUserByFirebaseUidRequestSchema)` to create a new message.
+ */
+export const GetUserByFirebaseUidRequestSchema: GenMessage<GetUserByFirebaseUidRequest> = /*@__PURE__*/
+  messageDesc(file_auth_v1_auth, 2);
+
+/**
+ * @generated from message auth.v1.GetUserByFirebaseUidResponse
+ */
+export type GetUserByFirebaseUidResponse = Message<"auth.v1.GetUserByFirebaseUidResponse"> & {
+  /**
+   * @generated from field: user.v1.User user = 1;
+   */
+  user?: User;
+
+  /**
+   * @generated from field: repeated org.v1.Org orgs = 2;
+   */
+  orgs: Org[];
+};
+
+/**
+ * Describes the message auth.v1.GetUserByFirebaseUidResponse.
+ * Use `create(GetUserByFirebaseUidResponseSchema)` to create a new message.
+ */
+export const GetUserByFirebaseUidResponseSchema: GenMessage<GetUserByFirebaseUidResponse> = /*@__PURE__*/
+  messageDesc(file_auth_v1_auth, 3);
+
+/**
  * @generated from service auth.v1.AuthService
  */
 export const AuthService: GenService<{
@@ -68,6 +111,14 @@ export const AuthService: GenService<{
     methodKind: "unary";
     input: typeof RegisterRequestSchema;
     output: typeof RegisterResponseSchema;
+  },
+  /**
+   * @generated from rpc auth.v1.AuthService.GetUserByFirebaseUid
+   */
+  getUserByFirebaseUid: {
+    methodKind: "unary";
+    input: typeof GetUserByFirebaseUidRequestSchema;
+    output: typeof GetUserByFirebaseUidResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_auth_v1_auth, 0);

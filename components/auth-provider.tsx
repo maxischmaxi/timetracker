@@ -1,6 +1,5 @@
 "use client";
 
-import { User } from "@firebase/auth";
 import { User as DbUser } from "@/user/v1/user_pb";
 import {
   createContext,
@@ -9,11 +8,34 @@ import {
   useEffect,
   useState,
 } from "react";
-import { onAuthStateChanged, signOut } from "@/lib/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword as _signInWithEmailAndPassword,
+  signOut as _signOut,
+  User,
+} from "@firebase/auth";
 import { Plain } from "@/types";
 import { Org } from "@/org/v1/org_pb";
 import { getUserByFirebaseUid } from "@/lib/api";
 import { usePathname, useRouter } from "next/navigation";
+import { firebaseConfig } from "@/lib/firebase";
+import { initializeApp } from "@firebase/app";
+import { getLang } from "@/lib/locale";
+import { deleteCookie, setCookie } from "@/lib/cookies";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+auth.languageCode = getLang();
+
+export async function signOut() {
+  deleteCookie("__session");
+  await _signOut(auth);
+}
+
+export async function getToken(): Promise<string | null> {
+  return (await auth.currentUser?.getIdToken()) || null;
+}
 
 type AuthState = "pending" | "signedIn" | "signedOut";
 
@@ -32,6 +54,15 @@ export const AuthContext = createContext<IUseAuth>({
   currentOrg: null,
   authState: "pending",
 });
+
+export async function signInWithEmailAndPassword(
+  email: string,
+  password: string,
+): Promise<void> {
+  await _signInWithEmailAndPassword(auth, email, password).then(
+    (res) => res.user,
+  );
+}
 
 export function getLocalOrg(): string | null {
   if (typeof window === "undefined") return null;
@@ -61,6 +92,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const handleUserAuthenticated = useCallback(
     async (user: User) => {
+      const token = await user.getIdToken();
+      setCookie("__session", token);
+      console.log("auth state changed", user, token);
       try {
         const res = await getUserByFirebaseUid(user.uid);
 
@@ -111,7 +145,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   useEffect(() => {
-    const cleanup = onAuthStateChanged(async (user) => {
+    const cleanup = onAuthStateChanged(auth, async (user) => {
       if (user) {
         await handleUserAuthenticated(user);
       } else {
@@ -120,6 +154,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setOrgs([]);
         setUser(null);
         setAuthState("signedOut");
+        deleteCookie("__session");
       }
     });
 
@@ -130,7 +165,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ orgs, user, firebaseUser, authState, currentOrg }}
+      value={{
+        orgs,
+        user,
+        firebaseUser,
+        authState,
+        currentOrg,
+      }}
     >
       {children}
     </AuthContext.Provider>

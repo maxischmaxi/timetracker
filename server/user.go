@@ -325,23 +325,6 @@ func (s *UserServer) CreateUser(ctx context.Context, req *connect.Request[userv1
 	}), nil
 }
 
-func (s *UserServer) GetUserByFirebaseUid(ctx context.Context, req *connect.Request[userv1.GetUserByFirebaseUidRequest]) (*connect.Response[userv1.GetUserByFirebaseUidResponse], error) {
-	user, err := GetUserByFirebaseUID(ctx, req.Msg.Uid)
-	if err != nil {
-		return nil, err
-	}
-
-	orgs, err := GetOrgsByOrgIds(ctx, user.OrgIds)
-	if err != nil {
-		return nil, err
-	}
-
-	return connect.NewResponse(&userv1.GetUserByFirebaseUidResponse{
-		User: user,
-		Orgs: orgs,
-	}), nil
-}
-
 func (s *UserServer) UpdateUser(ctx context.Context, req *connect.Request[userv1.UpdateUserRequest]) (*connect.Response[userv1.UpdateUserResponse], error) {
 	user, err := GetUserById(ctx, req.Msg.Id)
 	if err != nil {

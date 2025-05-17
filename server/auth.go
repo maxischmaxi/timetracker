@@ -16,6 +16,23 @@ type AuthServer struct {
 	authv1connect.UnimplementedAuthServiceHandler
 }
 
+func (s *AuthServer) GetUserByFirebaseUid(ctx context.Context, req *connect.Request[authv1.GetUserByFirebaseUidRequest]) (*connect.Response[authv1.GetUserByFirebaseUidResponse], error) {
+	user, err := GetUserByFirebaseUID(ctx, req.Msg.Uid)
+	if err != nil {
+		return nil, err
+	}
+
+	orgs, err := GetOrgsByOrgIds(ctx, user.OrgIds)
+	if err != nil {
+		return nil, err
+	}
+
+	return connect.NewResponse(&authv1.GetUserByFirebaseUidResponse{
+		User: user,
+		Orgs: orgs,
+	}), nil
+}
+
 func (s *AuthServer) Register(ctx context.Context, req *connect.Request[authv1.RegisterRequest]) (*connect.Response[authv1.RegisterResponse], error) {
 	user := (&auth.UserToCreate{}).
 		Email(req.Msg.Email).
