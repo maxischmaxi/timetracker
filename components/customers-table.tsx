@@ -77,6 +77,7 @@ import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import Link from "next/link";
 import { useCustomers } from "@/hooks/use-customer";
 import { Plain } from "@/types";
+import { CustomerSheet } from "./customer-sheet";
 
 function DragHandle({ id }: { id: number }) {
   const { attributes, listeners } = useSortable({
@@ -142,7 +143,7 @@ const columns: Array<ColumnDef<Plain<Customer>>> = [
     cell: ({ row }) => {
       return (
         <Link
-          href={`/customer/${row.original.id}`}
+          href={`/customers/${row.original.id}`}
           className="text-blue-600 hover:underline"
         >
           {row.original.name}
@@ -283,13 +284,13 @@ export function CustomersTable() {
           </SelectContent>
         </Select>
         <TabsList className="@4xl/main:flex hidden">
-          <TabsTrigger disabled={customers.isLoading} value="all">
+          <TabsTrigger disabled={customers.isPending} value="all">
             Alle
           </TabsTrigger>
           <TabsTrigger
             value="past-performance"
             className="gap-1"
-            disabled={customers.isLoading}
+            disabled={customers.isPending}
           >
             Past Performance{" "}
             <Badge
@@ -302,7 +303,7 @@ export function CustomersTable() {
           <TabsTrigger
             value="key-personnel"
             className="gap-1"
-            disabled={customers.isLoading}
+            disabled={customers.isPending}
           >
             Key Personnel{" "}
             <Badge
@@ -312,7 +313,7 @@ export function CustomersTable() {
               2
             </Badge>
           </TabsTrigger>
-          <TabsTrigger value="focus-documents" disabled={customers.isLoading}>
+          <TabsTrigger value="focus-documents" disabled={customers.isPending}>
             Focus Documents
           </TabsTrigger>
         </TabsList>
@@ -322,7 +323,7 @@ export function CustomersTable() {
               <Button
                 variant="outline"
                 size="sm"
-                disabled={customers.isLoading}
+                disabled={customers.isPending}
               >
                 <ColumnsIcon />
                 <span className="hidden lg:inline">Customize Columns</span>
@@ -342,7 +343,7 @@ export function CustomersTable() {
                   return (
                     <DropdownMenuCheckboxItem
                       key={column.id}
-                      disabled={customers.isLoading}
+                      disabled={customers.isPending}
                       className="capitalize"
                       checked={column.getIsVisible()}
                       onCheckedChange={(value) => {
@@ -362,17 +363,12 @@ export function CustomersTable() {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={customers.isLoading}
-            asChild
-          >
-            <Link href="/customers/create">
+          <CustomerSheet>
+            <Button variant="outline" size="sm" disabled={customers.isPending}>
               <PlusIcon />
               <span className="hidden lg:inline">Kunden hinzufügen</span>
-            </Link>
-          </Button>
+            </Button>
+          </CustomerSheet>
         </div>
       </div>
       <TabsContent
@@ -407,7 +403,7 @@ export function CustomersTable() {
                 ))}
               </TableHeader>
               <TableBody className="**:data-[slot=table-cell]:first:w-8">
-                {customers.isLoading ? (
+                {customers.isPending ? (
                   <TableRow>
                     <TableCell colSpan={columns.length}>
                       <Loader className="h-4 w-4 animate-spin" />

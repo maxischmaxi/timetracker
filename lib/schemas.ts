@@ -113,12 +113,7 @@ export const createCustomerSchema = z.object({
       message: "Tag is required",
     })
     .trim()
-    .min(3, {
-      message: "Tag is required",
-    })
-    .max(3, {
-      message: "Tag must be 3 characters",
-    }),
+    .length(3, "Tag must be three characters"),
   name: z
     .string({
       message: "Name is required",
@@ -264,3 +259,39 @@ export const loginSchema = z.object({
     .regex(/[0-9]/, "Must have a number")
     .regex(/[^a-zA-Z0-9]/, "Must have a special character"),
 });
+
+export const inviteEmailToOrgSchema = z.object({
+  email: z.string().email(),
+});
+
+export const registerSchema = z
+  .object({
+    email: z.string().email(),
+    password: z
+      .string({
+        message: "Please enter your password",
+      })
+      .trim()
+      .min(8, {
+        message: "Your password must be at least 8 characters long",
+      })
+      .max(4096, {
+        message: "Your password cannot be longer than 4096 characters",
+      })
+      .regex(/[a-z]/, "Must have a lowercase letter")
+      .regex(/[A-Z]/, "Must have a uppercase letter")
+      .regex(/[0-9]/, "Must have a number")
+      .regex(/[^a-zA-Z0-9]/, "Must have a special character"),
+    passwordConfirm: z.string(),
+    name: z.string().trim().min(1, "Bitte gib einen namen an"),
+  })
+  .superRefine((data, ctx) => {
+    if (data.password !== data.passwordConfirm) {
+      ctx.addIssue({
+        path: ["password"],
+        code: z.ZodIssueCode.custom,
+        message: "Passwörter stimmen nicht überein",
+        fatal: true,
+      });
+    }
+  });

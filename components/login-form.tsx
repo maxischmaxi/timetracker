@@ -22,10 +22,15 @@ import { useState } from "react";
 import { EyeClosedIcon, EyeIcon, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { getLocalOrg } from "./auth-provider";
 
-type Props = React.ComponentPropsWithoutRef<"div">;
+type Props = {
+  orgId?: string;
+  token?: string;
+  className?: string;
+};
 
-export function LoginForm({ className, ...rest }: Props) {
+export function LoginForm({ className, orgId, token }: Props) {
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -38,7 +43,16 @@ export function LoginForm({ className, ...rest }: Props) {
 
   async function onSubmit(data: z.infer<typeof loginSchema>) {
     await signInWithEmailAndPassword(data.email, data.password);
-    router.push("/");
+
+    if (orgId && token) {
+      router.push(`/auth/join-org?orgId=${orgId}&token=${token}`);
+    }
+
+    if (!getLocalOrg()) {
+      router.push("/auth/org");
+    } else {
+      router.push("/");
+    }
   }
 
   function onError() {
@@ -46,7 +60,7 @@ export function LoginForm({ className, ...rest }: Props) {
   }
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...rest}>
+    <div className={cn("flex flex-col gap-6", className)}>
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>

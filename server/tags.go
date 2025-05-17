@@ -19,9 +19,7 @@ type DbTag struct {
 }
 
 func GetAllTags(ctx context.Context) ([]DbTag, error) {
-	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_TAGS)
-
-	cursor, err := collection.Find(ctx, bson.M{})
+	cursor, err := TAGS.Find(ctx, bson.M{})
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
@@ -44,14 +42,12 @@ func GetAllTags(ctx context.Context) ([]DbTag, error) {
 }
 
 func InsertTag(ctx context.Context, tag string) error {
-	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_TAGS)
-
 	dbTag := &DbTag{
 		Id:  bson.NewObjectID(),
 		Tag: tag,
 	}
 
-	_, err := collection.InsertOne(ctx, dbTag)
+	_, err := TAGS.InsertOne(ctx, dbTag)
 	if err != nil {
 		return err
 	}
@@ -65,9 +61,7 @@ func DeleteTag(ctx context.Context, id string) error {
 		return err
 	}
 
-	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_TAGS)
-
-	_, err = collection.DeleteOne(ctx, bson.M{"_id": i})
+	_, err = TAGS.DeleteOne(ctx, bson.M{"_id": i})
 	if err != nil {
 		return err
 	}

@@ -49,6 +49,12 @@ const (
 	// OrgServiceRemoveAdminFromOrgProcedure is the fully-qualified name of the OrgService's
 	// RemoveAdminFromOrg RPC.
 	OrgServiceRemoveAdminFromOrgProcedure = "/org.v1.OrgService/RemoveAdminFromOrg"
+	// OrgServiceInviteEmailToOrgProcedure is the fully-qualified name of the OrgService's
+	// InviteEmailToOrg RPC.
+	OrgServiceInviteEmailToOrgProcedure = "/org.v1.OrgService/InviteEmailToOrg"
+	// OrgServiceAcceptEmailInviteProcedure is the fully-qualified name of the OrgService's
+	// AcceptEmailInvite RPC.
+	OrgServiceAcceptEmailInviteProcedure = "/org.v1.OrgService/AcceptEmailInvite"
 )
 
 // OrgServiceClient is a client for the org.v1.OrgService service.
@@ -60,6 +66,8 @@ type OrgServiceClient interface {
 	DeleteOrg(context.Context, *connect.Request[v1.DeleteOrgRequest]) (*connect.Response[v1.DeleteOrgResponse], error)
 	AddAdminToOrg(context.Context, *connect.Request[v1.AddAdminToOrgRequest]) (*connect.Response[v1.AddAdminToOrgResponse], error)
 	RemoveAdminFromOrg(context.Context, *connect.Request[v1.RemoveAdminFromOrgRequest]) (*connect.Response[v1.RemoveAdminFromOrgResponse], error)
+	InviteEmailToOrg(context.Context, *connect.Request[v1.InviteEmailToOrgRequest]) (*connect.Response[v1.InviteEmailToOrgResponse], error)
+	AcceptEmailInvite(context.Context, *connect.Request[v1.AcceptEmailInviteRequest]) (*connect.Response[v1.AcceptEmailInviteResponse], error)
 }
 
 // NewOrgServiceClient constructs a client for the org.v1.OrgService service. By default, it uses
@@ -115,6 +123,18 @@ func NewOrgServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(orgServiceMethods.ByName("RemoveAdminFromOrg")),
 			connect.WithClientOptions(opts...),
 		),
+		inviteEmailToOrg: connect.NewClient[v1.InviteEmailToOrgRequest, v1.InviteEmailToOrgResponse](
+			httpClient,
+			baseURL+OrgServiceInviteEmailToOrgProcedure,
+			connect.WithSchema(orgServiceMethods.ByName("InviteEmailToOrg")),
+			connect.WithClientOptions(opts...),
+		),
+		acceptEmailInvite: connect.NewClient[v1.AcceptEmailInviteRequest, v1.AcceptEmailInviteResponse](
+			httpClient,
+			baseURL+OrgServiceAcceptEmailInviteProcedure,
+			connect.WithSchema(orgServiceMethods.ByName("AcceptEmailInvite")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -127,6 +147,8 @@ type orgServiceClient struct {
 	deleteOrg          *connect.Client[v1.DeleteOrgRequest, v1.DeleteOrgResponse]
 	addAdminToOrg      *connect.Client[v1.AddAdminToOrgRequest, v1.AddAdminToOrgResponse]
 	removeAdminFromOrg *connect.Client[v1.RemoveAdminFromOrgRequest, v1.RemoveAdminFromOrgResponse]
+	inviteEmailToOrg   *connect.Client[v1.InviteEmailToOrgRequest, v1.InviteEmailToOrgResponse]
+	acceptEmailInvite  *connect.Client[v1.AcceptEmailInviteRequest, v1.AcceptEmailInviteResponse]
 }
 
 // GetOrg calls org.v1.OrgService.GetOrg.
@@ -164,6 +186,16 @@ func (c *orgServiceClient) RemoveAdminFromOrg(ctx context.Context, req *connect.
 	return c.removeAdminFromOrg.CallUnary(ctx, req)
 }
 
+// InviteEmailToOrg calls org.v1.OrgService.InviteEmailToOrg.
+func (c *orgServiceClient) InviteEmailToOrg(ctx context.Context, req *connect.Request[v1.InviteEmailToOrgRequest]) (*connect.Response[v1.InviteEmailToOrgResponse], error) {
+	return c.inviteEmailToOrg.CallUnary(ctx, req)
+}
+
+// AcceptEmailInvite calls org.v1.OrgService.AcceptEmailInvite.
+func (c *orgServiceClient) AcceptEmailInvite(ctx context.Context, req *connect.Request[v1.AcceptEmailInviteRequest]) (*connect.Response[v1.AcceptEmailInviteResponse], error) {
+	return c.acceptEmailInvite.CallUnary(ctx, req)
+}
+
 // OrgServiceHandler is an implementation of the org.v1.OrgService service.
 type OrgServiceHandler interface {
 	GetOrg(context.Context, *connect.Request[v1.GetOrgRequest]) (*connect.Response[v1.GetOrgResponse], error)
@@ -173,6 +205,8 @@ type OrgServiceHandler interface {
 	DeleteOrg(context.Context, *connect.Request[v1.DeleteOrgRequest]) (*connect.Response[v1.DeleteOrgResponse], error)
 	AddAdminToOrg(context.Context, *connect.Request[v1.AddAdminToOrgRequest]) (*connect.Response[v1.AddAdminToOrgResponse], error)
 	RemoveAdminFromOrg(context.Context, *connect.Request[v1.RemoveAdminFromOrgRequest]) (*connect.Response[v1.RemoveAdminFromOrgResponse], error)
+	InviteEmailToOrg(context.Context, *connect.Request[v1.InviteEmailToOrgRequest]) (*connect.Response[v1.InviteEmailToOrgResponse], error)
+	AcceptEmailInvite(context.Context, *connect.Request[v1.AcceptEmailInviteRequest]) (*connect.Response[v1.AcceptEmailInviteResponse], error)
 }
 
 // NewOrgServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -224,6 +258,18 @@ func NewOrgServiceHandler(svc OrgServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(orgServiceMethods.ByName("RemoveAdminFromOrg")),
 		connect.WithHandlerOptions(opts...),
 	)
+	orgServiceInviteEmailToOrgHandler := connect.NewUnaryHandler(
+		OrgServiceInviteEmailToOrgProcedure,
+		svc.InviteEmailToOrg,
+		connect.WithSchema(orgServiceMethods.ByName("InviteEmailToOrg")),
+		connect.WithHandlerOptions(opts...),
+	)
+	orgServiceAcceptEmailInviteHandler := connect.NewUnaryHandler(
+		OrgServiceAcceptEmailInviteProcedure,
+		svc.AcceptEmailInvite,
+		connect.WithSchema(orgServiceMethods.ByName("AcceptEmailInvite")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/org.v1.OrgService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case OrgServiceGetOrgProcedure:
@@ -240,6 +286,10 @@ func NewOrgServiceHandler(svc OrgServiceHandler, opts ...connect.HandlerOption) 
 			orgServiceAddAdminToOrgHandler.ServeHTTP(w, r)
 		case OrgServiceRemoveAdminFromOrgProcedure:
 			orgServiceRemoveAdminFromOrgHandler.ServeHTTP(w, r)
+		case OrgServiceInviteEmailToOrgProcedure:
+			orgServiceInviteEmailToOrgHandler.ServeHTTP(w, r)
+		case OrgServiceAcceptEmailInviteProcedure:
+			orgServiceAcceptEmailInviteHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -275,4 +325,12 @@ func (UnimplementedOrgServiceHandler) AddAdminToOrg(context.Context, *connect.Re
 
 func (UnimplementedOrgServiceHandler) RemoveAdminFromOrg(context.Context, *connect.Request[v1.RemoveAdminFromOrgRequest]) (*connect.Response[v1.RemoveAdminFromOrgResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("org.v1.OrgService.RemoveAdminFromOrg is not implemented"))
+}
+
+func (UnimplementedOrgServiceHandler) InviteEmailToOrg(context.Context, *connect.Request[v1.InviteEmailToOrgRequest]) (*connect.Response[v1.InviteEmailToOrgResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("org.v1.OrgService.InviteEmailToOrg is not implemented"))
+}
+
+func (UnimplementedOrgServiceHandler) AcceptEmailInvite(context.Context, *connect.Request[v1.AcceptEmailInviteRequest]) (*connect.Response[v1.AcceptEmailInviteResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("org.v1.OrgService.AcceptEmailInvite is not implemented"))
 }

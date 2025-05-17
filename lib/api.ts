@@ -35,6 +35,9 @@ import {
   UserService,
 } from "@/user/v1/user_pb";
 import { getToken } from "./auth";
+import { InviteEmailToOrgResponse, OrgService } from "@/org/v1/org_pb";
+import { getLocalOrg } from "@/components/auth-provider";
+import { AuthService } from "@/auth/v1/auth_pb";
 
 const transport = createConnectTransport({
   baseUrl: process.env.NEXT_PUBLIC_API_GATEWAY as string,
@@ -45,6 +48,8 @@ const projectClient = createClient(ProjectService, transport);
 const jobsClient = createClient(JobService, transport);
 const userClient = createClient(UserService, transport);
 const tagsClient = createClient(TagsService, transport);
+const orgsClient = createClient(OrgService, transport);
+const authClient = createClient(AuthService, transport);
 
 async function getHeaders(): Promise<Headers> {
   const headers = new Headers();
@@ -280,4 +285,33 @@ export async function setUserActiveState(
   return await userClient
     .setUserActiveState({ state, id }, { headers: await getHeaders() })
     .then((res) => res as unknown as Plain<SetUserActiveStateResponse>);
+}
+
+export async function inviteEmailToOrg(
+  email: string,
+): Promise<Plain<InviteEmailToOrgResponse> | undefined> {
+  const localOrg = getLocalOrg();
+  if (!localOrg) {
+    throw new Error("org not set");
+  }
+  return await orgsClient
+    .inviteEmailToOrg(
+      { email, orgId: localOrg },
+      { headers: await getHeaders() },
+    )
+    .then((res) => res as unknown as Plain<InviteEmailToOrgResponse>);
+}
+
+export async function register(
+  email: string,
+  password: string,
+  name: string,
+  orgId: string | undefined,
+) {
+  return await authClient.register({
+    email,
+    password,
+    name,
+    orgId,
+  });
 }

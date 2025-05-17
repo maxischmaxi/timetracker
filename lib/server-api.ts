@@ -32,6 +32,7 @@ import {
 import { createClient } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-web";
 import { format } from "date-fns";
+import { Org, OrgService } from "@/org/v1/org_pb";
 
 const transport = createConnectTransport({
   baseUrl: process.env.NEXT_PUBLIC_API_GATEWAY as string,
@@ -46,6 +47,7 @@ const transport = createConnectTransport({
   },
 });
 
+const orgsClient = createClient(OrgService, transport);
 const customerClient = createClient(CustomerService, transport);
 const projectClient = createClient(ProjectService, transport);
 const jobsClient = createClient(JobService, transport);
@@ -250,17 +252,8 @@ export async function updateUser(
         id,
         user: {
           address: data.address,
-          email: data.email,
           projectIds: data.projectIds,
-          employmentState: data.employmentState,
           name: data.name,
-          vacationRequests: data.vacationRequests.map((v) => ({
-            startDate: BigInt(v.startDate),
-            endDate: BigInt(v.endDate),
-            comment: v.comment,
-            days: v.days,
-          })),
-          vacations: data.vacations,
           tags: data.tags,
         },
       },
@@ -283,4 +276,21 @@ export async function getUserByFirebaseUid(
   return await userClient
     .getUserByFirebaseUid({ uid }, { headers: getHeaders() })
     .then((res) => res as unknown as Plain<GetUserByFirebaseUidResponse>);
+}
+
+export async function getOrgById(id: string): Promise<Plain<Org> | undefined> {
+  return await orgsClient
+    .getOrgById({ id }, { headers: getHeaders() })
+    .then((res) => res.org as unknown as Plain<Org>);
+}
+
+export async function acceptEmailInvite(
+  token: string,
+  orgId: string,
+  firebaseUid: string,
+): Promise<void> {
+  await orgsClient.acceptEmailInvite(
+    { orgId, token, firebaseUid },
+    { headers: getHeaders() },
+  );
 }

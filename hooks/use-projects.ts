@@ -48,9 +48,6 @@ export function useCreateProject(props?: CreateProjectProps) {
       return await createProject(data);
     },
     onSuccess(data) {
-      queryClient.invalidateQueries({
-        queryKey: ["projects"],
-      });
       queryClient.refetchQueries({
         queryKey: ["projects"],
       });
@@ -70,9 +67,6 @@ export function useUpdateProject(props?: CreateProjectProps) {
       return await updateProject(data);
     },
     onSuccess(data) {
-      queryClient.invalidateQueries({
-        queryKey: ["projects"],
-      });
       queryClient.refetchQueries({
         queryKey: ["projects"],
       });

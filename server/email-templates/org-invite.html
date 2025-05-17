@@ -1,0 +1,10 @@
+<html lang={{ .Lang }}>
+<head>
+        <title>Einladung von {{.Org.Name}}</title>
+</head>
+<body>
+    <h1>Hallo Nutzer!</h1>
+        <p>Sie wurden von <b>{{.InviteFrom}}</b> in die Organisation <b>{{.Org.Name}}</b> eingeladen!</p>
+	<a href="https://time.jeschek.dev/auth/org-invite/{{.Id}}?token={{.Token}}">Jetzt beitreten</a>
+</body>
+</html>

@@ -38,65 +38,81 @@ export function CountrySelect<T extends FieldValues>(props: Props<T>) {
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
-        <FormItem>
-          {!!label && <FormLabel>{label}</FormLabel>}
-          <FormControl>
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={open}
-                  className={cn("w-[200px] justify-between", className)}
-                >
-                  {field.value
-                    ? countries.find((c) => c.code === field.value)?.name
-                    : "Select a country"}
-                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[200px] p-0">
-                <Command>
-                  <CommandInput placeholder="Search country..." />
-                  <CommandList>
-                    <CommandEmpty>Kein Land gefunden</CommandEmpty>
-                    <CommandGroup>
-                      {countries.map((country, index) => (
-                        <CommandItem
-                          keywords={[
-                            country.name,
-                            country.code,
-                            country.language.code,
-                            country.region,
-                            country.flag,
-                          ]}
-                          key={index}
-                          value={country.code}
-                          onSelect={(value) => {
-                            field.onChange(value);
-                            setOpen(false);
-                          }}
-                        >
-                          <Image
-                            src={country.flag}
-                            alt={country.name}
-                            width={18}
-                            height={12}
-                          />
-                          {country.name}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
-          </FormControl>
-          <FormDescription />
-          <FormMessage />
-        </FormItem>
-      )}
+      render={({ field }) => {
+        const currentCountry = countries.find((c) => c.code === field.value);
+
+        return (
+          <FormItem>
+            {!!label && <FormLabel>{label}</FormLabel>}
+            <FormControl>
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className={cn("w-[200px] justify-between", className)}
+                  >
+                    {field.value ? (
+                      <span className="flex flex-row flex-nowrap gap-2 items-center">
+                        <Image
+                          src={currentCountry?.flag || ""}
+                          alt={currentCountry?.name || ""}
+                          width={18}
+                          height={12}
+                          className="w-[18px] h-[12px]"
+                        />
+                        {currentCountry?.name}
+                      </span>
+                    ) : (
+                      "Land auswählen"
+                    )}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search country..." />
+                    <CommandList>
+                      <CommandEmpty>Kein Land gefunden</CommandEmpty>
+                      <CommandGroup>
+                        {countries.map((country, index) => (
+                          <CommandItem
+                            keywords={[
+                              country.name,
+                              country.code,
+                              country.language.code,
+                              country.region,
+                              country.flag,
+                            ]}
+                            key={index}
+                            value={country.code}
+                            onSelect={(value) => {
+                              field.onChange(value);
+                              setOpen(false);
+                            }}
+                          >
+                            <Image
+                              src={country.flag}
+                              alt={country.name}
+                              width={18}
+                              height={12}
+                              className="w-[18px] h-[12px]"
+                            />
+                            {country.name}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </FormControl>
+            <FormDescription />
+            <FormMessage />
+          </FormItem>
+        );
+      }}
     />
   );
 }

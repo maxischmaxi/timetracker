@@ -18,7 +18,6 @@ import {
 import { getLang } from "./locale";
 import { deleteCookie, setCookie } from "./cookies";
 import { firebaseConfig } from "./firebase";
-import { removeLocalOrg } from "@/components/auth-provider";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -39,9 +38,11 @@ export async function signInWithEmailAndPassword(
   email: string,
   password: string,
 ): Promise<User> {
-  return await _signInWithEmailAndPassword(auth, email, password).then(
+  const res = await _signInWithEmailAndPassword(auth, email, password).then(
     (res) => res.user,
   );
+  setCookie("__session", await res.getIdToken());
+  return res;
 }
 
 export function onAuthStateChanged(
@@ -61,7 +62,6 @@ export async function getToken(): Promise<string | null> {
 }
 
 export async function signOut() {
-  removeLocalOrg();
   deleteCookie("__session");
   await _signOut(auth);
 }

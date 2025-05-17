@@ -14,11 +14,14 @@ import (
 	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
 	"github.com/joho/godotenv"
+	"github.com/maxischmaxi/ljtime-api/auth/v1/authv1connect"
 	"github.com/maxischmaxi/ljtime-api/customer/v1/customerv1connect"
 	"github.com/maxischmaxi/ljtime-api/job/v1/jobv1connect"
+	"github.com/maxischmaxi/ljtime-api/org/v1/orgv1connect"
 	"github.com/maxischmaxi/ljtime-api/project/v1/projectv1connect"
 	userv1 "github.com/maxischmaxi/ljtime-api/user/v1"
 	"github.com/maxischmaxi/ljtime-api/user/v1/userv1connect"
+	"github.com/resend/resend-go/v2"
 	"github.com/rs/cors"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -27,22 +30,23 @@ import (
 	"google.golang.org/api/option"
 )
 
-const (
-	COLLECTION_CUSTOMER = "customers"
-	COLLECTION_PROJECT  = "projects"
-	COLLECTION_JOB      = "jobs"
-	COLLECTION_USER     = "users"
-	COLLECTION_TAGS     = "tags"
-	COLLECTION_ORG      = "orgs"
+var (
+	authClient        *auth.Client
+	mongoClient       *mongo.Client
+	resendClient      *resend.Client
+	ORGS              *mongo.Collection
+	TAGS              *mongo.Collection
+	USERS             *mongo.Collection
+	JOBS              *mongo.Collection
+	PROJECTS          *mongo.Collection
+	CUSTOMERS         *mongo.Collection
+	ORG_INVITE_TOKENS *mongo.Collection
 )
-
-const DB_NAME = "lj-time"
-
-var mongoClient *mongo.Client
-var authClient *auth.Client
 
 func main() {
 	godotenv.Load()
+
+	resendClient = resend.NewClient(os.Getenv("RESEND_API_KEY"))
 
 	jsonCreds := os.Getenv("FIREBASE_AUTH")
 	if jsonCreds == "" {
@@ -74,6 +78,15 @@ func main() {
 		log.Fatalf("error connecting to mongodb: %v", err)
 	}
 
+	db := mongoClient.Database("lj-time")
+	ORGS = db.Collection("orgs")
+	TAGS = db.Collection("tags")
+	USERS = db.Collection("users")
+	JOBS = db.Collection("jobs")
+	CUSTOMERS = db.Collection("customers")
+	PROJECTS = db.Collection("customers")
+	ORG_INVITE_TOKENS = db.Collection("org-invite-tokens")
+
 	defer func() {
 		if err = mongoClient.Disconnect(ctx); err != nil {
 			log.Fatal(err)
@@ -84,6 +97,7 @@ func main() {
 
 	interceptors := connect.WithInterceptors(AuthMiddleware())
 
+	mux.Handle(authv1connect.NewAuthServiceHandler(&AuthServer{}))
 	mux.Handle(customerv1connect.NewCustomerServiceHandler(
 		&CustomerServer{},
 		interceptors,
@@ -98,6 +112,10 @@ func main() {
 	))
 	mux.Handle(userv1connect.NewUserServiceHandler(
 		&UserServer{},
+		interceptors,
+	))
+	mux.Handle(orgv1connect.NewOrgServiceHandler(
+		&OrgServer{},
 		interceptors,
 	))
 

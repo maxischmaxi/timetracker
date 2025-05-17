@@ -26,14 +26,14 @@ type DbCustomer struct {
 	Address   Address       `bson:"address"`
 }
 
-func GetCustomerById(ctx context.Context, collection *mongo.Collection, id string) (*customerv1.Customer, error) {
+func GetCustomerById(ctx context.Context, id string) (*customerv1.Customer, error) {
 	objId, err := bson.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
 	var dbCustomer DbCustomer
-	if err := collection.FindOne(ctx, bson.M{"_id": objId}).Decode(&dbCustomer); err != nil {
+	if err := CUSTOMERS.FindOne(ctx, bson.M{"_id": objId}).Decode(&dbCustomer); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, connect.NewError(connect.CodeNotFound, err)
 		}
@@ -60,10 +60,9 @@ func GetCustomerById(ctx context.Context, collection *mongo.Collection, id strin
 }
 
 func (s *CustomerServer) GetCustomer(ctx context.Context, req *connect.Request[customerv1.GetCustomerRequest]) (*connect.Response[customerv1.GetCustomerResponse], error) {
-	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_CUSTOMER)
 	id := req.Msg.Id
 
-	customer, err := GetCustomerById(ctx, collection, id)
+	customer, err := GetCustomerById(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -91,8 +90,6 @@ func (s *CustomerServer) GetCustomer(ctx context.Context, req *connect.Request[c
 }
 
 func (s *CustomerServer) CreateCustomer(ctx context.Context, req *connect.Request[customerv1.CreateCustomerRequest]) (*connect.Response[customerv1.CreateCustomerResponse], error) {
-	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_CUSTOMER)
-
 	id := bson.NewObjectID()
 
 	now := time.Now().Unix()
@@ -113,7 +110,7 @@ func (s *CustomerServer) CreateCustomer(ctx context.Context, req *connect.Reques
 		"_id": id,
 	}
 
-	if _, err := collection.InsertOne(ctx, data); err != nil {
+	if _, err := CUSTOMERS.InsertOne(ctx, data); err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
 
@@ -140,7 +137,6 @@ func (s *CustomerServer) CreateCustomer(ctx context.Context, req *connect.Reques
 }
 
 func (s *CustomerServer) UpdateCustomer(ctx context.Context, req *connect.Request[customerv1.UpdateCustomerRequest]) (*connect.Response[customerv1.UpdateCustomerResponse], error) {
-	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_CUSTOMER)
 	id := req.Msg.Customer.Id
 
 	objId, err := bson.ObjectIDFromHex(id)
@@ -150,7 +146,7 @@ func (s *CustomerServer) UpdateCustomer(ctx context.Context, req *connect.Reques
 
 	now := time.Now().Unix()
 
-	if _, err := collection.UpdateOne(ctx, bson.M{"_id": objId}, bson.M{
+	if _, err := CUSTOMERS.UpdateOne(ctx, bson.M{"_id": objId}, bson.M{
 		"$set": bson.M{
 			"name":       req.Msg.Customer.Name,
 			"phone":      req.Msg.Customer.Phone,
@@ -193,7 +189,6 @@ func (s *CustomerServer) UpdateCustomer(ctx context.Context, req *connect.Reques
 }
 
 func (s *CustomerServer) DeleteCustomer(ctx context.Context, req *connect.Request[customerv1.DeleteCustomerRequest]) (*connect.Response[customerv1.DeleteCustomerResponse], error) {
-	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_CUSTOMER)
 	id := req.Msg.Id
 
 	objId, err := bson.ObjectIDFromHex(id)
@@ -201,7 +196,7 @@ func (s *CustomerServer) DeleteCustomer(ctx context.Context, req *connect.Reques
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
-	if _, err := collection.DeleteOne(ctx, bson.M{"_id": objId}); err != nil {
+	if _, err := CUSTOMERS.DeleteOne(ctx, bson.M{"_id": objId}); err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
 
@@ -213,8 +208,7 @@ func (s *CustomerServer) DeleteCustomer(ctx context.Context, req *connect.Reques
 }
 
 func (s *CustomerServer) GetCustomers(ctx context.Context, req *connect.Request[customerv1.GetCustomersRequest]) (*connect.Response[customerv1.GetCustomersResponse], error) {
-	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_CUSTOMER)
-	cursor, err := collection.Find(ctx, bson.M{})
+	cursor, err := CUSTOMERS.Find(ctx, bson.M{})
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}

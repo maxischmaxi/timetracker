@@ -1,5 +1,5 @@
 import { CustomerForm } from "@/components/customer-form";
-import { getCustomer } from "@/lib/api";
+import { getCustomer } from "@/lib/server-api";
 
 type Props = {
   params: Promise<{
@@ -14,7 +14,6 @@ export default async function Page({ params }: Props) {
 
   return (
     <div>
-      <h1>Edit Customer</h1>
       <CustomerForm customer={customer} hideCancel className="max-w-[600px]" />
     </div>
   );

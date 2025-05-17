@@ -1,0 +1,5 @@
+Hallo Nutzer!
+
+Sie wurden von {{.InviteFrom}} in die Organisation {{.Org.Name}} eingeladen!
+
+Folgen Sie folgendem Link um die Einladung anzunehmen: https://time.jeschek.dev/auth/org-invite/{{.Id}}?token={{.Token}}

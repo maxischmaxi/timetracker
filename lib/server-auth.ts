@@ -7,11 +7,19 @@ import {
 } from "@firebase/app";
 import { getAuth, User } from "@firebase/auth";
 import { firebaseConfig } from "./firebase";
+import { NextRequest } from "next/server";
 
 async function getSessionCookie(): Promise<string | null> {
   const c = await cookies();
   const token = c.get("__session");
   return token?.value || null;
+}
+
+export async function isRequestFromApi(req: NextRequest): Promise<boolean> {
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader) return false;
+  if (!authHeader.includes("Bearer ")) return false;
+  return true;
 }
 
 export async function verifyIdToken(): Promise<{

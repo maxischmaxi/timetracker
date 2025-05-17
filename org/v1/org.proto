@@ -12,6 +12,8 @@ service OrgService {
   rpc DeleteOrg (DeleteOrgRequest) returns (DeleteOrgResponse);
   rpc AddAdminToOrg (AddAdminToOrgRequest) returns (AddAdminToOrgResponse);
   rpc RemoveAdminFromOrg (RemoveAdminFromOrgRequest) returns (RemoveAdminFromOrgResponse);
+  rpc InviteEmailToOrg (InviteEmailToOrgRequest) returns (InviteEmailToOrgResponse);
+  rpc AcceptEmailInvite (AcceptEmailInviteRequest) returns (AcceptEmailInviteResponse);
 }
 
 enum MailProvider {
@@ -88,3 +90,18 @@ message RemoveAdminFromOrgRequest {
 }
 
 message RemoveAdminFromOrgResponse {}
+
+message InviteEmailToOrgRequest {
+  string email = 1;
+  string org_id = 2;
+}
+
+message InviteEmailToOrgResponse { }
+
+message AcceptEmailInviteRequest {
+  string token = 1;
+  string org_id = 2;
+  string firebase_uid = 3;
+}
+
+message AcceptEmailInviteResponse {}

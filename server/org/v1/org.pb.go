@@ -855,6 +855,190 @@ func (*RemoveAdminFromOrgResponse) Descriptor() ([]byte, []int) {
 	return file_org_v1_org_proto_rawDescGZIP(), []int{16}
 }
 
+type InviteEmailToOrgRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	OrgId         string                 `protobuf:"bytes,2,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InviteEmailToOrgRequest) Reset() {
+	*x = InviteEmailToOrgRequest{}
+	mi := &file_org_v1_org_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InviteEmailToOrgRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InviteEmailToOrgRequest) ProtoMessage() {}
+
+func (x *InviteEmailToOrgRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_org_v1_org_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InviteEmailToOrgRequest.ProtoReflect.Descriptor instead.
+func (*InviteEmailToOrgRequest) Descriptor() ([]byte, []int) {
+	return file_org_v1_org_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *InviteEmailToOrgRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *InviteEmailToOrgRequest) GetOrgId() string {
+	if x != nil {
+		return x.OrgId
+	}
+	return ""
+}
+
+type InviteEmailToOrgResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InviteEmailToOrgResponse) Reset() {
+	*x = InviteEmailToOrgResponse{}
+	mi := &file_org_v1_org_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InviteEmailToOrgResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InviteEmailToOrgResponse) ProtoMessage() {}
+
+func (x *InviteEmailToOrgResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_org_v1_org_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InviteEmailToOrgResponse.ProtoReflect.Descriptor instead.
+func (*InviteEmailToOrgResponse) Descriptor() ([]byte, []int) {
+	return file_org_v1_org_proto_rawDescGZIP(), []int{18}
+}
+
+type AcceptEmailInviteRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	OrgId         string                 `protobuf:"bytes,2,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
+	FirebaseUid   string                 `protobuf:"bytes,3,opt,name=firebase_uid,json=firebaseUid,proto3" json:"firebase_uid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AcceptEmailInviteRequest) Reset() {
+	*x = AcceptEmailInviteRequest{}
+	mi := &file_org_v1_org_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AcceptEmailInviteRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AcceptEmailInviteRequest) ProtoMessage() {}
+
+func (x *AcceptEmailInviteRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_org_v1_org_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AcceptEmailInviteRequest.ProtoReflect.Descriptor instead.
+func (*AcceptEmailInviteRequest) Descriptor() ([]byte, []int) {
+	return file_org_v1_org_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *AcceptEmailInviteRequest) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+func (x *AcceptEmailInviteRequest) GetOrgId() string {
+	if x != nil {
+		return x.OrgId
+	}
+	return ""
+}
+
+func (x *AcceptEmailInviteRequest) GetFirebaseUid() string {
+	if x != nil {
+		return x.FirebaseUid
+	}
+	return ""
+}
+
+type AcceptEmailInviteResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AcceptEmailInviteResponse) Reset() {
+	*x = AcceptEmailInviteResponse{}
+	mi := &file_org_v1_org_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AcceptEmailInviteResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AcceptEmailInviteResponse) ProtoMessage() {}
+
+func (x *AcceptEmailInviteResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_org_v1_org_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AcceptEmailInviteResponse.ProtoReflect.Descriptor instead.
+func (*AcceptEmailInviteResponse) Descriptor() ([]byte, []int) {
+	return file_org_v1_org_proto_rawDescGZIP(), []int{20}
+}
+
 var File_org_v1_org_proto protoreflect.FileDescriptor
 
 const file_org_v1_org_proto_rawDesc = "" +
@@ -900,10 +1084,19 @@ const file_org_v1_org_proto_rawDesc = "" +
 	"\x15AddAdminToOrgResponse\"4\n" +
 	"\x19RemoveAdminFromOrgRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"\x1c\n" +
-	"\x1aRemoveAdminFromOrgResponse*F\n" +
+	"\x1aRemoveAdminFromOrgResponse\"F\n" +
+	"\x17InviteEmailToOrgRequest\x12\x14\n" +
+	"\x05email\x18\x01 \x01(\tR\x05email\x12\x15\n" +
+	"\x06org_id\x18\x02 \x01(\tR\x05orgId\"\x1a\n" +
+	"\x18InviteEmailToOrgResponse\"j\n" +
+	"\x18AcceptEmailInviteRequest\x12\x14\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\x12\x15\n" +
+	"\x06org_id\x18\x02 \x01(\tR\x05orgId\x12!\n" +
+	"\ffirebase_uid\x18\x03 \x01(\tR\vfirebaseUid\"\x1b\n" +
+	"\x19AcceptEmailInviteResponse*F\n" +
 	"\fMailProvider\x12\x1d\n" +
 	"\x19MAIL_PROVIDER_UNSPECIFIED\x10\x00\x12\x17\n" +
-	"\x13MAIL_PROVIDER_GMAIL\x10\x012\xfb\x03\n" +
+	"\x13MAIL_PROVIDER_GMAIL\x10\x012\xac\x05\n" +
 	"\n" +
 	"OrgService\x127\n" +
 	"\x06GetOrg\x12\x15.org.v1.GetOrgRequest\x1a\x16.org.v1.GetOrgResponse\x12C\n" +
@@ -913,7 +1106,9 @@ const file_org_v1_org_proto_rawDesc = "" +
 	"\tCreateOrg\x12\x18.org.v1.CreateOrgRequest\x1a\x19.org.v1.CreateOrgResponse\x12@\n" +
 	"\tDeleteOrg\x12\x18.org.v1.DeleteOrgRequest\x1a\x19.org.v1.DeleteOrgResponse\x12L\n" +
 	"\rAddAdminToOrg\x12\x1c.org.v1.AddAdminToOrgRequest\x1a\x1d.org.v1.AddAdminToOrgResponse\x12[\n" +
-	"\x12RemoveAdminFromOrg\x12!.org.v1.RemoveAdminFromOrgRequest\x1a\".org.v1.RemoveAdminFromOrgResponseB0Z.github.com/maxischmaxi/ljtime-api/org/v1;orgv1b\x06proto3"
+	"\x12RemoveAdminFromOrg\x12!.org.v1.RemoveAdminFromOrgRequest\x1a\".org.v1.RemoveAdminFromOrgResponse\x12U\n" +
+	"\x10InviteEmailToOrg\x12\x1f.org.v1.InviteEmailToOrgRequest\x1a .org.v1.InviteEmailToOrgResponse\x12X\n" +
+	"\x11AcceptEmailInvite\x12 .org.v1.AcceptEmailInviteRequest\x1a!.org.v1.AcceptEmailInviteResponseB0Z.github.com/maxischmaxi/ljtime-api/org/v1;orgv1b\x06proto3"
 
 var (
 	file_org_v1_org_proto_rawDescOnce sync.Once
@@ -928,7 +1123,7 @@ func file_org_v1_org_proto_rawDescGZIP() []byte {
 }
 
 var file_org_v1_org_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_org_v1_org_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_org_v1_org_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_org_v1_org_proto_goTypes = []any{
 	(MailProvider)(0),                  // 0: org.v1.MailProvider
 	(*UpdateOrg)(nil),                  // 1: org.v1.UpdateOrg
@@ -948,6 +1143,10 @@ var file_org_v1_org_proto_goTypes = []any{
 	(*AddAdminToOrgResponse)(nil),      // 15: org.v1.AddAdminToOrgResponse
 	(*RemoveAdminFromOrgRequest)(nil),  // 16: org.v1.RemoveAdminFromOrgRequest
 	(*RemoveAdminFromOrgResponse)(nil), // 17: org.v1.RemoveAdminFromOrgResponse
+	(*InviteEmailToOrgRequest)(nil),    // 18: org.v1.InviteEmailToOrgRequest
+	(*InviteEmailToOrgResponse)(nil),   // 19: org.v1.InviteEmailToOrgResponse
+	(*AcceptEmailInviteRequest)(nil),   // 20: org.v1.AcceptEmailInviteRequest
+	(*AcceptEmailInviteResponse)(nil),  // 21: org.v1.AcceptEmailInviteResponse
 }
 var file_org_v1_org_proto_depIdxs = []int32{
 	0,  // 0: org.v1.UpdateOrg.mail_provider:type_name -> org.v1.MailProvider
@@ -966,15 +1165,19 @@ var file_org_v1_org_proto_depIdxs = []int32{
 	12, // 13: org.v1.OrgService.DeleteOrg:input_type -> org.v1.DeleteOrgRequest
 	14, // 14: org.v1.OrgService.AddAdminToOrg:input_type -> org.v1.AddAdminToOrgRequest
 	16, // 15: org.v1.OrgService.RemoveAdminFromOrg:input_type -> org.v1.RemoveAdminFromOrgRequest
-	5,  // 16: org.v1.OrgService.GetOrg:output_type -> org.v1.GetOrgResponse
-	7,  // 17: org.v1.OrgService.GetOrgById:output_type -> org.v1.GetOrgByIdResponse
-	9,  // 18: org.v1.OrgService.UpdateOrg:output_type -> org.v1.UpdateOrgResponse
-	11, // 19: org.v1.OrgService.CreateOrg:output_type -> org.v1.CreateOrgResponse
-	13, // 20: org.v1.OrgService.DeleteOrg:output_type -> org.v1.DeleteOrgResponse
-	15, // 21: org.v1.OrgService.AddAdminToOrg:output_type -> org.v1.AddAdminToOrgResponse
-	17, // 22: org.v1.OrgService.RemoveAdminFromOrg:output_type -> org.v1.RemoveAdminFromOrgResponse
-	16, // [16:23] is the sub-list for method output_type
-	9,  // [9:16] is the sub-list for method input_type
+	18, // 16: org.v1.OrgService.InviteEmailToOrg:input_type -> org.v1.InviteEmailToOrgRequest
+	20, // 17: org.v1.OrgService.AcceptEmailInvite:input_type -> org.v1.AcceptEmailInviteRequest
+	5,  // 18: org.v1.OrgService.GetOrg:output_type -> org.v1.GetOrgResponse
+	7,  // 19: org.v1.OrgService.GetOrgById:output_type -> org.v1.GetOrgByIdResponse
+	9,  // 20: org.v1.OrgService.UpdateOrg:output_type -> org.v1.UpdateOrgResponse
+	11, // 21: org.v1.OrgService.CreateOrg:output_type -> org.v1.CreateOrgResponse
+	13, // 22: org.v1.OrgService.DeleteOrg:output_type -> org.v1.DeleteOrgResponse
+	15, // 23: org.v1.OrgService.AddAdminToOrg:output_type -> org.v1.AddAdminToOrgResponse
+	17, // 24: org.v1.OrgService.RemoveAdminFromOrg:output_type -> org.v1.RemoveAdminFromOrgResponse
+	19, // 25: org.v1.OrgService.InviteEmailToOrg:output_type -> org.v1.InviteEmailToOrgResponse
+	21, // 26: org.v1.OrgService.AcceptEmailInvite:output_type -> org.v1.AcceptEmailInviteResponse
+	18, // [18:27] is the sub-list for method output_type
+	9,  // [9:18] is the sub-list for method input_type
 	9,  // [9:9] is the sub-list for extension type_name
 	9,  // [9:9] is the sub-list for extension extendee
 	0,  // [0:9] is the sub-list for field type_name
@@ -991,7 +1194,7 @@ func file_org_v1_org_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_org_v1_org_proto_rawDesc), len(file_org_v1_org_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   17,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

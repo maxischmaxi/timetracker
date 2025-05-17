@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file org/v1/org.proto.
  */
 export const file_org_v1_org: GenFile = /*@__PURE__*/
-  fileDesc("ChBvcmcvdjEvb3JnLnByb3RvEgZvcmcudjEiRgoJVXBkYXRlT3JnEisKDW1haWxfcHJvdmlkZXIYASABKA4yFC5vcmcudjEuTWFpbFByb3ZpZGVyEgwKBG5hbWUYAiABKAkiRgoJQ3JlYXRlT3JnEisKDW1haWxfcHJvdmlkZXIYASABKA4yFC5vcmcudjEuTWFpbFByb3ZpZGVyEgwKBG5hbWUYAiABKAkihAEKA09yZxIKCgJpZBgBIAEoCRIrCg1tYWlsX3Byb3ZpZGVyGAIgASgOMhQub3JnLnYxLk1haWxQcm92aWRlchISCgpjcmVhdGVkX2F0GAMgASgDEhIKCnVwZGF0ZWRfYXQYBCABKAMSDAoEbmFtZRgFIAEoCRIOCgZhZG1pbnMYBiADKAkiDwoNR2V0T3JnUmVxdWVzdCIqCg5HZXRPcmdSZXNwb25zZRIYCgNvcmcYASABKAsyCy5vcmcudjEuT3JnIh8KEUdldE9yZ0J5SWRSZXF1ZXN0EgoKAmlkGAEgASgJIi4KEkdldE9yZ0J5SWRSZXNwb25zZRIYCgNvcmcYASABKAsyCy5vcmcudjEuT3JnIj4KEFVwZGF0ZU9yZ1JlcXVlc3QSCgoCaWQYASABKAkSHgoDb3JnGAIgASgLMhEub3JnLnYxLlVwZGF0ZU9yZyItChFVcGRhdGVPcmdSZXNwb25zZRIYCgNvcmcYASABKAsyCy5vcmcudjEuT3JnIjIKEENyZWF0ZU9yZ1JlcXVlc3QSHgoDb3JnGAEgASgLMhEub3JnLnYxLkNyZWF0ZU9yZyItChFDcmVhdGVPcmdSZXNwb25zZRIYCgNvcmcYASABKAsyCy5vcmcudjEuT3JnIh4KEERlbGV0ZU9yZ1JlcXVlc3QSCgoCaWQYASABKAkiHwoRRGVsZXRlT3JnUmVzcG9uc2USCgoCaWQYASABKAkiJwoUQWRkQWRtaW5Ub09yZ1JlcXVlc3QSDwoHdXNlcl9pZBgBIAEoCSIXChVBZGRBZG1pblRvT3JnUmVzcG9uc2UiLAoZUmVtb3ZlQWRtaW5Gcm9tT3JnUmVxdWVzdBIPCgd1c2VyX2lkGAEgASgJIhwKGlJlbW92ZUFkbWluRnJvbU9yZ1Jlc3BvbnNlKkYKDE1haWxQcm92aWRlchIdChlNQUlMX1BST1ZJREVSX1VOU1BFQ0lGSUVEEAASFwoTTUFJTF9QUk9WSURFUl9HTUFJTBABMvsDCgpPcmdTZXJ2aWNlEjcKBkdldE9yZxIVLm9yZy52MS5HZXRPcmdSZXF1ZXN0GhYub3JnLnYxLkdldE9yZ1Jlc3BvbnNlEkMKCkdldE9yZ0J5SWQSGS5vcmcudjEuR2V0T3JnQnlJZFJlcXVlc3QaGi5vcmcudjEuR2V0T3JnQnlJZFJlc3BvbnNlEkAKCVVwZGF0ZU9yZxIYLm9yZy52MS5VcGRhdGVPcmdSZXF1ZXN0Ghkub3JnLnYxLlVwZGF0ZU9yZ1Jlc3BvbnNlEkAKCUNyZWF0ZU9yZxIYLm9yZy52MS5DcmVhdGVPcmdSZXF1ZXN0Ghkub3JnLnYxLkNyZWF0ZU9yZ1Jlc3BvbnNlEkAKCURlbGV0ZU9yZxIYLm9yZy52MS5EZWxldGVPcmdSZXF1ZXN0Ghkub3JnLnYxLkRlbGV0ZU9yZ1Jlc3BvbnNlEkwKDUFkZEFkbWluVG9PcmcSHC5vcmcudjEuQWRkQWRtaW5Ub09yZ1JlcXVlc3QaHS5vcmcudjEuQWRkQWRtaW5Ub09yZ1Jlc3BvbnNlElsKElJlbW92ZUFkbWluRnJvbU9yZxIhLm9yZy52MS5SZW1vdmVBZG1pbkZyb21PcmdSZXF1ZXN0GiIub3JnLnYxLlJlbW92ZUFkbWluRnJvbU9yZ1Jlc3BvbnNlQjBaLmdpdGh1Yi5jb20vbWF4aXNjaG1heGkvbGp0aW1lLWFwaS9vcmcvdjE7b3JndjFiBnByb3RvMw");
+  fileDesc("ChBvcmcvdjEvb3JnLnByb3RvEgZvcmcudjEiRgoJVXBkYXRlT3JnEisKDW1haWxfcHJvdmlkZXIYASABKA4yFC5vcmcudjEuTWFpbFByb3ZpZGVyEgwKBG5hbWUYAiABKAkiRgoJQ3JlYXRlT3JnEisKDW1haWxfcHJvdmlkZXIYASABKA4yFC5vcmcudjEuTWFpbFByb3ZpZGVyEgwKBG5hbWUYAiABKAkihAEKA09yZxIKCgJpZBgBIAEoCRIrCg1tYWlsX3Byb3ZpZGVyGAIgASgOMhQub3JnLnYxLk1haWxQcm92aWRlchISCgpjcmVhdGVkX2F0GAMgASgDEhIKCnVwZGF0ZWRfYXQYBCABKAMSDAoEbmFtZRgFIAEoCRIOCgZhZG1pbnMYBiADKAkiDwoNR2V0T3JnUmVxdWVzdCIqCg5HZXRPcmdSZXNwb25zZRIYCgNvcmcYASABKAsyCy5vcmcudjEuT3JnIh8KEUdldE9yZ0J5SWRSZXF1ZXN0EgoKAmlkGAEgASgJIi4KEkdldE9yZ0J5SWRSZXNwb25zZRIYCgNvcmcYASABKAsyCy5vcmcudjEuT3JnIj4KEFVwZGF0ZU9yZ1JlcXVlc3QSCgoCaWQYASABKAkSHgoDb3JnGAIgASgLMhEub3JnLnYxLlVwZGF0ZU9yZyItChFVcGRhdGVPcmdSZXNwb25zZRIYCgNvcmcYASABKAsyCy5vcmcudjEuT3JnIjIKEENyZWF0ZU9yZ1JlcXVlc3QSHgoDb3JnGAEgASgLMhEub3JnLnYxLkNyZWF0ZU9yZyItChFDcmVhdGVPcmdSZXNwb25zZRIYCgNvcmcYASABKAsyCy5vcmcudjEuT3JnIh4KEERlbGV0ZU9yZ1JlcXVlc3QSCgoCaWQYASABKAkiHwoRRGVsZXRlT3JnUmVzcG9uc2USCgoCaWQYASABKAkiJwoUQWRkQWRtaW5Ub09yZ1JlcXVlc3QSDwoHdXNlcl9pZBgBIAEoCSIXChVBZGRBZG1pblRvT3JnUmVzcG9uc2UiLAoZUmVtb3ZlQWRtaW5Gcm9tT3JnUmVxdWVzdBIPCgd1c2VyX2lkGAEgASgJIhwKGlJlbW92ZUFkbWluRnJvbU9yZ1Jlc3BvbnNlIjgKF0ludml0ZUVtYWlsVG9PcmdSZXF1ZXN0Eg0KBWVtYWlsGAEgASgJEg4KBm9yZ19pZBgCIAEoCSIaChhJbnZpdGVFbWFpbFRvT3JnUmVzcG9uc2UiTwoYQWNjZXB0RW1haWxJbnZpdGVSZXF1ZXN0Eg0KBXRva2VuGAEgASgJEg4KBm9yZ19pZBgCIAEoCRIUCgxmaXJlYmFzZV91aWQYAyABKAkiGwoZQWNjZXB0RW1haWxJbnZpdGVSZXNwb25zZSpGCgxNYWlsUHJvdmlkZXISHQoZTUFJTF9QUk9WSURFUl9VTlNQRUNJRklFRBAAEhcKE01BSUxfUFJPVklERVJfR01BSUwQATKsBQoKT3JnU2VydmljZRI3CgZHZXRPcmcSFS5vcmcudjEuR2V0T3JnUmVxdWVzdBoWLm9yZy52MS5HZXRPcmdSZXNwb25zZRJDCgpHZXRPcmdCeUlkEhkub3JnLnYxLkdldE9yZ0J5SWRSZXF1ZXN0Ghoub3JnLnYxLkdldE9yZ0J5SWRSZXNwb25zZRJACglVcGRhdGVPcmcSGC5vcmcudjEuVXBkYXRlT3JnUmVxdWVzdBoZLm9yZy52MS5VcGRhdGVPcmdSZXNwb25zZRJACglDcmVhdGVPcmcSGC5vcmcudjEuQ3JlYXRlT3JnUmVxdWVzdBoZLm9yZy52MS5DcmVhdGVPcmdSZXNwb25zZRJACglEZWxldGVPcmcSGC5vcmcudjEuRGVsZXRlT3JnUmVxdWVzdBoZLm9yZy52MS5EZWxldGVPcmdSZXNwb25zZRJMCg1BZGRBZG1pblRvT3JnEhwub3JnLnYxLkFkZEFkbWluVG9PcmdSZXF1ZXN0Gh0ub3JnLnYxLkFkZEFkbWluVG9PcmdSZXNwb25zZRJbChJSZW1vdmVBZG1pbkZyb21PcmcSIS5vcmcudjEuUmVtb3ZlQWRtaW5Gcm9tT3JnUmVxdWVzdBoiLm9yZy52MS5SZW1vdmVBZG1pbkZyb21PcmdSZXNwb25zZRJVChBJbnZpdGVFbWFpbFRvT3JnEh8ub3JnLnYxLkludml0ZUVtYWlsVG9PcmdSZXF1ZXN0GiAub3JnLnYxLkludml0ZUVtYWlsVG9PcmdSZXNwb25zZRJYChFBY2NlcHRFbWFpbEludml0ZRIgLm9yZy52MS5BY2NlcHRFbWFpbEludml0ZVJlcXVlc3QaIS5vcmcudjEuQWNjZXB0RW1haWxJbnZpdGVSZXNwb25zZUIwWi5naXRodWIuY29tL21heGlzY2htYXhpL2xqdGltZS1hcGkvb3JnL3YxO29yZ3YxYgZwcm90bzM");
 
 /**
  * @generated from message org.v1.UpdateOrg
@@ -330,6 +330,81 @@ export const RemoveAdminFromOrgResponseSchema: GenMessage<RemoveAdminFromOrgResp
   messageDesc(file_org_v1_org, 16);
 
 /**
+ * @generated from message org.v1.InviteEmailToOrgRequest
+ */
+export type InviteEmailToOrgRequest = Message<"org.v1.InviteEmailToOrgRequest"> & {
+  /**
+   * @generated from field: string email = 1;
+   */
+  email: string;
+
+  /**
+   * @generated from field: string org_id = 2;
+   */
+  orgId: string;
+};
+
+/**
+ * Describes the message org.v1.InviteEmailToOrgRequest.
+ * Use `create(InviteEmailToOrgRequestSchema)` to create a new message.
+ */
+export const InviteEmailToOrgRequestSchema: GenMessage<InviteEmailToOrgRequest> = /*@__PURE__*/
+  messageDesc(file_org_v1_org, 17);
+
+/**
+ * @generated from message org.v1.InviteEmailToOrgResponse
+ */
+export type InviteEmailToOrgResponse = Message<"org.v1.InviteEmailToOrgResponse"> & {
+};
+
+/**
+ * Describes the message org.v1.InviteEmailToOrgResponse.
+ * Use `create(InviteEmailToOrgResponseSchema)` to create a new message.
+ */
+export const InviteEmailToOrgResponseSchema: GenMessage<InviteEmailToOrgResponse> = /*@__PURE__*/
+  messageDesc(file_org_v1_org, 18);
+
+/**
+ * @generated from message org.v1.AcceptEmailInviteRequest
+ */
+export type AcceptEmailInviteRequest = Message<"org.v1.AcceptEmailInviteRequest"> & {
+  /**
+   * @generated from field: string token = 1;
+   */
+  token: string;
+
+  /**
+   * @generated from field: string org_id = 2;
+   */
+  orgId: string;
+
+  /**
+   * @generated from field: string firebase_uid = 3;
+   */
+  firebaseUid: string;
+};
+
+/**
+ * Describes the message org.v1.AcceptEmailInviteRequest.
+ * Use `create(AcceptEmailInviteRequestSchema)` to create a new message.
+ */
+export const AcceptEmailInviteRequestSchema: GenMessage<AcceptEmailInviteRequest> = /*@__PURE__*/
+  messageDesc(file_org_v1_org, 19);
+
+/**
+ * @generated from message org.v1.AcceptEmailInviteResponse
+ */
+export type AcceptEmailInviteResponse = Message<"org.v1.AcceptEmailInviteResponse"> & {
+};
+
+/**
+ * Describes the message org.v1.AcceptEmailInviteResponse.
+ * Use `create(AcceptEmailInviteResponseSchema)` to create a new message.
+ */
+export const AcceptEmailInviteResponseSchema: GenMessage<AcceptEmailInviteResponse> = /*@__PURE__*/
+  messageDesc(file_org_v1_org, 20);
+
+/**
  * @generated from enum org.v1.MailProvider
  */
 export enum MailProvider {
@@ -409,6 +484,22 @@ export const OrgService: GenService<{
     methodKind: "unary";
     input: typeof RemoveAdminFromOrgRequestSchema;
     output: typeof RemoveAdminFromOrgResponseSchema;
+  },
+  /**
+   * @generated from rpc org.v1.OrgService.InviteEmailToOrg
+   */
+  inviteEmailToOrg: {
+    methodKind: "unary";
+    input: typeof InviteEmailToOrgRequestSchema;
+    output: typeof InviteEmailToOrgResponseSchema;
+  },
+  /**
+   * @generated from rpc org.v1.OrgService.AcceptEmailInvite
+   */
+  acceptEmailInvite: {
+    methodKind: "unary";
+    input: typeof AcceptEmailInviteRequestSchema;
+    output: typeof AcceptEmailInviteResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_org_v1_org, 0);

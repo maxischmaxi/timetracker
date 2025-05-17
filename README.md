@@ -61,3 +61,15 @@ air
 - Rechnungen
 - Stundenzettel
 - Urlaube
+
+## MongoDB dump
+
+Download the following package (macos)
+
+```bash
+curl https://fastdl.mongodb.org/tools/db/mongodb-database-tools-macos-arm64-100.12.0.zip
+```
+
+unzip the folder and add the bin to your `$PATH` variable
+
+you can find more download options [here](https://www.mongodb.com/try/download/relational-migrator)

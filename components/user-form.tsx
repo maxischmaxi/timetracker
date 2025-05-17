@@ -13,6 +13,7 @@ import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
 import { CountrySelect } from "./country-select";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 type Props = {
   user?: Plain<User>;
@@ -42,6 +43,7 @@ export function UserForm(props: Props) {
   const form = useForm<z.infer<typeof createUserSchema>>({
     defaultValues: props.user || defaultValue,
   });
+  const router = useRouter();
 
   async function onSubmit(data: z.infer<typeof createUserSchema>) {
     if (props.user && props.user.id) {
@@ -49,6 +51,8 @@ export function UserForm(props: Props) {
         id: props.user.id,
         ...data,
       });
+      toast.info("User erfolgreich aktualisiert");
+      router.push("/users");
     } else {
       await create.mutateAsync(data);
     }

@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"connectrpc.com/connect"
@@ -152,10 +151,9 @@ func (u *DbUser) ToUser() *userv1.User {
 }
 
 func GetUserByFirebaseUID(ctx context.Context, uid string) (*userv1.User, error) {
-	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_USER)
 	var user DbUser
 
-	if err := collection.FindOne(ctx, bson.M{"firebase_uid": uid}).Decode(&user); err != nil {
+	if err := USERS.FindOne(ctx, bson.M{"firebase_uid": uid}).Decode(&user); err != nil {
 		return nil, err
 	}
 
@@ -164,9 +162,9 @@ func GetUserByFirebaseUID(ctx context.Context, uid string) (*userv1.User, error)
 	return u, nil
 }
 
-func GetUserByEmail(ctx context.Context, collection *mongo.Collection, email string) (*userv1.User, error) {
+func GetUserByEmail(ctx context.Context, email string) (*userv1.User, error) {
 	var dbUser DbUser
-	if err := collection.FindOne(ctx, bson.M{"email": email}).Decode(&dbUser); err != nil {
+	if err := USERS.FindOne(ctx, bson.M{"email": email}).Decode(&dbUser); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, connect.NewError(connect.CodeNotFound, err)
 		}
@@ -178,14 +176,13 @@ func GetUserByEmail(ctx context.Context, collection *mongo.Collection, email str
 }
 
 func GetUserById(ctx context.Context, id string) (*userv1.User, error) {
-	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_USER)
 	objId, err := bson.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
 	var dbUser DbUser
-	if err := collection.FindOne(ctx, bson.M{"_id": objId}).Decode(&dbUser); err != nil {
+	if err := USERS.FindOne(ctx, bson.M{"_id": objId}).Decode(&dbUser); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, connect.NewError(connect.CodeNotFound, err)
 		}
@@ -197,9 +194,7 @@ func GetUserById(ctx context.Context, id string) (*userv1.User, error) {
 }
 
 func (s *UserServer) GetUserByEmail(ctx context.Context, req *connect.Request[userv1.GetUserByEmailRequest]) (*connect.Response[userv1.GetUserByEmailResponse], error) {
-	userCollection := mongoClient.Database(DB_NAME).Collection(COLLECTION_USER)
-
-	user, err := GetUserByEmail(ctx, userCollection, req.Msg.Email)
+	user, err := GetUserByEmail(ctx, req.Msg.Email)
 	if err != nil {
 		return nil, err
 	}
@@ -227,9 +222,7 @@ func (s *UserServer) GetUserById(ctx context.Context, req *connect.Request[userv
 }
 
 func (s *UserServer) GetAllUsers(ctx context.Context, req *connect.Request[userv1.GetAllUsersRequest]) (*connect.Response[userv1.GetAllUsersResponse], error) {
-	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_USER)
-
-	cursor, err := collection.Find(ctx, bson.M{})
+	cursor, err := USERS.Find(ctx, bson.M{})
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
@@ -251,8 +244,6 @@ func (s *UserServer) GetAllUsers(ctx context.Context, req *connect.Request[userv
 }
 
 func (s *UserServer) CreateUser(ctx context.Context, req *connect.Request[userv1.CreateUserRequest]) (*connect.Response[userv1.CreateUserResponse], error) {
-	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_USER)
-
 	password, err := password.Generate(64, 10, 10, false, false)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
@@ -263,8 +254,6 @@ func (s *UserServer) CreateUser(ctx context.Context, req *connect.Request[userv1
 		EmailVerified(false).
 		Password(password).
 		DisplayName(req.Msg.User.Name)
-
-	fmt.Println(password)
 
 	u, err := authClient.CreateUser(ctx, firebaseUser)
 	if err != nil {
@@ -295,7 +284,7 @@ func (s *UserServer) CreateUser(ctx context.Context, req *connect.Request[userv1
 		FirebaseUid:      u.UID,
 	}
 
-	_, err = collection.InsertOne(ctx, user)
+	_, err = USERS.InsertOne(ctx, user)
 	if err != nil {
 		fErr := authClient.DeleteUser(ctx, u.UID)
 		if fErr != nil {
@@ -359,8 +348,6 @@ func (s *UserServer) UpdateUser(ctx context.Context, req *connect.Request[userv1
 		return nil, err
 	}
 
-	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_USER)
-
 	now := time.Now().Unix()
 
 	dbUser := FromUser(user)
@@ -385,7 +372,7 @@ func (s *UserServer) UpdateUser(ctx context.Context, req *connect.Request[userv1
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
 
-	_, err = collection.UpdateByID(ctx, id, update)
+	_, err = USERS.UpdateByID(ctx, id, update)
 	if err != nil {
 		return nil, err
 	}
@@ -400,8 +387,6 @@ func (s *UserServer) SetUserActiveState(ctx context.Context, req *connect.Reques
 	if err != nil {
 		return nil, err
 	}
-
-	collection := mongoClient.Database(DB_NAME).Collection(COLLECTION_USER)
 
 	now := time.Now().Unix()
 
@@ -418,7 +403,7 @@ func (s *UserServer) SetUserActiveState(ctx context.Context, req *connect.Reques
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
 
-	_, err = collection.UpdateByID(ctx, id, update)
+	_, err = USERS.UpdateByID(ctx, id, update)
 	if err != nil {
 		return nil, err
 	}

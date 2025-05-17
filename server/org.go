@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"time"
 
 	"connectrpc.com/connect"
 	orgv1 "github.com/maxischmaxi/ljtime-api/org/v1"
@@ -24,6 +26,12 @@ type DbOrg struct {
 	Admins       []string      `bson:"admins"`
 }
 
+type OrgInvite struct {
+	Token     string `bson:"token"`
+	CreatedAt int64  `bson:"created_at"`
+	OrgId     string `bson:"org_id"`
+}
+
 func (o *DbOrg) ToOrg() *orgv1.Org {
 	return &orgv1.Org{
 		Name:         o.Name,
@@ -33,12 +41,27 @@ func (o *DbOrg) ToOrg() *orgv1.Org {
 	}
 }
 
+func DeleteOrgInviteToken(ctx context.Context, token string, orgId string) error {
+	if _, err := ORG_INVITE_TOKENS.DeleteOne(ctx, bson.M{"token": token, "org_id": orgId}); err != nil {
+		return err
+	}
+	return nil
+}
+
+func GetOrgInviteToken(ctx context.Context, token string, orgId string) (*OrgInvite, error) {
+	var orgInvite OrgInvite
+	if err := ORG_INVITE_TOKENS.FindOne(ctx, bson.M{"token": token, "org_id": orgId}).Decode(&orgInvite); err != nil {
+		return nil, err
+	}
+
+	return &orgInvite, nil
+}
+
 func GetOrgsByOrgIds(ctx context.Context, ids []string) ([]*orgv1.Org, error) {
-	orgCollection := mongoClient.Database(DB_NAME).Collection(COLLECTION_ORG)
 	orgs := []*orgv1.Org{}
 
 	for _, orgId := range ids {
-		org, err := GetOrgById(ctx, orgCollection, orgId)
+		org, err := GetOrgById(ctx, orgId)
 		if err != nil {
 			if err == mongo.ErrNoDocuments {
 				return nil, connect.NewError(connect.CodeInternal, err)
@@ -55,7 +78,7 @@ func GetOrgsByOrgIds(ctx context.Context, ids []string) ([]*orgv1.Org, error) {
 	return orgs, nil
 }
 
-func GetOrgById(ctx context.Context, collection *mongo.Collection, id string) (*orgv1.Org, error) {
+func GetOrgById(ctx context.Context, id string) (*orgv1.Org, error) {
 	orgId, err := bson.ObjectIDFromHex(id)
 	if err != nil {
 		fmt.Println("x")
@@ -64,7 +87,7 @@ func GetOrgById(ctx context.Context, collection *mongo.Collection, id string) (*
 	}
 
 	var org DbOrg
-	if err := collection.FindOne(ctx, bson.M{"_id": orgId}).Decode(&org); err != nil {
+	if err := ORGS.FindOne(ctx, bson.M{"_id": orgId}).Decode(&org); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, connect.NewError(connect.CodeNotFound, err)
 		}
@@ -80,7 +103,14 @@ func (s *OrgServer) GetOrg(ctx context.Context, req *connect.Request[orgv1.GetOr
 }
 
 func (s *OrgServer) GetOrgById(ctx context.Context, req *connect.Request[orgv1.GetOrgByIdRequest]) (*connect.Response[orgv1.GetOrgByIdResponse], error) {
-	return nil, connect.NewError(connect.CodeInternal, nil)
+	org, err := GetOrgById(ctx, req.Msg.Id)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	return connect.NewResponse(&orgv1.GetOrgByIdResponse{
+		Org: org,
+	}), nil
 }
 
 func (s *OrgServer) UpdateOrg(ctx context.Context, req *connect.Request[orgv1.UpdateOrgRequest]) (*connect.Response[orgv1.UpdateOrgResponse], error) {
@@ -93,4 +123,63 @@ func (s *OrgServer) CreateOrg(ctx context.Context, req *connect.Request[orgv1.Cr
 
 func (s *OrgServer) DeleteOrg(ctx context.Context, req *connect.Request[orgv1.DeleteOrgRequest]) (*connect.Response[orgv1.DeleteOrgResponse], error) {
 	return nil, connect.NewError(connect.CodeInternal, nil)
+}
+
+func (s *OrgServer) InviteEmailToOrg(ctx context.Context, req *connect.Request[orgv1.InviteEmailToOrgRequest]) (*connect.Response[orgv1.InviteEmailToOrgResponse], error) {
+	user, err := GetMiddlewareUser(ctx)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	res, err := SendOrgInvite(ctx, []string{req.Msg.Email}, req.Msg.OrgId, user.Id)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	fmt.Printf("Send Email with org invite: %s\n", res.Id)
+
+	return connect.NewResponse(&orgv1.InviteEmailToOrgResponse{}), nil
+}
+
+func (s *OrgServer) AcceptEmailInvite(ctx context.Context, req *connect.Request[orgv1.AcceptEmailInviteRequest]) (*connect.Response[orgv1.AcceptEmailInviteResponse], error) {
+	org, err := GetOrgById(ctx, req.Msg.OrgId)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	user, err := GetUserByFirebaseUID(ctx, req.Msg.FirebaseUid)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	token, err := GetOrgInviteToken(ctx, req.Msg.Token, req.Msg.OrgId)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	now := time.Now().Unix()
+	expires := int64(token.CreatedAt) + int64((15 * time.Minute).Seconds())
+
+	if now > expires {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("token expired"))
+	}
+
+	err = DeleteOrgInviteToken(ctx, req.Msg.Token, req.Msg.OrgId)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("error deleting token"))
+	}
+
+	orgId, err := bson.ObjectIDFromHex(req.Msg.OrgId)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	newOrgIds := user.OrgIds
+	newOrgIds = append(newOrgIds, org.Id)
+
+	if _, err = USERS.UpdateOne(ctx, bson.M{"_id": orgId}, bson.M{"$set": bson.M{"org_ids": newOrgIds}}); err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	return connect.NewResponse(&orgv1.AcceptEmailInviteResponse{}), nil
 }

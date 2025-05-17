@@ -109,6 +109,7 @@ import { MailProvider } from "@/org/v1/org_pb";
 import { getGmailLink } from "@/lib/utils";
 import { UserDeleteDialog } from "./user-delete-dialog";
 import { countries } from "@/lib/countries";
+import { UserInviteDialog } from "./user-invite-dialog";
 
 // Create a separate component for the drag handle
 function DragHandle({ id }: { id: string }) {
@@ -504,6 +505,12 @@ export function UserTable() {
               <span className="hidden lg:inline">Nutzer hinzufügen</span>
             </Link>
           </Button>
+          <UserInviteDialog>
+            <Button variant="outline" size="sm" type="button">
+              <PlusIcon />
+              <span className="hidden lg:inline">Nutzer einladen</span>
+            </Button>
+          </UserInviteDialog>
         </div>
       </div>
       <TabsContent

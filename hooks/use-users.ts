@@ -1,10 +1,36 @@
 import { AuthContext } from "@/components/auth-provider";
-import { createUser, getAllUsers, updateUser } from "@/lib/api";
+import { queryClient } from "@/components/providers";
+import { createUser, getAllUsers, register, updateUser } from "@/lib/api";
 import { createUserSchema } from "@/lib/schemas";
-import { VacationRequestStatus } from "@/user/v1/user_pb";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { use } from "react";
 import { z } from "zod";
+
+type RegisterProps = {
+  email: string;
+  password: string;
+  name: string;
+  orgId: string | undefined;
+};
+
+type UseRegister = {
+  onSuccess?: () => void;
+  onError?: () => void;
+};
+
+export function useRegister(props?: UseRegister) {
+  return useMutation({
+    async mutationFn({ email, password, name, orgId }: RegisterProps) {
+      await register(email, password, name, orgId);
+    },
+    onSuccess() {
+      props?.onSuccess?.();
+    },
+    onError() {
+      props?.onError?.();
+    },
+  });
+}
 
 export function useUsers() {
   const { authState } = use(AuthContext);
@@ -49,6 +75,11 @@ export function useCreateUser() {
         currentOrg.id,
       );
     },
+    onSuccess() {
+      queryClient.refetchQueries({
+        queryKey: ["users"],
+      });
+    },
   });
 }
 
@@ -63,19 +94,14 @@ export function useUpdateUser() {
           street: data.address.street,
           zip: data.address.zip,
         },
-        vacations: data.vacations || [],
-        email: data.email,
-        employmentState: data.employmentState,
         projectIds: data.projectIds || [],
         tags: data.tags || [],
         name: data.name,
-        vacationRequests: data.vacationRequests.map((v) => ({
-          comment: v.comment,
-          status: VacationRequestStatus.PENDING,
-          days: v.days,
-          endDate: v.endDate,
-          startDate: v.startDate,
-        })),
+      });
+    },
+    onSuccess() {
+      queryClient.refetchQueries({
+        queryKey: ["users"],
       });
     },
   });
