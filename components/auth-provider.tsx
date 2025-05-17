@@ -92,9 +92,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const handleUserAuthenticated = useCallback(
     async (user: User) => {
+      console.log("auth state changed");
+      console.log(user);
       const token = await user.getIdToken();
+      console.log(token);
       setCookie("__session", token);
-      console.log("auth state changed", user, token);
       try {
         const res = await getUserByFirebaseUid(user.uid);
 
@@ -131,11 +133,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           return;
         }
 
-        if (pathname === "/auth/org") {
-          return;
+        if (pathname !== "/auth/org") {
+          router.push("/auth/org");
         }
-
-        router.push("/auth/org");
       } catch {
         await signOut();
         router.push("/auth/login");
