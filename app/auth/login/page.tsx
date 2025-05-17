@@ -1,6 +1,5 @@
 import { LoginForm } from "@/components/login-form";
-import { verifyIdToken } from "@/lib/server-auth";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -8,11 +7,6 @@ type Props = {
 
 export default async function Page({ searchParams }: Props) {
   const { orgId = "", token = "" } = await searchParams;
-
-  const user = await verifyIdToken();
-  if (user) {
-    redirect("/");
-  }
 
   if (Array.isArray(orgId) || Array.isArray(token)) {
     notFound();
