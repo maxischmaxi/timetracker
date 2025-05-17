@@ -136,7 +136,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             router.push("/auth/org");
           }
         } catch {
-          await signOut();
+          // await signOut();
           router.push("/auth/login");
         }
       } else {
