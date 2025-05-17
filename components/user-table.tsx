@@ -339,7 +339,7 @@ export function UserTable() {
               <DropdownMenuItem asChild>
                 <Link href={`/users/${row.original.id}`}>Bearbeiten</Link>
               </DropdownMenuItem>
-              {auth.user?.id !== row.original.id && (
+              {auth.user?.user?.id !== row.original.id && (
                 <>
                   <DropdownMenuSeparator />
                   <UserDeleteDialog user={row.original}>
@@ -352,7 +352,7 @@ export function UserTable() {
         ),
       },
     ],
-    [auth.currentOrg?.mailProvider, auth.user?.id],
+    [auth.currentOrg?.mailProvider, auth.user?.user?.id],
   );
 
   const table = useReactTable({

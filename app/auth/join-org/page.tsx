@@ -1,5 +1,5 @@
 import { acceptEmailInvite } from "@/lib/server-api";
-import { verifyIdToken } from "@/lib/server-auth";
+import { getAuthenticatedAppForUser } from "@/lib/server-auth";
 import { redirect } from "next/navigation";
 
 type Props = {
@@ -8,9 +8,10 @@ type Props = {
 
 export default async function Page({ searchParams }: Props) {
   const { orgId = "", token = "" } = await searchParams;
-  const auth = await verifyIdToken();
+  const { currentUser } = await getAuthenticatedAppForUser();
+
   if (
-    !auth ||
+    !currentUser ||
     !orgId ||
     typeof orgId !== "string" ||
     !token ||
@@ -19,7 +20,7 @@ export default async function Page({ searchParams }: Props) {
     redirect("/auth/org-join-failed");
   }
 
-  await acceptEmailInvite(token, orgId, auth.currentUser.uid);
+  await acceptEmailInvite(token, orgId, currentUser.uid);
 
   redirect("/");
 }

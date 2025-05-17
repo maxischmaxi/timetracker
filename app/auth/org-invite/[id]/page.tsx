@@ -1,5 +1,5 @@
 import { getOrgById } from "@/lib/server-api";
-import { verifyIdToken } from "@/lib/server-auth";
+import { getAuthenticatedAppForUser } from "@/lib/server-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -17,9 +17,9 @@ export default async function Page({ params, searchParams }: Props) {
     redirect("/auth/org-join-failed");
   }
 
-  const auth = await verifyIdToken();
+  const { currentUser } = await getAuthenticatedAppForUser();
 
-  if (!auth) {
+  if (!currentUser) {
     let url = "";
     if (email) {
       url = `/auth/register?joinToken=${token}&orgId=${org.id}&email=${email}`;
