@@ -68,22 +68,7 @@ func (s *CustomerServer) GetCustomer(ctx context.Context, req *connect.Request[c
 	}
 
 	res := connect.NewResponse(&customerv1.GetCustomerResponse{
-		Customer: &customerv1.Customer{
-			Id:        customer.Id,
-			Name:      customer.Name,
-			Phone:     customer.Phone,
-			Email:     customer.Email,
-			Tag:       customer.Tag,
-			CreatedAt: customer.CreatedAt,
-			UpdatedAt: customer.UpdatedAt,
-			Address: &customerv1.Address{
-				Street:  customer.Address.Street,
-				City:    customer.Address.City,
-				State:   customer.Address.State,
-				Zip:     customer.Address.Zip,
-				Country: customer.Address.Country,
-			},
-		},
+		Customer: customer,
 	})
 
 	return res, nil

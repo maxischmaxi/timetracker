@@ -1,10 +1,8 @@
 "use client";
 
-import { User as DbUser } from "@/user/v1/user_pb";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import {
   getAuth,
-  onAuthStateChanged,
   signInWithEmailAndPassword as _signInWithEmailAndPassword,
   signOut as _signOut,
   User,
@@ -13,11 +11,14 @@ import {
 import { Plain } from "@/types";
 import { Org } from "@/org/v1/org_pb";
 import { getUserByFirebaseUid } from "@/lib/api";
-import { usePathname, useRouter } from "next/navigation";
 import { firebaseConfig } from "@/lib/firebase";
 import { initializeApp } from "@firebase/app";
 import { getLang } from "@/lib/locale";
 import Cookie from "js-cookie";
+import { useQuery } from "@tanstack/react-query";
+import { GetUserByFirebaseUidResponse } from "@/auth/v1/auth_pb";
+import { queryClient } from "./providers";
+import { useRouter } from "next/navigation";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -33,28 +34,14 @@ export async function getToken(): Promise<string | null> {
 
 type IUseAuth = {
   firebaseUser: User | null;
-  user: Plain<DbUser> | null;
-  orgs: Array<Plain<Org>>;
   currentOrg: Plain<Org> | null;
+  user: Plain<GetUserByFirebaseUidResponse> | null;
 };
 
 export const AuthContext = createContext<IUseAuth>({
   firebaseUser: null,
   user: null,
-  orgs: [],
   currentOrg: null,
-});
-
-onIdTokenChanged(auth, async (user) => {
-  console.log("token changed", user);
-  if (user) {
-    const token = await user.getIdToken();
-    Cookie.set("__session", token, {
-      secure: true,
-      sameSite: "none",
-      path: "/",
-    });
-  }
 });
 
 export async function signInWithEmailAndPassword(
@@ -66,103 +53,87 @@ export async function signInWithEmailAndPassword(
   );
 }
 
-export function getLocalOrg(): string | null {
-  if (typeof window === "undefined") return null;
-  const localOrg = window.localStorage.getItem("orgId");
-  if (!localOrg) return null;
-  return localOrg;
-}
-
-export function setLocalOrg(orgId: string): void {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem("orgId", orgId);
-}
-
-export function removeLocalOrg(): void {
-  if (typeof window === "undefined") return;
-  window.localStorage.removeItem("orgId");
-}
-
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<Plain<DbUser> | null>(null);
-  const [orgs, setOrgs] = useState<Array<Plain<Org>>>([]);
+export function AuthProvider({
+  children,
+  initialUser,
+}: {
+  children: ReactNode;
+  initialUser?: User;
+}) {
   const [currentOrg, setCurrentOrg] = useState<Plain<Org> | null>(null);
-  const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
+  const [firebaseUser, setFirebaseUser] = useState<User | null>(
+    initialUser || null,
+  );
   const router = useRouter();
-  const pathname = usePathname();
+
+  const { isPending, data, refetch } = useQuery({
+    enabled: !!firebaseUser,
+    queryKey: ["getUserByFirebaseUid", firebaseUser?.uid || ""],
+    async queryFn({ queryKey }) {
+      return await getUserByFirebaseUid(queryKey[1]);
+    },
+    initialData: null,
+  });
 
   useEffect(() => {
-    let cancel = false;
+    if (isPending) {
+      setCurrentOrg(null);
+      return;
+    }
 
-    const cleanup = onAuthStateChanged(auth, async (user) => {
+    if (!data) {
+      setCurrentOrg(null);
+      return;
+    }
+
+    const orgId = Cookie.get("__org");
+    if (!orgId) {
+      Cookie.remove("__org");
+      setCurrentOrg(null);
+      router.push("/auth/org");
+      return;
+    }
+
+    const org = data.orgs.find((o) => o.id === orgId);
+    if (!org) {
+      setCurrentOrg(null);
+      Cookie.remove("__org");
+      router.push("/auth/org");
+      return;
+    }
+
+    setCurrentOrg(org);
+  }, [data, isPending, router]);
+
+  useEffect(() => {
+    return onIdTokenChanged(auth, async (user) => {
       if (user) {
-        console.log("auth state changed");
-        console.log(user);
-        try {
-          const res = await getUserByFirebaseUid(user.uid);
-          if (cancel) return;
-          console.log(res);
-
-          if (!res || !res.user || typeof res.orgs === "undefined") {
-            // await signOut();
-            return;
-          }
-
-          setFirebaseUser(user);
-          setUser(res.user);
-          setOrgs(res.orgs);
-
-          const localOrg = getLocalOrg();
-          if (localOrg) {
-            const org = res.orgs.find((o) => o.id === localOrg);
-            if (!org) {
-              removeLocalOrg();
-
-              if (pathname === "/auth/org") {
-                return;
-              }
-
-              router.push("/auth/org");
-              return;
-            }
-
-            setCurrentOrg(org);
-
-            if (pathname === "/auth/login") {
-              router.push("/");
-            }
-            return;
-          }
-
-          if (pathname !== "/auth/org") {
-            router.push("/auth/org");
-          }
-        } catch {
-          // await signOut();
-          router.push("/auth/login");
-        }
+        setFirebaseUser(user);
+        const idToken = await user.getIdToken();
+        Cookie.set("__session", idToken);
+        refetch();
       } else {
-        console.log("no user");
         setFirebaseUser(null);
-        setCurrentOrg(null);
-        setOrgs([]);
-        setUser(null);
+        Cookie.remove("__session");
+        queryClient.invalidateQueries({
+          queryKey: ["getUserByFirebaseUid", firebaseUser?.uid || ""],
+        });
       }
-    });
 
-    return () => {
-      cancel = true;
-      cleanup();
-    };
-  }, [pathname, router]);
+      if (initialUser?.uid === user?.uid) {
+        return;
+      }
+
+      window.location.reload();
+    });
+  }, [firebaseUser?.uid, initialUser?.uid, refetch]);
 
   return (
     <AuthContext.Provider
       value={{
-        orgs,
-        user,
         firebaseUser,
         currentOrg,
+        user: data || null,
       }}
     >
       {children}

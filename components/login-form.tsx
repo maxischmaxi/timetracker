@@ -21,7 +21,7 @@ import { useState } from "react";
 import { EyeClosedIcon, EyeIcon, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getLocalOrg, signInWithEmailAndPassword } from "./auth-provider";
+import { signInWithEmailAndPassword } from "./auth-provider";
 
 type Props = {
   orgId?: string;
@@ -46,15 +46,10 @@ export function LoginForm({ className, orgId, token }: Props) {
     if (orgId && token) {
       console.log(orgId, token, "redirecting join org");
       router.push(`/auth/join-org?orgId=${orgId}&token=${token}`);
+      return;
     }
 
-    if (!getLocalOrg()) {
-      console.log("no local org, redirecting /auth/org");
-      router.push("/auth/org");
-    } else {
-      console.log("org set, going to dashboard");
-      router.push("/");
-    }
+    router.push("/auth/redirect");
   }
 
   function onError() {

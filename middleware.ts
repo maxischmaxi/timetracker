@@ -11,6 +11,7 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
     headers: {
       "x-locale": preferredLanguage,
       "x-href": href,
+      "x-pathname": req.nextUrl.pathname,
     },
   });
 }

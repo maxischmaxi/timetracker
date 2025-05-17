@@ -4,9 +4,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { ReactNode } from "react";
 import { AuthProvider } from "./auth-provider";
+import { User } from "@firebase/auth";
 
 type Props = {
   children: ReactNode;
+  initialUser?: User;
 };
 
 export const queryClient = new QueryClient({
@@ -19,10 +21,10 @@ export const queryClient = new QueryClient({
   },
 });
 
-export function Providers({ children }: Props) {
+export function Providers({ children, initialUser }: Props) {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>{children}</AuthProvider>
+      <AuthProvider initialUser={initialUser}>{children}</AuthProvider>
     </QueryClientProvider>
   );
 }

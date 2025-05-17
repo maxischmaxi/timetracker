@@ -37,12 +37,12 @@ import { AuthService, GetUserByFirebaseUidResponse } from "@/auth/v1/auth_pb";
 const transport = createConnectTransport({
   baseUrl: process.env.NEXT_PUBLIC_API_GATEWAY as string,
   fetch: async (url, init) => {
+    const headers = new Headers(init?.headers);
+    headers.append("Authorization", "Bearer ITISTHEAPI");
+
     return fetch(url, {
       ...init,
-      headers: {
-        ...init?.headers,
-        Authorization: "Bearer ITISTHEAPI",
-      },
+      headers,
       cache: "no-store",
       next: {
         revalidate: 0,

@@ -4,8 +4,8 @@ import * as React from "react";
 import {
   ArrowUpCircleIcon,
   BarChartIcon,
+  Building2Icon,
   ClipboardListIcon,
-  DatabaseIcon,
   FileArchiveIcon,
   FolderIcon,
   HelpCircleIcon,
@@ -16,10 +16,10 @@ import {
   UsersIcon,
 } from "lucide-react";
 
-import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
+import Cookie from "js-cookie";
 import {
   Sidebar,
   SidebarContent,
@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/sidebar";
 import { NavAdministration } from "./nav-administration";
 import { use, useState } from "react";
-import { AuthContext, setLocalOrg } from "./auth-provider";
+import { AuthContext } from "./auth-provider";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
@@ -64,6 +64,16 @@ const data = {
       url: "/customers",
       icon: UsersIcon,
     },
+    {
+      title: "Reports",
+      url: "/reports",
+      icon: ClipboardListIcon,
+    },
+    {
+      title: "Angebote",
+      url: "/offers",
+      icon: FileArchiveIcon,
+    },
   ],
   navSecondary: [
     {
@@ -88,28 +98,16 @@ const data = {
       url: "/users",
       icon: UsersIcon,
     },
-  ],
-  documents: [
     {
-      title: "Data Library",
-      url: "/data-library",
-      icon: DatabaseIcon,
-    },
-    {
-      title: "Reports",
-      url: "/reports",
-      icon: ClipboardListIcon,
-    },
-    {
-      title: "Angebote",
-      url: "/offers",
-      icon: FileArchiveIcon,
+      title: "Organisation",
+      url: "/organization",
+      icon: Building2Icon,
     },
   ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { firebaseUser, user, currentOrg, orgs } = use(AuthContext);
+  const { firebaseUser, user, currentOrg } = use(AuthContext);
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
 
@@ -122,7 +120,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       return;
     }
 
-    setLocalOrg(orgId);
+    Cookie.set("__org", orgId, {
+      path: "/",
+      sameSite: "none",
+      secure: true,
+    });
     router.refresh();
   }
 
@@ -135,11 +137,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <PopoverTrigger asChild>
                 <SidebarMenuButton className="data-[slot=sidebar-menu-button]:!p-1.5 cursor-pointer">
                   <ArrowUpCircleIcon className="h-5 w-5" />
-                  <span className="text-base font-semibold">Logic Joe</span>
+                  <span className="text-base font-semibold">
+                    {currentOrg?.name}
+                  </span>
                 </SidebarMenuButton>
               </PopoverTrigger>
               <PopoverContent side="right" align="start" className="space-y-2">
-                {orgs.map((org, index) => (
+                {user?.orgs.map((org, index) => (
                   <Button
                     key={index}
                     type="button"
@@ -157,16 +161,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        {currentOrg && user && currentOrg.admins.includes(user.id) && (
-          <NavAdministration items={data.navAdministration} />
-        )}
-        <NavDocuments items={data.documents} />
+        {currentOrg &&
+          user?.user &&
+          currentOrg.admins.includes(user.user.id) && (
+            <NavAdministration items={data.navAdministration} />
+          )}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser
           user={{
-            name: firebaseUser?.displayName ?? user?.name ?? "...",
+            name: firebaseUser?.displayName ?? user?.user?.name ?? "...",
             email: firebaseUser?.email || "...",
             avatar: firebaseUser?.photoURL || "",
           }}

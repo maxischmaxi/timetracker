@@ -3,8 +3,11 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { ReactNode } from "react";
+import { getAuthenticatedAppForUser } from "@/lib/server-auth";
+import { User } from "@firebase/auth";
+import { redirect } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +31,25 @@ type Props = {
 export default async function RootLayout({ children }: Props) {
   const h = await headers();
   const lng = h.get("x-locale");
+  const pathname = h.get("x-pathname");
+
+  const { currentUser } = await getAuthenticatedAppForUser();
+
+  console.log(currentUser, pathname);
+
+  if (!currentUser && pathname !== "/auth/login") {
+    redirect("/auth/login");
+  }
+
+  if (pathname === "/auth/login" && currentUser) {
+    redirect("/");
+  }
+
+  const orgId = (await cookies()).get("__org")?.value;
+
+  if (!orgId && pathname !== "/auth/org") {
+    redirect("/auth/org");
+  }
 
   return (
     <html lang={lng ?? "en"}>
@@ -35,7 +57,9 @@ export default async function RootLayout({ children }: Props) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
-        <Providers>{children}</Providers>
+        <Providers initialUser={currentUser?.toJSON() as User}>
+          {children}
+        </Providers>
         <Toaster />
       </body>
     </html>

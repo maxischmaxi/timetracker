@@ -1,6 +1,7 @@
 "use client";
 
-import { AuthContext, setLocalOrg } from "@/components/auth-provider";
+import Cookie from "js-cookie";
+import { AuthContext } from "@/components/auth-provider";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,7 +18,7 @@ import { use, useCallback, useState } from "react";
 import { toast } from "sonner";
 
 export function OrgSelectPage() {
-  const { orgs, user } = use(AuthContext);
+  const { user } = use(AuthContext);
   const [selectedOrg, setSelectedOrg] = useState<string | null>(null);
   const router = useRouter();
 
@@ -27,7 +28,11 @@ export function OrgSelectPage() {
       return;
     }
 
-    setLocalOrg(selectedOrg);
+    Cookie.set("__org", selectedOrg, {
+      path: "/",
+      sameSite: "none",
+      secure: true,
+    });
     router.push("/");
   }, [router, selectedOrg]);
 
@@ -35,7 +40,7 @@ export function OrgSelectPage() {
     <main className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm space-y-4">
         <p className="text-sm text-secondary-foreground">
-          Hey {user?.name}, noch ein Schritt und es kann losgehen!
+          Hey {user?.user?.name}, noch ein Schritt und es kann losgehen!
         </p>
         <Card>
           <CardHeader>
@@ -46,7 +51,7 @@ export function OrgSelectPage() {
           </CardHeader>
           <CardContent>
             <RadioGroup value={selectedOrg} onValueChange={setSelectedOrg}>
-              {orgs.map((org, index) => (
+              {user?.orgs.map((org, index) => (
                 <div key={index} className="flex items-center space-x-2">
                   <RadioGroupItem value={org.id} id={org.id} />
                   <Label htmlFor={org.id}>{org.name}</Label>

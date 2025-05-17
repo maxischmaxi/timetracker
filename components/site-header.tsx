@@ -12,16 +12,30 @@ import {
 } from "@/components/ui/breadcrumb";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
+import { useCustomers } from "@/hooks/use-customer";
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const customers = useCustomers();
 
   const parts = useMemo(() => {
     const pathParts = pathname.split("/").filter(Boolean);
+
     const breadcrumbItems = pathParts.map((part, index) => {
       const href = "/" + pathParts.slice(0, index + 1).join("/");
       return { name: part, href };
     });
+
+    // if (breadcrumbItems[1].name === "Customers") {
+    //   if (breadcrumbItems.length >= 3) {
+    //     const id = breadcrumbItems[2].name;
+    //     const customer = customers.data?.find((c) => c.id === id);
+    //     if (customer) {
+    //       breadcrumbItems[2].name = customer.name;
+    //     }
+    //   }
+    // }
+
     return breadcrumbItems;
   }, [pathname]);
 
