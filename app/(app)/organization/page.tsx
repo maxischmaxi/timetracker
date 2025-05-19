@@ -1,3 +1,4 @@
+import { OrgPaymentForm } from "@/components/org-payment-form";
 import { OrgServiceTypes } from "@/components/org-service-types";
 import {
   getCustomersByOrg,
@@ -34,16 +35,28 @@ export default async function Page() {
     <div className="flex flex-1 flex-col gap-4 p-4">
       <p>{org.name}</p>
       <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-        <div className="aspect-video rounded-xl bg-muted/50">
+        <div className="bg-muted/50 aspect-video rounded-xl">
           <p>{customers.length} Kunden</p>
         </div>
-        <div className="aspect-video rounded-xl bg-muted/50">
+        <div className="bg-muted/50 aspect-video rounded-xl">
           <p>{projects.length} Projekte</p>
         </div>
-        <div className="aspect-video rounded-xl bg-muted/50"></div>
+        <div className="bg-muted/50 aspect-video rounded-xl"></div>
       </div>
-      <div className="flex-1 rounded-xl bg-muted/50 min-h-min p-4">
+      <div className="bg-muted/50 min-h-min flex-1 rounded-xl p-4">
         <OrgServiceTypes />
+      </div>
+      <div className="bg-muted/50 min-h-min flex-1 rounded-xl p-4">
+        <p className="text-sm font-bold">Payment</p>
+        <p className="text-sm">
+          Definiere die Zahlungsmethode die den Kunden auf bspw. Angeboten oder
+          Rechnungen angezeigt wird.
+        </p>
+        <OrgPaymentForm
+          orgPayment={org.payment}
+          orgId={orgId}
+          wrapperClassName="pt-8"
+        />
       </div>
     </div>
   );

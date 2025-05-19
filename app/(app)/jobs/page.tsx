@@ -56,11 +56,11 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { ServiceTypeSelect } from "@/components/service-type-select";
-import { formatTime } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { UserAvatar } from "@/components/user-avatar";
 import Link from "next/link";
 import { JobDeleteDialog } from "@/components/job-delete-dialog";
+import { padWithZeros } from "@/lib/utils";
 
 export default function Page() {
   const [date, setDate] = useState<Date>(new Date());
@@ -159,8 +159,8 @@ export default function Page() {
                         <UserAvatar className="h-10 w-10 rounded-full" />
                         <div className="flex h-full flex-col justify-center gap-1">
                           <Badge>
-                            {formatTime(job.job.hours)}:
-                            {formatTime(job.job.minutes)}
+                            {padWithZeros(job.job.hours, 2)}:
+                            {padWithZeros(job.job.minutes, 2)}
                           </Badge>
                           <p className="text-xs">
                             <Link

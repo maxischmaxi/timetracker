@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package positions.v1;
+
+option go_package = "github.com/maxischmaxi/ljtime-api/positions/v1;positionsv1";
+
+import "org/v1/org.proto";
+
+enum PositionUnit {
+  POSITION_UNIT_UNSPECIFIED = 0;
+  POSITION_UNIT_WEEKS = 1;
+  POSITION_UNIT_MINUTES = 2;
+  POSITION_UNIT_PAUSCHAL = 3;
+  POSITION_UNIT_NIGHT = 4;
+  POSITION_UNIT_QUBIC_METER = 5;
+  POSITION_UNIT_QUADRAT_METER = 6;
+  POSITION_UNIT_METER = 7;
+  POSITION_UNIT_LITER = 8;
+  POSITION_UNIT_KM = 9;
+  POSITION_UNIT_CARDBOARDS = 10;
+  POSITION_UNIT_MONTH = 11;
+  POSITION_UNIT_DAY = 12;
+  POSITION_UNIT_PIECE = 13;
+  POSITION_UNIT_HOURS = 14;
+}
+
+enum DiscountType {
+  DISCOUNT_TYPE_UNSPECIFIED = 0;
+  DISCOUNT_TYPE_PERCENT = 1;
+  DISCOUNT_TYPE_FIXED = 2;
+}
+
+message Discount {
+  string id = 1;
+  DiscountType type = 2;
+  float value = 3;
+}
+
+message CreateDiscount {
+  DiscountType type = 2;
+  float value = 3;
+}
+
+message Position {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  int32 count = 4;
+  float price = 5;
+  PositionUnit unit = 6;
+}
+
+message CreatePosition {
+  string name = 2;
+  string description = 3;
+  int32 count = 4;
+  float price = 5;
+  PositionUnit unit = 6;
+  Discount discount = 7;
+}

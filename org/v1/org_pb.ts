@@ -10,7 +10,34 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file org/v1/org.proto.
  */
 export const file_org_v1_org: GenFile = /*@__PURE__*/
-  fileDesc("ChBvcmcvdjEvb3JnLnByb3RvEgZvcmcudjEiRgoJVXBkYXRlT3JnEisKDW1haWxfcHJvdmlkZXIYASABKA4yFC5vcmcudjEuTWFpbFByb3ZpZGVyEgwKBG5hbWUYAiABKAkiRgoJQ3JlYXRlT3JnEisKDW1haWxfcHJvdmlkZXIYASABKA4yFC5vcmcudjEuTWFpbFByb3ZpZGVyEgwKBG5hbWUYAiABKAkiNwoLU2VydmljZVR5cGUSCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIOCgZzdGF0dXMYAyABKAgisAEKA09yZxIKCgJpZBgBIAEoCRIrCg1tYWlsX3Byb3ZpZGVyGAIgASgOMhQub3JnLnYxLk1haWxQcm92aWRlchISCgpjcmVhdGVkX2F0GAMgASgDEhIKCnVwZGF0ZWRfYXQYBCABKAMSDAoEbmFtZRgFIAEoCRIOCgZhZG1pbnMYByADKAkSKgoNc2VydmljZV90eXBlcxgIIAMoCzITLm9yZy52MS5TZXJ2aWNlVHlwZSIPCg1HZXRPcmdSZXF1ZXN0IioKDkdldE9yZ1Jlc3BvbnNlEhgKA29yZxgBIAEoCzILLm9yZy52MS5PcmciHwoRR2V0T3JnQnlJZFJlcXVlc3QSCgoCaWQYASABKAkiLgoSR2V0T3JnQnlJZFJlc3BvbnNlEhgKA29yZxgBIAEoCzILLm9yZy52MS5PcmciPgoQVXBkYXRlT3JnUmVxdWVzdBIKCgJpZBgBIAEoCRIeCgNvcmcYAiABKAsyES5vcmcudjEuVXBkYXRlT3JnIhMKEVVwZGF0ZU9yZ1Jlc3BvbnNlIjIKEENyZWF0ZU9yZ1JlcXVlc3QSHgoDb3JnGAEgASgLMhEub3JnLnYxLkNyZWF0ZU9yZyItChFDcmVhdGVPcmdSZXNwb25zZRIYCgNvcmcYASABKAsyCy5vcmcudjEuT3JnIh4KEERlbGV0ZU9yZ1JlcXVlc3QSCgoCaWQYASABKAkiHwoRRGVsZXRlT3JnUmVzcG9uc2USCgoCaWQYASABKAkiJwoUQWRkQWRtaW5Ub09yZ1JlcXVlc3QSDwoHdXNlcl9pZBgBIAEoCSIXChVBZGRBZG1pblRvT3JnUmVzcG9uc2UiLAoZUmVtb3ZlQWRtaW5Gcm9tT3JnUmVxdWVzdBIPCgd1c2VyX2lkGAEgASgJIhwKGlJlbW92ZUFkbWluRnJvbU9yZ1Jlc3BvbnNlIjgKF0ludml0ZUVtYWlsVG9PcmdSZXF1ZXN0Eg0KBWVtYWlsGAEgASgJEg4KBm9yZ19pZBgCIAEoCSIaChhJbnZpdGVFbWFpbFRvT3JnUmVzcG9uc2UiTwoYQWNjZXB0RW1haWxJbnZpdGVSZXF1ZXN0Eg0KBXRva2VuGAEgASgJEg4KBm9yZ19pZBgCIAEoCRIUCgxmaXJlYmFzZV91aWQYAyABKAkiGwoZQWNjZXB0RW1haWxJbnZpdGVSZXNwb25zZSI4ChhDcmVhdGVTZXJ2aWNlVHlwZVJlcXVlc3QSDAoEbmFtZRgBIAEoCRIOCgZvcmdfaWQYAiABKAkiGwoZQ3JlYXRlU2VydmljZVR5cGVSZXNwb25zZSJZCh5VcGRhdGVTZXJ2aWNlVHlwZVN0YXR1c1JlcXVlc3QSDgoGb3JnX2lkGAEgASgJEhcKD3NlcnZpY2VfdHlwZV9pZBgCIAEoCRIOCgZzdGF0dXMYAyABKAgiMQofVXBkYXRlU2VydmljZVR5cGVTdGF0dXNSZXNwb25zZRIOCgZzdGF0dXMYASABKAgiQwoYRGVsZXRlU2VydmljZVR5cGVSZXF1ZXN0Eg4KBm9yZ19pZBgBIAEoCRIXCg9zZXJ2aWNlX3R5cGVfaWQYAiABKAkiGwoZRGVsZXRlU2VydmljZVR5cGVSZXNwb25zZSpGCgxNYWlsUHJvdmlkZXISHQoZTUFJTF9QUk9WSURFUl9VTlNQRUNJRklFRBAAEhcKE01BSUxfUFJPVklERVJfR01BSUwQATLMBwoKT3JnU2VydmljZRI3CgZHZXRPcmcSFS5vcmcudjEuR2V0T3JnUmVxdWVzdBoWLm9yZy52MS5HZXRPcmdSZXNwb25zZRJDCgpHZXRPcmdCeUlkEhkub3JnLnYxLkdldE9yZ0J5SWRSZXF1ZXN0Ghoub3JnLnYxLkdldE9yZ0J5SWRSZXNwb25zZRJACglVcGRhdGVPcmcSGC5vcmcudjEuVXBkYXRlT3JnUmVxdWVzdBoZLm9yZy52MS5VcGRhdGVPcmdSZXNwb25zZRJACglDcmVhdGVPcmcSGC5vcmcudjEuQ3JlYXRlT3JnUmVxdWVzdBoZLm9yZy52MS5DcmVhdGVPcmdSZXNwb25zZRJACglEZWxldGVPcmcSGC5vcmcudjEuRGVsZXRlT3JnUmVxdWVzdBoZLm9yZy52MS5EZWxldGVPcmdSZXNwb25zZRJMCg1BZGRBZG1pblRvT3JnEhwub3JnLnYxLkFkZEFkbWluVG9PcmdSZXF1ZXN0Gh0ub3JnLnYxLkFkZEFkbWluVG9PcmdSZXNwb25zZRJbChJSZW1vdmVBZG1pbkZyb21PcmcSIS5vcmcudjEuUmVtb3ZlQWRtaW5Gcm9tT3JnUmVxdWVzdBoiLm9yZy52MS5SZW1vdmVBZG1pbkZyb21PcmdSZXNwb25zZRJVChBJbnZpdGVFbWFpbFRvT3JnEh8ub3JnLnYxLkludml0ZUVtYWlsVG9PcmdSZXF1ZXN0GiAub3JnLnYxLkludml0ZUVtYWlsVG9PcmdSZXNwb25zZRJYChFBY2NlcHRFbWFpbEludml0ZRIgLm9yZy52MS5BY2NlcHRFbWFpbEludml0ZVJlcXVlc3QaIS5vcmcudjEuQWNjZXB0RW1haWxJbnZpdGVSZXNwb25zZRJYChFDcmVhdGVTZXJ2aWNlVHlwZRIgLm9yZy52MS5DcmVhdGVTZXJ2aWNlVHlwZVJlcXVlc3QaIS5vcmcudjEuQ3JlYXRlU2VydmljZVR5cGVSZXNwb25zZRJqChdVcGRhdGVTZXJ2aWNlVHlwZVN0YXR1cxImLm9yZy52MS5VcGRhdGVTZXJ2aWNlVHlwZVN0YXR1c1JlcXVlc3QaJy5vcmcudjEuVXBkYXRlU2VydmljZVR5cGVTdGF0dXNSZXNwb25zZRJYChFEZWxldGVTZXJ2aWNlVHlwZRIgLm9yZy52MS5EZWxldGVTZXJ2aWNlVHlwZVJlcXVlc3QaIS5vcmcudjEuRGVsZXRlU2VydmljZVR5cGVSZXNwb25zZUIwWi5naXRodWIuY29tL21heGlzY2htYXhpL2xqdGltZS1hcGkvb3JnL3YxO29yZ3YxYgZwcm90bzM");
+  fileDesc("ChBvcmcvdjEvb3JnLnByb3RvEgZvcmcudjEiNwoHUGF5bWVudBIMCgRpYmFuGAEgASgJEgsKA2JpYxgCIAEoCRIRCgliYW5rX25hbWUYAyABKAkiRgoJVXBkYXRlT3JnEisKDW1haWxfcHJvdmlkZXIYASABKA4yFC5vcmcudjEuTWFpbFByb3ZpZGVyEgwKBG5hbWUYAiABKAkiRgoJQ3JlYXRlT3JnEisKDW1haWxfcHJvdmlkZXIYASABKA4yFC5vcmcudjEuTWFpbFByb3ZpZGVyEgwKBG5hbWUYAiABKAkiNwoLU2VydmljZVR5cGUSCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIOCgZzdGF0dXMYAyABKAgi6AEKA09yZxIKCgJpZBgBIAEoCRIrCg1tYWlsX3Byb3ZpZGVyGAIgASgOMhQub3JnLnYxLk1haWxQcm92aWRlchISCgpjcmVhdGVkX2F0GAMgASgDEhIKCnVwZGF0ZWRfYXQYBCABKAMSDAoEbmFtZRgFIAEoCRIOCgZhZG1pbnMYByADKAkSKgoNc2VydmljZV90eXBlcxgIIAMoCzITLm9yZy52MS5TZXJ2aWNlVHlwZRIgCgdwYXltZW50GAkgASgLMg8ub3JnLnYxLlBheW1lbnQSFAoMbGVnYWxfbm90aWNlGAogASgJIg8KDUdldE9yZ1JlcXVlc3QiKgoOR2V0T3JnUmVzcG9uc2USGAoDb3JnGAEgASgLMgsub3JnLnYxLk9yZyIfChFHZXRPcmdCeUlkUmVxdWVzdBIKCgJpZBgBIAEoCSIuChJHZXRPcmdCeUlkUmVzcG9uc2USGAoDb3JnGAEgASgLMgsub3JnLnYxLk9yZyI+ChBVcGRhdGVPcmdSZXF1ZXN0EgoKAmlkGAEgASgJEh4KA29yZxgCIAEoCzIRLm9yZy52MS5VcGRhdGVPcmciEwoRVXBkYXRlT3JnUmVzcG9uc2UiMgoQQ3JlYXRlT3JnUmVxdWVzdBIeCgNvcmcYASABKAsyES5vcmcudjEuQ3JlYXRlT3JnIi0KEUNyZWF0ZU9yZ1Jlc3BvbnNlEhgKA29yZxgBIAEoCzILLm9yZy52MS5PcmciHgoQRGVsZXRlT3JnUmVxdWVzdBIKCgJpZBgBIAEoCSIfChFEZWxldGVPcmdSZXNwb25zZRIKCgJpZBgBIAEoCSInChRBZGRBZG1pblRvT3JnUmVxdWVzdBIPCgd1c2VyX2lkGAEgASgJIhcKFUFkZEFkbWluVG9PcmdSZXNwb25zZSIsChlSZW1vdmVBZG1pbkZyb21PcmdSZXF1ZXN0Eg8KB3VzZXJfaWQYASABKAkiHAoaUmVtb3ZlQWRtaW5Gcm9tT3JnUmVzcG9uc2UiOAoXSW52aXRlRW1haWxUb09yZ1JlcXVlc3QSDQoFZW1haWwYASABKAkSDgoGb3JnX2lkGAIgASgJIhoKGEludml0ZUVtYWlsVG9PcmdSZXNwb25zZSJPChhBY2NlcHRFbWFpbEludml0ZVJlcXVlc3QSDQoFdG9rZW4YASABKAkSDgoGb3JnX2lkGAIgASgJEhQKDGZpcmViYXNlX3VpZBgDIAEoCSIbChlBY2NlcHRFbWFpbEludml0ZVJlc3BvbnNlIjgKGENyZWF0ZVNlcnZpY2VUeXBlUmVxdWVzdBIMCgRuYW1lGAEgASgJEg4KBm9yZ19pZBgCIAEoCSIbChlDcmVhdGVTZXJ2aWNlVHlwZVJlc3BvbnNlIlkKHlVwZGF0ZVNlcnZpY2VUeXBlU3RhdHVzUmVxdWVzdBIOCgZvcmdfaWQYASABKAkSFwoPc2VydmljZV90eXBlX2lkGAIgASgJEg4KBnN0YXR1cxgDIAEoCCIxCh9VcGRhdGVTZXJ2aWNlVHlwZVN0YXR1c1Jlc3BvbnNlEg4KBnN0YXR1cxgBIAEoCCJDChhEZWxldGVTZXJ2aWNlVHlwZVJlcXVlc3QSDgoGb3JnX2lkGAEgASgJEhcKD3NlcnZpY2VfdHlwZV9pZBgCIAEoCSIbChlEZWxldGVTZXJ2aWNlVHlwZVJlc3BvbnNlIlQKFFNldE9yZ1BheW1lbnRSZXF1ZXN0EgwKBGliYW4YASABKAkSCwoDYmljGAIgASgJEhEKCWJhbmtfbmFtZRgDIAEoCRIOCgZvcmdfaWQYBCABKAkiFwoVU2V0T3JnUGF5bWVudFJlc3BvbnNlKkYKDE1haWxQcm92aWRlchIdChlNQUlMX1BST1ZJREVSX1VOU1BFQ0lGSUVEEAASFwoTTUFJTF9QUk9WSURFUl9HTUFJTBABMpoICgpPcmdTZXJ2aWNlEjcKBkdldE9yZxIVLm9yZy52MS5HZXRPcmdSZXF1ZXN0GhYub3JnLnYxLkdldE9yZ1Jlc3BvbnNlEkMKCkdldE9yZ0J5SWQSGS5vcmcudjEuR2V0T3JnQnlJZFJlcXVlc3QaGi5vcmcudjEuR2V0T3JnQnlJZFJlc3BvbnNlEkAKCVVwZGF0ZU9yZxIYLm9yZy52MS5VcGRhdGVPcmdSZXF1ZXN0Ghkub3JnLnYxLlVwZGF0ZU9yZ1Jlc3BvbnNlEkwKDVNldE9yZ1BheW1lbnQSHC5vcmcudjEuU2V0T3JnUGF5bWVudFJlcXVlc3QaHS5vcmcudjEuU2V0T3JnUGF5bWVudFJlc3BvbnNlEkAKCUNyZWF0ZU9yZxIYLm9yZy52MS5DcmVhdGVPcmdSZXF1ZXN0Ghkub3JnLnYxLkNyZWF0ZU9yZ1Jlc3BvbnNlEkAKCURlbGV0ZU9yZxIYLm9yZy52MS5EZWxldGVPcmdSZXF1ZXN0Ghkub3JnLnYxLkRlbGV0ZU9yZ1Jlc3BvbnNlEkwKDUFkZEFkbWluVG9PcmcSHC5vcmcudjEuQWRkQWRtaW5Ub09yZ1JlcXVlc3QaHS5vcmcudjEuQWRkQWRtaW5Ub09yZ1Jlc3BvbnNlElsKElJlbW92ZUFkbWluRnJvbU9yZxIhLm9yZy52MS5SZW1vdmVBZG1pbkZyb21PcmdSZXF1ZXN0GiIub3JnLnYxLlJlbW92ZUFkbWluRnJvbU9yZ1Jlc3BvbnNlElUKEEludml0ZUVtYWlsVG9PcmcSHy5vcmcudjEuSW52aXRlRW1haWxUb09yZ1JlcXVlc3QaIC5vcmcudjEuSW52aXRlRW1haWxUb09yZ1Jlc3BvbnNlElgKEUFjY2VwdEVtYWlsSW52aXRlEiAub3JnLnYxLkFjY2VwdEVtYWlsSW52aXRlUmVxdWVzdBohLm9yZy52MS5BY2NlcHRFbWFpbEludml0ZVJlc3BvbnNlElgKEUNyZWF0ZVNlcnZpY2VUeXBlEiAub3JnLnYxLkNyZWF0ZVNlcnZpY2VUeXBlUmVxdWVzdBohLm9yZy52MS5DcmVhdGVTZXJ2aWNlVHlwZVJlc3BvbnNlEmoKF1VwZGF0ZVNlcnZpY2VUeXBlU3RhdHVzEiYub3JnLnYxLlVwZGF0ZVNlcnZpY2VUeXBlU3RhdHVzUmVxdWVzdBonLm9yZy52MS5VcGRhdGVTZXJ2aWNlVHlwZVN0YXR1c1Jlc3BvbnNlElgKEURlbGV0ZVNlcnZpY2VUeXBlEiAub3JnLnYxLkRlbGV0ZVNlcnZpY2VUeXBlUmVxdWVzdBohLm9yZy52MS5EZWxldGVTZXJ2aWNlVHlwZVJlc3BvbnNlQjBaLmdpdGh1Yi5jb20vbWF4aXNjaG1heGkvbGp0aW1lLWFwaS9vcmcvdjE7b3JndjFiBnByb3RvMw");
+
+/**
+ * @generated from message org.v1.Payment
+ */
+export type Payment = Message<"org.v1.Payment"> & {
+  /**
+   * @generated from field: string iban = 1;
+   */
+  iban: string;
+
+  /**
+   * @generated from field: string bic = 2;
+   */
+  bic: string;
+
+  /**
+   * @generated from field: string bank_name = 3;
+   */
+  bankName: string;
+};
+
+/**
+ * Describes the message org.v1.Payment.
+ * Use `create(PaymentSchema)` to create a new message.
+ */
+export const PaymentSchema: GenMessage<Payment> = /*@__PURE__*/
+  messageDesc(file_org_v1_org, 0);
 
 /**
  * @generated from message org.v1.UpdateOrg
@@ -32,7 +59,7 @@ export type UpdateOrg = Message<"org.v1.UpdateOrg"> & {
  * Use `create(UpdateOrgSchema)` to create a new message.
  */
 export const UpdateOrgSchema: GenMessage<UpdateOrg> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 0);
+  messageDesc(file_org_v1_org, 1);
 
 /**
  * @generated from message org.v1.CreateOrg
@@ -54,7 +81,7 @@ export type CreateOrg = Message<"org.v1.CreateOrg"> & {
  * Use `create(CreateOrgSchema)` to create a new message.
  */
 export const CreateOrgSchema: GenMessage<CreateOrg> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 1);
+  messageDesc(file_org_v1_org, 2);
 
 /**
  * @generated from message org.v1.ServiceType
@@ -81,7 +108,7 @@ export type ServiceType = Message<"org.v1.ServiceType"> & {
  * Use `create(ServiceTypeSchema)` to create a new message.
  */
 export const ServiceTypeSchema: GenMessage<ServiceType> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 2);
+  messageDesc(file_org_v1_org, 3);
 
 /**
  * @generated from message org.v1.Org
@@ -121,6 +148,16 @@ export type Org = Message<"org.v1.Org"> & {
    * @generated from field: repeated org.v1.ServiceType service_types = 8;
    */
   serviceTypes: ServiceType[];
+
+  /**
+   * @generated from field: org.v1.Payment payment = 9;
+   */
+  payment?: Payment;
+
+  /**
+   * @generated from field: string legal_notice = 10;
+   */
+  legalNotice: string;
 };
 
 /**
@@ -128,7 +165,7 @@ export type Org = Message<"org.v1.Org"> & {
  * Use `create(OrgSchema)` to create a new message.
  */
 export const OrgSchema: GenMessage<Org> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 3);
+  messageDesc(file_org_v1_org, 4);
 
 /**
  * @generated from message org.v1.GetOrgRequest
@@ -141,7 +178,7 @@ export type GetOrgRequest = Message<"org.v1.GetOrgRequest"> & {
  * Use `create(GetOrgRequestSchema)` to create a new message.
  */
 export const GetOrgRequestSchema: GenMessage<GetOrgRequest> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 4);
+  messageDesc(file_org_v1_org, 5);
 
 /**
  * @generated from message org.v1.GetOrgResponse
@@ -158,7 +195,7 @@ export type GetOrgResponse = Message<"org.v1.GetOrgResponse"> & {
  * Use `create(GetOrgResponseSchema)` to create a new message.
  */
 export const GetOrgResponseSchema: GenMessage<GetOrgResponse> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 5);
+  messageDesc(file_org_v1_org, 6);
 
 /**
  * @generated from message org.v1.GetOrgByIdRequest
@@ -175,7 +212,7 @@ export type GetOrgByIdRequest = Message<"org.v1.GetOrgByIdRequest"> & {
  * Use `create(GetOrgByIdRequestSchema)` to create a new message.
  */
 export const GetOrgByIdRequestSchema: GenMessage<GetOrgByIdRequest> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 6);
+  messageDesc(file_org_v1_org, 7);
 
 /**
  * @generated from message org.v1.GetOrgByIdResponse
@@ -192,7 +229,7 @@ export type GetOrgByIdResponse = Message<"org.v1.GetOrgByIdResponse"> & {
  * Use `create(GetOrgByIdResponseSchema)` to create a new message.
  */
 export const GetOrgByIdResponseSchema: GenMessage<GetOrgByIdResponse> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 7);
+  messageDesc(file_org_v1_org, 8);
 
 /**
  * @generated from message org.v1.UpdateOrgRequest
@@ -214,7 +251,7 @@ export type UpdateOrgRequest = Message<"org.v1.UpdateOrgRequest"> & {
  * Use `create(UpdateOrgRequestSchema)` to create a new message.
  */
 export const UpdateOrgRequestSchema: GenMessage<UpdateOrgRequest> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 8);
+  messageDesc(file_org_v1_org, 9);
 
 /**
  * @generated from message org.v1.UpdateOrgResponse
@@ -227,7 +264,7 @@ export type UpdateOrgResponse = Message<"org.v1.UpdateOrgResponse"> & {
  * Use `create(UpdateOrgResponseSchema)` to create a new message.
  */
 export const UpdateOrgResponseSchema: GenMessage<UpdateOrgResponse> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 9);
+  messageDesc(file_org_v1_org, 10);
 
 /**
  * @generated from message org.v1.CreateOrgRequest
@@ -244,7 +281,7 @@ export type CreateOrgRequest = Message<"org.v1.CreateOrgRequest"> & {
  * Use `create(CreateOrgRequestSchema)` to create a new message.
  */
 export const CreateOrgRequestSchema: GenMessage<CreateOrgRequest> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 10);
+  messageDesc(file_org_v1_org, 11);
 
 /**
  * @generated from message org.v1.CreateOrgResponse
@@ -261,7 +298,7 @@ export type CreateOrgResponse = Message<"org.v1.CreateOrgResponse"> & {
  * Use `create(CreateOrgResponseSchema)` to create a new message.
  */
 export const CreateOrgResponseSchema: GenMessage<CreateOrgResponse> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 11);
+  messageDesc(file_org_v1_org, 12);
 
 /**
  * @generated from message org.v1.DeleteOrgRequest
@@ -278,7 +315,7 @@ export type DeleteOrgRequest = Message<"org.v1.DeleteOrgRequest"> & {
  * Use `create(DeleteOrgRequestSchema)` to create a new message.
  */
 export const DeleteOrgRequestSchema: GenMessage<DeleteOrgRequest> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 12);
+  messageDesc(file_org_v1_org, 13);
 
 /**
  * @generated from message org.v1.DeleteOrgResponse
@@ -295,7 +332,7 @@ export type DeleteOrgResponse = Message<"org.v1.DeleteOrgResponse"> & {
  * Use `create(DeleteOrgResponseSchema)` to create a new message.
  */
 export const DeleteOrgResponseSchema: GenMessage<DeleteOrgResponse> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 13);
+  messageDesc(file_org_v1_org, 14);
 
 /**
  * @generated from message org.v1.AddAdminToOrgRequest
@@ -312,7 +349,7 @@ export type AddAdminToOrgRequest = Message<"org.v1.AddAdminToOrgRequest"> & {
  * Use `create(AddAdminToOrgRequestSchema)` to create a new message.
  */
 export const AddAdminToOrgRequestSchema: GenMessage<AddAdminToOrgRequest> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 14);
+  messageDesc(file_org_v1_org, 15);
 
 /**
  * @generated from message org.v1.AddAdminToOrgResponse
@@ -325,7 +362,7 @@ export type AddAdminToOrgResponse = Message<"org.v1.AddAdminToOrgResponse"> & {
  * Use `create(AddAdminToOrgResponseSchema)` to create a new message.
  */
 export const AddAdminToOrgResponseSchema: GenMessage<AddAdminToOrgResponse> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 15);
+  messageDesc(file_org_v1_org, 16);
 
 /**
  * @generated from message org.v1.RemoveAdminFromOrgRequest
@@ -342,7 +379,7 @@ export type RemoveAdminFromOrgRequest = Message<"org.v1.RemoveAdminFromOrgReques
  * Use `create(RemoveAdminFromOrgRequestSchema)` to create a new message.
  */
 export const RemoveAdminFromOrgRequestSchema: GenMessage<RemoveAdminFromOrgRequest> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 16);
+  messageDesc(file_org_v1_org, 17);
 
 /**
  * @generated from message org.v1.RemoveAdminFromOrgResponse
@@ -355,7 +392,7 @@ export type RemoveAdminFromOrgResponse = Message<"org.v1.RemoveAdminFromOrgRespo
  * Use `create(RemoveAdminFromOrgResponseSchema)` to create a new message.
  */
 export const RemoveAdminFromOrgResponseSchema: GenMessage<RemoveAdminFromOrgResponse> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 17);
+  messageDesc(file_org_v1_org, 18);
 
 /**
  * @generated from message org.v1.InviteEmailToOrgRequest
@@ -377,7 +414,7 @@ export type InviteEmailToOrgRequest = Message<"org.v1.InviteEmailToOrgRequest"> 
  * Use `create(InviteEmailToOrgRequestSchema)` to create a new message.
  */
 export const InviteEmailToOrgRequestSchema: GenMessage<InviteEmailToOrgRequest> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 18);
+  messageDesc(file_org_v1_org, 19);
 
 /**
  * @generated from message org.v1.InviteEmailToOrgResponse
@@ -390,7 +427,7 @@ export type InviteEmailToOrgResponse = Message<"org.v1.InviteEmailToOrgResponse"
  * Use `create(InviteEmailToOrgResponseSchema)` to create a new message.
  */
 export const InviteEmailToOrgResponseSchema: GenMessage<InviteEmailToOrgResponse> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 19);
+  messageDesc(file_org_v1_org, 20);
 
 /**
  * @generated from message org.v1.AcceptEmailInviteRequest
@@ -417,7 +454,7 @@ export type AcceptEmailInviteRequest = Message<"org.v1.AcceptEmailInviteRequest"
  * Use `create(AcceptEmailInviteRequestSchema)` to create a new message.
  */
 export const AcceptEmailInviteRequestSchema: GenMessage<AcceptEmailInviteRequest> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 20);
+  messageDesc(file_org_v1_org, 21);
 
 /**
  * @generated from message org.v1.AcceptEmailInviteResponse
@@ -430,7 +467,7 @@ export type AcceptEmailInviteResponse = Message<"org.v1.AcceptEmailInviteRespons
  * Use `create(AcceptEmailInviteResponseSchema)` to create a new message.
  */
 export const AcceptEmailInviteResponseSchema: GenMessage<AcceptEmailInviteResponse> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 21);
+  messageDesc(file_org_v1_org, 22);
 
 /**
  * @generated from message org.v1.CreateServiceTypeRequest
@@ -452,7 +489,7 @@ export type CreateServiceTypeRequest = Message<"org.v1.CreateServiceTypeRequest"
  * Use `create(CreateServiceTypeRequestSchema)` to create a new message.
  */
 export const CreateServiceTypeRequestSchema: GenMessage<CreateServiceTypeRequest> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 22);
+  messageDesc(file_org_v1_org, 23);
 
 /**
  * @generated from message org.v1.CreateServiceTypeResponse
@@ -465,7 +502,7 @@ export type CreateServiceTypeResponse = Message<"org.v1.CreateServiceTypeRespons
  * Use `create(CreateServiceTypeResponseSchema)` to create a new message.
  */
 export const CreateServiceTypeResponseSchema: GenMessage<CreateServiceTypeResponse> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 23);
+  messageDesc(file_org_v1_org, 24);
 
 /**
  * @generated from message org.v1.UpdateServiceTypeStatusRequest
@@ -492,7 +529,7 @@ export type UpdateServiceTypeStatusRequest = Message<"org.v1.UpdateServiceTypeSt
  * Use `create(UpdateServiceTypeStatusRequestSchema)` to create a new message.
  */
 export const UpdateServiceTypeStatusRequestSchema: GenMessage<UpdateServiceTypeStatusRequest> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 24);
+  messageDesc(file_org_v1_org, 25);
 
 /**
  * @generated from message org.v1.UpdateServiceTypeStatusResponse
@@ -509,7 +546,7 @@ export type UpdateServiceTypeStatusResponse = Message<"org.v1.UpdateServiceTypeS
  * Use `create(UpdateServiceTypeStatusResponseSchema)` to create a new message.
  */
 export const UpdateServiceTypeStatusResponseSchema: GenMessage<UpdateServiceTypeStatusResponse> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 25);
+  messageDesc(file_org_v1_org, 26);
 
 /**
  * @generated from message org.v1.DeleteServiceTypeRequest
@@ -531,7 +568,7 @@ export type DeleteServiceTypeRequest = Message<"org.v1.DeleteServiceTypeRequest"
  * Use `create(DeleteServiceTypeRequestSchema)` to create a new message.
  */
 export const DeleteServiceTypeRequestSchema: GenMessage<DeleteServiceTypeRequest> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 26);
+  messageDesc(file_org_v1_org, 27);
 
 /**
  * @generated from message org.v1.DeleteServiceTypeResponse
@@ -544,7 +581,52 @@ export type DeleteServiceTypeResponse = Message<"org.v1.DeleteServiceTypeRespons
  * Use `create(DeleteServiceTypeResponseSchema)` to create a new message.
  */
 export const DeleteServiceTypeResponseSchema: GenMessage<DeleteServiceTypeResponse> = /*@__PURE__*/
-  messageDesc(file_org_v1_org, 27);
+  messageDesc(file_org_v1_org, 28);
+
+/**
+ * @generated from message org.v1.SetOrgPaymentRequest
+ */
+export type SetOrgPaymentRequest = Message<"org.v1.SetOrgPaymentRequest"> & {
+  /**
+   * @generated from field: string iban = 1;
+   */
+  iban: string;
+
+  /**
+   * @generated from field: string bic = 2;
+   */
+  bic: string;
+
+  /**
+   * @generated from field: string bank_name = 3;
+   */
+  bankName: string;
+
+  /**
+   * @generated from field: string org_id = 4;
+   */
+  orgId: string;
+};
+
+/**
+ * Describes the message org.v1.SetOrgPaymentRequest.
+ * Use `create(SetOrgPaymentRequestSchema)` to create a new message.
+ */
+export const SetOrgPaymentRequestSchema: GenMessage<SetOrgPaymentRequest> = /*@__PURE__*/
+  messageDesc(file_org_v1_org, 29);
+
+/**
+ * @generated from message org.v1.SetOrgPaymentResponse
+ */
+export type SetOrgPaymentResponse = Message<"org.v1.SetOrgPaymentResponse"> & {
+};
+
+/**
+ * Describes the message org.v1.SetOrgPaymentResponse.
+ * Use `create(SetOrgPaymentResponseSchema)` to create a new message.
+ */
+export const SetOrgPaymentResponseSchema: GenMessage<SetOrgPaymentResponse> = /*@__PURE__*/
+  messageDesc(file_org_v1_org, 30);
 
 /**
  * @generated from enum org.v1.MailProvider
@@ -594,6 +676,14 @@ export const OrgService: GenService<{
     methodKind: "unary";
     input: typeof UpdateOrgRequestSchema;
     output: typeof UpdateOrgResponseSchema;
+  },
+  /**
+   * @generated from rpc org.v1.OrgService.SetOrgPayment
+   */
+  setOrgPayment: {
+    methodKind: "unary";
+    input: typeof SetOrgPaymentRequestSchema;
+    output: typeof SetOrgPaymentResponseSchema;
   },
   /**
    * @generated from rpc org.v1.OrgService.CreateOrg

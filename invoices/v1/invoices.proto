@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package invoices.v1;
+
+option go_package = "github.com/maxischmaxi/ljtime-api/invoices/v1;invoicesv1";
+
+import "org/v1/org.proto";
+import "positions/v1/positions.proto";
+
+service InvoicesService {}
+
+message Invoice {
+  string id = 1;
+  string invoice_no = 2;
+  string note = 3;
+  string customer_id = 4;
+  repeated positions.v1.Position positions = 5;
+  optional string legal_notice = 6;
+  optional org.v1.Payment payment = 8;
+}

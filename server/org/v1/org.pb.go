@@ -67,6 +67,66 @@ func (MailProvider) EnumDescriptor() ([]byte, []int) {
 	return file_org_v1_org_proto_rawDescGZIP(), []int{0}
 }
 
+type Payment struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Iban          string                 `protobuf:"bytes,1,opt,name=iban,proto3" json:"iban,omitempty"`
+	Bic           string                 `protobuf:"bytes,2,opt,name=bic,proto3" json:"bic,omitempty"`
+	BankName      string                 `protobuf:"bytes,3,opt,name=bank_name,json=bankName,proto3" json:"bank_name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Payment) Reset() {
+	*x = Payment{}
+	mi := &file_org_v1_org_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Payment) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Payment) ProtoMessage() {}
+
+func (x *Payment) ProtoReflect() protoreflect.Message {
+	mi := &file_org_v1_org_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Payment.ProtoReflect.Descriptor instead.
+func (*Payment) Descriptor() ([]byte, []int) {
+	return file_org_v1_org_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Payment) GetIban() string {
+	if x != nil {
+		return x.Iban
+	}
+	return ""
+}
+
+func (x *Payment) GetBic() string {
+	if x != nil {
+		return x.Bic
+	}
+	return ""
+}
+
+func (x *Payment) GetBankName() string {
+	if x != nil {
+		return x.BankName
+	}
+	return ""
+}
+
 type UpdateOrg struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	MailProvider  MailProvider           `protobuf:"varint,1,opt,name=mail_provider,json=mailProvider,proto3,enum=org.v1.MailProvider" json:"mail_provider,omitempty"`
@@ -77,7 +137,7 @@ type UpdateOrg struct {
 
 func (x *UpdateOrg) Reset() {
 	*x = UpdateOrg{}
-	mi := &file_org_v1_org_proto_msgTypes[0]
+	mi := &file_org_v1_org_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -89,7 +149,7 @@ func (x *UpdateOrg) String() string {
 func (*UpdateOrg) ProtoMessage() {}
 
 func (x *UpdateOrg) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[0]
+	mi := &file_org_v1_org_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -102,7 +162,7 @@ func (x *UpdateOrg) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateOrg.ProtoReflect.Descriptor instead.
 func (*UpdateOrg) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{0}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *UpdateOrg) GetMailProvider() MailProvider {
@@ -129,7 +189,7 @@ type CreateOrg struct {
 
 func (x *CreateOrg) Reset() {
 	*x = CreateOrg{}
-	mi := &file_org_v1_org_proto_msgTypes[1]
+	mi := &file_org_v1_org_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -141,7 +201,7 @@ func (x *CreateOrg) String() string {
 func (*CreateOrg) ProtoMessage() {}
 
 func (x *CreateOrg) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[1]
+	mi := &file_org_v1_org_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -154,7 +214,7 @@ func (x *CreateOrg) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateOrg.ProtoReflect.Descriptor instead.
 func (*CreateOrg) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{1}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CreateOrg) GetMailProvider() MailProvider {
@@ -182,7 +242,7 @@ type ServiceType struct {
 
 func (x *ServiceType) Reset() {
 	*x = ServiceType{}
-	mi := &file_org_v1_org_proto_msgTypes[2]
+	mi := &file_org_v1_org_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -194,7 +254,7 @@ func (x *ServiceType) String() string {
 func (*ServiceType) ProtoMessage() {}
 
 func (x *ServiceType) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[2]
+	mi := &file_org_v1_org_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -207,7 +267,7 @@ func (x *ServiceType) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServiceType.ProtoReflect.Descriptor instead.
 func (*ServiceType) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{2}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ServiceType) GetId() string {
@@ -240,13 +300,15 @@ type Org struct {
 	Name          string                 `protobuf:"bytes,5,opt,name=name,proto3" json:"name,omitempty"`
 	Admins        []string               `protobuf:"bytes,7,rep,name=admins,proto3" json:"admins,omitempty"`
 	ServiceTypes  []*ServiceType         `protobuf:"bytes,8,rep,name=service_types,json=serviceTypes,proto3" json:"service_types,omitempty"`
+	Payment       *Payment               `protobuf:"bytes,9,opt,name=payment,proto3" json:"payment,omitempty"`
+	LegalNotice   string                 `protobuf:"bytes,10,opt,name=legal_notice,json=legalNotice,proto3" json:"legal_notice,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Org) Reset() {
 	*x = Org{}
-	mi := &file_org_v1_org_proto_msgTypes[3]
+	mi := &file_org_v1_org_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -258,7 +320,7 @@ func (x *Org) String() string {
 func (*Org) ProtoMessage() {}
 
 func (x *Org) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[3]
+	mi := &file_org_v1_org_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -271,7 +333,7 @@ func (x *Org) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Org.ProtoReflect.Descriptor instead.
 func (*Org) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{3}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *Org) GetId() string {
@@ -323,6 +385,20 @@ func (x *Org) GetServiceTypes() []*ServiceType {
 	return nil
 }
 
+func (x *Org) GetPayment() *Payment {
+	if x != nil {
+		return x.Payment
+	}
+	return nil
+}
+
+func (x *Org) GetLegalNotice() string {
+	if x != nil {
+		return x.LegalNotice
+	}
+	return ""
+}
+
 type GetOrgRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -331,7 +407,7 @@ type GetOrgRequest struct {
 
 func (x *GetOrgRequest) Reset() {
 	*x = GetOrgRequest{}
-	mi := &file_org_v1_org_proto_msgTypes[4]
+	mi := &file_org_v1_org_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -343,7 +419,7 @@ func (x *GetOrgRequest) String() string {
 func (*GetOrgRequest) ProtoMessage() {}
 
 func (x *GetOrgRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[4]
+	mi := &file_org_v1_org_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -356,7 +432,7 @@ func (x *GetOrgRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOrgRequest.ProtoReflect.Descriptor instead.
 func (*GetOrgRequest) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{4}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{5}
 }
 
 type GetOrgResponse struct {
@@ -368,7 +444,7 @@ type GetOrgResponse struct {
 
 func (x *GetOrgResponse) Reset() {
 	*x = GetOrgResponse{}
-	mi := &file_org_v1_org_proto_msgTypes[5]
+	mi := &file_org_v1_org_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -380,7 +456,7 @@ func (x *GetOrgResponse) String() string {
 func (*GetOrgResponse) ProtoMessage() {}
 
 func (x *GetOrgResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[5]
+	mi := &file_org_v1_org_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -393,7 +469,7 @@ func (x *GetOrgResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOrgResponse.ProtoReflect.Descriptor instead.
 func (*GetOrgResponse) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{5}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GetOrgResponse) GetOrg() *Org {
@@ -412,7 +488,7 @@ type GetOrgByIdRequest struct {
 
 func (x *GetOrgByIdRequest) Reset() {
 	*x = GetOrgByIdRequest{}
-	mi := &file_org_v1_org_proto_msgTypes[6]
+	mi := &file_org_v1_org_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -424,7 +500,7 @@ func (x *GetOrgByIdRequest) String() string {
 func (*GetOrgByIdRequest) ProtoMessage() {}
 
 func (x *GetOrgByIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[6]
+	mi := &file_org_v1_org_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -437,7 +513,7 @@ func (x *GetOrgByIdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOrgByIdRequest.ProtoReflect.Descriptor instead.
 func (*GetOrgByIdRequest) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{6}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *GetOrgByIdRequest) GetId() string {
@@ -456,7 +532,7 @@ type GetOrgByIdResponse struct {
 
 func (x *GetOrgByIdResponse) Reset() {
 	*x = GetOrgByIdResponse{}
-	mi := &file_org_v1_org_proto_msgTypes[7]
+	mi := &file_org_v1_org_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -468,7 +544,7 @@ func (x *GetOrgByIdResponse) String() string {
 func (*GetOrgByIdResponse) ProtoMessage() {}
 
 func (x *GetOrgByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[7]
+	mi := &file_org_v1_org_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -481,7 +557,7 @@ func (x *GetOrgByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOrgByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetOrgByIdResponse) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{7}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetOrgByIdResponse) GetOrg() *Org {
@@ -501,7 +577,7 @@ type UpdateOrgRequest struct {
 
 func (x *UpdateOrgRequest) Reset() {
 	*x = UpdateOrgRequest{}
-	mi := &file_org_v1_org_proto_msgTypes[8]
+	mi := &file_org_v1_org_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -513,7 +589,7 @@ func (x *UpdateOrgRequest) String() string {
 func (*UpdateOrgRequest) ProtoMessage() {}
 
 func (x *UpdateOrgRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[8]
+	mi := &file_org_v1_org_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -526,7 +602,7 @@ func (x *UpdateOrgRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateOrgRequest.ProtoReflect.Descriptor instead.
 func (*UpdateOrgRequest) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{8}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *UpdateOrgRequest) GetId() string {
@@ -551,7 +627,7 @@ type UpdateOrgResponse struct {
 
 func (x *UpdateOrgResponse) Reset() {
 	*x = UpdateOrgResponse{}
-	mi := &file_org_v1_org_proto_msgTypes[9]
+	mi := &file_org_v1_org_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -563,7 +639,7 @@ func (x *UpdateOrgResponse) String() string {
 func (*UpdateOrgResponse) ProtoMessage() {}
 
 func (x *UpdateOrgResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[9]
+	mi := &file_org_v1_org_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -576,7 +652,7 @@ func (x *UpdateOrgResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateOrgResponse.ProtoReflect.Descriptor instead.
 func (*UpdateOrgResponse) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{9}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{10}
 }
 
 type CreateOrgRequest struct {
@@ -588,7 +664,7 @@ type CreateOrgRequest struct {
 
 func (x *CreateOrgRequest) Reset() {
 	*x = CreateOrgRequest{}
-	mi := &file_org_v1_org_proto_msgTypes[10]
+	mi := &file_org_v1_org_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -600,7 +676,7 @@ func (x *CreateOrgRequest) String() string {
 func (*CreateOrgRequest) ProtoMessage() {}
 
 func (x *CreateOrgRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[10]
+	mi := &file_org_v1_org_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -613,7 +689,7 @@ func (x *CreateOrgRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateOrgRequest.ProtoReflect.Descriptor instead.
 func (*CreateOrgRequest) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{10}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *CreateOrgRequest) GetOrg() *CreateOrg {
@@ -632,7 +708,7 @@ type CreateOrgResponse struct {
 
 func (x *CreateOrgResponse) Reset() {
 	*x = CreateOrgResponse{}
-	mi := &file_org_v1_org_proto_msgTypes[11]
+	mi := &file_org_v1_org_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -644,7 +720,7 @@ func (x *CreateOrgResponse) String() string {
 func (*CreateOrgResponse) ProtoMessage() {}
 
 func (x *CreateOrgResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[11]
+	mi := &file_org_v1_org_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -657,7 +733,7 @@ func (x *CreateOrgResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateOrgResponse.ProtoReflect.Descriptor instead.
 func (*CreateOrgResponse) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{11}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *CreateOrgResponse) GetOrg() *Org {
@@ -676,7 +752,7 @@ type DeleteOrgRequest struct {
 
 func (x *DeleteOrgRequest) Reset() {
 	*x = DeleteOrgRequest{}
-	mi := &file_org_v1_org_proto_msgTypes[12]
+	mi := &file_org_v1_org_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -688,7 +764,7 @@ func (x *DeleteOrgRequest) String() string {
 func (*DeleteOrgRequest) ProtoMessage() {}
 
 func (x *DeleteOrgRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[12]
+	mi := &file_org_v1_org_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -701,7 +777,7 @@ func (x *DeleteOrgRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteOrgRequest.ProtoReflect.Descriptor instead.
 func (*DeleteOrgRequest) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{12}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *DeleteOrgRequest) GetId() string {
@@ -720,7 +796,7 @@ type DeleteOrgResponse struct {
 
 func (x *DeleteOrgResponse) Reset() {
 	*x = DeleteOrgResponse{}
-	mi := &file_org_v1_org_proto_msgTypes[13]
+	mi := &file_org_v1_org_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -732,7 +808,7 @@ func (x *DeleteOrgResponse) String() string {
 func (*DeleteOrgResponse) ProtoMessage() {}
 
 func (x *DeleteOrgResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[13]
+	mi := &file_org_v1_org_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -745,7 +821,7 @@ func (x *DeleteOrgResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteOrgResponse.ProtoReflect.Descriptor instead.
 func (*DeleteOrgResponse) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{13}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *DeleteOrgResponse) GetId() string {
@@ -764,7 +840,7 @@ type AddAdminToOrgRequest struct {
 
 func (x *AddAdminToOrgRequest) Reset() {
 	*x = AddAdminToOrgRequest{}
-	mi := &file_org_v1_org_proto_msgTypes[14]
+	mi := &file_org_v1_org_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -776,7 +852,7 @@ func (x *AddAdminToOrgRequest) String() string {
 func (*AddAdminToOrgRequest) ProtoMessage() {}
 
 func (x *AddAdminToOrgRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[14]
+	mi := &file_org_v1_org_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -789,7 +865,7 @@ func (x *AddAdminToOrgRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddAdminToOrgRequest.ProtoReflect.Descriptor instead.
 func (*AddAdminToOrgRequest) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{14}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *AddAdminToOrgRequest) GetUserId() string {
@@ -807,7 +883,7 @@ type AddAdminToOrgResponse struct {
 
 func (x *AddAdminToOrgResponse) Reset() {
 	*x = AddAdminToOrgResponse{}
-	mi := &file_org_v1_org_proto_msgTypes[15]
+	mi := &file_org_v1_org_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -819,7 +895,7 @@ func (x *AddAdminToOrgResponse) String() string {
 func (*AddAdminToOrgResponse) ProtoMessage() {}
 
 func (x *AddAdminToOrgResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[15]
+	mi := &file_org_v1_org_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -832,7 +908,7 @@ func (x *AddAdminToOrgResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddAdminToOrgResponse.ProtoReflect.Descriptor instead.
 func (*AddAdminToOrgResponse) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{15}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{16}
 }
 
 type RemoveAdminFromOrgRequest struct {
@@ -844,7 +920,7 @@ type RemoveAdminFromOrgRequest struct {
 
 func (x *RemoveAdminFromOrgRequest) Reset() {
 	*x = RemoveAdminFromOrgRequest{}
-	mi := &file_org_v1_org_proto_msgTypes[16]
+	mi := &file_org_v1_org_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -856,7 +932,7 @@ func (x *RemoveAdminFromOrgRequest) String() string {
 func (*RemoveAdminFromOrgRequest) ProtoMessage() {}
 
 func (x *RemoveAdminFromOrgRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[16]
+	mi := &file_org_v1_org_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -869,7 +945,7 @@ func (x *RemoveAdminFromOrgRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RemoveAdminFromOrgRequest.ProtoReflect.Descriptor instead.
 func (*RemoveAdminFromOrgRequest) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{16}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *RemoveAdminFromOrgRequest) GetUserId() string {
@@ -887,7 +963,7 @@ type RemoveAdminFromOrgResponse struct {
 
 func (x *RemoveAdminFromOrgResponse) Reset() {
 	*x = RemoveAdminFromOrgResponse{}
-	mi := &file_org_v1_org_proto_msgTypes[17]
+	mi := &file_org_v1_org_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -899,7 +975,7 @@ func (x *RemoveAdminFromOrgResponse) String() string {
 func (*RemoveAdminFromOrgResponse) ProtoMessage() {}
 
 func (x *RemoveAdminFromOrgResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[17]
+	mi := &file_org_v1_org_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -912,7 +988,7 @@ func (x *RemoveAdminFromOrgResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RemoveAdminFromOrgResponse.ProtoReflect.Descriptor instead.
 func (*RemoveAdminFromOrgResponse) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{17}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{18}
 }
 
 type InviteEmailToOrgRequest struct {
@@ -925,7 +1001,7 @@ type InviteEmailToOrgRequest struct {
 
 func (x *InviteEmailToOrgRequest) Reset() {
 	*x = InviteEmailToOrgRequest{}
-	mi := &file_org_v1_org_proto_msgTypes[18]
+	mi := &file_org_v1_org_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -937,7 +1013,7 @@ func (x *InviteEmailToOrgRequest) String() string {
 func (*InviteEmailToOrgRequest) ProtoMessage() {}
 
 func (x *InviteEmailToOrgRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[18]
+	mi := &file_org_v1_org_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -950,7 +1026,7 @@ func (x *InviteEmailToOrgRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InviteEmailToOrgRequest.ProtoReflect.Descriptor instead.
 func (*InviteEmailToOrgRequest) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{18}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *InviteEmailToOrgRequest) GetEmail() string {
@@ -975,7 +1051,7 @@ type InviteEmailToOrgResponse struct {
 
 func (x *InviteEmailToOrgResponse) Reset() {
 	*x = InviteEmailToOrgResponse{}
-	mi := &file_org_v1_org_proto_msgTypes[19]
+	mi := &file_org_v1_org_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -987,7 +1063,7 @@ func (x *InviteEmailToOrgResponse) String() string {
 func (*InviteEmailToOrgResponse) ProtoMessage() {}
 
 func (x *InviteEmailToOrgResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[19]
+	mi := &file_org_v1_org_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1000,7 +1076,7 @@ func (x *InviteEmailToOrgResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InviteEmailToOrgResponse.ProtoReflect.Descriptor instead.
 func (*InviteEmailToOrgResponse) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{19}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{20}
 }
 
 type AcceptEmailInviteRequest struct {
@@ -1014,7 +1090,7 @@ type AcceptEmailInviteRequest struct {
 
 func (x *AcceptEmailInviteRequest) Reset() {
 	*x = AcceptEmailInviteRequest{}
-	mi := &file_org_v1_org_proto_msgTypes[20]
+	mi := &file_org_v1_org_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1026,7 +1102,7 @@ func (x *AcceptEmailInviteRequest) String() string {
 func (*AcceptEmailInviteRequest) ProtoMessage() {}
 
 func (x *AcceptEmailInviteRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[20]
+	mi := &file_org_v1_org_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1039,7 +1115,7 @@ func (x *AcceptEmailInviteRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AcceptEmailInviteRequest.ProtoReflect.Descriptor instead.
 func (*AcceptEmailInviteRequest) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{20}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *AcceptEmailInviteRequest) GetToken() string {
@@ -1071,7 +1147,7 @@ type AcceptEmailInviteResponse struct {
 
 func (x *AcceptEmailInviteResponse) Reset() {
 	*x = AcceptEmailInviteResponse{}
-	mi := &file_org_v1_org_proto_msgTypes[21]
+	mi := &file_org_v1_org_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1083,7 +1159,7 @@ func (x *AcceptEmailInviteResponse) String() string {
 func (*AcceptEmailInviteResponse) ProtoMessage() {}
 
 func (x *AcceptEmailInviteResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[21]
+	mi := &file_org_v1_org_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1096,7 +1172,7 @@ func (x *AcceptEmailInviteResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AcceptEmailInviteResponse.ProtoReflect.Descriptor instead.
 func (*AcceptEmailInviteResponse) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{21}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{22}
 }
 
 type CreateServiceTypeRequest struct {
@@ -1109,7 +1185,7 @@ type CreateServiceTypeRequest struct {
 
 func (x *CreateServiceTypeRequest) Reset() {
 	*x = CreateServiceTypeRequest{}
-	mi := &file_org_v1_org_proto_msgTypes[22]
+	mi := &file_org_v1_org_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1121,7 +1197,7 @@ func (x *CreateServiceTypeRequest) String() string {
 func (*CreateServiceTypeRequest) ProtoMessage() {}
 
 func (x *CreateServiceTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[22]
+	mi := &file_org_v1_org_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1134,7 +1210,7 @@ func (x *CreateServiceTypeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateServiceTypeRequest.ProtoReflect.Descriptor instead.
 func (*CreateServiceTypeRequest) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{22}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *CreateServiceTypeRequest) GetName() string {
@@ -1159,7 +1235,7 @@ type CreateServiceTypeResponse struct {
 
 func (x *CreateServiceTypeResponse) Reset() {
 	*x = CreateServiceTypeResponse{}
-	mi := &file_org_v1_org_proto_msgTypes[23]
+	mi := &file_org_v1_org_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1171,7 +1247,7 @@ func (x *CreateServiceTypeResponse) String() string {
 func (*CreateServiceTypeResponse) ProtoMessage() {}
 
 func (x *CreateServiceTypeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[23]
+	mi := &file_org_v1_org_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1184,7 +1260,7 @@ func (x *CreateServiceTypeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateServiceTypeResponse.ProtoReflect.Descriptor instead.
 func (*CreateServiceTypeResponse) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{23}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{24}
 }
 
 type UpdateServiceTypeStatusRequest struct {
@@ -1198,7 +1274,7 @@ type UpdateServiceTypeStatusRequest struct {
 
 func (x *UpdateServiceTypeStatusRequest) Reset() {
 	*x = UpdateServiceTypeStatusRequest{}
-	mi := &file_org_v1_org_proto_msgTypes[24]
+	mi := &file_org_v1_org_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1210,7 +1286,7 @@ func (x *UpdateServiceTypeStatusRequest) String() string {
 func (*UpdateServiceTypeStatusRequest) ProtoMessage() {}
 
 func (x *UpdateServiceTypeStatusRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[24]
+	mi := &file_org_v1_org_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1223,7 +1299,7 @@ func (x *UpdateServiceTypeStatusRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateServiceTypeStatusRequest.ProtoReflect.Descriptor instead.
 func (*UpdateServiceTypeStatusRequest) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{24}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *UpdateServiceTypeStatusRequest) GetOrgId() string {
@@ -1256,7 +1332,7 @@ type UpdateServiceTypeStatusResponse struct {
 
 func (x *UpdateServiceTypeStatusResponse) Reset() {
 	*x = UpdateServiceTypeStatusResponse{}
-	mi := &file_org_v1_org_proto_msgTypes[25]
+	mi := &file_org_v1_org_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1268,7 +1344,7 @@ func (x *UpdateServiceTypeStatusResponse) String() string {
 func (*UpdateServiceTypeStatusResponse) ProtoMessage() {}
 
 func (x *UpdateServiceTypeStatusResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[25]
+	mi := &file_org_v1_org_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1281,7 +1357,7 @@ func (x *UpdateServiceTypeStatusResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateServiceTypeStatusResponse.ProtoReflect.Descriptor instead.
 func (*UpdateServiceTypeStatusResponse) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{25}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *UpdateServiceTypeStatusResponse) GetStatus() bool {
@@ -1301,7 +1377,7 @@ type DeleteServiceTypeRequest struct {
 
 func (x *DeleteServiceTypeRequest) Reset() {
 	*x = DeleteServiceTypeRequest{}
-	mi := &file_org_v1_org_proto_msgTypes[26]
+	mi := &file_org_v1_org_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1313,7 +1389,7 @@ func (x *DeleteServiceTypeRequest) String() string {
 func (*DeleteServiceTypeRequest) ProtoMessage() {}
 
 func (x *DeleteServiceTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[26]
+	mi := &file_org_v1_org_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1326,7 +1402,7 @@ func (x *DeleteServiceTypeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteServiceTypeRequest.ProtoReflect.Descriptor instead.
 func (*DeleteServiceTypeRequest) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{26}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *DeleteServiceTypeRequest) GetOrgId() string {
@@ -1351,7 +1427,7 @@ type DeleteServiceTypeResponse struct {
 
 func (x *DeleteServiceTypeResponse) Reset() {
 	*x = DeleteServiceTypeResponse{}
-	mi := &file_org_v1_org_proto_msgTypes[27]
+	mi := &file_org_v1_org_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1363,7 +1439,7 @@ func (x *DeleteServiceTypeResponse) String() string {
 func (*DeleteServiceTypeResponse) ProtoMessage() {}
 
 func (x *DeleteServiceTypeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_v1_org_proto_msgTypes[27]
+	mi := &file_org_v1_org_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1376,14 +1452,122 @@ func (x *DeleteServiceTypeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteServiceTypeResponse.ProtoReflect.Descriptor instead.
 func (*DeleteServiceTypeResponse) Descriptor() ([]byte, []int) {
-	return file_org_v1_org_proto_rawDescGZIP(), []int{27}
+	return file_org_v1_org_proto_rawDescGZIP(), []int{28}
+}
+
+type SetOrgPaymentRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Iban          string                 `protobuf:"bytes,1,opt,name=iban,proto3" json:"iban,omitempty"`
+	Bic           string                 `protobuf:"bytes,2,opt,name=bic,proto3" json:"bic,omitempty"`
+	BankName      string                 `protobuf:"bytes,3,opt,name=bank_name,json=bankName,proto3" json:"bank_name,omitempty"`
+	OrgId         string                 `protobuf:"bytes,4,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SetOrgPaymentRequest) Reset() {
+	*x = SetOrgPaymentRequest{}
+	mi := &file_org_v1_org_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetOrgPaymentRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetOrgPaymentRequest) ProtoMessage() {}
+
+func (x *SetOrgPaymentRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_org_v1_org_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetOrgPaymentRequest.ProtoReflect.Descriptor instead.
+func (*SetOrgPaymentRequest) Descriptor() ([]byte, []int) {
+	return file_org_v1_org_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *SetOrgPaymentRequest) GetIban() string {
+	if x != nil {
+		return x.Iban
+	}
+	return ""
+}
+
+func (x *SetOrgPaymentRequest) GetBic() string {
+	if x != nil {
+		return x.Bic
+	}
+	return ""
+}
+
+func (x *SetOrgPaymentRequest) GetBankName() string {
+	if x != nil {
+		return x.BankName
+	}
+	return ""
+}
+
+func (x *SetOrgPaymentRequest) GetOrgId() string {
+	if x != nil {
+		return x.OrgId
+	}
+	return ""
+}
+
+type SetOrgPaymentResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SetOrgPaymentResponse) Reset() {
+	*x = SetOrgPaymentResponse{}
+	mi := &file_org_v1_org_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetOrgPaymentResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetOrgPaymentResponse) ProtoMessage() {}
+
+func (x *SetOrgPaymentResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_org_v1_org_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetOrgPaymentResponse.ProtoReflect.Descriptor instead.
+func (*SetOrgPaymentResponse) Descriptor() ([]byte, []int) {
+	return file_org_v1_org_proto_rawDescGZIP(), []int{30}
 }
 
 var File_org_v1_org_proto protoreflect.FileDescriptor
 
 const file_org_v1_org_proto_rawDesc = "" +
 	"\n" +
-	"\x10org/v1/org.proto\x12\x06org.v1\"Z\n" +
+	"\x10org/v1/org.proto\x12\x06org.v1\"L\n" +
+	"\aPayment\x12\x12\n" +
+	"\x04iban\x18\x01 \x01(\tR\x04iban\x12\x10\n" +
+	"\x03bic\x18\x02 \x01(\tR\x03bic\x12\x1b\n" +
+	"\tbank_name\x18\x03 \x01(\tR\bbankName\"Z\n" +
 	"\tUpdateOrg\x129\n" +
 	"\rmail_provider\x18\x01 \x01(\x0e2\x14.org.v1.MailProviderR\fmailProvider\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\"Z\n" +
@@ -1393,7 +1577,7 @@ const file_org_v1_org_proto_rawDesc = "" +
 	"\vServiceType\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
-	"\x06status\x18\x03 \x01(\bR\x06status\"\xf4\x01\n" +
+	"\x06status\x18\x03 \x01(\bR\x06status\"\xc2\x02\n" +
 	"\x03Org\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x129\n" +
 	"\rmail_provider\x18\x02 \x01(\x0e2\x14.org.v1.MailProviderR\fmailProvider\x12\x1d\n" +
@@ -1403,7 +1587,10 @@ const file_org_v1_org_proto_rawDesc = "" +
 	"updated_at\x18\x04 \x01(\x03R\tupdatedAt\x12\x12\n" +
 	"\x04name\x18\x05 \x01(\tR\x04name\x12\x16\n" +
 	"\x06admins\x18\a \x03(\tR\x06admins\x128\n" +
-	"\rservice_types\x18\b \x03(\v2\x13.org.v1.ServiceTypeR\fserviceTypes\"\x0f\n" +
+	"\rservice_types\x18\b \x03(\v2\x13.org.v1.ServiceTypeR\fserviceTypes\x12)\n" +
+	"\apayment\x18\t \x01(\v2\x0f.org.v1.PaymentR\apayment\x12!\n" +
+	"\flegal_notice\x18\n" +
+	" \x01(\tR\vlegalNotice\"\x0f\n" +
 	"\rGetOrgRequest\"/\n" +
 	"\x0eGetOrgResponse\x12\x1d\n" +
 	"\x03org\x18\x01 \x01(\v2\v.org.v1.OrgR\x03org\"#\n" +
@@ -1451,16 +1638,23 @@ const file_org_v1_org_proto_rawDesc = "" +
 	"\x18DeleteServiceTypeRequest\x12\x15\n" +
 	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12&\n" +
 	"\x0fservice_type_id\x18\x02 \x01(\tR\rserviceTypeId\"\x1b\n" +
-	"\x19DeleteServiceTypeResponse*F\n" +
+	"\x19DeleteServiceTypeResponse\"p\n" +
+	"\x14SetOrgPaymentRequest\x12\x12\n" +
+	"\x04iban\x18\x01 \x01(\tR\x04iban\x12\x10\n" +
+	"\x03bic\x18\x02 \x01(\tR\x03bic\x12\x1b\n" +
+	"\tbank_name\x18\x03 \x01(\tR\bbankName\x12\x15\n" +
+	"\x06org_id\x18\x04 \x01(\tR\x05orgId\"\x17\n" +
+	"\x15SetOrgPaymentResponse*F\n" +
 	"\fMailProvider\x12\x1d\n" +
 	"\x19MAIL_PROVIDER_UNSPECIFIED\x10\x00\x12\x17\n" +
-	"\x13MAIL_PROVIDER_GMAIL\x10\x012\xcc\a\n" +
+	"\x13MAIL_PROVIDER_GMAIL\x10\x012\x9a\b\n" +
 	"\n" +
 	"OrgService\x127\n" +
 	"\x06GetOrg\x12\x15.org.v1.GetOrgRequest\x1a\x16.org.v1.GetOrgResponse\x12C\n" +
 	"\n" +
 	"GetOrgById\x12\x19.org.v1.GetOrgByIdRequest\x1a\x1a.org.v1.GetOrgByIdResponse\x12@\n" +
-	"\tUpdateOrg\x12\x18.org.v1.UpdateOrgRequest\x1a\x19.org.v1.UpdateOrgResponse\x12@\n" +
+	"\tUpdateOrg\x12\x18.org.v1.UpdateOrgRequest\x1a\x19.org.v1.UpdateOrgResponse\x12L\n" +
+	"\rSetOrgPayment\x12\x1c.org.v1.SetOrgPaymentRequest\x1a\x1d.org.v1.SetOrgPaymentResponse\x12@\n" +
 	"\tCreateOrg\x12\x18.org.v1.CreateOrgRequest\x1a\x19.org.v1.CreateOrgResponse\x12@\n" +
 	"\tDeleteOrg\x12\x18.org.v1.DeleteOrgRequest\x1a\x19.org.v1.DeleteOrgResponse\x12L\n" +
 	"\rAddAdminToOrg\x12\x1c.org.v1.AddAdminToOrgRequest\x1a\x1d.org.v1.AddAdminToOrgResponse\x12[\n" +
@@ -1484,77 +1678,83 @@ func file_org_v1_org_proto_rawDescGZIP() []byte {
 }
 
 var file_org_v1_org_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_org_v1_org_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
+var file_org_v1_org_proto_msgTypes = make([]protoimpl.MessageInfo, 31)
 var file_org_v1_org_proto_goTypes = []any{
 	(MailProvider)(0),                       // 0: org.v1.MailProvider
-	(*UpdateOrg)(nil),                       // 1: org.v1.UpdateOrg
-	(*CreateOrg)(nil),                       // 2: org.v1.CreateOrg
-	(*ServiceType)(nil),                     // 3: org.v1.ServiceType
-	(*Org)(nil),                             // 4: org.v1.Org
-	(*GetOrgRequest)(nil),                   // 5: org.v1.GetOrgRequest
-	(*GetOrgResponse)(nil),                  // 6: org.v1.GetOrgResponse
-	(*GetOrgByIdRequest)(nil),               // 7: org.v1.GetOrgByIdRequest
-	(*GetOrgByIdResponse)(nil),              // 8: org.v1.GetOrgByIdResponse
-	(*UpdateOrgRequest)(nil),                // 9: org.v1.UpdateOrgRequest
-	(*UpdateOrgResponse)(nil),               // 10: org.v1.UpdateOrgResponse
-	(*CreateOrgRequest)(nil),                // 11: org.v1.CreateOrgRequest
-	(*CreateOrgResponse)(nil),               // 12: org.v1.CreateOrgResponse
-	(*DeleteOrgRequest)(nil),                // 13: org.v1.DeleteOrgRequest
-	(*DeleteOrgResponse)(nil),               // 14: org.v1.DeleteOrgResponse
-	(*AddAdminToOrgRequest)(nil),            // 15: org.v1.AddAdminToOrgRequest
-	(*AddAdminToOrgResponse)(nil),           // 16: org.v1.AddAdminToOrgResponse
-	(*RemoveAdminFromOrgRequest)(nil),       // 17: org.v1.RemoveAdminFromOrgRequest
-	(*RemoveAdminFromOrgResponse)(nil),      // 18: org.v1.RemoveAdminFromOrgResponse
-	(*InviteEmailToOrgRequest)(nil),         // 19: org.v1.InviteEmailToOrgRequest
-	(*InviteEmailToOrgResponse)(nil),        // 20: org.v1.InviteEmailToOrgResponse
-	(*AcceptEmailInviteRequest)(nil),        // 21: org.v1.AcceptEmailInviteRequest
-	(*AcceptEmailInviteResponse)(nil),       // 22: org.v1.AcceptEmailInviteResponse
-	(*CreateServiceTypeRequest)(nil),        // 23: org.v1.CreateServiceTypeRequest
-	(*CreateServiceTypeResponse)(nil),       // 24: org.v1.CreateServiceTypeResponse
-	(*UpdateServiceTypeStatusRequest)(nil),  // 25: org.v1.UpdateServiceTypeStatusRequest
-	(*UpdateServiceTypeStatusResponse)(nil), // 26: org.v1.UpdateServiceTypeStatusResponse
-	(*DeleteServiceTypeRequest)(nil),        // 27: org.v1.DeleteServiceTypeRequest
-	(*DeleteServiceTypeResponse)(nil),       // 28: org.v1.DeleteServiceTypeResponse
+	(*Payment)(nil),                         // 1: org.v1.Payment
+	(*UpdateOrg)(nil),                       // 2: org.v1.UpdateOrg
+	(*CreateOrg)(nil),                       // 3: org.v1.CreateOrg
+	(*ServiceType)(nil),                     // 4: org.v1.ServiceType
+	(*Org)(nil),                             // 5: org.v1.Org
+	(*GetOrgRequest)(nil),                   // 6: org.v1.GetOrgRequest
+	(*GetOrgResponse)(nil),                  // 7: org.v1.GetOrgResponse
+	(*GetOrgByIdRequest)(nil),               // 8: org.v1.GetOrgByIdRequest
+	(*GetOrgByIdResponse)(nil),              // 9: org.v1.GetOrgByIdResponse
+	(*UpdateOrgRequest)(nil),                // 10: org.v1.UpdateOrgRequest
+	(*UpdateOrgResponse)(nil),               // 11: org.v1.UpdateOrgResponse
+	(*CreateOrgRequest)(nil),                // 12: org.v1.CreateOrgRequest
+	(*CreateOrgResponse)(nil),               // 13: org.v1.CreateOrgResponse
+	(*DeleteOrgRequest)(nil),                // 14: org.v1.DeleteOrgRequest
+	(*DeleteOrgResponse)(nil),               // 15: org.v1.DeleteOrgResponse
+	(*AddAdminToOrgRequest)(nil),            // 16: org.v1.AddAdminToOrgRequest
+	(*AddAdminToOrgResponse)(nil),           // 17: org.v1.AddAdminToOrgResponse
+	(*RemoveAdminFromOrgRequest)(nil),       // 18: org.v1.RemoveAdminFromOrgRequest
+	(*RemoveAdminFromOrgResponse)(nil),      // 19: org.v1.RemoveAdminFromOrgResponse
+	(*InviteEmailToOrgRequest)(nil),         // 20: org.v1.InviteEmailToOrgRequest
+	(*InviteEmailToOrgResponse)(nil),        // 21: org.v1.InviteEmailToOrgResponse
+	(*AcceptEmailInviteRequest)(nil),        // 22: org.v1.AcceptEmailInviteRequest
+	(*AcceptEmailInviteResponse)(nil),       // 23: org.v1.AcceptEmailInviteResponse
+	(*CreateServiceTypeRequest)(nil),        // 24: org.v1.CreateServiceTypeRequest
+	(*CreateServiceTypeResponse)(nil),       // 25: org.v1.CreateServiceTypeResponse
+	(*UpdateServiceTypeStatusRequest)(nil),  // 26: org.v1.UpdateServiceTypeStatusRequest
+	(*UpdateServiceTypeStatusResponse)(nil), // 27: org.v1.UpdateServiceTypeStatusResponse
+	(*DeleteServiceTypeRequest)(nil),        // 28: org.v1.DeleteServiceTypeRequest
+	(*DeleteServiceTypeResponse)(nil),       // 29: org.v1.DeleteServiceTypeResponse
+	(*SetOrgPaymentRequest)(nil),            // 30: org.v1.SetOrgPaymentRequest
+	(*SetOrgPaymentResponse)(nil),           // 31: org.v1.SetOrgPaymentResponse
 }
 var file_org_v1_org_proto_depIdxs = []int32{
 	0,  // 0: org.v1.UpdateOrg.mail_provider:type_name -> org.v1.MailProvider
 	0,  // 1: org.v1.CreateOrg.mail_provider:type_name -> org.v1.MailProvider
 	0,  // 2: org.v1.Org.mail_provider:type_name -> org.v1.MailProvider
-	3,  // 3: org.v1.Org.service_types:type_name -> org.v1.ServiceType
-	4,  // 4: org.v1.GetOrgResponse.org:type_name -> org.v1.Org
-	4,  // 5: org.v1.GetOrgByIdResponse.org:type_name -> org.v1.Org
-	1,  // 6: org.v1.UpdateOrgRequest.org:type_name -> org.v1.UpdateOrg
-	2,  // 7: org.v1.CreateOrgRequest.org:type_name -> org.v1.CreateOrg
-	4,  // 8: org.v1.CreateOrgResponse.org:type_name -> org.v1.Org
-	5,  // 9: org.v1.OrgService.GetOrg:input_type -> org.v1.GetOrgRequest
-	7,  // 10: org.v1.OrgService.GetOrgById:input_type -> org.v1.GetOrgByIdRequest
-	9,  // 11: org.v1.OrgService.UpdateOrg:input_type -> org.v1.UpdateOrgRequest
-	11, // 12: org.v1.OrgService.CreateOrg:input_type -> org.v1.CreateOrgRequest
-	13, // 13: org.v1.OrgService.DeleteOrg:input_type -> org.v1.DeleteOrgRequest
-	15, // 14: org.v1.OrgService.AddAdminToOrg:input_type -> org.v1.AddAdminToOrgRequest
-	17, // 15: org.v1.OrgService.RemoveAdminFromOrg:input_type -> org.v1.RemoveAdminFromOrgRequest
-	19, // 16: org.v1.OrgService.InviteEmailToOrg:input_type -> org.v1.InviteEmailToOrgRequest
-	21, // 17: org.v1.OrgService.AcceptEmailInvite:input_type -> org.v1.AcceptEmailInviteRequest
-	23, // 18: org.v1.OrgService.CreateServiceType:input_type -> org.v1.CreateServiceTypeRequest
-	25, // 19: org.v1.OrgService.UpdateServiceTypeStatus:input_type -> org.v1.UpdateServiceTypeStatusRequest
-	27, // 20: org.v1.OrgService.DeleteServiceType:input_type -> org.v1.DeleteServiceTypeRequest
-	6,  // 21: org.v1.OrgService.GetOrg:output_type -> org.v1.GetOrgResponse
-	8,  // 22: org.v1.OrgService.GetOrgById:output_type -> org.v1.GetOrgByIdResponse
-	10, // 23: org.v1.OrgService.UpdateOrg:output_type -> org.v1.UpdateOrgResponse
-	12, // 24: org.v1.OrgService.CreateOrg:output_type -> org.v1.CreateOrgResponse
-	14, // 25: org.v1.OrgService.DeleteOrg:output_type -> org.v1.DeleteOrgResponse
-	16, // 26: org.v1.OrgService.AddAdminToOrg:output_type -> org.v1.AddAdminToOrgResponse
-	18, // 27: org.v1.OrgService.RemoveAdminFromOrg:output_type -> org.v1.RemoveAdminFromOrgResponse
-	20, // 28: org.v1.OrgService.InviteEmailToOrg:output_type -> org.v1.InviteEmailToOrgResponse
-	22, // 29: org.v1.OrgService.AcceptEmailInvite:output_type -> org.v1.AcceptEmailInviteResponse
-	24, // 30: org.v1.OrgService.CreateServiceType:output_type -> org.v1.CreateServiceTypeResponse
-	26, // 31: org.v1.OrgService.UpdateServiceTypeStatus:output_type -> org.v1.UpdateServiceTypeStatusResponse
-	28, // 32: org.v1.OrgService.DeleteServiceType:output_type -> org.v1.DeleteServiceTypeResponse
-	21, // [21:33] is the sub-list for method output_type
-	9,  // [9:21] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	4,  // 3: org.v1.Org.service_types:type_name -> org.v1.ServiceType
+	1,  // 4: org.v1.Org.payment:type_name -> org.v1.Payment
+	5,  // 5: org.v1.GetOrgResponse.org:type_name -> org.v1.Org
+	5,  // 6: org.v1.GetOrgByIdResponse.org:type_name -> org.v1.Org
+	2,  // 7: org.v1.UpdateOrgRequest.org:type_name -> org.v1.UpdateOrg
+	3,  // 8: org.v1.CreateOrgRequest.org:type_name -> org.v1.CreateOrg
+	5,  // 9: org.v1.CreateOrgResponse.org:type_name -> org.v1.Org
+	6,  // 10: org.v1.OrgService.GetOrg:input_type -> org.v1.GetOrgRequest
+	8,  // 11: org.v1.OrgService.GetOrgById:input_type -> org.v1.GetOrgByIdRequest
+	10, // 12: org.v1.OrgService.UpdateOrg:input_type -> org.v1.UpdateOrgRequest
+	30, // 13: org.v1.OrgService.SetOrgPayment:input_type -> org.v1.SetOrgPaymentRequest
+	12, // 14: org.v1.OrgService.CreateOrg:input_type -> org.v1.CreateOrgRequest
+	14, // 15: org.v1.OrgService.DeleteOrg:input_type -> org.v1.DeleteOrgRequest
+	16, // 16: org.v1.OrgService.AddAdminToOrg:input_type -> org.v1.AddAdminToOrgRequest
+	18, // 17: org.v1.OrgService.RemoveAdminFromOrg:input_type -> org.v1.RemoveAdminFromOrgRequest
+	20, // 18: org.v1.OrgService.InviteEmailToOrg:input_type -> org.v1.InviteEmailToOrgRequest
+	22, // 19: org.v1.OrgService.AcceptEmailInvite:input_type -> org.v1.AcceptEmailInviteRequest
+	24, // 20: org.v1.OrgService.CreateServiceType:input_type -> org.v1.CreateServiceTypeRequest
+	26, // 21: org.v1.OrgService.UpdateServiceTypeStatus:input_type -> org.v1.UpdateServiceTypeStatusRequest
+	28, // 22: org.v1.OrgService.DeleteServiceType:input_type -> org.v1.DeleteServiceTypeRequest
+	7,  // 23: org.v1.OrgService.GetOrg:output_type -> org.v1.GetOrgResponse
+	9,  // 24: org.v1.OrgService.GetOrgById:output_type -> org.v1.GetOrgByIdResponse
+	11, // 25: org.v1.OrgService.UpdateOrg:output_type -> org.v1.UpdateOrgResponse
+	31, // 26: org.v1.OrgService.SetOrgPayment:output_type -> org.v1.SetOrgPaymentResponse
+	13, // 27: org.v1.OrgService.CreateOrg:output_type -> org.v1.CreateOrgResponse
+	15, // 28: org.v1.OrgService.DeleteOrg:output_type -> org.v1.DeleteOrgResponse
+	17, // 29: org.v1.OrgService.AddAdminToOrg:output_type -> org.v1.AddAdminToOrgResponse
+	19, // 30: org.v1.OrgService.RemoveAdminFromOrg:output_type -> org.v1.RemoveAdminFromOrgResponse
+	21, // 31: org.v1.OrgService.InviteEmailToOrg:output_type -> org.v1.InviteEmailToOrgResponse
+	23, // 32: org.v1.OrgService.AcceptEmailInvite:output_type -> org.v1.AcceptEmailInviteResponse
+	25, // 33: org.v1.OrgService.CreateServiceType:output_type -> org.v1.CreateServiceTypeResponse
+	27, // 34: org.v1.OrgService.UpdateServiceTypeStatus:output_type -> org.v1.UpdateServiceTypeStatusResponse
+	29, // 35: org.v1.OrgService.DeleteServiceType:output_type -> org.v1.DeleteServiceTypeResponse
+	23, // [23:36] is the sub-list for method output_type
+	10, // [10:23] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_org_v1_org_proto_init() }
@@ -1568,7 +1768,7 @@ func file_org_v1_org_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_org_v1_org_proto_rawDesc), len(file_org_v1_org_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   28,
+			NumMessages:   31,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

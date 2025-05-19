@@ -8,6 +8,7 @@ service OrgService {
   rpc GetOrg (GetOrgRequest) returns (GetOrgResponse);
   rpc GetOrgById (GetOrgByIdRequest) returns (GetOrgByIdResponse);
   rpc UpdateOrg (UpdateOrgRequest) returns (UpdateOrgResponse);
+  rpc SetOrgPayment (SetOrgPaymentRequest) returns (SetOrgPaymentResponse);
   rpc CreateOrg (CreateOrgRequest) returns (CreateOrgResponse);
   rpc DeleteOrg (DeleteOrgRequest) returns (DeleteOrgResponse);
   rpc AddAdminToOrg (AddAdminToOrgRequest) returns (AddAdminToOrgResponse);
@@ -17,6 +18,12 @@ service OrgService {
   rpc CreateServiceType (CreateServiceTypeRequest) returns (CreateServiceTypeResponse);
   rpc UpdateServiceTypeStatus (UpdateServiceTypeStatusRequest) returns (UpdateServiceTypeStatusResponse);
   rpc DeleteServiceType (DeleteServiceTypeRequest) returns (DeleteServiceTypeResponse);
+}
+
+message Payment {
+  string iban = 1;
+  string bic = 2;
+  string bank_name = 3;
 }
 
 enum MailProvider {
@@ -48,6 +55,8 @@ message Org {
   string name = 5;
   repeated string admins = 7;
   repeated ServiceType service_types = 8;
+  Payment payment = 9;
+  string legal_notice = 10;
 }
 
 message GetOrgRequest { }
@@ -137,3 +146,12 @@ message DeleteServiceTypeRequest {
 }
 
 message DeleteServiceTypeResponse {}
+
+message SetOrgPaymentRequest {
+  string iban = 1;
+  string bic = 2;
+  string bank_name = 3;
+  string org_id = 4;
+}
+
+message SetOrgPaymentResponse { }

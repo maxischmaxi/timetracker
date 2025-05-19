@@ -176,8 +176,8 @@ export function OrgServiceTypes() {
 
   return (
     <div>
-      <div className="flex flex-row justify-between items-center w-full mb-4">
-        <p>Leistungsarten</p>
+      <div className="mb-4 flex w-full flex-row items-center justify-between">
+        <p className="text-sm font-bold">Leistungsarten</p>
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
             <Button type="button" variant="outline">

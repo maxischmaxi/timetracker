@@ -7,6 +7,7 @@ import { AuthProvider } from "./auth-provider";
 import { User } from "@firebase/auth";
 import { SearchProvider } from "./search-provider";
 import { SettingsProvider } from "./settings-provider";
+import { ThemeProvider } from "./theme-provider";
 
 type Props = {
   children: ReactNode;
@@ -26,12 +27,19 @@ export const queryClient = new QueryClient({
 
 export function Providers({ children, initialUser }: Props) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider initialUser={initialUser}>
-        <SearchProvider>
-          <SettingsProvider>{children}</SettingsProvider>
-        </SearchProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider initialUser={initialUser}>
+          <SearchProvider>
+            <SettingsProvider>{children}</SettingsProvider>
+          </SearchProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }

@@ -26,6 +26,7 @@ import { createClient } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-web";
 import { Org, OrgService } from "@/org/v1/org_pb";
 import { AuthService, GetUserByFirebaseUidResponse } from "@/auth/v1/auth_pb";
+import { Offer, OffersService } from "@/offers/v1/offers_pb";
 
 const transport = createConnectTransport({
   baseUrl: process.env.NEXT_PUBLIC_API_GATEWAY as string,
@@ -44,6 +45,7 @@ const transport = createConnectTransport({
   },
 });
 
+const offersClient = createClient(OffersService, transport);
 const authClient = createClient(AuthService, transport);
 const orgsClient = createClient(OrgService, transport);
 const customerClient = createClient(CustomerService, transport);
@@ -215,4 +217,12 @@ export async function getProjectsByOrg(orgId: string) {
       orgId,
     })
     .then((res) => res.projects as unknown as Plain<Project>[]);
+}
+
+export async function getOfferById(id: string) {
+  return await offersClient
+    .getOfferById({
+      id,
+    })
+    .then((res) => res.offer as unknown as Plain<Offer>);
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { z } from "zod";
 import Cookie from "js-cookie";
 import { createClient } from "@connectrpc/connect";
 import { format } from "date-fns";
@@ -35,6 +36,8 @@ import {
 import { InviteEmailToOrgResponse, OrgService } from "@/org/v1/org_pb";
 import { getToken } from "@/components/auth-provider";
 import { AuthService, GetUserByFirebaseUidResponse } from "@/auth/v1/auth_pb";
+import { Offer, OffersService } from "@/offers/v1/offers_pb";
+import { createOfferSchema, updateOfferSchema } from "./schemas";
 
 const transport = createConnectTransport({
   baseUrl: process.env.NEXT_PUBLIC_API_GATEWAY as string,
@@ -56,6 +59,7 @@ const transport = createConnectTransport({
   },
 });
 
+const offersClient = createClient(OffersService, transport);
 const customerClient = createClient(CustomerService, transport);
 const projectClient = createClient(ProjectService, transport);
 const userClient = createClient(UserService, transport);
@@ -334,4 +338,52 @@ export async function updateProjectType(projectId: string, value: boolean) {
     projectId,
     projectType: value ? ProjectType.BILLABLE : ProjectType.NON_BILLABLE,
   });
+}
+
+export async function setOrgPayment(
+  bankName: string,
+  iban: string,
+  bic: string,
+  orgId: string,
+) {
+  await orgsClient.setOrgPayment({
+    bankName,
+    iban,
+    bic,
+    orgId,
+  });
+}
+
+export async function createOffer(
+  data: z.infer<typeof createOfferSchema>,
+  orgId: string,
+) {
+  return await offersClient
+    .createOffer({
+      ...data,
+      orgId,
+    })
+    .then((res) => res.offer as unknown as Plain<Offer>);
+}
+
+export async function updateOffer(data: z.infer<typeof updateOfferSchema>) {
+  return await offersClient
+    .updateOffer(data)
+    .then((res) => res.offer as unknown as Plain<Offer>);
+}
+
+export async function getOffersByOrgId(orgId: string) {
+  return await offersClient
+    .getOffersByOrgId({
+      orgId,
+    })
+    .then((res) => res.offers as unknown as Plain<Offer>[]);
+}
+
+export async function createEmptyOffer(orgId: string) {
+  return await offersClient
+    .createEmptyOffer({
+      orgId,
+    })
+    .then((res) => res.offer as unknown as Plain<Offer>);
 }

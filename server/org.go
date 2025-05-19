@@ -19,6 +19,12 @@ type OrgServer struct {
 	DBName      string
 }
 
+type DbPayment struct {
+	Iban     string `bson:"iban"`
+	Bic      string `bson:"bic"`
+	BankName string `bson:"bank_name"`
+}
+
 type DbServiceType struct {
 	Id     bson.ObjectID `bson:"_id,omitempty"`
 	Name   string        `bson:"name,omitempty"`
@@ -34,6 +40,8 @@ type DbOrg struct {
 	CreatedAt    int64           `bson:"created_at,omitempty"`
 	UpdatedAt    int64           `bson:"updated_at,omitempty"`
 	ServiceTypes []DbServiceType `bson:"service_types,omitempty"`
+	LegalNotice  string          `bson:"legal_notice"`
+	Payment      DbPayment       `bson:"payment"`
 }
 
 type OrgInvite struct {
@@ -61,6 +69,12 @@ func (o *DbOrg) ToOrg() *orgv1.Org {
 		CreatedAt:    o.CreatedAt,
 		UpdatedAt:    o.UpdatedAt,
 		ServiceTypes: serviceTypes,
+		LegalNotice:  o.LegalNotice,
+		Payment: &orgv1.Payment{
+			Iban:     o.Payment.Iban,
+			Bic:      o.Payment.Bic,
+			BankName: o.Payment.BankName,
+		},
 	}
 }
 
@@ -340,4 +354,36 @@ func (s *OrgServer) DeleteServiceType(ctx context.Context, req *connect.Request[
 	}
 
 	return connect.NewResponse(&orgv1.DeleteServiceTypeResponse{}), nil
+}
+
+func (s *OrgServer) SetOrgPayment(ctx context.Context, req *connect.Request[orgv1.SetOrgPaymentRequest]) (*connect.Response[orgv1.SetOrgPaymentResponse], error) {
+	orgId, err := bson.ObjectIDFromHex(req.Msg.OrgId)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	filter := bson.M{"_id": orgId}
+
+	payment := DbPayment{
+		Iban:     req.Msg.Iban,
+		BankName: req.Msg.BankName,
+		Bic:      req.Msg.Bic,
+	}
+
+	update := bson.M{
+		"$set": bson.M{
+			"payment": payment,
+		},
+	}
+
+	res, err := ORGS.UpdateOne(ctx, filter, update)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	if res.ModifiedCount == 0 {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("no orgs updated"))
+	}
+
+	return connect.NewResponse(&orgv1.SetOrgPaymentResponse{}), nil
 }

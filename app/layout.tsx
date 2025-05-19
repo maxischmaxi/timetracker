@@ -34,7 +34,7 @@ export default async function RootLayout({ children }: Props) {
   const { currentUser } = await getAuthenticatedAppForUser();
 
   return (
-    <html lang={lng ?? "en"}>
+    <html lang={lng ?? "en"} suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning

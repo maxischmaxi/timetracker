@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package offers.v1;
+
+option go_package = "github.com/maxischmaxi/ljtime-api/offers/v1;offersv1";
+
+import "org/v1/org.proto";
+import "positions/v1/positions.proto";
+
+service OffersService {
+  rpc GetOffersByOrgId (GetOffersByOrgIdRequest) returns (GetOffersByOrgIdResponse);
+  rpc GetOfferById (GetOfferByIdRequest) returns (GetOfferByIdResponse);
+  rpc CreateEmptyOffer (CreateEmptyOfferRequest) returns (CreateEmptyOfferResponse);
+  rpc CreateOffer (CreateOfferRequest) returns (CreateOfferResponse);
+  rpc GetOffersByCustomerId (GetOffersByCustomerIdRequest) returns (GetOffersByCustomerIdResponse);
+  rpc GetOfferPdf (GetOfferPdfRequest) returns (GetOfferPdfResponse);
+  rpc UpdateOffer (UpdateOfferRequest) returns (UpdateOfferResponse);
+}
+
+message Offer {
+  string id = 1;
+  string offer_no = 2;
+  string note = 3;
+  string customer_id = 4;
+  repeated positions.v1.Position positions = 5;
+  optional string legal_notice = 6;
+  optional org.v1.Payment payment = 7;
+  positions.v1.Discount discount = 8;
+  string date_of_issue = 9;
+  string valid_until = 10;
+  int64 created_at = 11;
+  int64 updated_at = 12;
+  string org_id = 13;
+}
+
+message CreateOfferRequest {
+  string offer_no = 1;
+  string note = 2;
+  string customer_id = 3;
+  repeated positions.v1.CreatePosition positions = 5;
+  string legal_notice = 6;
+  optional org.v1.Payment payment = 7;
+  positions.v1.CreateDiscount discount = 8;
+  string date_of_issue = 9;
+  string valid_until = 10;
+  string org_id = 11;
+}
+
+message CreateOfferResponse {
+  Offer offer = 1;
+}
+
+message GetOffersByCustomerIdRequest {
+  string customer_id = 1;
+}
+
+message GetOffersByCustomerIdResponse {
+  repeated Offer offers = 1;
+}
+
+message GetOfferPdfRequest {
+  string offer_id = 1;
+}
+
+message GetOfferPdfResponse {
+  bytes pdf_data = 1;
+}
+
+message GetOffersByOrgIdRequest {
+  string org_id = 1;
+}
+
+message GetOffersByOrgIdResponse {
+  repeated Offer offers = 1;
+}
+
+message GetOfferByIdRequest {
+  string id = 1;
+}
+
+message GetOfferByIdResponse {
+  Offer offer = 1;
+}
+
+message CreateEmptyOfferRequest {
+  string org_id = 1;
+}
+
+message CreateEmptyOfferResponse {
+  Offer offer = 1;
+}
+
+message UpdateOfferRequest {
+  string id = 1;
+  string offer_no = 2;
+  string note = 3;
+  string customer_id = 4;
+  repeated positions.v1.Position positions = 5;
+  optional string legal_notice = 6;
+  optional org.v1.Payment payment = 7;
+  positions.v1.Discount discount = 8;
+  string date_of_issue = 9;
+  string valid_until = 10;
+}
+
+message UpdateOfferResponse {
+  Offer offer = 1;
+}

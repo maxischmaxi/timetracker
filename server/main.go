@@ -16,6 +16,8 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/maxischmaxi/ljtime-api/auth/v1/authv1connect"
 	"github.com/maxischmaxi/ljtime-api/customer/v1/customerv1connect"
+	"github.com/maxischmaxi/ljtime-api/invoices/v1/invoicesv1connect"
+	"github.com/maxischmaxi/ljtime-api/offers/v1/offersv1connect"
 	"github.com/maxischmaxi/ljtime-api/org/v1/orgv1connect"
 	"github.com/maxischmaxi/ljtime-api/project/v1/projectv1connect"
 	userv1 "github.com/maxischmaxi/ljtime-api/user/v1"
@@ -39,6 +41,8 @@ var (
 	PROJECTS          *mongo.Collection
 	CUSTOMERS         *mongo.Collection
 	ORG_INVITE_TOKENS *mongo.Collection
+	OFFERS            *mongo.Collection
+	INVOICES          *mongo.Collection
 )
 
 func main() {
@@ -83,6 +87,8 @@ func main() {
 	CUSTOMERS = db.Collection("customers")
 	PROJECTS = db.Collection("projects")
 	ORG_INVITE_TOKENS = db.Collection("org-invite-tokens")
+	OFFERS = db.Collection("offers")
+	INVOICES = db.Collection("invoices")
 
 	defer func() {
 		if err = mongoClient.Disconnect(ctx); err != nil {
@@ -109,6 +115,14 @@ func main() {
 	))
 	mux.Handle(orgv1connect.NewOrgServiceHandler(
 		&OrgServer{},
+		interceptors,
+	))
+	mux.Handle(invoicesv1connect.NewInvoicesServiceHandler(
+		&InvoicesServer{},
+		interceptors,
+	))
+	mux.Handle(offersv1connect.NewOffersServiceHandler(
+		&OffersServer{},
 		interceptors,
 	))
 

@@ -33,6 +33,7 @@ type Props<T extends FieldValues> = {
   label?: string;
   onNavigateCreateCustomer?: () => void;
   disabled?: boolean;
+  wrapperClassName?: string;
 };
 
 export function CustomerSelect<T extends FieldValues>(props: Props<T>) {
@@ -44,6 +45,7 @@ export function CustomerSelect<T extends FieldValues>(props: Props<T>) {
     className,
     disabled,
     popoverClassName,
+    wrapperClassName,
   } = props;
   const customers = useCustomers();
   const [open, setOpen] = useState(false);
@@ -53,7 +55,7 @@ export function CustomerSelect<T extends FieldValues>(props: Props<T>) {
       name={name}
       control={control}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={wrapperClassName}>
           {!!label && <FormLabel>{label}</FormLabel>}
           <FormControl>
             <Popover open={open} onOpenChange={setOpen}>
@@ -65,7 +67,7 @@ export function CustomerSelect<T extends FieldValues>(props: Props<T>) {
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
-                  className={cn("w-[300px] justify-between", className)}
+                  className={cn("justify-between", className)}
                 >
                   {(customers.isPending || customers.isLoading) && (
                     <Loader className="mr-2 h-4 w-4 animate-spin" />

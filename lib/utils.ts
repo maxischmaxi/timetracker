@@ -1,5 +1,7 @@
+import { Offer } from "@/offers/v1/offers_pb";
+import { Plain } from "@/types";
 import { clsx, type ClassValue } from "clsx";
-import { differenceInMinutes } from "date-fns";
+import { differenceInMinutes, getYear } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
 const GMAIL_BASE = "https://mail.google.com/mail";
@@ -67,9 +69,66 @@ export function getDifferenceBetweenTime(
   };
 }
 
-export function formatTime(time: number): string {
-  if (time < 10) {
-    return "0" + time;
+export function padWithZeros(
+  input: string | number,
+  minLength: number,
+): string {
+  let inputStr = input.toString();
+
+  while (inputStr.length < minLength) {
+    inputStr = "0" + inputStr;
   }
-  return time.toString();
+
+  return inputStr;
+}
+
+export function firstLetterUppercase(data: string): string {
+  return `${data.charAt(0).toUpperCase()}${data.slice(1, data.length).toLowerCase()}`;
+}
+
+export function formatCurrency(
+  amount: number,
+  currency: "EUR" | "USD",
+  locale: string = "de-DE",
+): string {
+  return new Intl.NumberFormat(locale, { style: "currency", currency }).format(
+    amount,
+  );
+}
+
+export function getNextOfferNumber(offers: Plain<Offer>[]) {
+  const currentYear = getYear(new Date());
+  const latestOfferNo: {
+    year: number;
+    no: number;
+  } = { year: 0, no: 0 };
+
+  for (let i = 0; i < offers.length; i++) {
+    const no = offers[i].offerNo;
+    const match = no.match(/(\d{4})-(\d+)/);
+
+    if (!match) continue;
+
+    const year = parseInt(match[1]);
+    const number = parseInt(match[2]);
+
+    if (isNaN(year) || isNaN(number)) continue;
+
+    if (year < latestOfferNo.year) continue;
+
+    if (year > latestOfferNo.year) {
+      latestOfferNo.year = year;
+      latestOfferNo.no = number;
+      continue;
+    }
+
+    if (number < latestOfferNo.no) continue;
+    if (number === latestOfferNo.no) continue;
+    latestOfferNo.no = number;
+  }
+
+  if (latestOfferNo.year < currentYear) {
+    return `${currentYear}-001`;
+  }
+  return `${latestOfferNo.year}-${padWithZeros(latestOfferNo.no++, 3)}`;
 }

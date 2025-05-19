@@ -1,3 +1,4 @@
+import { DiscountType, PositionUnit } from "@/positions/v1/positions_pb";
 import { JobType } from "@/project/v1/project_pb";
 import { EmploymentState } from "@/user/v1/user_pb";
 import { z } from "zod";
@@ -287,4 +288,42 @@ export const registerSchema = z
 
 export const serviceTypeSchema = z.object({
   name: z.string({ message: "Please add a name" }),
+});
+
+export const orgPaymentSchema = z.object({
+  iban: z.string(),
+  bic: z.string(),
+  bankName: z.string(),
+});
+
+export const discountSchema = z.object({
+  type: z.nativeEnum(DiscountType),
+  value: z.number(),
+});
+
+export const positionSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  count: z.number().min(0),
+  price: z.number().min(0),
+  unit: z.nativeEnum(PositionUnit),
+});
+
+export const createOfferSchema = z.object({
+  dateOfIssue: z.string(),
+  validUntil: z.string(),
+  offerNo: z.string().regex(/(\d{4})-(\d+)/, {
+    message:
+      "Dokumentennummer muss nach dem Muster `2025-001` formatiert sein.",
+  }),
+  note: z.string().optional(),
+  customerId: z.string(),
+  legalNotice: z.string().optional(),
+  payment: orgPaymentSchema.optional(),
+  positions: z.array(positionSchema),
+  discount: discountSchema.optional(),
+});
+
+export const updateOfferSchema = createOfferSchema.extend({
+  id: z.string(),
 });

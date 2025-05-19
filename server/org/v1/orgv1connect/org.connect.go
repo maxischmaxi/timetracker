@@ -39,6 +39,9 @@ const (
 	OrgServiceGetOrgByIdProcedure = "/org.v1.OrgService/GetOrgById"
 	// OrgServiceUpdateOrgProcedure is the fully-qualified name of the OrgService's UpdateOrg RPC.
 	OrgServiceUpdateOrgProcedure = "/org.v1.OrgService/UpdateOrg"
+	// OrgServiceSetOrgPaymentProcedure is the fully-qualified name of the OrgService's SetOrgPayment
+	// RPC.
+	OrgServiceSetOrgPaymentProcedure = "/org.v1.OrgService/SetOrgPayment"
 	// OrgServiceCreateOrgProcedure is the fully-qualified name of the OrgService's CreateOrg RPC.
 	OrgServiceCreateOrgProcedure = "/org.v1.OrgService/CreateOrg"
 	// OrgServiceDeleteOrgProcedure is the fully-qualified name of the OrgService's DeleteOrg RPC.
@@ -71,6 +74,7 @@ type OrgServiceClient interface {
 	GetOrg(context.Context, *connect.Request[v1.GetOrgRequest]) (*connect.Response[v1.GetOrgResponse], error)
 	GetOrgById(context.Context, *connect.Request[v1.GetOrgByIdRequest]) (*connect.Response[v1.GetOrgByIdResponse], error)
 	UpdateOrg(context.Context, *connect.Request[v1.UpdateOrgRequest]) (*connect.Response[v1.UpdateOrgResponse], error)
+	SetOrgPayment(context.Context, *connect.Request[v1.SetOrgPaymentRequest]) (*connect.Response[v1.SetOrgPaymentResponse], error)
 	CreateOrg(context.Context, *connect.Request[v1.CreateOrgRequest]) (*connect.Response[v1.CreateOrgResponse], error)
 	DeleteOrg(context.Context, *connect.Request[v1.DeleteOrgRequest]) (*connect.Response[v1.DeleteOrgResponse], error)
 	AddAdminToOrg(context.Context, *connect.Request[v1.AddAdminToOrgRequest]) (*connect.Response[v1.AddAdminToOrgResponse], error)
@@ -109,6 +113,12 @@ func NewOrgServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			httpClient,
 			baseURL+OrgServiceUpdateOrgProcedure,
 			connect.WithSchema(orgServiceMethods.ByName("UpdateOrg")),
+			connect.WithClientOptions(opts...),
+		),
+		setOrgPayment: connect.NewClient[v1.SetOrgPaymentRequest, v1.SetOrgPaymentResponse](
+			httpClient,
+			baseURL+OrgServiceSetOrgPaymentProcedure,
+			connect.WithSchema(orgServiceMethods.ByName("SetOrgPayment")),
 			connect.WithClientOptions(opts...),
 		),
 		createOrg: connect.NewClient[v1.CreateOrgRequest, v1.CreateOrgResponse](
@@ -173,6 +183,7 @@ type orgServiceClient struct {
 	getOrg                  *connect.Client[v1.GetOrgRequest, v1.GetOrgResponse]
 	getOrgById              *connect.Client[v1.GetOrgByIdRequest, v1.GetOrgByIdResponse]
 	updateOrg               *connect.Client[v1.UpdateOrgRequest, v1.UpdateOrgResponse]
+	setOrgPayment           *connect.Client[v1.SetOrgPaymentRequest, v1.SetOrgPaymentResponse]
 	createOrg               *connect.Client[v1.CreateOrgRequest, v1.CreateOrgResponse]
 	deleteOrg               *connect.Client[v1.DeleteOrgRequest, v1.DeleteOrgResponse]
 	addAdminToOrg           *connect.Client[v1.AddAdminToOrgRequest, v1.AddAdminToOrgResponse]
@@ -197,6 +208,11 @@ func (c *orgServiceClient) GetOrgById(ctx context.Context, req *connect.Request[
 // UpdateOrg calls org.v1.OrgService.UpdateOrg.
 func (c *orgServiceClient) UpdateOrg(ctx context.Context, req *connect.Request[v1.UpdateOrgRequest]) (*connect.Response[v1.UpdateOrgResponse], error) {
 	return c.updateOrg.CallUnary(ctx, req)
+}
+
+// SetOrgPayment calls org.v1.OrgService.SetOrgPayment.
+func (c *orgServiceClient) SetOrgPayment(ctx context.Context, req *connect.Request[v1.SetOrgPaymentRequest]) (*connect.Response[v1.SetOrgPaymentResponse], error) {
+	return c.setOrgPayment.CallUnary(ctx, req)
 }
 
 // CreateOrg calls org.v1.OrgService.CreateOrg.
@@ -249,6 +265,7 @@ type OrgServiceHandler interface {
 	GetOrg(context.Context, *connect.Request[v1.GetOrgRequest]) (*connect.Response[v1.GetOrgResponse], error)
 	GetOrgById(context.Context, *connect.Request[v1.GetOrgByIdRequest]) (*connect.Response[v1.GetOrgByIdResponse], error)
 	UpdateOrg(context.Context, *connect.Request[v1.UpdateOrgRequest]) (*connect.Response[v1.UpdateOrgResponse], error)
+	SetOrgPayment(context.Context, *connect.Request[v1.SetOrgPaymentRequest]) (*connect.Response[v1.SetOrgPaymentResponse], error)
 	CreateOrg(context.Context, *connect.Request[v1.CreateOrgRequest]) (*connect.Response[v1.CreateOrgResponse], error)
 	DeleteOrg(context.Context, *connect.Request[v1.DeleteOrgRequest]) (*connect.Response[v1.DeleteOrgResponse], error)
 	AddAdminToOrg(context.Context, *connect.Request[v1.AddAdminToOrgRequest]) (*connect.Response[v1.AddAdminToOrgResponse], error)
@@ -283,6 +300,12 @@ func NewOrgServiceHandler(svc OrgServiceHandler, opts ...connect.HandlerOption) 
 		OrgServiceUpdateOrgProcedure,
 		svc.UpdateOrg,
 		connect.WithSchema(orgServiceMethods.ByName("UpdateOrg")),
+		connect.WithHandlerOptions(opts...),
+	)
+	orgServiceSetOrgPaymentHandler := connect.NewUnaryHandler(
+		OrgServiceSetOrgPaymentProcedure,
+		svc.SetOrgPayment,
+		connect.WithSchema(orgServiceMethods.ByName("SetOrgPayment")),
 		connect.WithHandlerOptions(opts...),
 	)
 	orgServiceCreateOrgHandler := connect.NewUnaryHandler(
@@ -347,6 +370,8 @@ func NewOrgServiceHandler(svc OrgServiceHandler, opts ...connect.HandlerOption) 
 			orgServiceGetOrgByIdHandler.ServeHTTP(w, r)
 		case OrgServiceUpdateOrgProcedure:
 			orgServiceUpdateOrgHandler.ServeHTTP(w, r)
+		case OrgServiceSetOrgPaymentProcedure:
+			orgServiceSetOrgPaymentHandler.ServeHTTP(w, r)
 		case OrgServiceCreateOrgProcedure:
 			orgServiceCreateOrgHandler.ServeHTTP(w, r)
 		case OrgServiceDeleteOrgProcedure:
@@ -384,6 +409,10 @@ func (UnimplementedOrgServiceHandler) GetOrgById(context.Context, *connect.Reque
 
 func (UnimplementedOrgServiceHandler) UpdateOrg(context.Context, *connect.Request[v1.UpdateOrgRequest]) (*connect.Response[v1.UpdateOrgResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("org.v1.OrgService.UpdateOrg is not implemented"))
+}
+
+func (UnimplementedOrgServiceHandler) SetOrgPayment(context.Context, *connect.Request[v1.SetOrgPaymentRequest]) (*connect.Response[v1.SetOrgPaymentResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("org.v1.OrgService.SetOrgPayment is not implemented"))
 }
 
 func (UnimplementedOrgServiceHandler) CreateOrg(context.Context, *connect.Request[v1.CreateOrgRequest]) (*connect.Response[v1.CreateOrgResponse], error) {

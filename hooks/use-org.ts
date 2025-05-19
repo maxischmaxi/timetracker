@@ -5,6 +5,7 @@ import {
   createServiceType,
   deleteServiceType,
   inviteEmailToOrg,
+  setOrgPayment,
   updateServiceTypeStatus,
 } from "@/lib/api";
 import { Plain } from "@/types";
@@ -82,6 +83,30 @@ export function useDeletServiceType(props?: Props) {
     async mutationFn(id: string) {
       await deleteServiceType(id);
       await refetchUser(firebaseUser?.uid);
+    },
+    onSuccess() {
+      props?.onSuccess?.();
+    },
+    onError() {
+      props?.onError?.();
+    },
+  });
+}
+
+export function useSetOrgPayment(props?: Props) {
+  return useMutation({
+    async mutationFn({
+      orgId,
+      bankName,
+      iban,
+      bic,
+    }: {
+      orgId: string;
+      bankName: string;
+      iban: string;
+      bic: string;
+    }) {
+      await setOrgPayment(bankName, iban, bic, orgId);
     },
     onSuccess() {
       props?.onSuccess?.();
