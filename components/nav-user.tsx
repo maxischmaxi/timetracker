@@ -24,8 +24,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useSignout } from "@/hooks/use-signout";
 import Link from "next/link";
+import { signOut } from "./auth-provider";
+import { useRouter } from "next/navigation";
 
 export function NavUser({
   user,
@@ -37,7 +38,7 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
-  const signOut = useSignout();
+  const router = useRouter();
 
   return (
     <SidebarMenu>
@@ -54,7 +55,7 @@ export function NavUser({
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs text-muted-foreground">
+                <span className="text-muted-foreground truncate text-xs">
                   {user.email}
                 </span>
               </div>
@@ -75,7 +76,7 @@ export function NavUser({
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs text-muted-foreground">
+                  <span className="text-muted-foreground truncate text-xs">
                     {user.email}
                   </span>
                 </div>
@@ -105,9 +106,9 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={async () => {
-                await signOut.mutateAsync();
+                await signOut();
+                router.push("/auth/login");
               }}
-              disabled={signOut.isPending}
             >
               <LogOutIcon />
               Log out

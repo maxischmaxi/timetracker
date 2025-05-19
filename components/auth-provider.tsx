@@ -97,6 +97,7 @@ export function AuthProvider({
 
   useEffect(() => {
     return onIdTokenChanged(auth, async (user) => {
+      console.log("onidtokenchanged", user);
       if (user) {
         setFirebaseUser(user);
         const idToken = await user.getIdToken();
