@@ -151,8 +151,8 @@ export async function getJobsByProject(
     .then((res) => res.jobs as unknown as Array<Plain<Job>>);
 }
 
-export async function deleteJob(id: string): Promise<string | undefined> {
-  return await projectClient.deleteJob({ id }).then((res) => res.id);
+export async function deleteJob(id: string, projectId: string) {
+  await projectClient.deleteJob({ id, projectId });
 }
 
 export async function updateJob(data: Job) {

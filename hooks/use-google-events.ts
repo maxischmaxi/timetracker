@@ -4,10 +4,11 @@ import Cookie from "js-cookie";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { use } from "react";
 import { AuthContext } from "@/components/auth-provider";
-import { format, differenceInMinutes } from "date-fns";
+import { format } from "date-fns";
 import { createJob } from "@/lib/api";
 import { JobType } from "@/project/v1/project_pb";
 import { de } from "date-fns/locale";
+import { getDifferenceBetweenTime } from "@/lib/utils";
 
 export type GoogleCalendarEvent = {
   kind: string;
@@ -83,12 +84,10 @@ export function useImportGoogleCalendarEvent() {
       projectId: string;
       serviceTypeId: string;
     }) {
-      const totalMinutes = differenceInMinutes(
+      const { hours, minutes } = getDifferenceBetweenTime(
         data.start?.dateTime || new Date(),
-        data.end?.dateTime || new Date(),
+        data.start?.dateTime || new Date(),
       );
-      const hours = Math.floor(totalMinutes / 60);
-      const minutes = totalMinutes % 60;
 
       await createJob({
         hours,

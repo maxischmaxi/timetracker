@@ -1,12 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useJobsByDate } from "@/hooks/use-jobs";
 import { useMemo, useState } from "react";
 import {
   ChevronsUpDown,
+  EditIcon,
   InfoIcon,
   Loader,
+  TrashIcon,
   TriangleAlertIcon,
 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
@@ -39,7 +40,7 @@ import { GoogleIcon } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
-import { useProjects } from "@/hooks/use-projects";
+import { useJobsByDate, useProjects } from "@/hooks/use-projects";
 import {
   Popover,
   PopoverContent,
@@ -55,6 +56,11 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { ServiceTypeSelect } from "@/components/service-type-select";
+import { formatTime } from "@/lib/utils";
+import { Card, CardContent } from "@/components/ui/card";
+import { UserAvatar } from "@/components/user-avatar";
+import Link from "next/link";
+import { JobDeleteDialog } from "@/components/job-delete-dialog";
 
 export default function Page() {
   const [date, setDate] = useState<Date>(new Date());
@@ -62,8 +68,8 @@ export default function Page() {
   const googleCalendarEvents = useGoogleCalendarEvents(date);
 
   return (
-    <SidebarProvider>
-      <Sidebar collapsible="none">
+    <SidebarProvider className="min-h-auto flex-1">
+      <Sidebar collapsible="none" className="h-auto">
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent>
@@ -88,17 +94,17 @@ export default function Page() {
                         className="cursor-pointer"
                       >
                         <GoogleIcon />
-                        Google Calendar importieren
+                        Import
                       </SidebarMenuButton>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-2xl w-full">
+                    <DialogContent className="w-full sm:max-w-2xl">
                       <DialogHeader>
                         <DialogTitle>Google Import</DialogTitle>
                         <DialogDescription>
                           Google Calendar Events importieren
                         </DialogDescription>
                       </DialogHeader>
-                      <ul className="max-h-[600px] h-full overflow-y-auto flex flex-col gap-2">
+                      <ul className="flex h-full max-h-[600px] flex-col gap-2 overflow-y-auto">
                         {googleCalendarEvents.data?.map((e, index) => (
                           <GoogleCalendarListItem key={index} event={e} />
                         ))}
@@ -112,39 +118,103 @@ export default function Page() {
         </SidebarContent>
       </Sidebar>
       <div className="w-full space-y-4 p-4">
-        <JobForm date={date} />
-        {jobs.isPending && (
-          <div className="flex flex-row flex-nowrap items-center justify-start w-full gap-2">
-            <Loader className="animate-spin w-4 h-4" />
-            <p className="text-sm">Jobs werden geladen</p>
-          </div>
-        )}
-        {!jobs.isPending && !jobs.isError && !jobs.data?.length && (
-          <div className="flex flex-row flex-nowrap items-center justify-start w-full gap-2">
-            <InfoIcon className="w-4 h-4" />
-            <p className="text-sm">
-              Keine Jobs vorhanden für{" "}
-              {format(date, "dd.MM.yyyy", { locale: de })}
-            </p>
-          </div>
-        )}
-        {jobs.isError && (
-          <div className="flex flex-row flex-nowrap items-center justify-start w-full gap-2">
-            <TriangleAlertIcon className="w-4 h-4" />
-            <p className="text-red-500 text-sm">Fehler beim Laden der Jobs.</p>
-          </div>
-        )}
-        {!jobs.isPending && !jobs.isError && (jobs.data?.length || 0) > 0 && (
-          <ul>
-            {jobs.data?.map((job) => (
-              <li key={job.job?.id}>
-                <Badge style={{ backgroundColor: job.project?.customColor }}>
-                  {job.project?.name}
-                </Badge>
-              </li>
-            ))}
-          </ul>
-        )}
+        <JobForm date={date} hideCancel />
+        <Card>
+          <CardContent>
+            {jobs.isPending && (
+              <div className="flex w-full flex-row flex-nowrap items-center justify-start gap-2">
+                <Loader className="h-4 w-4 animate-spin" />
+                <p className="text-sm">Jobs werden geladen</p>
+              </div>
+            )}
+            {!jobs.isPending && !jobs.isError && !jobs.data?.length && (
+              <div className="flex w-full flex-row flex-nowrap items-center justify-start gap-2">
+                <InfoIcon className="h-4 w-4" />
+                <p className="text-sm">
+                  Keine Jobs vorhanden für{" "}
+                  {format(date, "dd.MM.yyyy", { locale: de })}
+                </p>
+              </div>
+            )}
+            {jobs.isError && (
+              <div className="flex w-full flex-row flex-nowrap items-center justify-start gap-2">
+                <TriangleAlertIcon className="h-4 w-4" />
+                <p className="text-sm text-red-500">
+                  Fehler beim Laden der Jobs.
+                </p>
+              </div>
+            )}
+            {!jobs.isPending &&
+              !jobs.isError &&
+              (jobs.data?.length || 0) > 0 && (
+                <ul>
+                  {jobs.data?.map((job) => {
+                    if (!job.job || !job.project || !job.customer) return null;
+
+                    return (
+                      <li
+                        key={job.job.id}
+                        className="flex flex-row flex-nowrap items-center gap-4 py-2"
+                      >
+                        <UserAvatar className="h-10 w-10 rounded-full" />
+                        <div className="flex h-full flex-col justify-center gap-1">
+                          <Badge>
+                            {formatTime(job.job.hours)}:
+                            {formatTime(job.job.minutes)}
+                          </Badge>
+                          <p className="text-xs">
+                            <Link
+                              href={`/projects/${job.project.id}`}
+                              style={{ color: job.project.customColor }}
+                              className="cursor-pointer font-bold hover:underline"
+                            >
+                              {job.project.name}
+                            </Link>
+                            <span className="mx-1">/</span>
+                            <Link
+                              href={`/customsers/${job.customer.id}`}
+                              className="cursor-pointer hover:underline"
+                            >
+                              {job.customer.name}
+                            </Link>
+                          </p>
+                        </div>
+                        <div className="ml-auto flex h-full flex-row flex-nowrap justify-center gap-2">
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button type="button" variant="outline" size="sm">
+                                <EditIcon />
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>Bearbeiten</DialogTitle>
+                                <DialogDescription>
+                                  Eintrag bearbeiten
+                                </DialogDescription>
+                              </DialogHeader>
+                            </DialogContent>
+                          </Dialog>
+                          <JobDeleteDialog
+                            job={job}
+                            date={format(date, "yyyy-MM-dd")}
+                          >
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                            >
+                              <TrashIcon />
+                            </Button>
+                          </JobDeleteDialog>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+          </CardContent>
+        </Card>
       </div>
     </SidebarProvider>
   );
@@ -181,7 +251,7 @@ function GoogleCalendarListItem({ event }: Props) {
   }, [projectId, projects.data]);
 
   return (
-    <li className="flex flex-row items-center flex-nowrap justify-end w-full gap-2">
+    <li className="flex w-full flex-row flex-nowrap items-center justify-end gap-2">
       <Badge variant="secondary" className="mr-auto">
         <span className="mr-2">{`${format(
           event.start?.dateTime || new Date(),

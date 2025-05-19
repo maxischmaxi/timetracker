@@ -34,6 +34,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Cookie from "js-cookie";
 import { useCurrentOrg } from "@/hooks/use-org";
+import { useIsAdministrator } from "@/hooks/use-users";
 
 const data = {
   navMain: [
@@ -90,7 +91,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { firebaseUser, user } = use(AuthContext);
+  const { user } = use(AuthContext);
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
 
@@ -113,6 +114,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const org = useCurrentOrg();
 
+  const isAdmin = useIsAdministrator();
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -120,7 +123,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
-                <SidebarMenuButton className="data-[slot=sidebar-menu-button]:!p-1.5 cursor-pointer">
+                <SidebarMenuButton className="cursor-pointer data-[slot=sidebar-menu-button]:!p-1.5">
                   <ArrowUpCircleIcon className="h-5 w-5" />
                   <span className="text-base font-semibold">{org?.name}</span>
                 </SidebarMenuButton>
@@ -131,7 +134,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     key={index}
                     type="button"
                     onClick={() => handleSelectOrg(org.id)}
-                    className="w-full flex items-center justify-start max-w-full truncate"
+                    className="flex w-full max-w-full items-center justify-start truncate"
                     variant="outline"
                   >
                     {org.name}
@@ -144,19 +147,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        {user?.user && org?.admins.includes(user.user.id) && (
-          <NavAdministration items={data.navAdministration} />
-        )}
+        {isAdmin && <NavAdministration items={data.navAdministration} />}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser
-          user={{
-            name: firebaseUser?.displayName ?? user?.user?.name ?? "...",
-            email: firebaseUser?.email || "...",
-            avatar: firebaseUser?.photoURL || "",
-          }}
-        />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );

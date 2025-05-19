@@ -1411,6 +1411,7 @@ func (*UpdateJobResponse) Descriptor() ([]byte, []int) {
 type DeleteJobRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1452,9 +1453,15 @@ func (x *DeleteJobRequest) GetId() string {
 	return ""
 }
 
+func (x *DeleteJobRequest) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
 type DeleteJobResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1487,13 +1494,6 @@ func (x *DeleteJobResponse) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteJobResponse.ProtoReflect.Descriptor instead.
 func (*DeleteJobResponse) Descriptor() ([]byte, []int) {
 	return file_project_v1_project_proto_rawDescGZIP(), []int{25}
-}
-
-func (x *DeleteJobResponse) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
 }
 
 type GetJobsByProjectRequest struct {
@@ -2009,11 +2009,12 @@ const file_project_v1_project_proto_rawDesc = "" +
 	"\x11CreateJobResponse\"5\n" +
 	"\x10UpdateJobRequest\x12!\n" +
 	"\x03job\x18\x01 \x01(\v2\x0f.project.v1.JobR\x03job\"\x13\n" +
-	"\x11UpdateJobResponse\"\"\n" +
+	"\x11UpdateJobResponse\"A\n" +
 	"\x10DeleteJobRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"#\n" +
-	"\x11DeleteJobResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"8\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\"\x13\n" +
+	"\x11DeleteJobResponse\"8\n" +
 	"\x17GetJobsByProjectRequest\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\"?\n" +

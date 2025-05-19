@@ -3,13 +3,22 @@
 import { AuthContext } from "@/components/auth-provider";
 import { queryClient } from "@/components/providers";
 import {
+  createJob,
   createProject,
+  deleteJob,
+  getJobsByDate,
   getProject,
   getProjects,
   updateProject,
   updateProjectType,
 } from "@/lib/api";
-import { CreateProject, Project, UpdateProject } from "@/project/v1/project_pb";
+import {
+  CreateJobRequest,
+  CreateProject,
+  DateJob,
+  Project,
+  UpdateProject,
+} from "@/project/v1/project_pb";
 import { Plain } from "@/types";
 import { useMutation, useQuery, UseQueryResult } from "@tanstack/react-query";
 import { use } from "react";
@@ -103,6 +112,61 @@ export function useUpdateProjectType(props?: Props) {
       });
     },
     onSuccess() {
+      props?.onSuccess?.();
+    },
+    onError() {
+      props?.onError?.();
+    },
+  });
+}
+
+export function useDeleteJob(props?: Props) {
+  return useMutation({
+    async mutationFn({
+      id,
+      projectId,
+    }: {
+      id: string;
+      projectId: string;
+      date: string;
+    }) {
+      await deleteJob(id, projectId);
+    },
+    onSuccess(_, params) {
+      queryClient.refetchQueries({
+        queryKey: ["jobs-by-date", params.date],
+      });
+      props?.onSuccess?.();
+    },
+    onError() {
+      props?.onError?.();
+    },
+  });
+}
+
+export function useJobsByDate(
+  date: Date,
+): UseQueryResult<Array<Plain<DateJob>> | undefined, Error> {
+  const { user } = use(AuthContext);
+
+  return useQuery({
+    enabled: !!user,
+    queryKey: ["jobs-by-date", date],
+    async queryFn() {
+      return await getJobsByDate(date);
+    },
+  });
+}
+
+export function useCreateJob(props?: Props) {
+  return useMutation({
+    async mutationFn(data: Plain<CreateJobRequest>) {
+      await createJob(data);
+    },
+    onSuccess(_, params) {
+      queryClient.refetchQueries({
+        queryKey: ["jobs-by-date", params.date],
+      });
       props?.onSuccess?.();
     },
     onError() {

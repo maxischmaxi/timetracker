@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   experimental: {
     serverComponentsHmrCache: false,
   },
+  devIndicators: false,
 };
 
 export default nextConfig;

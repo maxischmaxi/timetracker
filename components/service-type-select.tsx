@@ -20,9 +20,11 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandSeparator,
 } from "./ui/command";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Loader, PlusIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 type Props<T extends FieldValues> = {
   control?: Control<T>;
@@ -30,6 +32,7 @@ type Props<T extends FieldValues> = {
   label?: string;
   className?: string;
   popoverClassName?: string;
+  triggerClassName?: string;
   value?: string;
   onValueChange?: (value: string) => void;
 };
@@ -39,6 +42,7 @@ export function ServiceTypeSelect<T extends FieldValues>(props: Props<T>) {
     className,
     value,
     onValueChange,
+    triggerClassName,
     popoverClassName,
     name,
     control,
@@ -46,9 +50,15 @@ export function ServiceTypeSelect<T extends FieldValues>(props: Props<T>) {
   } = props;
   const org = useCurrentOrg();
   const [open, setOpen] = useState<boolean>(false);
+  const router = useRouter();
 
   if (!org) {
-    return null;
+    return (
+      <Button type="button" variant="outline" role="combobox" disabled>
+        <Loader className="mr-2 h-4 w-4 animate-spin" />
+        Leistungsart wählen...
+      </Button>
+    );
   }
 
   if (control && name) {
@@ -57,7 +67,7 @@ export function ServiceTypeSelect<T extends FieldValues>(props: Props<T>) {
         name={name}
         control={control}
         render={({ field }) => (
-          <FormItem>
+          <FormItem className={className}>
             {!!label && <FormLabel>{label}</FormLabel>}
             <FormControl>
               <Popover open={open} onOpenChange={setOpen}>
@@ -66,19 +76,19 @@ export function ServiceTypeSelect<T extends FieldValues>(props: Props<T>) {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className={cn("w-full justify-between", className)}
+                    className={cn("w-full justify-between", triggerClassName)}
                   >
                     {field.value
                       ? org.serviceTypes.find(
                           (serviceType) => serviceType.id === field.value,
                         )?.name
-                      : "Service Type wählen..."}
+                      : "Leistungsart wählen..."}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className={cn("p-0", popoverClassName)}>
                   <Command>
-                    <CommandInput placeholder="ServiceType suchen" />
+                    <CommandInput placeholder="Leistungsart suchen..." />
                     <CommandList>
                       <CommandEmpty>No ServiceType found.</CommandEmpty>
                       <CommandGroup>
@@ -86,6 +96,7 @@ export function ServiceTypeSelect<T extends FieldValues>(props: Props<T>) {
                           <CommandItem
                             key={serviceType.id}
                             value={serviceType.id}
+                            keywords={[serviceType.id, serviceType.name]}
                             onSelect={(currentValue) => {
                               field.onChange(currentValue);
                               setOpen(false);
@@ -102,6 +113,25 @@ export function ServiceTypeSelect<T extends FieldValues>(props: Props<T>) {
                             {serviceType.name}
                           </CommandItem>
                         ))}
+                      </CommandGroup>
+                      <CommandSeparator />
+                      <CommandGroup>
+                        <CommandItem asChild>
+                          <Button
+                            variant="ghost"
+                            className="w-full cursor-pointer"
+                            size="sm"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setOpen(false);
+                              router.push("/organization");
+                            }}
+                          >
+                            <PlusIcon className="mr-2 h-4 w-4" />
+                            Leistungsart erstellen
+                          </Button>
+                        </CommandItem>
                       </CommandGroup>
                     </CommandList>
                   </Command>
@@ -128,13 +158,13 @@ export function ServiceTypeSelect<T extends FieldValues>(props: Props<T>) {
           {value
             ? org.serviceTypes.find((serviceType) => serviceType.id === value)
                 ?.name
-            : "Service Type wählen..."}
+            : "Leistungsart wählen..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className={cn("p-0", popoverClassName)}>
         <Command>
-          <CommandInput placeholder="ServiceType suchen" />
+          <CommandInput placeholder="Leistungsart suchen..." />
           <CommandList>
             <CommandEmpty>No ServiceType found.</CommandEmpty>
             <CommandGroup>
@@ -156,6 +186,25 @@ export function ServiceTypeSelect<T extends FieldValues>(props: Props<T>) {
                   {serviceType.name}
                 </CommandItem>
               ))}
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup>
+              <CommandItem asChild>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="w-full cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setOpen(false);
+                    router.push("/organization");
+                  }}
+                >
+                  <PlusIcon className="mr-2 h-4 w-4" />
+                  Leistungsart erstellen
+                </Button>
+              </CommandItem>
             </CommandGroup>
           </CommandList>
         </Command>

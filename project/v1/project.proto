@@ -160,11 +160,10 @@ message UpdateJobResponse { }
 
 message DeleteJobRequest {
   string id = 1;
+  string project_id = 2;
 }
 
-message DeleteJobResponse {
-  string id = 1;
-}
+message DeleteJobResponse { }
 
 message GetJobsByProjectRequest {
   string project_id = 1;

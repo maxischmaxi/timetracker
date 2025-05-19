@@ -80,7 +80,7 @@ export function CustomerSelect<T extends FieldValues>(props: Props<T>) {
               </PopoverTrigger>
               <PopoverContent className={cn("w-[300px] p-0", popoverClassName)}>
                 <Command>
-                  <CommandInput placeholder="Search framework..." />
+                  <CommandInput placeholder="Kunden suchen..." />
                   <CommandList>
                     <CommandEmpty>No Customer found.</CommandEmpty>
                     <CommandGroup>

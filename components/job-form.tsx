@@ -10,10 +10,10 @@ import { FieldErrors, useForm } from "react-hook-form";
 import { createJobSchema } from "@/lib/schemas";
 import { format } from "date-fns";
 import { Plain } from "@/types";
-import { useCreateJob } from "@/hooks/use-jobs";
 import { Button } from "./ui/button";
 import { CreateJobRequest, JobType } from "@/project/v1/project_pb";
 import { ServiceTypeSelect } from "./service-type-select";
+import { useCreateJob } from "@/hooks/use-projects";
 
 type Props = {
   date: Date;
@@ -45,7 +45,9 @@ export function JobForm({
   });
   const create = useCreateJob({
     onSuccess() {
-      form.reset();
+      form.setValue("description", "");
+      form.setValue("hours", 0);
+      form.setValue("minutes", 0);
       parentSuccess?.();
     },
     onError() {
@@ -82,42 +84,62 @@ export function JobForm({
         onSubmit={form.handleSubmit(onSubmit, onError)}
         className="space-y-4"
       >
-        <ProjectSelect
-          onNavigateCreateJob={onNavigateCreateJob}
-          control={form.control}
-          name="projectId"
-        />
-        <ServiceTypeSelect control={form.control} name="serviceTypeId" />
+        <div className="flex flex-col flex-nowrap gap-2 lg:flex-row">
+          <ProjectSelect
+            onNavigateCreateJob={onNavigateCreateJob}
+            control={form.control}
+            name="projectId"
+            className="w-full"
+          />
+          <ServiceTypeSelect
+            control={form.control}
+            name="serviceTypeId"
+            className="w-full"
+          />
+        </div>
         <Textarea
           control={form.control}
           name="description"
           placeholder="Jobbeschreibung"
           label="Jobbeschreibung"
         />
-        <Input
-          control={form.control}
-          name="hours"
-          type="number"
-          inputMode="numeric"
-          label="Stunden"
-        />
-        <Input
-          control={form.control}
-          name="minutes"
-          type="number"
-          inputMode="numeric"
-          label="Minuten"
-        />
-        <div className="flex flex-row flex-nowrap gap-2 justify-between">
-          {!hideCancel && (
+        <div className="flex flex-col flex-nowrap gap-4 lg:flex-row">
+          <Input
+            control={form.control}
+            name="hours"
+            type="number"
+            inputMode="numeric"
+            label="Stunden"
+            className="max-w-full lg:max-w-[100px]"
+          />
+          <Input
+            control={form.control}
+            name="minutes"
+            type="number"
+            inputMode="numeric"
+            label="Minuten"
+            className="max-w-full lg:max-w-[100px]"
+          />
+          {hideCancel && (
+            <Button
+              className="mt-0 mb-0 ml-0 lg:mt-auto lg:mb-2 lg:ml-auto"
+              type="submit"
+              disabled={create.isPending}
+            >
+              {create.isPending ? "Lade..." : "Job erstellen"}
+            </Button>
+          )}
+        </div>
+        {!hideCancel && (
+          <div className="flex flex-row flex-nowrap justify-between gap-2">
             <Button type="button" variant="outline" onClick={cancel}>
               Abbrechen
             </Button>
-          )}
-          <Button type="submit" disabled={create.isPending}>
-            {create.isPending ? "Lade..." : "Job erstellen"}
-          </Button>
-        </div>
+            <Button type="submit" disabled={create.isPending}>
+              {create.isPending ? "Lade..." : "Job erstellen"}
+            </Button>
+          </div>
+        )}
       </form>
     </Form>
   );

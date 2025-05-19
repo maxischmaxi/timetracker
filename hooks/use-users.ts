@@ -109,3 +109,10 @@ export function useUpdateUser() {
     },
   });
 }
+
+export function useIsAdministrator(): boolean {
+  const { user } = use(AuthContext);
+  const org = useCurrentOrg();
+
+  return Boolean(user?.user && org?.admins.includes(user.user.id));
+}

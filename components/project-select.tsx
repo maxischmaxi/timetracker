@@ -13,9 +13,9 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandSeparator,
 } from "./ui/command";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import {
   FormControl,
   FormDescription,
@@ -24,6 +24,7 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
+import { useRouter } from "next/navigation";
 
 type Props<T extends FieldValues> = {
   control: Control<T>;
@@ -32,6 +33,7 @@ type Props<T extends FieldValues> = {
   popoverClassName?: string;
   label?: string;
   onNavigateCreateJob?: () => void;
+  triggerClassName?: string;
 };
 
 export function ProjectSelect<T extends FieldValues>(props: Props<T>) {
@@ -42,16 +44,27 @@ export function ProjectSelect<T extends FieldValues>(props: Props<T>) {
     onNavigateCreateJob,
     className,
     popoverClassName,
+    triggerClassName,
   } = props;
   const projects = useProjects();
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+
+  if (projects.isPending) {
+    return (
+      <Button type="button" variant="outline" role="combobox" disabled>
+        <Loader className="mr-2 h-4 w-4 animate-spin" />
+        Projekt wählen...
+      </Button>
+    );
+  }
 
   return (
     <FormField
       name={name}
       control={control}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={className}>
           {!!label && <FormLabel>{label}</FormLabel>}
           <FormControl>
             <Popover open={open} onOpenChange={setOpen}>
@@ -60,29 +73,31 @@ export function ProjectSelect<T extends FieldValues>(props: Props<T>) {
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
-                  className={cn("w-full justify-between", className)}
+                  className={cn("w-full justify-between", triggerClassName)}
                 >
-                  {(projects.isPending || projects.isLoading) && (
-                    <Loader className="mr-2 h-4 w-4 animate-spin" />
-                  )}
-                  {!projects.isPending && !projects.isLoading && field.value
+                  {!projects.isLoading && field.value
                     ? projects.data?.find(
                         (framework) => framework.id === field.value,
                       )?.name
-                    : "Select Project..."}
+                    : "Projekt wählen..."}
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className={cn("p-0", popoverClassName)}>
                 <Command>
-                  <CommandInput placeholder="Search framework..." />
+                  <CommandInput placeholder="Project suchen..." />
                   <CommandList>
-                    <CommandEmpty>No Project found.</CommandEmpty>
+                    <CommandEmpty>Kein Projekt gefunden.</CommandEmpty>
                     <CommandGroup>
                       {projects.data?.map((project) => (
                         <CommandItem
                           key={project.id}
                           value={project.id}
+                          keywords={[
+                            project.id,
+                            project.name,
+                            project.description,
+                          ]}
                           onSelect={(currentValue) => {
                             field.onChange(currentValue);
                             setOpen(false);
@@ -100,19 +115,24 @@ export function ProjectSelect<T extends FieldValues>(props: Props<T>) {
                         </CommandItem>
                       ))}
                     </CommandGroup>
-                    <CommandItem asChild>
-                      <Link
-                        href="/projects/create"
-                        className="cursor-pointer"
-                        onClick={() => {
-                          setOpen(false);
-                          onNavigateCreateJob?.();
-                        }}
-                      >
-                        <PlusIcon className="mr-2 h-4 w-4" />
-                        Create new Project...
-                      </Link>
-                    </CommandItem>
+                    <CommandSeparator />
+                    <CommandGroup>
+                      <CommandItem asChild>
+                        <Button
+                          className="w-full cursor-pointer"
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => {
+                            setOpen(false);
+                            router.push("/projects/create");
+                            onNavigateCreateJob?.();
+                          }}
+                        >
+                          <PlusIcon className="mr-2 h-4 w-4" />
+                          Neues Projekt erstellen...
+                        </Button>
+                      </CommandItem>
+                    </CommandGroup>
                   </CommandList>
                 </Command>
               </PopoverContent>

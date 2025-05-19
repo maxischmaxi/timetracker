@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { differenceInMinutes } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
 const GMAIL_BASE = "https://mail.google.com/mail";
@@ -49,4 +50,26 @@ export function isRouteActive(path: string, currentPathname: string): boolean {
     return true;
   }
   return false;
+}
+
+export function getDifferenceBetweenTime(
+  lhs: string | Date,
+  rhs: string | Date,
+): { hours: number; minutes: number } {
+  const totalMinutes = differenceInMinutes(lhs, rhs);
+
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  return {
+    hours,
+    minutes,
+  };
+}
+
+export function formatTime(time: number): string {
+  if (time < 10) {
+    return "0" + time;
+  }
+  return time.toString();
 }

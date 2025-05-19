@@ -332,6 +332,9 @@ func (s *ProjectServer) GetJobsByDate(ctx context.Context, req *connect.Request[
 	for _, project := range projects {
 
 		for _, job := range project.Jobs {
+			if job.Date != req.Msg.Date {
+				continue
+			}
 			j := job.ToJob()
 			p := project.ToProject()
 
@@ -398,7 +401,33 @@ func (s *ProjectServer) UpdateJob(ctx context.Context, req *connect.Request[proj
 }
 
 func (s *ProjectServer) DeleteJob(ctx context.Context, req *connect.Request[projectv1.DeleteJobRequest]) (*connect.Response[projectv1.DeleteJobResponse], error) {
-	return nil, connect.NewError(connect.CodeInternal, errors.New("not implemented"))
+	projectId, err := bson.ObjectIDFromHex(req.Msg.ProjectId)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	jobId, err := bson.ObjectIDFromHex(req.Msg.Id)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	filter := bson.M{"_id": projectId}
+
+	update := bson.M{
+		"$pull": bson.M{
+			"jobs": bson.M{
+				"_id": jobId,
+			},
+		},
+	}
+
+	updateResult, err := PROJECTS.UpdateOne(ctx, filter, update)
+
+	if updateResult.ModifiedCount == 0 {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("No documents were updated."))
+	}
+
+	return connect.NewResponse(&projectv1.DeleteJobResponse{}), nil
 }
 
 func (s *ProjectServer) UpdateProjectType(ctx context.Context, req *connect.Request[projectv1.UpdateProjectTypeRequest]) (*connect.Response[projectv1.UpdateProjectTypeResponse], error) {
