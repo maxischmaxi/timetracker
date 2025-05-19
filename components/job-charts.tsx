@@ -6,12 +6,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { useJobsByDate } from "@/hooks/use-jobs";
 import { Dispatch, SetStateAction, useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { Button } from "./ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { addDays, format } from "date-fns";
+import { useJobsByDate } from "@/hooks/use-projects";
 
 type Props = {
   date: Date;
@@ -44,7 +44,7 @@ export function JobCharts(props: Props) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-row flex-nowrap justify-between items-center">
+      <div className="flex flex-row flex-nowrap items-center justify-between">
         <Button
           size="sm"
           variant="outline"
