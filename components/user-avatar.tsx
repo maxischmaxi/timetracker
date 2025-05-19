@@ -38,7 +38,7 @@ export function UserAvatar({ className, fallbackClassName }: Props) {
     const first = parts[0].charAt(0).toUpperCase();
     const second = parts[1].charAt(0).toUpperCase();
     return `${first}${second}`;
-  }, []);
+  }, [firebaseUser]);
 
   return (
     <Avatar className={cn("h-8 w-8 rounded-lg grayscale", className)}>
