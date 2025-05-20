@@ -32,7 +32,6 @@ import {
   ColumnsIcon,
   GripVerticalIcon,
   Loader,
-  PlusIcon,
   SendIcon,
 } from "lucide-react";
 import { Checkbox } from "./ui/checkbox";
@@ -75,9 +74,7 @@ import {
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import Link from "next/link";
 import { Plain } from "@/types";
-import { CustomerSheet } from "./customer-sheet";
 import { useOffersByOrgId } from "@/hooks/use-offers";
-import { useCurrentOrg } from "@/hooks/use-org";
 import { Offer } from "@/offers/v1/offers_pb";
 import { OfferCreateButton } from "./offer-create-button";
 
