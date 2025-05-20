@@ -9,22 +9,22 @@ import {
 } from "@/lib/api";
 import { Plain } from "@/types";
 import { Offer } from "@/offers/v1/offers_pb";
+import { useCurrentOrg } from "./use-org";
 
 type Props = {
   onSuccess?: (data: Plain<Offer>) => void;
   onError?: () => void;
 };
 
-export function useOffersByOrgId(orgId: string | undefined) {
+export function useOffersByOrgId() {
+  const org = useCurrentOrg();
+
   return useQuery({
-    enabled: !!orgId,
-    queryKey: ["offers", orgId],
+    enabled: !!org?.id,
+    queryKey: ["offers-by-org", org?.id],
     initialData: [],
-    async queryFn({ queryKey }) {
-      if (!queryKey[1]) {
-        throw new Error("no query key set");
-      }
-      return await getOffersByOrgId(queryKey[1]);
+    async queryFn() {
+      return await getOffersByOrgId(org!.id);
     },
   });
 }

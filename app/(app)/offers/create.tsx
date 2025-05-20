@@ -235,6 +235,12 @@ export function CreateOffer({ offer }: CreateOfferProps) {
               label="Notiz hinzufügen"
               placeholder="Gebe optional eine Notiz an"
             />
+            <Textarea
+              control={form.control}
+              name="legalNotice"
+              label="Allgemeine Geschäftsbedingungen (Optional)"
+              placeholder="Fügen Sie Informationen zur rechtlichen Vereinbarung mit Ihrem Kunden hinzu."
+            />
           </div>
           <div className="bg-background sticky bottom-0 z-10 flex max-h-[400px] w-full justify-end border-t py-8 pr-4">
             <div className="flex w-[400px] flex-col gap-1">

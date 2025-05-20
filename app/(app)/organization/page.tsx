@@ -54,6 +54,7 @@ export default async function Page() {
         </p>
         <OrgPaymentForm
           orgPayment={org.payment}
+          legalNotice={org.legalNotice}
           orgId={orgId}
           wrapperClassName="pt-8"
         />

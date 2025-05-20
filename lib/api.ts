@@ -340,17 +340,15 @@ export async function updateProjectType(projectId: string, value: boolean) {
   });
 }
 
-export async function setOrgPayment(
-  bankName: string,
-  iban: string,
-  bic: string,
-  orgId: string,
-) {
+export async function setOrgPayment(props: {
+  bankName: string;
+  legalNotice: string;
+  bic: string;
+  orgId: string;
+  iban: string;
+}) {
   await orgsClient.setOrgPayment({
-    bankName,
-    iban,
-    bic,
-    orgId,
+    ...props,
   });
 }
 

@@ -130,5 +130,5 @@ export function getNextOfferNumber(offers: Plain<Offer>[]) {
   if (latestOfferNo.year < currentYear) {
     return `${currentYear}-001`;
   }
-  return `${latestOfferNo.year}-${padWithZeros(latestOfferNo.no++, 3)}`;
+  return `${latestOfferNo.year}-${padWithZeros(latestOfferNo.no + 1, 3)}`;
 }

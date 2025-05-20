@@ -226,3 +226,11 @@ export async function getOfferById(id: string) {
     })
     .then((res) => res.offer as unknown as Plain<Offer>);
 }
+
+export async function getOffersByOrgId(orgId: string) {
+  return await offersClient
+    .getOffersByOrgId({
+      orgId,
+    })
+    .then((res) => res.offers as unknown as Plain<Offer>[]);
+}

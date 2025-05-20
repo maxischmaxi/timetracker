@@ -5,6 +5,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"regexp"
+	"strconv"
 	"time"
 
 	"connectrpc.com/connect"
@@ -33,7 +35,7 @@ type DbOffer struct {
 	ValidUntil  string        `bson:"valid_until"`
 	CreatedAt   int64         `bson:"created_at"`
 	UpdatedAt   int64         `bson:"updated_at"`
-	OrgId       string        `bson:"org_id"`
+	OrgId       bson.ObjectID `bson:"org_id"`
 }
 
 func GetOfferById(ctx context.Context, id string) (*offersv1.Offer, error) {
@@ -90,8 +92,41 @@ func (o *DbOffer) ToOffer() *offersv1.Offer {
 		ValidUntil:  o.ValidUntil,
 		CreatedAt:   o.CreatedAt,
 		UpdatedAt:   o.UpdatedAt,
-		OrgId:       o.OrgId,
+		OrgId:       o.OrgId.Hex(),
 	}
+}
+
+func GetOffersByOrgId(ctx context.Context, id string) ([]*offersv1.Offer, error) {
+	orgId, err := bson.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	filter := bson.M{
+		"org_id": orgId,
+	}
+
+	cursor, err := OFFERS.Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+
+	defer cursor.Close(ctx)
+
+	var offers []*offersv1.Offer
+	for cursor.Next(ctx) {
+		var offer DbOffer
+		if err := cursor.Decode(&offer); err != nil {
+			return nil, err
+		}
+		offers = append(offers, offer.ToOffer())
+	}
+
+	if err := cursor.Err(); err != nil {
+		return nil, err
+	}
+
+	return offers, nil
 }
 
 func (s *OffersServer) GetOfferPdf(ctx context.Context, req *connect.Request[offersv1.GetOfferPdfRequest]) (*connect.Response[offersv1.GetOfferPdfResponse], error) {
@@ -132,6 +167,11 @@ func (s *OffersServer) CreateOffer(ctx context.Context, req *connect.Request[off
 		Type:  int32(req.Msg.Discount.Type),
 	}
 
+	orgId, err := bson.ObjectIDFromHex(req.Msg.OrgId)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
 	offer := DbOffer{
 		Id:          id,
 		OfferNo:     req.Msg.OfferNo,
@@ -149,10 +189,10 @@ func (s *OffersServer) CreateOffer(ctx context.Context, req *connect.Request[off
 		UpdatedAt:   now,
 		ValidUntil:  req.Msg.ValidUntil,
 		DateOfIssue: req.Msg.DateOfIssue,
-		OrgId:       req.Msg.OrgId,
+		OrgId:       orgId,
 	}
 
-	_, err := OFFERS.InsertOne(ctx, offer)
+	_, err = OFFERS.InsertOne(ctx, offer)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
@@ -193,32 +233,8 @@ func (s *OffersServer) GetOffersByCustomerId(ctx context.Context, req *connect.R
 }
 
 func (s *OffersServer) GetOffersByOrgId(ctx context.Context, req *connect.Request[offersv1.GetOffersByOrgIdRequest]) (*connect.Response[offersv1.GetOffersByOrgIdResponse], error) {
-	orgId, err := bson.ObjectIDFromHex(req.Msg.OrgId)
+	offers, err := GetOffersByOrgId(ctx, req.Msg.OrgId)
 	if err != nil {
-		return nil, connect.NewError(connect.CodeInternal, err)
-	}
-
-	filter := bson.M{
-		"org_id": orgId,
-	}
-
-	cursor, err := OFFERS.Find(ctx, filter)
-	if err != nil {
-		return nil, connect.NewError(connect.CodeInternal, err)
-	}
-
-	defer cursor.Close(ctx)
-
-	var offers []*offersv1.Offer
-	for cursor.Next(ctx) {
-		var offer DbOffer
-		if err := cursor.Decode(&offer); err != nil {
-			return nil, connect.NewError(connect.CodeInternal, err)
-		}
-		offers = append(offers, offer.ToOffer())
-	}
-
-	if err := cursor.Err(); err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
 
@@ -227,13 +243,88 @@ func (s *OffersServer) GetOffersByOrgId(ctx context.Context, req *connect.Reques
 	}), nil
 }
 
+func getNextOfferNumber(offers []*offersv1.Offer) string {
+	currentYear := time.Now().Year()
+	latestOfferYear := 0
+	latestOfferNo := 0
+
+	for _, o := range offers {
+		re := regexp.MustCompile(`(\d{4})-(\d+)`)
+		match := re.FindStringSubmatch(o.OfferNo)
+
+		if match == nil {
+			continue
+		}
+
+		year, _ := strconv.Atoi(match[1])
+		number, _ := strconv.Atoi(match[2])
+
+		if year < latestOfferYear {
+			continue
+		}
+
+		if year > latestOfferYear {
+			latestOfferYear = year
+			latestOfferNo = number
+			continue
+		}
+
+		if number < latestOfferNo {
+			continue
+		}
+		if number == latestOfferNo {
+			continue
+		}
+		latestOfferNo = number
+	}
+
+	if latestOfferYear < currentYear {
+		return fmt.Sprintf("%d-001", currentYear)
+	}
+
+	return fmt.Sprintf("%d-%s", latestOfferYear, padWithZeros(latestOfferNo+1, 3))
+}
+
+func padWithZeros(input any, minLength int) string {
+	var inputStr string
+
+	switch v := input.(type) {
+	case string:
+		inputStr = v
+	case int:
+		inputStr = strconv.Itoa(v)
+	case int64:
+		inputStr = strconv.FormatInt(v, 10)
+	case float64:
+		inputStr = strconv.FormatFloat(v, 'f', -1, 64)
+	default:
+		return ""
+	}
+
+	for len(inputStr) < minLength {
+		inputStr = "0" + inputStr
+	}
+
+	return inputStr
+}
+
 func (s *OffersServer) CreateEmptyOffer(ctx context.Context, req *connect.Request[offersv1.CreateEmptyOfferRequest]) (*connect.Response[offersv1.CreateEmptyOfferResponse], error) {
 	now := time.Now()
 	valid := time.Now().Add(24 * 8 * time.Hour)
 
+	orgId, err := bson.ObjectIDFromHex(req.Msg.OrgId)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	offers, err := GetOffersByOrgId(ctx, req.Msg.OrgId)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
 	offer := DbOffer{
 		Id:          bson.NewObjectID(),
-		OfferNo:     "2025-001",
+		OfferNo:     getNextOfferNumber(offers),
 		Note:        "",
 		CustomerId:  "",
 		Positions:   []DbPosition{},
@@ -251,10 +342,10 @@ func (s *OffersServer) CreateEmptyOffer(ctx context.Context, req *connect.Reques
 		ValidUntil:  valid.Format("2006-01-02"),
 		CreatedAt:   now.Unix(),
 		UpdatedAt:   now.Unix(),
-		OrgId:       req.Msg.OrgId,
+		OrgId:       orgId,
 	}
 
-	_, err := OFFERS.InsertOne(ctx, offer)
+	_, err = OFFERS.InsertOne(ctx, offer)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}

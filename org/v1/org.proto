@@ -151,7 +151,8 @@ message SetOrgPaymentRequest {
   string iban = 1;
   string bic = 2;
   string bank_name = 3;
-  string org_id = 4;
+  string legalNotice = 4;
+  string org_id = 5;
 }
 
 message SetOrgPaymentResponse { }

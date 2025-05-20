@@ -372,17 +372,14 @@ func (s *OrgServer) SetOrgPayment(ctx context.Context, req *connect.Request[orgv
 
 	update := bson.M{
 		"$set": bson.M{
-			"payment": payment,
+			"payment":      payment,
+			"legal_notice": req.Msg.LegalNotice,
 		},
 	}
 
-	res, err := ORGS.UpdateOne(ctx, filter, update)
+	_, err = ORGS.UpdateOne(ctx, filter, update)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
-	}
-
-	if res.ModifiedCount == 0 {
-		return nil, connect.NewError(connect.CodeInternal, errors.New("no orgs updated"))
 	}
 
 	return connect.NewResponse(&orgv1.SetOrgPaymentResponse{}), nil

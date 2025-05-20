@@ -13,17 +13,27 @@ import { toast } from "sonner";
 import { Loader } from "lucide-react";
 import { Plain } from "@/types";
 import { Payment } from "@/org/v1/org_pb";
+import { Textarea } from "./ui/textarea";
 
 type Props = {
   wrapperClassName?: string;
   orgPayment: Plain<Payment> | undefined;
+  legalNotice: string | undefined;
   orgId: string;
 };
 
-export function OrgPaymentForm({ orgId, wrapperClassName, orgPayment }: Props) {
+export function OrgPaymentForm({
+  orgId,
+  legalNotice,
+  wrapperClassName,
+  orgPayment,
+}: Props) {
   const form = useForm<z.infer<typeof orgPaymentSchema>>({
     resolver: zodResolver(orgPaymentSchema),
-    defaultValues: orgPayment,
+    defaultValues: {
+      ...orgPayment,
+      legalNotice,
+    },
   });
 
   const setOrgPayment = useSetOrgPayment({
@@ -39,6 +49,7 @@ export function OrgPaymentForm({ orgId, wrapperClassName, orgPayment }: Props) {
     await setOrgPayment.mutateAsync({
       ...data,
       orgId,
+      legalNotice: data.legalNotice || "",
     });
   }
 
@@ -73,6 +84,13 @@ export function OrgPaymentForm({ orgId, wrapperClassName, orgPayment }: Props) {
           type="text"
           label="Name der Bank"
           placeholder="Namen eingeben..."
+          disabled={setOrgPayment.isPending}
+        />
+        <Textarea
+          control={form.control}
+          name="legalNotice"
+          label="Allgemeine Geschäftsbedingungen (Optional)"
+          placeholder="Fügen Sie Informationen zur rechtlichen Vereinbarung mit Ihrem Kunden hinzu."
           disabled={setOrgPayment.isPending}
         />
         <div className="flex flex-row flex-nowrap">

@@ -95,18 +95,14 @@ export function useDeletServiceType(props?: Props) {
 
 export function useSetOrgPayment(props?: Props) {
   return useMutation({
-    async mutationFn({
-      orgId,
-      bankName,
-      iban,
-      bic,
-    }: {
+    async mutationFn(props: {
       orgId: string;
       bankName: string;
       iban: string;
       bic: string;
+      legalNotice: string;
     }) {
-      await setOrgPayment(bankName, iban, bic, orgId);
+      await setOrgPayment(props);
     },
     onSuccess() {
       props?.onSuccess?.();

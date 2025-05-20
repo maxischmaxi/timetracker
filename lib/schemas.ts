@@ -294,6 +294,7 @@ export const orgPaymentSchema = z.object({
   iban: z.string(),
   bic: z.string(),
   bankName: z.string(),
+  legalNotice: z.string().optional(),
 });
 
 export const discountSchema = z.object({

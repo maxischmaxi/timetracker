@@ -1460,7 +1460,8 @@ type SetOrgPaymentRequest struct {
 	Iban          string                 `protobuf:"bytes,1,opt,name=iban,proto3" json:"iban,omitempty"`
 	Bic           string                 `protobuf:"bytes,2,opt,name=bic,proto3" json:"bic,omitempty"`
 	BankName      string                 `protobuf:"bytes,3,opt,name=bank_name,json=bankName,proto3" json:"bank_name,omitempty"`
-	OrgId         string                 `protobuf:"bytes,4,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
+	LegalNotice   string                 `protobuf:"bytes,4,opt,name=legalNotice,proto3" json:"legalNotice,omitempty"`
+	OrgId         string                 `protobuf:"bytes,5,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1512,6 +1513,13 @@ func (x *SetOrgPaymentRequest) GetBic() string {
 func (x *SetOrgPaymentRequest) GetBankName() string {
 	if x != nil {
 		return x.BankName
+	}
+	return ""
+}
+
+func (x *SetOrgPaymentRequest) GetLegalNotice() string {
+	if x != nil {
+		return x.LegalNotice
 	}
 	return ""
 }
@@ -1638,12 +1646,13 @@ const file_org_v1_org_proto_rawDesc = "" +
 	"\x18DeleteServiceTypeRequest\x12\x15\n" +
 	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12&\n" +
 	"\x0fservice_type_id\x18\x02 \x01(\tR\rserviceTypeId\"\x1b\n" +
-	"\x19DeleteServiceTypeResponse\"p\n" +
+	"\x19DeleteServiceTypeResponse\"\x92\x01\n" +
 	"\x14SetOrgPaymentRequest\x12\x12\n" +
 	"\x04iban\x18\x01 \x01(\tR\x04iban\x12\x10\n" +
 	"\x03bic\x18\x02 \x01(\tR\x03bic\x12\x1b\n" +
-	"\tbank_name\x18\x03 \x01(\tR\bbankName\x12\x15\n" +
-	"\x06org_id\x18\x04 \x01(\tR\x05orgId\"\x17\n" +
+	"\tbank_name\x18\x03 \x01(\tR\bbankName\x12 \n" +
+	"\vlegalNotice\x18\x04 \x01(\tR\vlegalNotice\x12\x15\n" +
+	"\x06org_id\x18\x05 \x01(\tR\x05orgId\"\x17\n" +
 	"\x15SetOrgPaymentResponse*F\n" +
 	"\fMailProvider\x12\x1d\n" +
 	"\x19MAIL_PROVIDER_UNSPECIFIED\x10\x00\x12\x17\n" +
