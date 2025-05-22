@@ -259,81 +259,79 @@ export function OfferForm({ offer }: Props) {
                 <p className="text-right">Zwischensumme</p>
                 <p>{formatCurrency(subtotalValue, "EUR", "de-DE")}</p>
               </div>
-              {!offer.isPending && !offer.isError && (
-                <Sheet>
-                  <SheetTrigger asChild>
-                    <Button type="button">
-                      Rabatt bearbeiten:{" "}
-                      <span className="ml-auto">
-                        {formatCurrency(discountValue, "EUR", "de-DE")}
-                      </span>
-                    </Button>
-                  </SheetTrigger>
-                  <SheetContent>
-                    <SheetHeader>
-                      <SheetTitle>Rabatt hinzufügen</SheetTitle>
-                      <SheetDescription>
-                        Räumen Sie Ihrem Kunden einen Rabatt ein.
-                      </SheetDescription>
-                    </SheetHeader>
-                    <div className="space-y-4 px-4">
-                      <div className="flex w-full flex-row flex-nowrap gap-4">
-                        <Button
-                          variant={
-                            discountType === DiscountType.FIXED
-                              ? "default"
-                              : "outline"
-                          }
-                          type="button"
-                          className="flex-1"
-                          onClick={() => {
-                            form.setValue("discount", {
-                              value: 0,
-                              type: DiscountType.FIXED,
-                            });
-                          }}
-                        >
-                          Festbetrag(€)
-                        </Button>
-                        <Button
-                          className="flex-1"
-                          type="button"
-                          variant={
-                            discountType === DiscountType.PERCENT
-                              ? "default"
-                              : "outline"
-                          }
-                          onClick={() => {
-                            form.setValue("discount", {
-                              value: 0,
-                              type: DiscountType.PERCENT,
-                            });
-                          }}
-                        >
-                          Prozent(%)
-                        </Button>
-                      </div>
-                      <Controller
-                        control={form.control}
-                        name="discount.value"
-                        render={({ field }) => (
-                          <Input
-                            value={field.value}
-                            onChange={(e) => {
-                              const value = parseFloat(e.currentTarget.value);
-                              if (isNaN(value)) return;
-                              field.onChange(value);
-                            }}
-                            inputMode="numeric"
-                            type="text"
-                            placeholder="Betrag angeben"
-                          />
-                        )}
-                      />
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button type="button">
+                    Rabatt bearbeiten:{" "}
+                    <span className="ml-auto">
+                      {formatCurrency(discountValue, "EUR", "de-DE")}
+                    </span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Rabatt hinzufügen</SheetTitle>
+                    <SheetDescription>
+                      Räumen Sie Ihrem Kunden einen Rabatt ein.
+                    </SheetDescription>
+                  </SheetHeader>
+                  <div className="space-y-4 px-4">
+                    <div className="flex w-full flex-row flex-nowrap gap-4">
+                      <Button
+                        variant={
+                          discountType === DiscountType.FIXED
+                            ? "default"
+                            : "outline"
+                        }
+                        type="button"
+                        className="flex-1"
+                        onClick={() => {
+                          form.setValue("discount", {
+                            value: 0,
+                            type: DiscountType.FIXED,
+                          });
+                        }}
+                      >
+                        Festbetrag(€)
+                      </Button>
+                      <Button
+                        className="flex-1"
+                        type="button"
+                        variant={
+                          discountType === DiscountType.PERCENT
+                            ? "default"
+                            : "outline"
+                        }
+                        onClick={() => {
+                          form.setValue("discount", {
+                            value: 0,
+                            type: DiscountType.PERCENT,
+                          });
+                        }}
+                      >
+                        Prozent(%)
+                      </Button>
                     </div>
-                  </SheetContent>
-                </Sheet>
-              )}
+                    <Controller
+                      control={form.control}
+                      name="discount.value"
+                      render={({ field }) => (
+                        <Input
+                          value={field.value}
+                          onChange={(e) => {
+                            const value = parseFloat(e.currentTarget.value);
+                            if (isNaN(value)) return;
+                            field.onChange(value);
+                          }}
+                          inputMode="numeric"
+                          type="text"
+                          placeholder="Betrag angeben"
+                        />
+                      )}
+                    />
+                  </div>
+                </SheetContent>
+              </Sheet>
               <div className="flex flex-row justify-between text-lg font-bold">
                 <p className="text-right">Gesamtsumme</p>
                 <p>{formatCurrency(totalValue, "EUR", "de-DE")}</p>
