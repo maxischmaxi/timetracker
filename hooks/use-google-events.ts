@@ -92,6 +92,7 @@ export function useImportGoogleCalendarEvent() {
       await createJob({
         hours,
         serviceTypeId,
+        isMeeting: true,
         type: JobType.BILLABLE,
         date: format(data.start?.dateTime || new Date(), "yyyy-MM-dd", {
           locale: de,
