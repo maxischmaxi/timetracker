@@ -30,7 +30,10 @@ export function NavSecondary({ items, ...props }: Props) {
       <SidebarGroupContent>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={() => setSettingsOpen(true)}>
+            <SidebarMenuButton
+              className="cursor-pointer"
+              onClick={() => setSettingsOpen(true)}
+            >
               <SettingsIcon />
               Einstellungen
             </SidebarMenuButton>

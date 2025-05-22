@@ -31,7 +31,6 @@ enum DiscountType {
 }
 
 message Discount {
-  string id = 1;
   DiscountType type = 2;
   float value = 3;
 }
@@ -42,7 +41,6 @@ message CreateDiscount {
 }
 
 message Position {
-  string id = 1;
   string name = 2;
   string description = 3;
   int32 count = 4;

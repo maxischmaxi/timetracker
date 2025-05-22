@@ -2,9 +2,12 @@
 
 import {
   BellIcon,
+  ComputerIcon,
   CreditCardIcon,
   LogOutIcon,
+  Moon,
   MoreVerticalIcon,
+  Sun,
   UserCircleIcon,
 } from "lucide-react";
 import {
@@ -27,11 +30,14 @@ import { AuthContext, signOut } from "./auth-provider";
 import { useRouter } from "next/navigation";
 import { UserAvatar } from "./user-avatar";
 import { use } from "react";
+import { useTheme } from "next-themes";
+import { Button } from "./ui/button";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const router = useRouter();
   const { firebaseUser } = use(AuthContext);
+  const { setTheme, theme } = useTheme();
 
   return (
     <SidebarMenu>
@@ -73,6 +79,45 @@ export function NavUser() {
                 </div>
               </div>
             </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuLabel style={{ fontSize: 11 }}>
+                Colortheme
+              </DropdownMenuLabel>
+              <DropdownMenuItem asChild>
+                <Button
+                  variant={theme === "system" ? "secondary" : "ghost"}
+                  onClick={() => setTheme("system")}
+                  className="w-full justify-start border-none shadow-none focus-visible:border-none focus-visible:ring-0"
+                  size="sm"
+                >
+                  <ComputerIcon />
+                  System
+                </Button>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Button
+                  onClick={() => setTheme("light")}
+                  variant={theme === "light" ? "secondary" : "ghost"}
+                  className="w-full justify-start border-none shadow-none focus-visible:border-none focus-visible:ring-0"
+                  size="sm"
+                >
+                  <Sun />
+                  Light
+                </Button>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Button
+                  onClick={() => setTheme("dark")}
+                  variant={theme === "dark" ? "secondary" : "ghost"}
+                  className="w-full justify-start border-none shadow-none focus-visible:border-none focus-visible:ring-0"
+                  size="sm"
+                >
+                  <Moon />
+                  Dark
+                </Button>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>

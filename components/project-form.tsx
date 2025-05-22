@@ -1,7 +1,7 @@
 "use client";
 
 import { Block } from "@uiw/react-color";
-import { FieldErrors, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Form } from "./ui/form";
 import { z } from "zod";
 import { Project } from "@/project/v1/project_pb";
@@ -74,14 +74,10 @@ export function ProjectForm({
     }
   }
 
-  function onError(error: FieldErrors<z.infer<typeof createProjectSchema>>) {
-    console.error(error);
-  }
-
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit, onError)}
+        onSubmit={form.handleSubmit(onSubmit)}
         className={cn("space-y-4", className)}
       >
         <CustomerSelect

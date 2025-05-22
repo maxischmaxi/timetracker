@@ -27,6 +27,7 @@ type DbJob struct {
 	Minutes       int64         `bson:"minutes"`
 	ServiceTypeId string        `bson:"service_type_id"`
 	Date          string        `bson:"date"`
+	IsMeeting     bool          `bson:"is_meeting"`
 }
 
 func (j *DbJob) ToJob() projectv1.Job {
@@ -40,6 +41,7 @@ func (j *DbJob) ToJob() projectv1.Job {
 		Minutes:       j.Minutes,
 		ServiceTypeId: j.ServiceTypeId,
 		Date:          j.Date,
+		IsMeeting:     j.IsMeeting,
 	}
 }
 
@@ -375,6 +377,7 @@ func (s *ProjectServer) CreateJob(ctx context.Context, req *connect.Request[proj
 		CreatedAt:     now,
 		UpdatedAt:     now,
 		ServiceTypeId: req.Msg.ServiceTypeId,
+		IsMeeting:     req.Msg.IsMeeting,
 	}
 
 	projectId, err := bson.ObjectIDFromHex(req.Msg.ProjectId)

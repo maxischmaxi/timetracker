@@ -158,7 +158,6 @@ func (DiscountType) EnumDescriptor() ([]byte, []int) {
 
 type Discount struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Type          DiscountType           `protobuf:"varint,2,opt,name=type,proto3,enum=positions.v1.DiscountType" json:"type,omitempty"`
 	Value         float32                `protobuf:"fixed32,3,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -193,13 +192,6 @@ func (x *Discount) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Discount.ProtoReflect.Descriptor instead.
 func (*Discount) Descriptor() ([]byte, []int) {
 	return file_positions_v1_positions_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *Discount) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
 }
 
 func (x *Discount) GetType() DiscountType {
@@ -270,7 +262,6 @@ func (x *CreateDiscount) GetValue() float32 {
 
 type Position struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	Count         int32                  `protobuf:"varint,4,opt,name=count,proto3" json:"count,omitempty"`
@@ -308,13 +299,6 @@ func (x *Position) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Position.ProtoReflect.Descriptor instead.
 func (*Position) Descriptor() ([]byte, []int) {
 	return file_positions_v1_positions_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *Position) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
 }
 
 func (x *Position) GetName() string {
@@ -440,16 +424,14 @@ var File_positions_v1_positions_proto protoreflect.FileDescriptor
 
 const file_positions_v1_positions_proto_rawDesc = "" +
 	"\n" +
-	"\x1cpositions/v1/positions.proto\x12\fpositions.v1\x1a\x10org/v1/org.proto\"`\n" +
-	"\bDiscount\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12.\n" +
+	"\x1cpositions/v1/positions.proto\x12\fpositions.v1\x1a\x10org/v1/org.proto\"P\n" +
+	"\bDiscount\x12.\n" +
 	"\x04type\x18\x02 \x01(\x0e2\x1a.positions.v1.DiscountTypeR\x04type\x12\x14\n" +
 	"\x05value\x18\x03 \x01(\x02R\x05value\"V\n" +
 	"\x0eCreateDiscount\x12.\n" +
 	"\x04type\x18\x02 \x01(\x0e2\x1a.positions.v1.DiscountTypeR\x04type\x12\x14\n" +
-	"\x05value\x18\x03 \x01(\x02R\x05value\"\xac\x01\n" +
-	"\bPosition\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x05value\x18\x03 \x01(\x02R\x05value\"\x9c\x01\n" +
+	"\bPosition\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x14\n" +
 	"\x05count\x18\x04 \x01(\x05R\x05count\x12\x14\n" +

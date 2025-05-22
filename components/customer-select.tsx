@@ -62,7 +62,10 @@ export function CustomerSelect<T extends FieldValues>(props: Props<T>) {
               <PopoverTrigger asChild>
                 <Button
                   disabled={
-                    customers.isPending || customers.isLoading || disabled
+                    customers.isPending ||
+                    customers.isLoading ||
+                    disabled ||
+                    field.disabled
                   }
                   variant="outline"
                   role="combobox"

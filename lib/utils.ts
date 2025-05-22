@@ -132,3 +132,11 @@ export function getNextOfferNumber(offers: Plain<Offer>[]) {
   }
   return `${latestOfferNo.year}-${padWithZeros(latestOfferNo.no + 1, 3)}`;
 }
+
+export function enumToFriendlyName(name: string) {
+  const parts = firstLetterUppercase(name)
+    .replaceAll("-", " ")
+    .replaceAll("_", " ")
+    .split(" ");
+  return parts.map((p) => firstLetterUppercase(p)).join(" ");
+}

@@ -19,7 +19,7 @@ export default async function Page() {
   return (
     <main className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm space-y-4">
-        <p className="text-sm text-secondary-foreground">
+        <p className="text-secondary-foreground w-full text-center text-sm">
           Hey {currentUser.displayName}, noch ein Schritt und es kann losgehen!
         </p>
         <Card>

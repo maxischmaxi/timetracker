@@ -36,6 +36,7 @@ type DbOffer struct {
 	CreatedAt   int64         `bson:"created_at"`
 	UpdatedAt   int64         `bson:"updated_at"`
 	OrgId       bson.ObjectID `bson:"org_id"`
+	Status      int32         `bson:"status"`
 }
 
 func GetOfferById(ctx context.Context, id string) (*offersv1.Offer, error) {
@@ -59,7 +60,6 @@ func (o *DbOffer) ToOffer() *offersv1.Offer {
 
 	for _, p := range o.Positions {
 		positions = append(positions, &positionsv1.Position{
-			Id:          p.Id.Hex(),
 			Name:        p.Name,
 			Description: p.Description,
 			Count:       p.Count,
@@ -93,6 +93,7 @@ func (o *DbOffer) ToOffer() *offersv1.Offer {
 		CreatedAt:   o.CreatedAt,
 		UpdatedAt:   o.UpdatedAt,
 		OrgId:       o.OrgId.Hex(),
+		Status:      offersv1.OfferStatus(o.Status),
 	}
 }
 
@@ -152,7 +153,6 @@ func (s *OffersServer) CreateOffer(ctx context.Context, req *connect.Request[off
 
 	for _, p := range req.Msg.Positions {
 		positions = append(positions, DbPosition{
-			Id:          bson.NewObjectID(),
 			Name:        p.Name,
 			Description: p.Description,
 			Count:       p.Count,
@@ -190,6 +190,7 @@ func (s *OffersServer) CreateOffer(ctx context.Context, req *connect.Request[off
 		ValidUntil:  req.Msg.ValidUntil,
 		DateOfIssue: req.Msg.DateOfIssue,
 		OrgId:       orgId,
+		Status:      int32(req.Msg.Status),
 	}
 
 	_, err = OFFERS.InsertOne(ctx, offer)
@@ -343,6 +344,7 @@ func (s *OffersServer) CreateEmptyOffer(ctx context.Context, req *connect.Reques
 		CreatedAt:   now.Unix(),
 		UpdatedAt:   now.Unix(),
 		OrgId:       orgId,
+		Status:      int32(offersv1.OfferStatus_OFFER_STATUS_DRAFT),
 	}
 
 	_, err = OFFERS.InsertOne(ctx, offer)
@@ -390,11 +392,10 @@ func (s *OffersServer) UpdateOffer(ctx context.Context, req *connect.Request[off
 		"_id": id,
 	}
 
-	positions := make([]DbPosition, len(req.Msg.Positions))
+	var positions []DbPosition
 
 	for _, p := range req.Msg.Positions {
 		positions = append(positions, DbPosition{
-			Id:          bson.NewObjectID(),
 			Name:        p.Name,
 			Description: p.Description,
 			Count:       p.Count,
@@ -404,31 +405,30 @@ func (s *OffersServer) UpdateOffer(ctx context.Context, req *connect.Request[off
 	}
 
 	now := time.Now().Unix()
+
 	discount := DbDiscount{
 		Value: req.Msg.Discount.Value,
 		Type:  int32(req.Msg.Discount.Type),
 	}
 
-	offer := DbOffer{
-		Id:          id,
-		OfferNo:     req.Msg.OfferNo,
-		Note:        req.Msg.Note,
-		CustomerId:  req.Msg.CustomerId,
-		LegalNotice: *req.Msg.LegalNotice,
-		Payment: DbPayment{
-			Iban:     req.Msg.Payment.Iban,
-			BankName: req.Msg.Payment.BankName,
-			Bic:      req.Msg.Payment.Bic,
-		},
-		Positions:   positions,
-		Discount:    discount,
-		UpdatedAt:   now,
-		ValidUntil:  req.Msg.ValidUntil,
-		DateOfIssue: req.Msg.DateOfIssue,
-	}
-
 	data := bson.M{
-		"$set": offer,
+		"$set": bson.M{
+			"offer_no":     req.Msg.OfferNo,
+			"note":         req.Msg.Note,
+			"customer_id":  req.Msg.CustomerId,
+			"legal_notice": req.Msg.LegalNotice,
+			"payment": bson.M{
+				"iban":      req.Msg.Payment.Iban,
+				"bic":       req.Msg.Payment.Bic,
+				"bank_name": req.Msg.Payment.BankName,
+			},
+			"positions":     positions,
+			"discount":      discount,
+			"updated_at":    now,
+			"valid_until":   req.Msg.ValidUntil,
+			"date_of_issue": req.Msg.DateOfIssue,
+			"status":        int32(req.Msg.Status),
+		},
 	}
 
 	updateResult, err := OFFERS.UpdateOne(ctx, filter, data)
@@ -445,6 +445,28 @@ func (s *OffersServer) UpdateOffer(ctx context.Context, req *connect.Request[off
 	return connect.NewResponse(&offersv1.UpdateOfferResponse{
 		Offer: currentOffer,
 	}), nil
+}
+
+func (s *OffersServer) DeleteOffer(ctx context.Context, req *connect.Request[offersv1.DeleteOfferRequest]) (*connect.Response[offersv1.DeleteOfferResponse], error) {
+	id, err := bson.ObjectIDFromHex(req.Msg.Id)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	offer, err := GetOfferById(ctx, req.Msg.Id)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	if offer.Status == offersv1.OfferStatus_OFFER_STATUS_SENT {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("offer status is sent, cannot delete"))
+	}
+
+	if _, err = OFFERS.DeleteOne(ctx, bson.M{"_id": id}); err != nil {
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	return connect.NewResponse(&offersv1.DeleteOfferResponse{}), nil
 }
 
 func GenerateBlanko(offer *offersv1.Offer) ([]byte, error) {

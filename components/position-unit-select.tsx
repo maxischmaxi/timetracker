@@ -12,7 +12,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { cn, firstLetterUppercase } from "@/lib/utils";
+import { cn, enumToFriendlyName } from "@/lib/utils";
 import { ChevronsUpDown } from "lucide-react";
 import {
   Command,
@@ -31,14 +31,6 @@ type Props<T extends FieldValues> = {
   label?: string;
   className?: string;
 };
-
-function toFriendlyName(name: string) {
-  const parts = firstLetterUppercase(name)
-    .replaceAll("-", " ")
-    .replaceAll("_", " ")
-    .split(" ");
-  return parts.map((p) => firstLetterUppercase(p)).join(" ");
-}
 
 export function PositionUnitSelect<T extends FieldValues>(props: Props<T>) {
   const { control, name, label, className } = props;
@@ -66,7 +58,7 @@ export function PositionUnitSelect<T extends FieldValues>(props: Props<T>) {
                     className={cn("w-[200px] justify-between", className)}
                   >
                     {!!currentValue
-                      ? toFriendlyName(currentValue.localName)
+                      ? enumToFriendlyName(currentValue.localName)
                       : "Einheit wählen"}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
@@ -93,7 +85,7 @@ export function PositionUnitSelect<T extends FieldValues>(props: Props<T>) {
                                 setOpen(false);
                               }}
                             >
-                              {toFriendlyName(value.localName)}
+                              {enumToFriendlyName(value.localName)}
                             </CommandItem>
                           ))}
                       </CommandGroup>

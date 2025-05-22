@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
 import { Form } from "@/components/ui/form";
 import { ProjectSelect } from "@/components/project-select";
-import { FieldErrors, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { createJobSchema } from "@/lib/schemas";
 import { format } from "date-fns";
 import { Plain } from "@/types";
@@ -14,6 +14,8 @@ import { Button } from "./ui/button";
 import { CreateJobRequest, JobType } from "@/project/v1/project_pb";
 import { ServiceTypeSelect } from "./service-type-select";
 import { useCreateJob } from "@/hooks/use-projects";
+import { Switch } from "./ui/switch";
+import { Label } from "./ui/label";
 
 type Props = {
   date: Date;
@@ -41,6 +43,8 @@ export function JobForm({
       hours: 0,
       minutes: 0,
       date: format(date, "yyyy-MM-dd"),
+      isMeeting: false,
+      serviceTypeId: "",
     },
   });
   const create = useCreateJob({
@@ -55,8 +59,7 @@ export function JobForm({
     },
   });
 
-  function onError(error: FieldErrors<z.infer<typeof createJobSchema>>) {
-    console.error(error);
+  function onError() {
     parentError?.();
   }
 
@@ -69,6 +72,7 @@ export function JobForm({
       description: data.description,
       hours: data.hours,
       minutes: data.minutes,
+      isMeeting: data.isMeeting,
     };
     await create.mutateAsync(job);
   }
@@ -120,6 +124,14 @@ export function JobForm({
             label="Minuten"
             className="max-w-full lg:max-w-[100px]"
           />
+          <div className="flex items-center space-x-2">
+            <Switch
+              checked={form.watch("isMeeting")}
+              onCheckedChange={(value) => form.setValue("isMeeting", value)}
+              id="isMeetingSwitch"
+            />
+            <Label htmlFor="isMeetingSwitch">Meeting?</Label>
+          </div>
           {hideCancel && (
             <Button
               className="mt-0 mb-0 ml-0 lg:mt-auto lg:mb-2 lg:ml-auto"

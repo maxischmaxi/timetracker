@@ -131,6 +131,7 @@ type Job struct {
 	Minutes       int64                  `protobuf:"varint,8,opt,name=minutes,proto3" json:"minutes,omitempty"`
 	ServiceTypeId string                 `protobuf:"bytes,9,opt,name=service_type_id,json=serviceTypeId,proto3" json:"service_type_id,omitempty"`
 	Date          string                 `protobuf:"bytes,10,opt,name=date,proto3" json:"date,omitempty"`
+	IsMeeting     bool                   `protobuf:"varint,11,opt,name=is_meeting,json=isMeeting,proto3" json:"is_meeting,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -226,6 +227,13 @@ func (x *Job) GetDate() string {
 		return x.Date
 	}
 	return ""
+}
+
+func (x *Job) GetIsMeeting() bool {
+	if x != nil {
+		return x.IsMeeting
+	}
+	return false
 }
 
 type Project struct {
@@ -1209,6 +1217,7 @@ type CreateJobRequest struct {
 	Minutes       int64                  `protobuf:"varint,6,opt,name=minutes,proto3" json:"minutes,omitempty"`
 	Date          string                 `protobuf:"bytes,7,opt,name=date,proto3" json:"date,omitempty"`
 	ServiceTypeId string                 `protobuf:"bytes,8,opt,name=service_type_id,json=serviceTypeId,proto3" json:"service_type_id,omitempty"`
+	IsMeeting     bool                   `protobuf:"varint,9,opt,name=is_meeting,json=isMeeting,proto3" json:"is_meeting,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1290,6 +1299,13 @@ func (x *CreateJobRequest) GetServiceTypeId() string {
 		return x.ServiceTypeId
 	}
 	return ""
+}
+
+func (x *CreateJobRequest) GetIsMeeting() bool {
+	if x != nil {
+		return x.IsMeeting
+	}
+	return false
 }
 
 type CreateJobResponse struct {
@@ -1921,7 +1937,7 @@ var File_project_v1_project_proto protoreflect.FileDescriptor
 const file_project_v1_project_proto_rawDesc = "" +
 	"\n" +
 	"\x18project/v1/project.proto\x12\n" +
-	"project.v1\x1a\x1acustomer/v1/customer.proto\"\x8a\x02\n" +
+	"project.v1\x1a\x1acustomer/v1/customer.proto\"\xa9\x02\n" +
 	"\x03Job\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12'\n" +
@@ -1934,7 +1950,9 @@ const file_project_v1_project_proto_rawDesc = "" +
 	"\aminutes\x18\b \x01(\x03R\aminutes\x12&\n" +
 	"\x0fservice_type_id\x18\t \x01(\tR\rserviceTypeId\x12\x12\n" +
 	"\x04date\x18\n" +
-	" \x01(\tR\x04date\"\xc9\x02\n" +
+	" \x01(\tR\x04date\x12\x1d\n" +
+	"\n" +
+	"is_meeting\x18\v \x01(\bR\tisMeeting\"\xc9\x02\n" +
 	"\aProject\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -1996,7 +2014,7 @@ const file_project_v1_project_proto_rawDesc = "" +
 	"\rGetJobRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"3\n" +
 	"\x0eGetJobResponse\x12!\n" +
-	"\x03job\x18\x01 \x01(\v2\x0f.project.v1.JobR\x03job\"\xe8\x01\n" +
+	"\x03job\x18\x01 \x01(\v2\x0f.project.v1.JobR\x03job\"\x87\x02\n" +
 	"\x10CreateJobRequest\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x12 \n" +
@@ -2005,7 +2023,9 @@ const file_project_v1_project_proto_rawDesc = "" +
 	"\x05hours\x18\x05 \x01(\x03R\x05hours\x12\x18\n" +
 	"\aminutes\x18\x06 \x01(\x03R\aminutes\x12\x12\n" +
 	"\x04date\x18\a \x01(\tR\x04date\x12&\n" +
-	"\x0fservice_type_id\x18\b \x01(\tR\rserviceTypeId\"\x13\n" +
+	"\x0fservice_type_id\x18\b \x01(\tR\rserviceTypeId\x12\x1d\n" +
+	"\n" +
+	"is_meeting\x18\t \x01(\bR\tisMeeting\"\x13\n" +
 	"\x11CreateJobResponse\"5\n" +
 	"\x10UpdateJobRequest\x12!\n" +
 	"\x03job\x18\x01 \x01(\v2\x0f.project.v1.JobR\x03job\"\x13\n" +

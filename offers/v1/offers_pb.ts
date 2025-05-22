@@ -2,8 +2,8 @@
 // @generated from file offers/v1/offers.proto (package offers.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import type { Payment } from "../../org/v1/org_pb";
 import { file_org_v1_org } from "../../org/v1/org_pb";
 import type { CreateDiscount, CreatePosition, Discount, Position } from "../../positions/v1/positions_pb";
@@ -14,7 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file offers/v1/offers.proto.
  */
 export const file_offers_v1_offers: GenFile = /*@__PURE__*/
-  fileDesc("ChZvZmZlcnMvdjEvb2ZmZXJzLnByb3RvEglvZmZlcnMudjEi4AIKBU9mZmVyEgoKAmlkGAEgASgJEhAKCG9mZmVyX25vGAIgASgJEgwKBG5vdGUYAyABKAkSEwoLY3VzdG9tZXJfaWQYBCABKAkSKQoJcG9zaXRpb25zGAUgAygLMhYucG9zaXRpb25zLnYxLlBvc2l0aW9uEhkKDGxlZ2FsX25vdGljZRgGIAEoCUgAiAEBEiUKB3BheW1lbnQYByABKAsyDy5vcmcudjEuUGF5bWVudEgBiAEBEigKCGRpc2NvdW50GAggASgLMhYucG9zaXRpb25zLnYxLkRpc2NvdW50EhUKDWRhdGVfb2ZfaXNzdWUYCSABKAkSEwoLdmFsaWRfdW50aWwYCiABKAkSEgoKY3JlYXRlZF9hdBgLIAEoAxISCgp1cGRhdGVkX2F0GAwgASgDEg4KBm9yZ19pZBgNIAEoCUIPCg1fbGVnYWxfbm90aWNlQgoKCF9wYXltZW50Iq8CChJDcmVhdGVPZmZlclJlcXVlc3QSEAoIb2ZmZXJfbm8YASABKAkSDAoEbm90ZRgCIAEoCRITCgtjdXN0b21lcl9pZBgDIAEoCRIvCglwb3NpdGlvbnMYBSADKAsyHC5wb3NpdGlvbnMudjEuQ3JlYXRlUG9zaXRpb24SFAoMbGVnYWxfbm90aWNlGAYgASgJEiUKB3BheW1lbnQYByABKAsyDy5vcmcudjEuUGF5bWVudEgAiAEBEi4KCGRpc2NvdW50GAggASgLMhwucG9zaXRpb25zLnYxLkNyZWF0ZURpc2NvdW50EhUKDWRhdGVfb2ZfaXNzdWUYCSABKAkSEwoLdmFsaWRfdW50aWwYCiABKAkSDgoGb3JnX2lkGAsgASgJQgoKCF9wYXltZW50IjYKE0NyZWF0ZU9mZmVyUmVzcG9uc2USHwoFb2ZmZXIYASABKAsyEC5vZmZlcnMudjEuT2ZmZXIiMwocR2V0T2ZmZXJzQnlDdXN0b21lcklkUmVxdWVzdBITCgtjdXN0b21lcl9pZBgBIAEoCSJBCh1HZXRPZmZlcnNCeUN1c3RvbWVySWRSZXNwb25zZRIgCgZvZmZlcnMYASADKAsyEC5vZmZlcnMudjEuT2ZmZXIiJgoSR2V0T2ZmZXJQZGZSZXF1ZXN0EhAKCG9mZmVyX2lkGAEgASgJIicKE0dldE9mZmVyUGRmUmVzcG9uc2USEAoIcGRmX2RhdGEYASABKAwiKQoXR2V0T2ZmZXJzQnlPcmdJZFJlcXVlc3QSDgoGb3JnX2lkGAEgASgJIjwKGEdldE9mZmVyc0J5T3JnSWRSZXNwb25zZRIgCgZvZmZlcnMYASADKAsyEC5vZmZlcnMudjEuT2ZmZXIiIQoTR2V0T2ZmZXJCeUlkUmVxdWVzdBIKCgJpZBgBIAEoCSI3ChRHZXRPZmZlckJ5SWRSZXNwb25zZRIfCgVvZmZlchgBIAEoCzIQLm9mZmVycy52MS5PZmZlciIpChdDcmVhdGVFbXB0eU9mZmVyUmVxdWVzdBIOCgZvcmdfaWQYASABKAkiOwoYQ3JlYXRlRW1wdHlPZmZlclJlc3BvbnNlEh8KBW9mZmVyGAEgASgLMhAub2ZmZXJzLnYxLk9mZmVyIrUCChJVcGRhdGVPZmZlclJlcXVlc3QSCgoCaWQYASABKAkSEAoIb2ZmZXJfbm8YAiABKAkSDAoEbm90ZRgDIAEoCRITCgtjdXN0b21lcl9pZBgEIAEoCRIpCglwb3NpdGlvbnMYBSADKAsyFi5wb3NpdGlvbnMudjEuUG9zaXRpb24SGQoMbGVnYWxfbm90aWNlGAYgASgJSACIAQESJQoHcGF5bWVudBgHIAEoCzIPLm9yZy52MS5QYXltZW50SAGIAQESKAoIZGlzY291bnQYCCABKAsyFi5wb3NpdGlvbnMudjEuRGlzY291bnQSFQoNZGF0ZV9vZl9pc3N1ZRgJIAEoCRITCgt2YWxpZF91bnRpbBgKIAEoCUIPCg1fbGVnYWxfbm90aWNlQgoKCF9wYXltZW50IjYKE1VwZGF0ZU9mZmVyUmVzcG9uc2USHwoFb2ZmZXIYASABKAsyEC5vZmZlcnMudjEuT2ZmZXIy8AQKDU9mZmVyc1NlcnZpY2USWwoQR2V0T2ZmZXJzQnlPcmdJZBIiLm9mZmVycy52MS5HZXRPZmZlcnNCeU9yZ0lkUmVxdWVzdBojLm9mZmVycy52MS5HZXRPZmZlcnNCeU9yZ0lkUmVzcG9uc2USTwoMR2V0T2ZmZXJCeUlkEh4ub2ZmZXJzLnYxLkdldE9mZmVyQnlJZFJlcXVlc3QaHy5vZmZlcnMudjEuR2V0T2ZmZXJCeUlkUmVzcG9uc2USWwoQQ3JlYXRlRW1wdHlPZmZlchIiLm9mZmVycy52MS5DcmVhdGVFbXB0eU9mZmVyUmVxdWVzdBojLm9mZmVycy52MS5DcmVhdGVFbXB0eU9mZmVyUmVzcG9uc2USTAoLQ3JlYXRlT2ZmZXISHS5vZmZlcnMudjEuQ3JlYXRlT2ZmZXJSZXF1ZXN0Gh4ub2ZmZXJzLnYxLkNyZWF0ZU9mZmVyUmVzcG9uc2USagoVR2V0T2ZmZXJzQnlDdXN0b21lcklkEicub2ZmZXJzLnYxLkdldE9mZmVyc0J5Q3VzdG9tZXJJZFJlcXVlc3QaKC5vZmZlcnMudjEuR2V0T2ZmZXJzQnlDdXN0b21lcklkUmVzcG9uc2USTAoLR2V0T2ZmZXJQZGYSHS5vZmZlcnMudjEuR2V0T2ZmZXJQZGZSZXF1ZXN0Gh4ub2ZmZXJzLnYxLkdldE9mZmVyUGRmUmVzcG9uc2USTAoLVXBkYXRlT2ZmZXISHS5vZmZlcnMudjEuVXBkYXRlT2ZmZXJSZXF1ZXN0Gh4ub2ZmZXJzLnYxLlVwZGF0ZU9mZmVyUmVzcG9uc2VCNlo0Z2l0aHViLmNvbS9tYXhpc2NobWF4aS9sanRpbWUtYXBpL29mZmVycy92MTtvZmZlcnN2MWIGcHJvdG8z", [file_org_v1_org, file_positions_v1_positions]);
+  fileDesc("ChZvZmZlcnMvdjEvb2ZmZXJzLnByb3RvEglvZmZlcnMudjEiiAMKBU9mZmVyEgoKAmlkGAEgASgJEhAKCG9mZmVyX25vGAIgASgJEgwKBG5vdGUYAyABKAkSEwoLY3VzdG9tZXJfaWQYBCABKAkSKQoJcG9zaXRpb25zGAUgAygLMhYucG9zaXRpb25zLnYxLlBvc2l0aW9uEhkKDGxlZ2FsX25vdGljZRgGIAEoCUgAiAEBEiUKB3BheW1lbnQYByABKAsyDy5vcmcudjEuUGF5bWVudEgBiAEBEigKCGRpc2NvdW50GAggASgLMhYucG9zaXRpb25zLnYxLkRpc2NvdW50EhUKDWRhdGVfb2ZfaXNzdWUYCSABKAkSEwoLdmFsaWRfdW50aWwYCiABKAkSEgoKY3JlYXRlZF9hdBgLIAEoAxISCgp1cGRhdGVkX2F0GAwgASgDEg4KBm9yZ19pZBgNIAEoCRImCgZzdGF0dXMYDiABKA4yFi5vZmZlcnMudjEuT2ZmZXJTdGF0dXNCDwoNX2xlZ2FsX25vdGljZUIKCghfcGF5bWVudCLXAgoSQ3JlYXRlT2ZmZXJSZXF1ZXN0EhAKCG9mZmVyX25vGAEgASgJEgwKBG5vdGUYAiABKAkSEwoLY3VzdG9tZXJfaWQYAyABKAkSLwoJcG9zaXRpb25zGAUgAygLMhwucG9zaXRpb25zLnYxLkNyZWF0ZVBvc2l0aW9uEhQKDGxlZ2FsX25vdGljZRgGIAEoCRIlCgdwYXltZW50GAcgASgLMg8ub3JnLnYxLlBheW1lbnRIAIgBARIuCghkaXNjb3VudBgIIAEoCzIcLnBvc2l0aW9ucy52MS5DcmVhdGVEaXNjb3VudBIVCg1kYXRlX29mX2lzc3VlGAkgASgJEhMKC3ZhbGlkX3VudGlsGAogASgJEg4KBm9yZ19pZBgLIAEoCRImCgZzdGF0dXMYDCABKA4yFi5vZmZlcnMudjEuT2ZmZXJTdGF0dXNCCgoIX3BheW1lbnQiNgoTQ3JlYXRlT2ZmZXJSZXNwb25zZRIfCgVvZmZlchgBIAEoCzIQLm9mZmVycy52MS5PZmZlciIzChxHZXRPZmZlcnNCeUN1c3RvbWVySWRSZXF1ZXN0EhMKC2N1c3RvbWVyX2lkGAEgASgJIkEKHUdldE9mZmVyc0J5Q3VzdG9tZXJJZFJlc3BvbnNlEiAKBm9mZmVycxgBIAMoCzIQLm9mZmVycy52MS5PZmZlciImChJHZXRPZmZlclBkZlJlcXVlc3QSEAoIb2ZmZXJfaWQYASABKAkiJwoTR2V0T2ZmZXJQZGZSZXNwb25zZRIQCghwZGZfZGF0YRgBIAEoDCIpChdHZXRPZmZlcnNCeU9yZ0lkUmVxdWVzdBIOCgZvcmdfaWQYASABKAkiPAoYR2V0T2ZmZXJzQnlPcmdJZFJlc3BvbnNlEiAKBm9mZmVycxgBIAMoCzIQLm9mZmVycy52MS5PZmZlciIhChNHZXRPZmZlckJ5SWRSZXF1ZXN0EgoKAmlkGAEgASgJIjcKFEdldE9mZmVyQnlJZFJlc3BvbnNlEh8KBW9mZmVyGAEgASgLMhAub2ZmZXJzLnYxLk9mZmVyIikKF0NyZWF0ZUVtcHR5T2ZmZXJSZXF1ZXN0Eg4KBm9yZ19pZBgBIAEoCSI7ChhDcmVhdGVFbXB0eU9mZmVyUmVzcG9uc2USHwoFb2ZmZXIYASABKAsyEC5vZmZlcnMudjEuT2ZmZXIi3QIKElVwZGF0ZU9mZmVyUmVxdWVzdBIKCgJpZBgBIAEoCRIQCghvZmZlcl9ubxgCIAEoCRIMCgRub3RlGAMgASgJEhMKC2N1c3RvbWVyX2lkGAQgASgJEikKCXBvc2l0aW9ucxgFIAMoCzIWLnBvc2l0aW9ucy52MS5Qb3NpdGlvbhIZCgxsZWdhbF9ub3RpY2UYBiABKAlIAIgBARIlCgdwYXltZW50GAcgASgLMg8ub3JnLnYxLlBheW1lbnRIAYgBARIoCghkaXNjb3VudBgIIAEoCzIWLnBvc2l0aW9ucy52MS5EaXNjb3VudBIVCg1kYXRlX29mX2lzc3VlGAkgASgJEhMKC3ZhbGlkX3VudGlsGAogASgJEiYKBnN0YXR1cxgLIAEoDjIWLm9mZmVycy52MS5PZmZlclN0YXR1c0IPCg1fbGVnYWxfbm90aWNlQgoKCF9wYXltZW50IjYKE1VwZGF0ZU9mZmVyUmVzcG9uc2USHwoFb2ZmZXIYASABKAsyEC5vZmZlcnMudjEuT2ZmZXIiIAoSRGVsZXRlT2ZmZXJSZXF1ZXN0EgoKAmlkGAEgASgJIhUKE0RlbGV0ZU9mZmVyUmVzcG9uc2UqcgoLT2ZmZXJTdGF0dXMSHAoYT0ZGRVJfU1RBVFVTX1VOU1BFQ0lGSUVEEAASFgoST0ZGRVJfU1RBVFVTX0RSQUZUEAESFQoRT0ZGRVJfU1RBVFVTX1NFTlQQAhIWChJPRkZFUl9TVEFUVVNfUkVBRFkQAzK+BQoNT2ZmZXJzU2VydmljZRJbChBHZXRPZmZlcnNCeU9yZ0lkEiIub2ZmZXJzLnYxLkdldE9mZmVyc0J5T3JnSWRSZXF1ZXN0GiMub2ZmZXJzLnYxLkdldE9mZmVyc0J5T3JnSWRSZXNwb25zZRJPCgxHZXRPZmZlckJ5SWQSHi5vZmZlcnMudjEuR2V0T2ZmZXJCeUlkUmVxdWVzdBofLm9mZmVycy52MS5HZXRPZmZlckJ5SWRSZXNwb25zZRJbChBDcmVhdGVFbXB0eU9mZmVyEiIub2ZmZXJzLnYxLkNyZWF0ZUVtcHR5T2ZmZXJSZXF1ZXN0GiMub2ZmZXJzLnYxLkNyZWF0ZUVtcHR5T2ZmZXJSZXNwb25zZRJMCgtDcmVhdGVPZmZlchIdLm9mZmVycy52MS5DcmVhdGVPZmZlclJlcXVlc3QaHi5vZmZlcnMudjEuQ3JlYXRlT2ZmZXJSZXNwb25zZRJqChVHZXRPZmZlcnNCeUN1c3RvbWVySWQSJy5vZmZlcnMudjEuR2V0T2ZmZXJzQnlDdXN0b21lcklkUmVxdWVzdBooLm9mZmVycy52MS5HZXRPZmZlcnNCeUN1c3RvbWVySWRSZXNwb25zZRJMCgtHZXRPZmZlclBkZhIdLm9mZmVycy52MS5HZXRPZmZlclBkZlJlcXVlc3QaHi5vZmZlcnMudjEuR2V0T2ZmZXJQZGZSZXNwb25zZRJMCgtVcGRhdGVPZmZlchIdLm9mZmVycy52MS5VcGRhdGVPZmZlclJlcXVlc3QaHi5vZmZlcnMudjEuVXBkYXRlT2ZmZXJSZXNwb25zZRJMCgtEZWxldGVPZmZlchIdLm9mZmVycy52MS5EZWxldGVPZmZlclJlcXVlc3QaHi5vZmZlcnMudjEuRGVsZXRlT2ZmZXJSZXNwb25zZUI2WjRnaXRodWIuY29tL21heGlzY2htYXhpL2xqdGltZS1hcGkvb2ZmZXJzL3YxO29mZmVyc3YxYgZwcm90bzM", [file_org_v1_org, file_positions_v1_positions]);
 
 /**
  * @generated from message offers.v1.Offer
@@ -84,6 +84,11 @@ export type Offer = Message<"offers.v1.Offer"> & {
    * @generated from field: string org_id = 13;
    */
   orgId: string;
+
+  /**
+   * @generated from field: offers.v1.OfferStatus status = 14;
+   */
+  status: OfferStatus;
 };
 
 /**
@@ -146,6 +151,11 @@ export type CreateOfferRequest = Message<"offers.v1.CreateOfferRequest"> & {
    * @generated from field: string org_id = 11;
    */
   orgId: string;
+
+  /**
+   * @generated from field: offers.v1.OfferStatus status = 12;
+   */
+  status: OfferStatus;
 };
 
 /**
@@ -395,6 +405,11 @@ export type UpdateOfferRequest = Message<"offers.v1.UpdateOfferRequest"> & {
    * @generated from field: string valid_until = 10;
    */
   validUntil: string;
+
+  /**
+   * @generated from field: offers.v1.OfferStatus status = 11;
+   */
+  status: OfferStatus;
 };
 
 /**
@@ -420,6 +435,67 @@ export type UpdateOfferResponse = Message<"offers.v1.UpdateOfferResponse"> & {
  */
 export const UpdateOfferResponseSchema: GenMessage<UpdateOfferResponse> = /*@__PURE__*/
   messageDesc(file_offers_v1_offers, 14);
+
+/**
+ * @generated from message offers.v1.DeleteOfferRequest
+ */
+export type DeleteOfferRequest = Message<"offers.v1.DeleteOfferRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message offers.v1.DeleteOfferRequest.
+ * Use `create(DeleteOfferRequestSchema)` to create a new message.
+ */
+export const DeleteOfferRequestSchema: GenMessage<DeleteOfferRequest> = /*@__PURE__*/
+  messageDesc(file_offers_v1_offers, 15);
+
+/**
+ * @generated from message offers.v1.DeleteOfferResponse
+ */
+export type DeleteOfferResponse = Message<"offers.v1.DeleteOfferResponse"> & {
+};
+
+/**
+ * Describes the message offers.v1.DeleteOfferResponse.
+ * Use `create(DeleteOfferResponseSchema)` to create a new message.
+ */
+export const DeleteOfferResponseSchema: GenMessage<DeleteOfferResponse> = /*@__PURE__*/
+  messageDesc(file_offers_v1_offers, 16);
+
+/**
+ * @generated from enum offers.v1.OfferStatus
+ */
+export enum OfferStatus {
+  /**
+   * @generated from enum value: OFFER_STATUS_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: OFFER_STATUS_DRAFT = 1;
+   */
+  DRAFT = 1,
+
+  /**
+   * @generated from enum value: OFFER_STATUS_SENT = 2;
+   */
+  SENT = 2,
+
+  /**
+   * @generated from enum value: OFFER_STATUS_READY = 3;
+   */
+  READY = 3,
+}
+
+/**
+ * Describes the enum offers.v1.OfferStatus.
+ */
+export const OfferStatusSchema: GenEnum<OfferStatus> = /*@__PURE__*/
+  enumDesc(file_offers_v1_offers, 0);
 
 /**
  * @generated from service offers.v1.OffersService
@@ -480,6 +556,14 @@ export const OffersService: GenService<{
     methodKind: "unary";
     input: typeof UpdateOfferRequestSchema;
     output: typeof UpdateOfferResponseSchema;
+  },
+  /**
+   * @generated from rpc offers.v1.OffersService.DeleteOffer
+   */
+  deleteOffer: {
+    methodKind: "unary";
+    input: typeof DeleteOfferRequestSchema;
+    output: typeof DeleteOfferResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_offers_v1_offers, 0);

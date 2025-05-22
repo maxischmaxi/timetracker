@@ -15,6 +15,14 @@ service OffersService {
   rpc GetOffersByCustomerId (GetOffersByCustomerIdRequest) returns (GetOffersByCustomerIdResponse);
   rpc GetOfferPdf (GetOfferPdfRequest) returns (GetOfferPdfResponse);
   rpc UpdateOffer (UpdateOfferRequest) returns (UpdateOfferResponse);
+  rpc DeleteOffer (DeleteOfferRequest) returns (DeleteOfferResponse);
+}
+
+enum OfferStatus {
+  OFFER_STATUS_UNSPECIFIED = 0;
+  OFFER_STATUS_DRAFT = 1;
+  OFFER_STATUS_SENT = 2;
+  OFFER_STATUS_READY = 3;
 }
 
 message Offer {
@@ -31,6 +39,7 @@ message Offer {
   int64 created_at = 11;
   int64 updated_at = 12;
   string org_id = 13;
+  OfferStatus status = 14;
 }
 
 message CreateOfferRequest {
@@ -44,6 +53,7 @@ message CreateOfferRequest {
   string date_of_issue = 9;
   string valid_until = 10;
   string org_id = 11;
+  OfferStatus status = 12;
 }
 
 message CreateOfferResponse {
@@ -101,8 +111,17 @@ message UpdateOfferRequest {
   positions.v1.Discount discount = 8;
   string date_of_issue = 9;
   string valid_until = 10;
+  OfferStatus status = 11;
 }
 
 message UpdateOfferResponse {
   Offer offer = 1;
+}
+
+message DeleteOfferRequest {
+  string id = 1;
+}
+
+message DeleteOfferResponse {
+
 }

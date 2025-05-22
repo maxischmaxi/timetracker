@@ -36,10 +36,12 @@ export function useInviteEmailToOrg(props?: Props) {
 export function useCurrentOrg(): Plain<Org> | null {
   const { user } = use(AuthContext);
 
-  return useMemo(
-    () => user?.orgs?.find((o) => o.id === Cookie.get("__org")) || null,
-    [user?.orgs],
-  );
+  return useMemo(() => {
+    if (!user || !user.orgs) return null;
+    const orgId = Cookie.get("__org");
+    if (!orgId) return null;
+    return user.orgs.find((o) => o.id === orgId) || null;
+  }, [user]);
 }
 
 export function useCreateServiceType(props?: Props) {

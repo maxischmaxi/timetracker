@@ -43,7 +43,6 @@ export function LoginForm({ className, orgId, token }: Props) {
     await signInWithEmailAndPassword(data.email, data.password);
 
     if (orgId && token) {
-      console.log(orgId, token, "redirecting join org");
       return;
     }
   }
@@ -98,8 +97,8 @@ export function LoginForm({ className, orgId, token }: Props) {
                 </Button>
               </div>
 
-              <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                <span className="relative z-10 bg-background px-2 text-muted-foreground">
+              <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
+                <span className="bg-background text-muted-foreground relative z-10 px-2">
                   Or continue with
                 </span>
               </div>
@@ -117,7 +116,7 @@ export function LoginForm({ className, orgId, token }: Props) {
                     disabled={form.formState.isSubmitting}
                   />
                   {!!form.formState.errors.email?.message && (
-                    <p className="text-red-500 text-xs">
+                    <p className="text-xs text-red-500">
                       {form.formState.errors.email?.message}
                     </p>
                   )}
@@ -157,7 +156,7 @@ export function LoginForm({ className, orgId, token }: Props) {
                     </Button>
                   </div>
                   {!!form.formState.errors.password?.message && (
-                    <p className="text-red-500 text-xs">
+                    <p className="text-xs text-red-500">
                       {form.formState.errors.password?.message}
                     </p>
                   )}
@@ -168,7 +167,7 @@ export function LoginForm({ className, orgId, token }: Props) {
                   disabled={form.formState.isSubmitting}
                 >
                   {form.formState.isSubmitting ? (
-                    <Loader className="animate-spin h-4 w-4" />
+                    <Loader className="h-4 w-4 animate-spin" />
                   ) : (
                     "Login"
                   )}

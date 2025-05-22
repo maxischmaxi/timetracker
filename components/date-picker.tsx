@@ -40,6 +40,7 @@ export function DatePicker<T extends FieldValues>(props: Props<T>) {
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
+                  disabled={field.disabled}
                   className={cn(
                     "justify-start text-left font-normal",
                     !field.value && "text-muted-foreground",

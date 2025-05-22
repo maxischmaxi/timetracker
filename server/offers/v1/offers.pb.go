@@ -23,6 +23,58 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type OfferStatus int32
+
+const (
+	OfferStatus_OFFER_STATUS_UNSPECIFIED OfferStatus = 0
+	OfferStatus_OFFER_STATUS_DRAFT       OfferStatus = 1
+	OfferStatus_OFFER_STATUS_SENT        OfferStatus = 2
+	OfferStatus_OFFER_STATUS_READY       OfferStatus = 3
+)
+
+// Enum value maps for OfferStatus.
+var (
+	OfferStatus_name = map[int32]string{
+		0: "OFFER_STATUS_UNSPECIFIED",
+		1: "OFFER_STATUS_DRAFT",
+		2: "OFFER_STATUS_SENT",
+		3: "OFFER_STATUS_READY",
+	}
+	OfferStatus_value = map[string]int32{
+		"OFFER_STATUS_UNSPECIFIED": 0,
+		"OFFER_STATUS_DRAFT":       1,
+		"OFFER_STATUS_SENT":        2,
+		"OFFER_STATUS_READY":       3,
+	}
+)
+
+func (x OfferStatus) Enum() *OfferStatus {
+	p := new(OfferStatus)
+	*p = x
+	return p
+}
+
+func (x OfferStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (OfferStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_offers_v1_offers_proto_enumTypes[0].Descriptor()
+}
+
+func (OfferStatus) Type() protoreflect.EnumType {
+	return &file_offers_v1_offers_proto_enumTypes[0]
+}
+
+func (x OfferStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use OfferStatus.Descriptor instead.
+func (OfferStatus) EnumDescriptor() ([]byte, []int) {
+	return file_offers_v1_offers_proto_rawDescGZIP(), []int{0}
+}
+
 type Offer struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -38,6 +90,7 @@ type Offer struct {
 	CreatedAt     int64                  `protobuf:"varint,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt     int64                  `protobuf:"varint,12,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	OrgId         string                 `protobuf:"bytes,13,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
+	Status        OfferStatus            `protobuf:"varint,14,opt,name=status,proto3,enum=offers.v1.OfferStatus" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -163,6 +216,13 @@ func (x *Offer) GetOrgId() string {
 	return ""
 }
 
+func (x *Offer) GetStatus() OfferStatus {
+	if x != nil {
+		return x.Status
+	}
+	return OfferStatus_OFFER_STATUS_UNSPECIFIED
+}
+
 type CreateOfferRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	OfferNo       string                 `protobuf:"bytes,1,opt,name=offer_no,json=offerNo,proto3" json:"offer_no,omitempty"`
@@ -175,6 +235,7 @@ type CreateOfferRequest struct {
 	DateOfIssue   string                 `protobuf:"bytes,9,opt,name=date_of_issue,json=dateOfIssue,proto3" json:"date_of_issue,omitempty"`
 	ValidUntil    string                 `protobuf:"bytes,10,opt,name=valid_until,json=validUntil,proto3" json:"valid_until,omitempty"`
 	OrgId         string                 `protobuf:"bytes,11,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
+	Status        OfferStatus            `protobuf:"varint,12,opt,name=status,proto3,enum=offers.v1.OfferStatus" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -277,6 +338,13 @@ func (x *CreateOfferRequest) GetOrgId() string {
 		return x.OrgId
 	}
 	return ""
+}
+
+func (x *CreateOfferRequest) GetStatus() OfferStatus {
+	if x != nil {
+		return x.Status
+	}
+	return OfferStatus_OFFER_STATUS_UNSPECIFIED
 }
 
 type CreateOfferResponse struct {
@@ -775,6 +843,7 @@ type UpdateOfferRequest struct {
 	Discount      *v1.Discount           `protobuf:"bytes,8,opt,name=discount,proto3" json:"discount,omitempty"`
 	DateOfIssue   string                 `protobuf:"bytes,9,opt,name=date_of_issue,json=dateOfIssue,proto3" json:"date_of_issue,omitempty"`
 	ValidUntil    string                 `protobuf:"bytes,10,opt,name=valid_until,json=validUntil,proto3" json:"valid_until,omitempty"`
+	Status        OfferStatus            `protobuf:"varint,11,opt,name=status,proto3,enum=offers.v1.OfferStatus" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -879,6 +948,13 @@ func (x *UpdateOfferRequest) GetValidUntil() string {
 	return ""
 }
 
+func (x *UpdateOfferRequest) GetStatus() OfferStatus {
+	if x != nil {
+		return x.Status
+	}
+	return OfferStatus_OFFER_STATUS_UNSPECIFIED
+}
+
 type UpdateOfferResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Offer         *Offer                 `protobuf:"bytes,1,opt,name=offer,proto3" json:"offer,omitempty"`
@@ -923,11 +999,91 @@ func (x *UpdateOfferResponse) GetOffer() *Offer {
 	return nil
 }
 
+type DeleteOfferRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteOfferRequest) Reset() {
+	*x = DeleteOfferRequest{}
+	mi := &file_offers_v1_offers_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteOfferRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteOfferRequest) ProtoMessage() {}
+
+func (x *DeleteOfferRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_offers_v1_offers_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteOfferRequest.ProtoReflect.Descriptor instead.
+func (*DeleteOfferRequest) Descriptor() ([]byte, []int) {
+	return file_offers_v1_offers_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *DeleteOfferRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type DeleteOfferResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteOfferResponse) Reset() {
+	*x = DeleteOfferResponse{}
+	mi := &file_offers_v1_offers_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteOfferResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteOfferResponse) ProtoMessage() {}
+
+func (x *DeleteOfferResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_offers_v1_offers_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteOfferResponse.ProtoReflect.Descriptor instead.
+func (*DeleteOfferResponse) Descriptor() ([]byte, []int) {
+	return file_offers_v1_offers_proto_rawDescGZIP(), []int{16}
+}
+
 var File_offers_v1_offers_proto protoreflect.FileDescriptor
 
 const file_offers_v1_offers_proto_rawDesc = "" +
 	"\n" +
-	"\x16offers/v1/offers.proto\x12\toffers.v1\x1a\x10org/v1/org.proto\x1a\x1cpositions/v1/positions.proto\"\xe0\x03\n" +
+	"\x16offers/v1/offers.proto\x12\toffers.v1\x1a\x10org/v1/org.proto\x1a\x1cpositions/v1/positions.proto\"\x90\x04\n" +
 	"\x05Offer\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
 	"\boffer_no\x18\x02 \x01(\tR\aofferNo\x12\x12\n" +
@@ -946,10 +1102,11 @@ const file_offers_v1_offers_proto_rawDesc = "" +
 	"created_at\x18\v \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
 	"updated_at\x18\f \x01(\x03R\tupdatedAt\x12\x15\n" +
-	"\x06org_id\x18\r \x01(\tR\x05orgIdB\x0f\n" +
+	"\x06org_id\x18\r \x01(\tR\x05orgId\x12.\n" +
+	"\x06status\x18\x0e \x01(\x0e2\x16.offers.v1.OfferStatusR\x06statusB\x0f\n" +
 	"\r_legal_noticeB\n" +
 	"\n" +
-	"\b_payment\"\x95\x03\n" +
+	"\b_payment\"\xc5\x03\n" +
 	"\x12CreateOfferRequest\x12\x19\n" +
 	"\boffer_no\x18\x01 \x01(\tR\aofferNo\x12\x12\n" +
 	"\x04note\x18\x02 \x01(\tR\x04note\x12\x1f\n" +
@@ -963,7 +1120,8 @@ const file_offers_v1_offers_proto_rawDesc = "" +
 	"\vvalid_until\x18\n" +
 	" \x01(\tR\n" +
 	"validUntil\x12\x15\n" +
-	"\x06org_id\x18\v \x01(\tR\x05orgIdB\n" +
+	"\x06org_id\x18\v \x01(\tR\x05orgId\x12.\n" +
+	"\x06status\x18\f \x01(\x0e2\x16.offers.v1.OfferStatusR\x06statusB\n" +
 	"\n" +
 	"\b_payment\"=\n" +
 	"\x13CreateOfferResponse\x12&\n" +
@@ -988,7 +1146,7 @@ const file_offers_v1_offers_proto_rawDesc = "" +
 	"\x17CreateEmptyOfferRequest\x12\x15\n" +
 	"\x06org_id\x18\x01 \x01(\tR\x05orgId\"B\n" +
 	"\x18CreateEmptyOfferResponse\x12&\n" +
-	"\x05offer\x18\x01 \x01(\v2\x10.offers.v1.OfferR\x05offer\"\x98\x03\n" +
+	"\x05offer\x18\x01 \x01(\v2\x10.offers.v1.OfferR\x05offer\"\xc8\x03\n" +
 	"\x12UpdateOfferRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
 	"\boffer_no\x18\x02 \x01(\tR\aofferNo\x12\x12\n" +
@@ -1002,12 +1160,21 @@ const file_offers_v1_offers_proto_rawDesc = "" +
 	"\rdate_of_issue\x18\t \x01(\tR\vdateOfIssue\x12\x1f\n" +
 	"\vvalid_until\x18\n" +
 	" \x01(\tR\n" +
-	"validUntilB\x0f\n" +
+	"validUntil\x12.\n" +
+	"\x06status\x18\v \x01(\x0e2\x16.offers.v1.OfferStatusR\x06statusB\x0f\n" +
 	"\r_legal_noticeB\n" +
 	"\n" +
 	"\b_payment\"=\n" +
 	"\x13UpdateOfferResponse\x12&\n" +
-	"\x05offer\x18\x01 \x01(\v2\x10.offers.v1.OfferR\x05offer2\xf0\x04\n" +
+	"\x05offer\x18\x01 \x01(\v2\x10.offers.v1.OfferR\x05offer\"$\n" +
+	"\x12DeleteOfferRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\x15\n" +
+	"\x13DeleteOfferResponse*r\n" +
+	"\vOfferStatus\x12\x1c\n" +
+	"\x18OFFER_STATUS_UNSPECIFIED\x10\x00\x12\x16\n" +
+	"\x12OFFER_STATUS_DRAFT\x10\x01\x12\x15\n" +
+	"\x11OFFER_STATUS_SENT\x10\x02\x12\x16\n" +
+	"\x12OFFER_STATUS_READY\x10\x032\xbe\x05\n" +
 	"\rOffersService\x12[\n" +
 	"\x10GetOffersByOrgId\x12\".offers.v1.GetOffersByOrgIdRequest\x1a#.offers.v1.GetOffersByOrgIdResponse\x12O\n" +
 	"\fGetOfferById\x12\x1e.offers.v1.GetOfferByIdRequest\x1a\x1f.offers.v1.GetOfferByIdResponse\x12[\n" +
@@ -1015,7 +1182,8 @@ const file_offers_v1_offers_proto_rawDesc = "" +
 	"\vCreateOffer\x12\x1d.offers.v1.CreateOfferRequest\x1a\x1e.offers.v1.CreateOfferResponse\x12j\n" +
 	"\x15GetOffersByCustomerId\x12'.offers.v1.GetOffersByCustomerIdRequest\x1a(.offers.v1.GetOffersByCustomerIdResponse\x12L\n" +
 	"\vGetOfferPdf\x12\x1d.offers.v1.GetOfferPdfRequest\x1a\x1e.offers.v1.GetOfferPdfResponse\x12L\n" +
-	"\vUpdateOffer\x12\x1d.offers.v1.UpdateOfferRequest\x1a\x1e.offers.v1.UpdateOfferResponseB6Z4github.com/maxischmaxi/ljtime-api/offers/v1;offersv1b\x06proto3"
+	"\vUpdateOffer\x12\x1d.offers.v1.UpdateOfferRequest\x1a\x1e.offers.v1.UpdateOfferResponse\x12L\n" +
+	"\vDeleteOffer\x12\x1d.offers.v1.DeleteOfferRequest\x1a\x1e.offers.v1.DeleteOfferResponseB6Z4github.com/maxischmaxi/ljtime-api/offers/v1;offersv1b\x06proto3"
 
 var (
 	file_offers_v1_offers_proto_rawDescOnce sync.Once
@@ -1029,64 +1197,73 @@ func file_offers_v1_offers_proto_rawDescGZIP() []byte {
 	return file_offers_v1_offers_proto_rawDescData
 }
 
-var file_offers_v1_offers_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_offers_v1_offers_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_offers_v1_offers_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_offers_v1_offers_proto_goTypes = []any{
-	(*Offer)(nil),                         // 0: offers.v1.Offer
-	(*CreateOfferRequest)(nil),            // 1: offers.v1.CreateOfferRequest
-	(*CreateOfferResponse)(nil),           // 2: offers.v1.CreateOfferResponse
-	(*GetOffersByCustomerIdRequest)(nil),  // 3: offers.v1.GetOffersByCustomerIdRequest
-	(*GetOffersByCustomerIdResponse)(nil), // 4: offers.v1.GetOffersByCustomerIdResponse
-	(*GetOfferPdfRequest)(nil),            // 5: offers.v1.GetOfferPdfRequest
-	(*GetOfferPdfResponse)(nil),           // 6: offers.v1.GetOfferPdfResponse
-	(*GetOffersByOrgIdRequest)(nil),       // 7: offers.v1.GetOffersByOrgIdRequest
-	(*GetOffersByOrgIdResponse)(nil),      // 8: offers.v1.GetOffersByOrgIdResponse
-	(*GetOfferByIdRequest)(nil),           // 9: offers.v1.GetOfferByIdRequest
-	(*GetOfferByIdResponse)(nil),          // 10: offers.v1.GetOfferByIdResponse
-	(*CreateEmptyOfferRequest)(nil),       // 11: offers.v1.CreateEmptyOfferRequest
-	(*CreateEmptyOfferResponse)(nil),      // 12: offers.v1.CreateEmptyOfferResponse
-	(*UpdateOfferRequest)(nil),            // 13: offers.v1.UpdateOfferRequest
-	(*UpdateOfferResponse)(nil),           // 14: offers.v1.UpdateOfferResponse
-	(*v1.Position)(nil),                   // 15: positions.v1.Position
-	(*v11.Payment)(nil),                   // 16: org.v1.Payment
-	(*v1.Discount)(nil),                   // 17: positions.v1.Discount
-	(*v1.CreatePosition)(nil),             // 18: positions.v1.CreatePosition
-	(*v1.CreateDiscount)(nil),             // 19: positions.v1.CreateDiscount
+	(OfferStatus)(0),                      // 0: offers.v1.OfferStatus
+	(*Offer)(nil),                         // 1: offers.v1.Offer
+	(*CreateOfferRequest)(nil),            // 2: offers.v1.CreateOfferRequest
+	(*CreateOfferResponse)(nil),           // 3: offers.v1.CreateOfferResponse
+	(*GetOffersByCustomerIdRequest)(nil),  // 4: offers.v1.GetOffersByCustomerIdRequest
+	(*GetOffersByCustomerIdResponse)(nil), // 5: offers.v1.GetOffersByCustomerIdResponse
+	(*GetOfferPdfRequest)(nil),            // 6: offers.v1.GetOfferPdfRequest
+	(*GetOfferPdfResponse)(nil),           // 7: offers.v1.GetOfferPdfResponse
+	(*GetOffersByOrgIdRequest)(nil),       // 8: offers.v1.GetOffersByOrgIdRequest
+	(*GetOffersByOrgIdResponse)(nil),      // 9: offers.v1.GetOffersByOrgIdResponse
+	(*GetOfferByIdRequest)(nil),           // 10: offers.v1.GetOfferByIdRequest
+	(*GetOfferByIdResponse)(nil),          // 11: offers.v1.GetOfferByIdResponse
+	(*CreateEmptyOfferRequest)(nil),       // 12: offers.v1.CreateEmptyOfferRequest
+	(*CreateEmptyOfferResponse)(nil),      // 13: offers.v1.CreateEmptyOfferResponse
+	(*UpdateOfferRequest)(nil),            // 14: offers.v1.UpdateOfferRequest
+	(*UpdateOfferResponse)(nil),           // 15: offers.v1.UpdateOfferResponse
+	(*DeleteOfferRequest)(nil),            // 16: offers.v1.DeleteOfferRequest
+	(*DeleteOfferResponse)(nil),           // 17: offers.v1.DeleteOfferResponse
+	(*v1.Position)(nil),                   // 18: positions.v1.Position
+	(*v11.Payment)(nil),                   // 19: org.v1.Payment
+	(*v1.Discount)(nil),                   // 20: positions.v1.Discount
+	(*v1.CreatePosition)(nil),             // 21: positions.v1.CreatePosition
+	(*v1.CreateDiscount)(nil),             // 22: positions.v1.CreateDiscount
 }
 var file_offers_v1_offers_proto_depIdxs = []int32{
-	15, // 0: offers.v1.Offer.positions:type_name -> positions.v1.Position
-	16, // 1: offers.v1.Offer.payment:type_name -> org.v1.Payment
-	17, // 2: offers.v1.Offer.discount:type_name -> positions.v1.Discount
-	18, // 3: offers.v1.CreateOfferRequest.positions:type_name -> positions.v1.CreatePosition
-	16, // 4: offers.v1.CreateOfferRequest.payment:type_name -> org.v1.Payment
-	19, // 5: offers.v1.CreateOfferRequest.discount:type_name -> positions.v1.CreateDiscount
-	0,  // 6: offers.v1.CreateOfferResponse.offer:type_name -> offers.v1.Offer
-	0,  // 7: offers.v1.GetOffersByCustomerIdResponse.offers:type_name -> offers.v1.Offer
-	0,  // 8: offers.v1.GetOffersByOrgIdResponse.offers:type_name -> offers.v1.Offer
-	0,  // 9: offers.v1.GetOfferByIdResponse.offer:type_name -> offers.v1.Offer
-	0,  // 10: offers.v1.CreateEmptyOfferResponse.offer:type_name -> offers.v1.Offer
-	15, // 11: offers.v1.UpdateOfferRequest.positions:type_name -> positions.v1.Position
-	16, // 12: offers.v1.UpdateOfferRequest.payment:type_name -> org.v1.Payment
-	17, // 13: offers.v1.UpdateOfferRequest.discount:type_name -> positions.v1.Discount
-	0,  // 14: offers.v1.UpdateOfferResponse.offer:type_name -> offers.v1.Offer
-	7,  // 15: offers.v1.OffersService.GetOffersByOrgId:input_type -> offers.v1.GetOffersByOrgIdRequest
-	9,  // 16: offers.v1.OffersService.GetOfferById:input_type -> offers.v1.GetOfferByIdRequest
-	11, // 17: offers.v1.OffersService.CreateEmptyOffer:input_type -> offers.v1.CreateEmptyOfferRequest
-	1,  // 18: offers.v1.OffersService.CreateOffer:input_type -> offers.v1.CreateOfferRequest
-	3,  // 19: offers.v1.OffersService.GetOffersByCustomerId:input_type -> offers.v1.GetOffersByCustomerIdRequest
-	5,  // 20: offers.v1.OffersService.GetOfferPdf:input_type -> offers.v1.GetOfferPdfRequest
-	13, // 21: offers.v1.OffersService.UpdateOffer:input_type -> offers.v1.UpdateOfferRequest
-	8,  // 22: offers.v1.OffersService.GetOffersByOrgId:output_type -> offers.v1.GetOffersByOrgIdResponse
-	10, // 23: offers.v1.OffersService.GetOfferById:output_type -> offers.v1.GetOfferByIdResponse
-	12, // 24: offers.v1.OffersService.CreateEmptyOffer:output_type -> offers.v1.CreateEmptyOfferResponse
-	2,  // 25: offers.v1.OffersService.CreateOffer:output_type -> offers.v1.CreateOfferResponse
-	4,  // 26: offers.v1.OffersService.GetOffersByCustomerId:output_type -> offers.v1.GetOffersByCustomerIdResponse
-	6,  // 27: offers.v1.OffersService.GetOfferPdf:output_type -> offers.v1.GetOfferPdfResponse
-	14, // 28: offers.v1.OffersService.UpdateOffer:output_type -> offers.v1.UpdateOfferResponse
-	22, // [22:29] is the sub-list for method output_type
-	15, // [15:22] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	18, // 0: offers.v1.Offer.positions:type_name -> positions.v1.Position
+	19, // 1: offers.v1.Offer.payment:type_name -> org.v1.Payment
+	20, // 2: offers.v1.Offer.discount:type_name -> positions.v1.Discount
+	0,  // 3: offers.v1.Offer.status:type_name -> offers.v1.OfferStatus
+	21, // 4: offers.v1.CreateOfferRequest.positions:type_name -> positions.v1.CreatePosition
+	19, // 5: offers.v1.CreateOfferRequest.payment:type_name -> org.v1.Payment
+	22, // 6: offers.v1.CreateOfferRequest.discount:type_name -> positions.v1.CreateDiscount
+	0,  // 7: offers.v1.CreateOfferRequest.status:type_name -> offers.v1.OfferStatus
+	1,  // 8: offers.v1.CreateOfferResponse.offer:type_name -> offers.v1.Offer
+	1,  // 9: offers.v1.GetOffersByCustomerIdResponse.offers:type_name -> offers.v1.Offer
+	1,  // 10: offers.v1.GetOffersByOrgIdResponse.offers:type_name -> offers.v1.Offer
+	1,  // 11: offers.v1.GetOfferByIdResponse.offer:type_name -> offers.v1.Offer
+	1,  // 12: offers.v1.CreateEmptyOfferResponse.offer:type_name -> offers.v1.Offer
+	18, // 13: offers.v1.UpdateOfferRequest.positions:type_name -> positions.v1.Position
+	19, // 14: offers.v1.UpdateOfferRequest.payment:type_name -> org.v1.Payment
+	20, // 15: offers.v1.UpdateOfferRequest.discount:type_name -> positions.v1.Discount
+	0,  // 16: offers.v1.UpdateOfferRequest.status:type_name -> offers.v1.OfferStatus
+	1,  // 17: offers.v1.UpdateOfferResponse.offer:type_name -> offers.v1.Offer
+	8,  // 18: offers.v1.OffersService.GetOffersByOrgId:input_type -> offers.v1.GetOffersByOrgIdRequest
+	10, // 19: offers.v1.OffersService.GetOfferById:input_type -> offers.v1.GetOfferByIdRequest
+	12, // 20: offers.v1.OffersService.CreateEmptyOffer:input_type -> offers.v1.CreateEmptyOfferRequest
+	2,  // 21: offers.v1.OffersService.CreateOffer:input_type -> offers.v1.CreateOfferRequest
+	4,  // 22: offers.v1.OffersService.GetOffersByCustomerId:input_type -> offers.v1.GetOffersByCustomerIdRequest
+	6,  // 23: offers.v1.OffersService.GetOfferPdf:input_type -> offers.v1.GetOfferPdfRequest
+	14, // 24: offers.v1.OffersService.UpdateOffer:input_type -> offers.v1.UpdateOfferRequest
+	16, // 25: offers.v1.OffersService.DeleteOffer:input_type -> offers.v1.DeleteOfferRequest
+	9,  // 26: offers.v1.OffersService.GetOffersByOrgId:output_type -> offers.v1.GetOffersByOrgIdResponse
+	11, // 27: offers.v1.OffersService.GetOfferById:output_type -> offers.v1.GetOfferByIdResponse
+	13, // 28: offers.v1.OffersService.CreateEmptyOffer:output_type -> offers.v1.CreateEmptyOfferResponse
+	3,  // 29: offers.v1.OffersService.CreateOffer:output_type -> offers.v1.CreateOfferResponse
+	5,  // 30: offers.v1.OffersService.GetOffersByCustomerId:output_type -> offers.v1.GetOffersByCustomerIdResponse
+	7,  // 31: offers.v1.OffersService.GetOfferPdf:output_type -> offers.v1.GetOfferPdfResponse
+	15, // 32: offers.v1.OffersService.UpdateOffer:output_type -> offers.v1.UpdateOfferResponse
+	17, // 33: offers.v1.OffersService.DeleteOffer:output_type -> offers.v1.DeleteOfferResponse
+	26, // [26:34] is the sub-list for method output_type
+	18, // [18:26] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_offers_v1_offers_proto_init() }
@@ -1102,13 +1279,14 @@ func file_offers_v1_offers_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_offers_v1_offers_proto_rawDesc), len(file_offers_v1_offers_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   15,
+			NumEnums:      1,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_offers_v1_offers_proto_goTypes,
 		DependencyIndexes: file_offers_v1_offers_proto_depIdxs,
+		EnumInfos:         file_offers_v1_offers_proto_enumTypes,
 		MessageInfos:      file_offers_v1_offers_proto_msgTypes,
 	}.Build()
 	File_offers_v1_offers_proto = out.File

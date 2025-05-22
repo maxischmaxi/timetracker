@@ -385,3 +385,15 @@ export async function createEmptyOffer(orgId: string) {
     })
     .then((res) => res.offer as unknown as Plain<Offer>);
 }
+
+export async function getOfferById(id: string) {
+  return await offersClient
+    .getOfferById({
+      id,
+    })
+    .then((res) => res.offer as unknown as Plain<Offer>);
+}
+
+export async function deleteOffer(id: string) {
+  await offersClient.deleteOffer({ id });
+}

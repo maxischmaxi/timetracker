@@ -22,7 +22,7 @@ import {
   type SortingState,
   type VisibilityState,
 } from "@tanstack/react-table";
-import { Button, buttonVariants } from "./ui/button";
+import { Button } from "./ui/button";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -32,10 +32,10 @@ import {
   ColumnsIcon,
   GripVerticalIcon,
   Loader,
-  SendIcon,
+  MoreVerticalIcon,
 } from "lucide-react";
 import { Checkbox } from "./ui/checkbox";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   closestCenter,
   DndContext,
@@ -61,6 +61,8 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import {
@@ -77,6 +79,10 @@ import { Plain } from "@/types";
 import { useOffersByOrgId } from "@/hooks/use-offers";
 import { Offer } from "@/offers/v1/offers_pb";
 import { OfferCreateButton } from "./offer-create-button";
+import { DiscountType } from "@/positions/v1/positions_pb";
+import { formatCurrency } from "@/lib/utils";
+import { useCustomers } from "@/hooks/use-customer";
+import { OfferDeleteDialog } from "./offer-delete-dialog";
 
 function DragHandle({ id }: { id: number }) {
   const { attributes, listeners } = useSortable({
@@ -96,75 +102,6 @@ function DragHandle({ id }: { id: number }) {
     </Button>
   );
 }
-
-const columns: Array<ColumnDef<Plain<Offer>>> = [
-  {
-    id: "drag",
-    header: () => null,
-    cell: ({ row }) => <DragHandle id={row.index} />,
-  },
-  {
-    id: "select",
-    header: ({ table }) => (
-      <div className="flex items-center justify-center">
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      </div>
-    ),
-    cell: ({ row }) => (
-      <div className="flex items-center justify-center">
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      </div>
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "tag",
-    header: "Auftragsnummer",
-    cell: ({ row }) => <b>{row.original.offerNo}</b>,
-    enableSorting: true,
-    enableHiding: true,
-  },
-  {
-    accessorKey: "header",
-    header: "Angebot",
-    cell: ({ row }) => {
-      return (
-        <Link
-          href={`/customers/${row.original.id}`}
-          className="text-blue-600 hover:underline"
-        >
-          {row.original.offerNo}
-        </Link>
-      );
-    },
-    enableHiding: false,
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
-    cell: ({ row }) => (
-      <Link
-        className={buttonVariants({ variant: "outline", size: "sm" })}
-        href={`mailto:${row.original.offerNo}`}
-      >
-        {row.original.offerNo}
-        <SendIcon />
-      </Link>
-    ),
-  },
-];
 
 function DraggableRow({ row }: { row: Row<Plain<Offer>> }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
@@ -200,6 +137,7 @@ export function OffersTable() {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
+  const customers = useCustomers();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
@@ -211,6 +149,126 @@ export function OffersTable() {
     useSensor(TouchSensor, {}),
     useSensor(KeyboardSensor, {}),
   );
+  const [deleteDialog, setDeleteDialog] = useState<boolean>(false);
+  const [deleteId, setDeleteId] = useState<string>("");
+
+  const columns: Array<ColumnDef<Plain<Offer>>> = useMemo(() => {
+    return [
+      {
+        id: "drag",
+        header: () => null,
+        cell: ({ row }) => <DragHandle id={row.index} />,
+      },
+      {
+        id: "select",
+        header: ({ table }) => (
+          <div className="flex items-center justify-center">
+            <Checkbox
+              checked={
+                table.getIsAllPageRowsSelected() ||
+                (table.getIsSomePageRowsSelected() && "indeterminate")
+              }
+              onCheckedChange={(value) =>
+                table.toggleAllPageRowsSelected(!!value)
+              }
+              aria-label="Alle auswählen"
+            />
+          </div>
+        ),
+        cell: ({ row }) => (
+          <div className="flex items-center justify-center">
+            <Checkbox
+              checked={row.getIsSelected()}
+              onCheckedChange={(value) => row.toggleSelected(!!value)}
+              aria-label="Select row"
+            />
+          </div>
+        ),
+        enableSorting: false,
+        enableHiding: false,
+      },
+      {
+        accessorKey: "offerNo",
+        header: "Angebotsnummer",
+        cell: ({ row }) => (
+          <Link
+            href={`/offers/${row.original.id}`}
+            className="font-bold underline"
+          >
+            {row.original.offerNo}
+          </Link>
+        ),
+        enableSorting: true,
+        enableHiding: true,
+      },
+      {
+        accessorKey: "header",
+        header: "Gesamtsumme",
+        cell: ({ row }) => {
+          const subtotal = row.original.positions.reduce(
+            (acc, curr) => acc + curr.price * curr.count,
+            0,
+          );
+          let discountValue = 0;
+          if (row.original.discount) {
+            if (row.original.discount.type === DiscountType.FIXED) {
+              discountValue = row.original.discount.value;
+            } else {
+              discountValue = Math.abs(
+                (subtotal / 100) * row.original.discount.value,
+              );
+            }
+          }
+
+          return (
+            <p>{formatCurrency(subtotal - discountValue, "EUR", "de-DE")}</p>
+          );
+        },
+        enableHiding: false,
+      },
+      {
+        accessorKey: "customerId",
+        header: "Kunde",
+        cell: ({ row }) => {
+          const customer = customers.data?.find(
+            (c) => c.id === row.original.customerId,
+          );
+          return <p className="font-bold">{customer?.tag}</p>;
+        },
+      },
+      {
+        id: "actions",
+        cell: ({ row }) => (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="text-muted-foreground data-[state=open]:bg-muted flex size-8"
+                size="icon"
+              >
+                <MoreVerticalIcon />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-32">
+              <DropdownMenuItem>Edit</DropdownMenuItem>
+              <DropdownMenuItem>Make a copy</DropdownMenuItem>
+              <DropdownMenuItem>Favorite</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => {
+                  setDeleteId(row.original.id);
+                  setDeleteDialog(true);
+                }}
+              >
+                Löschen
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ),
+      },
+    ];
+  }, [customers.data]);
 
   useEffect(() => {
     if (offers.data) {
@@ -519,6 +577,11 @@ export function OffersTable() {
       >
         <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
       </TabsContent>
+      <OfferDeleteDialog
+        open={deleteDialog}
+        setOpen={setDeleteDialog}
+        id={deleteId}
+      />
     </Tabs>
   );
 }

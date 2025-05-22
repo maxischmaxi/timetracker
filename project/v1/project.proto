@@ -46,6 +46,7 @@ message Job {
   int64 minutes = 8;
   string service_type_id = 9;
   string date = 10;
+  bool is_meeting = 11;
 }
 
 message Project {
@@ -148,6 +149,7 @@ message CreateJobRequest {
   int64 minutes = 6;
   string date = 7;
   string service_type_id = 8;
+  bool is_meeting = 9;
 }
 
 message CreateJobResponse {}

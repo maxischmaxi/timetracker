@@ -1,3 +1,4 @@
+import { OfferStatus } from "@/offers/v1/offers_pb";
 import { DiscountType, PositionUnit } from "@/positions/v1/positions_pb";
 import { JobType } from "@/project/v1/project_pb";
 import { EmploymentState } from "@/user/v1/user_pb";
@@ -39,6 +40,7 @@ export const createJobSchema = z.object({
     .regex(/^\d{4}-\d{2}-\d{2}$/, {
       message: "Date is invalid",
     }),
+  isMeeting: z.boolean(),
 });
 
 export const createProjectSchema = z.object({
@@ -323,6 +325,7 @@ export const createOfferSchema = z.object({
   payment: orgPaymentSchema.optional(),
   positions: z.array(positionSchema),
   discount: discountSchema.optional(),
+  status: z.nativeEnum(OfferStatus),
 });
 
 export const updateOfferSchema = createOfferSchema.extend({

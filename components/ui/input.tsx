@@ -19,8 +19,16 @@ type InputProps<T extends FieldValues> = {
 } & React.ComponentProps<"input">;
 
 function Input<T extends FieldValues>(props: InputProps<T>) {
-  const { className, label, control, name, wrapperClassName, type, ...rest } =
-    props;
+  const {
+    className,
+    label,
+    control,
+    inputMode,
+    name,
+    wrapperClassName,
+    type,
+    ...rest
+  } = props;
 
   if (control && name) {
     return (
@@ -29,7 +37,7 @@ function Input<T extends FieldValues>(props: InputProps<T>) {
         control={control}
         render={({ field: { onChange: fieldOnChange, ...field } }) => {
           function onChange(e: React.ChangeEvent<HTMLInputElement>) {
-            if (type === "number") {
+            if (type === "number" || inputMode === "numeric") {
               const value = e.currentTarget.value;
               const parsedValue = value ? parseInt(value, 10) : 0;
               fieldOnChange(parsedValue);

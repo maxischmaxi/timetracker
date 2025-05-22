@@ -54,6 +54,9 @@ const (
 	// OffersServiceUpdateOfferProcedure is the fully-qualified name of the OffersService's UpdateOffer
 	// RPC.
 	OffersServiceUpdateOfferProcedure = "/offers.v1.OffersService/UpdateOffer"
+	// OffersServiceDeleteOfferProcedure is the fully-qualified name of the OffersService's DeleteOffer
+	// RPC.
+	OffersServiceDeleteOfferProcedure = "/offers.v1.OffersService/DeleteOffer"
 )
 
 // OffersServiceClient is a client for the offers.v1.OffersService service.
@@ -65,6 +68,7 @@ type OffersServiceClient interface {
 	GetOffersByCustomerId(context.Context, *connect.Request[v1.GetOffersByCustomerIdRequest]) (*connect.Response[v1.GetOffersByCustomerIdResponse], error)
 	GetOfferPdf(context.Context, *connect.Request[v1.GetOfferPdfRequest]) (*connect.Response[v1.GetOfferPdfResponse], error)
 	UpdateOffer(context.Context, *connect.Request[v1.UpdateOfferRequest]) (*connect.Response[v1.UpdateOfferResponse], error)
+	DeleteOffer(context.Context, *connect.Request[v1.DeleteOfferRequest]) (*connect.Response[v1.DeleteOfferResponse], error)
 }
 
 // NewOffersServiceClient constructs a client for the offers.v1.OffersService service. By default,
@@ -120,6 +124,12 @@ func NewOffersServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(offersServiceMethods.ByName("UpdateOffer")),
 			connect.WithClientOptions(opts...),
 		),
+		deleteOffer: connect.NewClient[v1.DeleteOfferRequest, v1.DeleteOfferResponse](
+			httpClient,
+			baseURL+OffersServiceDeleteOfferProcedure,
+			connect.WithSchema(offersServiceMethods.ByName("DeleteOffer")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -132,6 +142,7 @@ type offersServiceClient struct {
 	getOffersByCustomerId *connect.Client[v1.GetOffersByCustomerIdRequest, v1.GetOffersByCustomerIdResponse]
 	getOfferPdf           *connect.Client[v1.GetOfferPdfRequest, v1.GetOfferPdfResponse]
 	updateOffer           *connect.Client[v1.UpdateOfferRequest, v1.UpdateOfferResponse]
+	deleteOffer           *connect.Client[v1.DeleteOfferRequest, v1.DeleteOfferResponse]
 }
 
 // GetOffersByOrgId calls offers.v1.OffersService.GetOffersByOrgId.
@@ -169,6 +180,11 @@ func (c *offersServiceClient) UpdateOffer(ctx context.Context, req *connect.Requ
 	return c.updateOffer.CallUnary(ctx, req)
 }
 
+// DeleteOffer calls offers.v1.OffersService.DeleteOffer.
+func (c *offersServiceClient) DeleteOffer(ctx context.Context, req *connect.Request[v1.DeleteOfferRequest]) (*connect.Response[v1.DeleteOfferResponse], error) {
+	return c.deleteOffer.CallUnary(ctx, req)
+}
+
 // OffersServiceHandler is an implementation of the offers.v1.OffersService service.
 type OffersServiceHandler interface {
 	GetOffersByOrgId(context.Context, *connect.Request[v1.GetOffersByOrgIdRequest]) (*connect.Response[v1.GetOffersByOrgIdResponse], error)
@@ -178,6 +194,7 @@ type OffersServiceHandler interface {
 	GetOffersByCustomerId(context.Context, *connect.Request[v1.GetOffersByCustomerIdRequest]) (*connect.Response[v1.GetOffersByCustomerIdResponse], error)
 	GetOfferPdf(context.Context, *connect.Request[v1.GetOfferPdfRequest]) (*connect.Response[v1.GetOfferPdfResponse], error)
 	UpdateOffer(context.Context, *connect.Request[v1.UpdateOfferRequest]) (*connect.Response[v1.UpdateOfferResponse], error)
+	DeleteOffer(context.Context, *connect.Request[v1.DeleteOfferRequest]) (*connect.Response[v1.DeleteOfferResponse], error)
 }
 
 // NewOffersServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -229,6 +246,12 @@ func NewOffersServiceHandler(svc OffersServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(offersServiceMethods.ByName("UpdateOffer")),
 		connect.WithHandlerOptions(opts...),
 	)
+	offersServiceDeleteOfferHandler := connect.NewUnaryHandler(
+		OffersServiceDeleteOfferProcedure,
+		svc.DeleteOffer,
+		connect.WithSchema(offersServiceMethods.ByName("DeleteOffer")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/offers.v1.OffersService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case OffersServiceGetOffersByOrgIdProcedure:
@@ -245,6 +268,8 @@ func NewOffersServiceHandler(svc OffersServiceHandler, opts ...connect.HandlerOp
 			offersServiceGetOfferPdfHandler.ServeHTTP(w, r)
 		case OffersServiceUpdateOfferProcedure:
 			offersServiceUpdateOfferHandler.ServeHTTP(w, r)
+		case OffersServiceDeleteOfferProcedure:
+			offersServiceDeleteOfferHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -280,4 +305,8 @@ func (UnimplementedOffersServiceHandler) GetOfferPdf(context.Context, *connect.R
 
 func (UnimplementedOffersServiceHandler) UpdateOffer(context.Context, *connect.Request[v1.UpdateOfferRequest]) (*connect.Response[v1.UpdateOfferResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("offers.v1.OffersService.UpdateOffer is not implemented"))
+}
+
+func (UnimplementedOffersServiceHandler) DeleteOffer(context.Context, *connect.Request[v1.DeleteOfferRequest]) (*connect.Response[v1.DeleteOfferResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("offers.v1.OffersService.DeleteOffer is not implemented"))
 }
